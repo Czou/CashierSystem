@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="cashier_system_column_title">50dp</dimen>
+	<dimen name="input_text_height">60dp</dimen>
+	<dimen name="input_text_width">150dp</dimen>
+	
+	<dimen name="fontSize_11">11sp</dimen>
+	
+    <dimen name="fontSize_12">12sp</dimen>
+    
+	<dimen name="fontSize_13">13sp</dimen>
+	
+	<dimen name="fontSize_15">15sp</dimen>
+	
+	<dimen name="fontSize_16">16sp</dimen>
+	
+	<dimen name="fontSize_18">18sp</dimen>
+	
+	<dimen name="fontSize_20">20sp</dimen>
+	
+	<dimen name="fontSize_22">22sp</dimen>
+	
+	<dimen name="fontSize_28">28sp</dimen>
+	
+	<dimen name="fontSize_36">36sp</dimen>
+	
+	<dimen name="fontSize_48">48sp</dimen>
+	<!-- 快捷键提示宽度 -->
+	<dimen name="help_fast_key_width">100dp</dimen>
+	<!-- 商品编号录入框 -->
+	<dimen name="business_code_input_width">250dp</dimen>
+</resources>

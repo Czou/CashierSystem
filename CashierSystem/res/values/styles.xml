@@ -1,0 +1,37 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <!-- 水平黑色分割线 -->
+    <style name="blackHDividerLine1DP">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/black</item>
+    </style>
+<!-- 水平白色分割线 -->
+    <style name="whiteHDividerLine2DP">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    <!-- 垂直白色分割线 -->
+    <style name="whiteVDividerLine2DP">
+        <item name="android:layout_width">3dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white</item>
+    </style>
+</resources>
