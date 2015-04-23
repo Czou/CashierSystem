@@ -48,6 +48,27 @@ public class ConnectManager {
 		finalHttp.get(U.CASHIER_SYSTEM_LOGIN, params, ajaxCallBack);
 	}
 	/*****************登录接口 LILIN  End ********************/
+	
+	/*****************产品列表接口 LILIN  Start********************/
+	
+	/**
+	 * @param login_code  des_crypt(cardno#password)
+		des加密秘钥051jks~~
+		des加密向量 array(0x35, 0x41, 0x43, 0x38, 0x35, 0x30, 0x35, 0x32)
+	 * @param ajaxCallBack
+	 */
+	public void getProductList(AjaxCallBack<String> ajaxCallBack) {
+		AjaxParams params = new AjaxParams();
+		//每次请求必须得验证码
+		params.put("sob_code", C.SOB_CODE);
+		params.put("sob_password", C.SOB_PASSWORD);
+		params.put("machine_code", C.MACHINE_CODE);
+		params.put("verify_code", C.VERIFY_CODE);
+		
+		finalHttp.configCharset("UTF-8");
+		finalHttp.get(U.CASHIER_SYSTEM_PRODUCT_LIST, params, ajaxCallBack);
+	}
+	/*****************产品列表接口 LILIN  End ********************/
 
 	
 	}

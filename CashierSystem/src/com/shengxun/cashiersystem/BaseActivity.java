@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.zvezda.android.utils.AppManager;
+import com.zvezda.android.utils.LG;
+import com.zvezda.database.utils.ORMOpearationDao;
 /**
  * 基础Activity
  * @author LILIN
@@ -28,7 +30,10 @@ public class BaseActivity extends FragmentActivity{
 	 * 应用
 	 */
 	protected ApplicationCS applicationCS;
-
+	/**
+	 * ORM数据库操作封装
+	 */
+	protected ORMOpearationDao ormOpearationDao=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,8 @@ public class BaseActivity extends FragmentActivity{
 		mActivity = this;
 		resources=mActivity.getResources();
 		applicationCS=(ApplicationCS) mActivity.getApplication();
+		ormOpearationDao=new ORMOpearationDao(mActivity);
+		LG.i(getClass(),"当前所在Activity------------>"+mActivity.getClass().getName());
 		//将该Activity添加到栈，方便管理
 		AppManager.getAppManager().addActivity(mActivity);
 	}

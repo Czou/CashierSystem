@@ -21,10 +21,14 @@ public class U
 	 * 根据测试和发布换地址
 	 */
 	private static final String CASHIER_SYSTEM_URL = CASHIER_SYSTEM_DOMAIN_TSET;
-	/*********************************MXSJ_V3.1接口地址--start************************************/
+	/*********************************收银系统_V1.0接口地址--start************************************/
 	/**
 	 * 1.收银登录接口
 	 */
 	public static final String CASHIER_SYSTEM_LOGIN=CASHIER_SYSTEM_URL+"sy_user/login";
+	/**
+	 * 2.产品列表接口
+	 */
+	public static final String CASHIER_SYSTEM_PRODUCT_LIST=CASHIER_SYSTEM_URL+"sy_product/product_list";
 	
 }

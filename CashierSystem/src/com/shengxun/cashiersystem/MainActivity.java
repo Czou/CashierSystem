@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import net.tsz.afinal.http.AjaxCallBack;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +16,9 @@ import android.widget.TextView;
 
 import com.shengxun.adapter.CashierGoodsListAdapter;
 import com.shengxun.entity.GoodsInfo;
+import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.LG;
 import com.zvezda.android.utils.TimeConversion;
 
 /**
@@ -69,6 +73,7 @@ public class MainActivity extends BaseActivity {
 		cashier_system_machine_number.setText(resources.getString(R.string.cashier_system_machine_number)+applicationCS.loginInfo.mc_id);
 		cashierGoodsListAdapter=new CashierGoodsListAdapter(mActivity,dataList);
 		cashier_listview.setAdapter(cashierGoodsListAdapter);
+		ConnectManager.getInstance().getProductList(ajaxCallBack);
 	}
 	
 	private void refreshData(){
@@ -103,6 +108,20 @@ public class MainActivity extends BaseActivity {
 			myHandler.sendEmptyMessage(0);
 		}
 	};
-	
+	private AjaxCallBack<String> ajaxCallBack=new AjaxCallBack<String>() {
+
+		@Override
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.e(getClass(), "产品信息----->"+t);
+		}
+
+		@Override
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+		}
+		
+		
+	};
 
 }
