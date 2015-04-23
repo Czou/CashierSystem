@@ -6,6 +6,7 @@ import net.tsz.afinal.http.AjaxParams;
 
 import com.shengxun.constant.C;
 import com.shengxun.constant.U;
+import com.zvezda.android.utils.BaseUtils;
 
 /**
  * 连接服务器的连接管理
