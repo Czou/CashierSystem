@@ -3,7 +3,7 @@
          android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
+        android:background="@color/white_f5"
         android:orientation="vertical">
          <LinearLayout 
         android:layout_width="match_parent"
@@ -12,21 +12,57 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
               <TextView 
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="wrap_content"
             android:text="@string/cashier_system_title"
-            android:gravity="center"
-            android:textSize="@dimen/fontSize_28"
-            android:textColor="@color/green"/>
-              <TextView 
-            android:layout_width="wrap_content"
+            android:gravity="left"
+            android:textSize="@dimen/fontSize_22"
+            android:textColor="@color/black"/>
+              <TextView
+            android:id="@+id/cashier_system_machine_status" 
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/cashier_system_machine_status"
+            android:gravity="left|center_vertical"
+            android:textSize="@dimen/fontSize_15"
+            android:textColor="@color/black"/>
+              <TextView
+            android:id="@+id/cashier_system_machine_time" 
+            android:layout_width="0dp"
             android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:textSize="@dimen/fontSize_15"
+            android:textColor="@color/black"/>
+              <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="wrap_content"
-            android:text="@string/cashier_system_contact"
+            android:orientation="horizontal">
+            <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/cashier_system_business"
             android:gravity="center"
-            android:textSize="@dimen/fontSize_18"
-            android:textColor="@color/white"/>
+            android:textStyle="bold"
+            android:textSize="@dimen/fontSize_28"
+            android:textColor="@color/black"/>
+        <EditText 
+            android:id="@+id/cashier_system_business"
+            android:layout_margin="5dp"
+            android:layout_width="@dimen/business_code_input_width"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:inputType="number"
+            android:textColor="@android:color/black"
+            />
+         <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+        </LinearLayout>
          </LinearLayout>
          <TextView style="@style/whiteHDividerLine2DP"/>
     <RelativeLayout 
@@ -37,7 +73,6 @@
         android:orientation="horizontal">
               <LinearLayout 
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/help_fast_key_linearlayout_v_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
@@ -48,6 +83,7 @@
         android:layout_height="@dimen/cashier_system_column_title"
         android:background="@color/black"
         android:gravity="center_vertical"
+        android:layout_marginTop="1dp"
         android:orientation="horizontal">
             <TextView 
             android:layout_width="0dp"
@@ -146,169 +182,59 @@
             android:id="@+id/cashier_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white_f5"
             ></ListView>
     </LinearLayout>
-    <TextView 
-        android:id="@+id/help_fast_key_linearlayout_v_line"
-        style="@style/whiteVDividerLine2DP"
-        android:layout_toLeftOf="@+id/help_fast_key_linearlayout"/>
-         <LinearLayout
-        android:id="@+id/help_fast_key_linearlayout" 
-        android:layout_alignParentRight="true"
-        android:layout_width="@dimen/help_fast_key_width"
-        android:layout_height="@dimen/input_text_height"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/cashier_system_help"
-            android:gravity="center"
-            android:textSize="@dimen/fontSize_20"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
+         
     </RelativeLayout>
     <TextView style="@style/whiteHDividerLine2DP"/>
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/black"
+        android:background="@color/white_f5"
         android:orientation="vertical">
-             <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/input_text_height"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-        <LinearLayout 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/cashier_system_business"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/fontSize_28"
-            android:textColor="@android:color/white"/>
-        <EditText 
-            android:id="@+id/cashier_system_business"
-            android:layout_margin="5dp"
-            android:layout_width="@dimen/business_code_input_width"
-            android:layout_height="match_parent"
-            android:textColor="@android:color/black"
-            />
-         <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            />
-         
-         <!-- 收款测试 -->
-         <Button
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="收款"
-             android:id="@+id/gathering"
-             />
-        </LinearLayout>
-    </LinearLayout>
-    
-         <TextView style="@style/whiteHDividerLine2DP"/>
-         <RelativeLayout 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/relativelayout_horizontal_center_line"
-        android:gravity="center"
-        android:orientation="horizontal">
-         <TextView 
-             android:id="@+id/cashier_system_machine_number"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="@string/cashier_system_machine_number"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
-         <TextView 
-             android:id="@+id/cashier_system_machine_order_total"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="@string/cashier_system_machine_order_total"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
-         <TextView 
-             android:id="@+id/cashier_system_machine_order_return_balance"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="@string/cashier_system_machine_order_return_balance"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
-         <TextView 
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:text="@string/cashier_system_machine_order_return_balance"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
-    <TextView 
-        android:layout_centerVertical="true"
-        android:id="@+id/relativelayout_horizontal_center_line"
-        style="@style/whiteHDividerLine2DP"
-        android:visibility="invisible"/>
     <LinearLayout 
-        android:layout_below="@+id/relativelayout_horizontal_center_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:background="@color/white_f5"
         android:orientation="horizontal">
+        
         <TextView
-            android:id="@+id/cashier_system_machine_status" 
+            android:id="@+id/cashier_system_receive_payments" 
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="@string/cashier_system_machine_status"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
+            android:background="@drawable/orange_corner_bg"
+            android:text="@string/cashier_system_receive_payments"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:textSize="@dimen/fontSize_20"
+            android:textColor="@color/white"/>
         <TextView
-            android:id="@+id/cashier_system_machine_order_receive" 
+            android:id="@+id/cashier_system_open_cashbox" 
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="@string/cashier_system_machine_order_receive"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
+            android:background="@drawable/orange_corner_bg"
+            android:text="@string/cashier_system_open_cashbox"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:textSize="@dimen/fontSize_20"
+            android:textColor="@color/white"/>
         <TextView
-            android:id="@+id/cashier_system_machine_user" 
+            android:id="@+id/cashier_system_close_cashbox" 
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="@string/cashier_system_machine_user"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
-        <TextView
-            android:id="@+id/cashier_system_machine_time" 
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/fontSize_15"
-            android:textColor="@android:color/white"/>
+            android:background="@drawable/orange_corner_bg"
+            android:text="@string/cashier_system_close_cashbox"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:textSize="@dimen/fontSize_20"
+            android:textColor="@color/white"/>
+        
     </LinearLayout>
-    </RelativeLayout>
          </LinearLayout>
     </LinearLayout>

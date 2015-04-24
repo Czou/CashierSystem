@@ -6,6 +6,7 @@
     <color name="choose_eara_item_press_color">#FFFFFF</color>
     <color name="choose_eara_item_normal_color">#F5F5F5</color>
     <color name="white">#ffffff</color>
+     <color name="white_f5">#F5F5F5</color>
     <color name="no_color">#00000000</color>
 
 </resources>

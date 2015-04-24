@@ -11,6 +11,7 @@
 	
 	<!-- 布局padding -->
 	<dimen name="layout_padding">15dp</dimen>
+	<dimen name="layout_padding2">5dp</dimen>
 	
 	<dimen name="fontSize_11">11sp</dimen>
 	
