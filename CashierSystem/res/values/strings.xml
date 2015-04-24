@@ -35,7 +35,9 @@
 	<string name="cashier_system_machine_order_receive">上单实收:</string>
 	<string name="cashier_system_machine_order_return_balance">上单找零:</string>
 	<string name="cashier_system_machine_user">收银员:</string>
-	
+	<string name="cashier_system_receive_payments">收款</string>
+	<string name="cashier_system_open_cashbox">打开钱箱</string>
+	<string name="cashier_system_setting">设置</string>
 	<!-- 提示语 -->
 	<string name="cashier_system_alert_no_login">请输入账号密码！</string>
 	<string name="cashier_system_alert_login_fail">登录失败！</string>
