@@ -37,7 +37,7 @@ import com.zvezda.android.utils.TimeConversion;
 @SuppressLint("HandlerLeak")
 public class MainActivity extends BaseActivity {
 
-	
+	public static MainActivity instance=null;
 	//收款
 	private TextView cashier_system_receive_payments=null;
 	//打开钱箱
@@ -61,6 +61,7 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main); 
+		instance=this;
 		productsDao=ormOpearationDao.getDao(ProductInfo.class);
 		initWidget();
 	}
@@ -179,15 +180,23 @@ public class MainActivity extends BaseActivity {
 		}
 		
 	};
+	
+	/**
+	 * @param entity 删除该商品
+	 */
+	public void deleteGoods(ProductInfo entity){
+		
+	}
+	
 	/**
 	 * item点击事件
 	 */
 	OnItemClickListener myItemClick = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+		public void onItemClick(AdapterView<?> arg0, View arg1, int postion,
 				long arg3) {
-			goActivity(GoodsDetailActivity.class);
+			goActivity(GoodsDetailActivity.class,dataList.get(postion));
 		}
 	};
 }
