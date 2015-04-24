@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shengxun.cashiersystem.R;
-import com.shengxun.entity.GoodsInfo;
+import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
 import com.zvezda.android.utils.BaseUtils;
 
@@ -20,10 +20,10 @@ import com.zvezda.android.utils.BaseUtils;
  * 2015-4-17 下午4:01:57
  * Write by LILIN
  */
-public class CashierGoodsListAdapter extends ABaseAdapter<GoodsInfo>{
+public class CashierGoodsListAdapter extends ABaseAdapter<ProductInfo>{
 
 
-	public CashierGoodsListAdapter(Activity mActivity,ArrayList<GoodsInfo> dataList) {
+	public CashierGoodsListAdapter(Activity mActivity,ArrayList<ProductInfo> dataList) {
 		super(mActivity, dataList);
 	}
 
@@ -32,7 +32,7 @@ public class CashierGoodsListAdapter extends ABaseAdapter<GoodsInfo>{
 		if(convertView==null){
 			convertView = inflater.inflate(R.layout.cashier_goods_info_view, null);
 		}
-		GoodsInfo entity=(GoodsInfo) getItem(position);
+		ProductInfo entity=(ProductInfo) getItem(position);
 		TextView cashier_system_column_sort = ViewHolder.get(convertView, R.id.cashier_system_column_sort);
 		TextView cashier_system_column_cargo_number = ViewHolder.get(convertView, R.id.cashier_system_column_cargo_number);
 		TextView cashier_system_column_code = ViewHolder.get(convertView, R.id.cashier_system_column_code);
@@ -43,14 +43,16 @@ public class CashierGoodsListAdapter extends ABaseAdapter<GoodsInfo>{
 		TextView cashier_system_column_money = ViewHolder.get(convertView, R.id.cashier_system_column_money);
 		TextView cashier_system_column_clerk = ViewHolder.get(convertView, R.id.cashier_system_column_clerk);
 		cashier_system_column_sort.setText(""+position);
-		cashier_system_column_code.setText(""+entity.code);
-		cashier_system_column_cargo_number.setText(""+entity.cargo_number);
-		cashier_system_column_name.setText(""+entity.name);
-		cashier_system_column_count.setText(""+entity.count);
-		cashier_system_column_old_price.setText(""+entity.old_price);
-		cashier_system_column_now_price.setText(""+entity.now_price);
-		cashier_system_column_money.setText(""+entity.money);
-		cashier_system_column_clerk.setText(""+entity.clerk);
+		cashier_system_column_code.setText(""+entity.op_bar_code);
+		cashier_system_column_cargo_number.setText(""+entity.op_number);
+		cashier_system_column_name.setText(""+entity.qp_name);
+		cashier_system_column_count.setText(""+entity.buy_number);
+		cashier_system_column_old_price.setText(""+entity.op_market_price);
+		cashier_system_column_now_price.setText(""+entity.op_market_price);
+		cashier_system_column_money.setText(""+(entity.op_market_price*entity.buy_number));
+		if(applicationCS.loginInfo!=null&&applicationCS.loginInfo.cashier_info!=null){
+			cashier_system_column_clerk.setText(""+applicationCS.loginInfo.cashier_info.me_id);
+		}
 		cashier_system_column_count.addTextChangedListener(new MyTextWatcher(position,cashier_system_column_money));
 		return convertView;
 	}
@@ -78,10 +80,10 @@ public class CashierGoodsListAdapter extends ABaseAdapter<GoodsInfo>{
 		public void afterTextChanged(Editable s) {
 			//数量发生变化，总价改变
 			if(BaseUtils.IsNotEmpty(s.toString())){
-				int now=Integer.parseInt(s.toString());
-				dataList.get(postion).count=now;
-				dataList.get(postion).money=now*dataList.get(postion).now_price;
-				cashier_system_column_money.setText(""+dataList.get(postion).money);
+//				int now=Integer.parseInt(s.toString());
+//				dataList.get(postion).count=now;
+//				dataList.get(postion).money=now*dataList.get(postion).now_price;
+//				cashier_system_column_money.setText(""+dataList.get(postion).money);
 			}
 		}
 	};

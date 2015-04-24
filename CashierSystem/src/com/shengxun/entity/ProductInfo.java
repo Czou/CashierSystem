@@ -1,43 +1,58 @@
 package com.shengxun.entity;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * 产品列表信息实体类
  * @author sw
  */
+@DatabaseTable(tableName="productInfoTable")
 public class ProductInfo {
 
 	/**
 	 * 产品编号
 	 */
-	public String op_id;
+	@DatabaseField(id=true)
+	public int op_id;
 	/**
 	 * 招商中心企业产品编号
 	 */
+	@DatabaseField
 	public String zqp_id;
 	/**
 	 * 零售价
 	 */
+	@DatabaseField
 	public double op_market_price;
 	/**
 	 * 库存数量
 	 */
+	@DatabaseField
 	public int op_number;
 	/**
 	 * 状态 1：正常  2：下架
 	 */
+	@DatabaseField
 	public int op_status;
 	/**
 	 * 产品名称
 	 */
-	public int qp_name;
+	@DatabaseField
+	public String qp_name;
 	/**
 	 * 生成企业id
 	 */
-	public String qy_id;
+	@DatabaseField
+	public int qy_id;
 	/**
 	 * 条形码信息
 	 */
+	@DatabaseField
 	public String op_bar_code;
+	
+	
+	
 	/**
 	 * 订单产品编号 
 	 */
