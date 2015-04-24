@@ -1,5 +1,7 @@
 package com.shengxun.entity;
 
+import java.io.Serializable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,8 +10,12 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author sw
  */
 @DatabaseTable(tableName="productInfoTable")
-public class ProductInfo {
+public class ProductInfo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9089160653387632848L;
 	/**
 	 * 产品编号
 	 */

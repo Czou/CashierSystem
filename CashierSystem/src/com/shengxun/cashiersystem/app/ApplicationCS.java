@@ -22,6 +22,8 @@ import com.zvezda.database.utils.ORMOpearationDao;
 public class ApplicationCS extends Application{
 
 	public LoginInfo loginInfo=null;
+	
+	public String cashier_card_no=null;
 	/**
 	 * ORM数据库操作封装
 	 */
