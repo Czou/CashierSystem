@@ -9,11 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
         android:padding="15dp" >
 
         <TextView
-            android:id="@+id/user_login"
+            android:id="@+id/gathering_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -23,6 +22,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="10dp"
+            android:layout_centerVertical="true"
             android:text="@string/cashier_system_btn_back"
             android:textColor="@android:color/black"
             android:textSize="@dimen/fontSize_28" />
@@ -32,8 +32,13 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/cashier_system_gathering_title"
-            android:textSize="@dimen/fontSize_36" />
+            android:textSize="@dimen/fontSize_48" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white" />
 
     <RelativeLayout
         android:id="@+id/gathering_center"
@@ -45,61 +50,75 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="总额"
-                    android:textSize="@dimen/fontSize_36"
-                    />
+                    android:textSize="@dimen/fontSize_36" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="122s"
-                    android:textSize="@dimen/fontSize_36"
-                    />
-                </LinearLayout>
-                <LinearLayout
+                    android:padding="10dp"
+                    android:text="69.5"
+                    android:textSize="@dimen/fontSize_36" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="总额"
-                    android:textSize="@dimen/fontSize_36"
-                    />
+                    android:padding="10dp"
+                    android:text="现金"
+                    android:textSize="@dimen/fontSize_36" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="122s"
-                    android:textSize="@dimen/fontSize_36"
-                    />
-                </LinearLayout>
-                <LinearLayout
+                    android:padding="10dp"
+                    android:text="100"
+                    android:textSize="@dimen/fontSize_36" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="总额"
-                    android:textSize="@dimen/fontSize_36"
-                    />
+                    android:padding="10dp"
+                    android:text="找零"
+                    android:textSize="@dimen/fontSize_36" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="122s"
-                    android:textSize="@dimen/fontSize_36"
-                    />
-                </LinearLayout>
+                    android:padding="10dp"
+                    android:text="30.5"
+                    android:textSize="@dimen/fontSize_36" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -112,269 +131,223 @@
             android:id="@+id/gathering_gridlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:columnCount="4" >
+            android:columnCount="5" >
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="1"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_1"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="2"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_2"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="3"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_3"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="50"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_50"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
+                android:text="X"
+                android:id="@+id/gathering_btn_backup"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="40dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="4"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_4"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="5"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_5"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="6"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_6"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:paddingBottom="15dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingRight="20dp"
                 android:text="100"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_100"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:layout_gravity="fill"
+                android:layout_rowSpan="3"
+                android:gravity="center"
+                android:id="@+id/gathering_btn_ok"
+                android:text="@string/cashier_system_btn_ok"
+                android:textSize="@dimen/fontSize_20" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="7"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_7"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="8"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_8"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="9"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_9"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
                 android:text="200"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_200"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="0"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_0"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp"
                 android:text="00"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_00"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
                 android:text="."
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_spot"
                 android:textSize="@dimen/fontSize_28" />
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
                 android:text="300"
-                android:textColor="@android:color/black"
+                android:id="@+id/gathering_btn_300"
                 android:textSize="@dimen/fontSize_28" />
         </GridLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/gathering_gridlayout"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/gathering_backup"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
-                android:text="0"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/fontSize_28" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_margin="5dp"
-                android:layout_weight="3"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:paddingBottom="15dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="15dp"
-                android:text="@string/cashier_system_btn_ok"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/fontSize_28" />
-        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

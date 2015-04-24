@@ -5,12 +5,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.tsz.afinal.http.AjaxCallBack;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,6 +42,8 @@ public class MainActivity extends BaseActivity {
 	private TextView cashier_system_machine_order_receive=null;
 	private TextView cashier_system_machine_user=null;
 	private TextView cashier_system_machine_time=null;
+	//收款按钮
+	private Button cashier_system_gathering=null;
 	//当前用户购物商品清单
 	private ArrayList<GoodsInfo> dataList=new ArrayList<GoodsInfo>();
 	private CashierGoodsListAdapter cashierGoodsListAdapter=null;
@@ -58,7 +64,11 @@ public class MainActivity extends BaseActivity {
 		cashier_system_machine_user=(TextView) this.findViewById(R.id.cashier_system_machine_user);
 		cashier_system_machine_time=(TextView) this.findViewById(R.id.cashier_system_machine_time);
 		
+		cashier_system_gathering = (Button) findViewById(R.id.gathering);
+		cashier_system_gathering.setOnClickListener(myClick);
+		
 		cashier_listview=(ListView) this.findViewById(R.id.cashier_listview);
+		cashier_listview.setOnItemClickListener(myItemClick);
 		initWidgetData();
 	}
 	private void initWidgetData() {
@@ -122,6 +132,26 @@ public class MainActivity extends BaseActivity {
 		}
 		
 		
+	};
+	/**
+	 * 点击事件
+	 */
+	OnClickListener myClick = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			goActivity(GatheringActivity.class);
+		}
+	};
+	/**
+	 * item点击事件
+	 */
+	OnItemClickListener myItemClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			goActivity(GoodsDetailActivity.class);
+		}
 	};
 
 }
