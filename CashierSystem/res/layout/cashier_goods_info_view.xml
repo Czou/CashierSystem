@@ -9,6 +9,7 @@
         android:layout_height="@dimen/cashier_system_column_title"
         android:background="@color/black"
         android:gravity="center_vertical"
+        android:descendantFocusability="blocksDescendants"
         android:orientation="horizontal">
             <TextView 
             android:id="@+id/cashier_system_column_sort"

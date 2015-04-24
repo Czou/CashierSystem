@@ -17,6 +17,8 @@
 	<string name="cashier_system_help">Esc 退出</string>
 	<string name="cashier_system_btn_back">返回</string>
 	<string name="cashier_system_btn_ok">确定</string>
+	<string name="cashier_system_btn_del">删除</string>
+	
 	
 	
 	<string name="cashier_system_gathering_title">收款</string>
@@ -31,6 +33,9 @@
 	<string name="cashier_system_column_now_price">单价</string>
 	<string name="cashier_system_column_money">金额</string>
 	<string name="cashier_system_column_clerk">营业员</string>
+	<string name="cashier_system_column_total_money">总额:</string>
+	<string name="cashier_system_column_cash">现金:</string>
+	<string name="cashier_system_column_change">找零:s</string>
 	
 	<string name="cashier_system_business">商品:</string>
 	<!-- 收银系统的机器和操作信息 -->

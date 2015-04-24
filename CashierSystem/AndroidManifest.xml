@@ -31,6 +31,16 @@
             android:screenOrientation="landscape"
              >
         </activity>
+        <activity
+            android:name=".GatheringActivity"
+            android:screenOrientation="landscape"
+             >
+        </activity>
+        <activity
+            android:name=".GoodsDetailActivity"
+            android:screenOrientation="landscape"
+             >
+        </activity>
         
     </application>
 

@@ -14,6 +14,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -95,6 +97,7 @@ public class MainActivity extends BaseActivity {
 		cashier_listview=(ListView) this.findViewById(R.id.cashier_listview);
 		cashier_system_receive_payments.setOnClickListener(onClickListener);
 		cashier_system_open_cashbox.setOnClickListener(onClickListener);
+		cashier_listview.setOnItemClickListener(myItemClick);
 		initWidgetData();
 	}
 	private void initWidgetData() {
@@ -157,7 +160,7 @@ public class MainActivity extends BaseActivity {
 					//收款
 				case R.id.cashier_system_receive_payments:
 				{
-					
+					goActivity(GatheringActivity.class);
 				}
 					break;
 					//打开钱箱
@@ -175,5 +178,16 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 		
+	};
+	/**
+	 * item点击事件
+	 */
+	OnItemClickListener myItemClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			goActivity(GoodsDetailActivity.class);
+		}
 	};
 }

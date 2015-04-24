@@ -6,6 +6,11 @@
     <dimen name="cashier_system_column_title">50dp</dimen>
 	<dimen name="input_text_height">60dp</dimen>
 	<dimen name="input_text_width">150dp</dimen>
+	<!-- 文字padding -->
+	<dimen name="text_padding">10dp</dimen>
+	
+	<!-- 布局padding -->
+	<dimen name="layout_padding">15dp</dimen>
 	
 	<dimen name="fontSize_11">11sp</dimen>
 	
