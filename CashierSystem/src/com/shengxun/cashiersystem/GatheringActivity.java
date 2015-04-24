@@ -1,10 +1,12 @@
 package com.shengxun.cashiersystem;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 /**
  * 收款界面
@@ -16,7 +18,7 @@ public class GatheringActivity extends BaseActivity{
 	 * 返回按钮
 	 */
 	TextView gathering_back;
-	
+	LinearLayout gathering_center_board;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -33,10 +35,11 @@ public class GatheringActivity extends BaseActivity{
 	 */
 	private void initWidget(){
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
-		
+		gathering_center_board = (LinearLayout) findViewById(R.id.cashier_gathering_center_board);
 		gathering_back.setOnClickListener(myclick);
 		
 	}
+	
 	/**
 	 * 点击事件
 	 */
