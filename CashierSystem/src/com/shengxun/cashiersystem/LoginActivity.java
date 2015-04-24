@@ -49,6 +49,7 @@ public class LoginActivity extends BaseActivity{
 					String str_user_password=user_password.getText().toString();
 					if(BaseUtils.IsNotEmpty(str_user_name)
 					  &&BaseUtils.IsNotEmpty(str_user_password)){
+						applicationCS.cashier_card_no=str_user_name;
 						String login_code=C.getDesStr(str_user_name+"#"+str_user_password, C.DES_KEY);
 						ConnectManager.getInstance().getLoginResult(login_code, loginAjaxCallBack);
 							

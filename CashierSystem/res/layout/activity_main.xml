@@ -54,6 +54,7 @@
             android:layout_margin="5dp"
             android:layout_width="@dimen/business_code_input_width"
             android:layout_height="match_parent"
+            android:hint="@string/cashier_system_business_hint"
             android:singleLine="true"
             android:inputType="number"
             android:textColor="@android:color/black"

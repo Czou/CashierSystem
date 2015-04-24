@@ -38,6 +38,7 @@
 	<string name="cashier_system_column_change">找零:s</string>
 	
 	<string name="cashier_system_business">商品:</string>
+	<string name="cashier_system_business_hint">支持扫描条码和输入条码</string>
 	<!-- 收银系统的机器和操作信息 -->
 	<string name="cashier_system_machine_number">机号:</string>
 	<string name="cashier_system_machine_status">状态:</string>
@@ -50,7 +51,8 @@
 	<string name="cashier_system_open_cashbox">打开钱箱</string>
 	<string name="cashier_system_close_cashbox">关闭钱箱</string>
 	<string name="cashier_system_setting">设置</string>
-
+	
+    
 	<!-- 提示语 -->
 	<string name="cashier_system_alert_no_login">请输入账号密码！</string>
 	<string name="cashier_system_alert_login_fail">登录失败！</string>

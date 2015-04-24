@@ -166,16 +166,17 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
-        public static final int cashier_system_alert_login_fail=0x7f050026;
-        public static final int cashier_system_alert_login_no_permissions=0x7f050027;
+        public static final int cashier_system_alert_login_fail=0x7f050027;
+        public static final int cashier_system_alert_login_no_permissions=0x7f050028;
         /**  提示语 
          */
-        public static final int cashier_system_alert_no_login=0x7f050025;
+        public static final int cashier_system_alert_no_login=0x7f050026;
         public static final int cashier_system_btn_back=0x7f05000a;
         public static final int cashier_system_btn_del=0x7f05000c;
         public static final int cashier_system_btn_ok=0x7f05000b;
         public static final int cashier_system_business=0x7f05001a;
-        public static final int cashier_system_close_cashbox=0x7f050023;
+        public static final int cashier_system_business_hint=0x7f05001b;
+        public static final int cashier_system_close_cashbox=0x7f050024;
         public static final int cashier_system_column_cargo_number=0x7f05000f;
         public static final int cashier_system_column_cash=0x7f050018;
         public static final int cashier_system_column_change=0x7f050019;
@@ -195,15 +196,15 @@ public final class R {
         public static final int cashier_system_help=0x7f050009;
         /**  收银系统的机器和操作信息 
          */
-        public static final int cashier_system_machine_number=0x7f05001b;
-        public static final int cashier_system_machine_order_receive=0x7f05001e;
-        public static final int cashier_system_machine_order_return_balance=0x7f05001f;
-        public static final int cashier_system_machine_order_total=0x7f05001d;
-        public static final int cashier_system_machine_status=0x7f05001c;
-        public static final int cashier_system_machine_user=0x7f050020;
-        public static final int cashier_system_open_cashbox=0x7f050022;
-        public static final int cashier_system_receive_payments=0x7f050021;
-        public static final int cashier_system_setting=0x7f050024;
+        public static final int cashier_system_machine_number=0x7f05001c;
+        public static final int cashier_system_machine_order_receive=0x7f05001f;
+        public static final int cashier_system_machine_order_return_balance=0x7f050020;
+        public static final int cashier_system_machine_order_total=0x7f05001e;
+        public static final int cashier_system_machine_status=0x7f05001d;
+        public static final int cashier_system_machine_user=0x7f050021;
+        public static final int cashier_system_open_cashbox=0x7f050023;
+        public static final int cashier_system_receive_payments=0x7f050022;
+        public static final int cashier_system_setting=0x7f050025;
         public static final int cashier_system_title=0x7f050007;
         public static final int hello_world=0x7f050002;
         public static final int user_login=0x7f050005;

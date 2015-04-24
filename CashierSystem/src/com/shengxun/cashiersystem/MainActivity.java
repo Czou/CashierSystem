@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity {
 					//收款
 				case R.id.cashier_system_receive_payments:
 				{
-					goActivity(GatheringActivity.class);
+					goActivity(GatheringActivity.class,dataList);
 				}
 					break;
 					//打开钱箱
