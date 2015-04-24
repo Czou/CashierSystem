@@ -1,6 +1,10 @@
 package com.shengxun.cashiersystem;
 
+import net.tsz.afinal.http.AjaxCallBack;
+
+import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.LG;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,7 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+/**
+ * 商品详细信息界面
+ * @author sw
+ * @date 2015-4-24
+ */
 public class GoodsDetailActivity extends BaseActivity {
 	/**
 	 * 返回按钮
@@ -64,6 +72,15 @@ public class GoodsDetailActivity extends BaseActivity {
 		goods_add.setOnClickListener(myclick);
 		goods_reduce.setOnClickListener(myclick);
 		show_count.addTextChangedListener(mytextchange);
+		
+		//获得产品信息
+		//ConnectManager.getInstance.
+	}
+	/**
+	 * 更新显示数据
+	 */
+	private void updateData(){
+		
 	}
 
 	/**
@@ -74,21 +91,26 @@ public class GoodsDetailActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			//点击了返回按钮
 			case R.id.cashier_goods_detail_back:
 				finish();
 				break;
+			//点击删除按钮
 			case R.id.cashier_goods_detail_del:
 
 				break;
+			//点击确定按钮	
 			case R.id.cashier_goods_detail_ok:
 
 				break;
+			//点击增加数量
 			case R.id.cashier_goods_detail_add:
 				if (goods_count < 99) {
 					goods_count++;
 				}
 				show_count.setText(goods_count + "");
 				break;
+			//点击减少数量
 			case R.id.cashier_goods_detail_reduce:
 				if (goods_count > 0) {
 					goods_count--;
@@ -100,32 +122,51 @@ public class GoodsDetailActivity extends BaseActivity {
 			}
 		}
 	};
-	
+	/**
+	 * 输入框文本改变监听
+	 */
 	TextWatcher mytextchange = new TextWatcher() {
-		
+
 		@Override
-		public void onTextChanged(CharSequence s, int start, int before, int count) {
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
 			// TODO Auto-generated method stub
 		}
-		
+
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
 			// TODO Auto-generated method stub
 		}
-		
+
 		@Override
 		public void afterTextChanged(Editable s) {
 			// TODO Auto-generated method stub
-			Log.i("savion","afterTextChanged"+s+"");
-			if(s.toString().length()>2){
+			Log.i("savion", "afterTextChanged" + s + "");
+			//最多允许输入99
+			if (s.toString().length() > 2) {
 				show_count.setText("99");
-				goods_count=99;
-			}else{
-				if(BaseUtils.IsNotEmpty(s)){
-					goods_count=Integer.parseInt(s.toString().trim());
+				goods_count = 99;
+			} else {
+				if (BaseUtils.IsNotEmpty(s)) {
+					goods_count = Integer.parseInt(s.toString().trim());
 				}
 			}
 		}
+	};
+
+	/**
+	 * 获得产品信息回调
+	 */
+	AjaxCallBack<String> ajaxcallback = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "产品详细信息----->" + t);
+			updateData();
+		};
+
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+		};
 	};
 }
