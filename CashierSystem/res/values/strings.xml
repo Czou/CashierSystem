@@ -15,6 +15,11 @@
 	<string name="cashier_system_title">健康安全网名优特产收银系统</string>
 	<string name="cashier_system_contact">圣勋技术中心\n联系电话：023-67716071</string>
 	<string name="cashier_system_help">Esc 退出</string>
+	<string name="cashier_system_btn_back">返回</string>
+	<string name="cashier_system_btn_ok">确定</string>
+	
+	
+	<string name="cashier_system_gathering_title">收款</string>
 	
 	<!-- 收银系统的商品描述栏目 -->
 	<string name="cashier_system_column_sort">序</string>
@@ -35,9 +40,11 @@
 	<string name="cashier_system_machine_order_receive">上单实收:</string>
 	<string name="cashier_system_machine_order_return_balance">上单找零:</string>
 	<string name="cashier_system_machine_user">收银员:</string>
+
 	<string name="cashier_system_receive_payments">收款</string>
 	<string name="cashier_system_open_cashbox">打开钱箱</string>
 	<string name="cashier_system_setting">设置</string>
+
 	<!-- 提示语 -->
 	<string name="cashier_system_alert_no_login">请输入账号密码！</string>
 	<string name="cashier_system_alert_login_fail">登录失败！</string>
