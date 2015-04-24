@@ -11,17 +11,17 @@
         android:padding="15dp" >
 
         <TextView
-            android:id="@+id/gathering_back"
+            android:id="@+id/cashier_goods_detail_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@android:color/white"
             android:clickable="true"
-            android:paddingBottom="10dp"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="10dp"
+            android:paddingTop="5dp"
             android:text="@string/cashier_system_btn_back"
             android:textColor="@android:color/black"
             android:textSize="@dimen/fontSize_28" />
@@ -96,6 +96,7 @@
                         android:text="3.6"
                         android:textColor="@color/black"
                         android:padding="10dp"
+                        android:id="@+id/cashier_goods_detail_old_price"
                         android:textSize="@dimen/fontSize_36" />
                 </LinearLayout>
                 
@@ -125,6 +126,7 @@
                         android:text="3.6"
                         android:textColor="@color/black"
                         android:padding="10dp"
+                        android:id="@+id/cashier_goods_detail_new_price"
                         android:textSize="@dimen/fontSize_36" />
                 </LinearLayout>
                 
@@ -148,13 +150,21 @@
                         android:text="@string/cashier_system_column_count"
                         android:textSize="@dimen/fontSize_36" />
 
-                    <TextView
+                    <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3.6"
-                        android:textColor="@color/black"
-                        android:padding="10dp"
-                        android:textSize="@dimen/fontSize_36" />
+                        android:text="+"
+                        />
+                    <EditText
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        
+                        />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        />
                 </LinearLayout>
 
                 <!-- 分隔线 -->
@@ -183,6 +193,7 @@
                         android:text="3.6"
                         android:textColor="@color/black"
                         android:padding="10dp"
+                        android:id="@+id/cashier_goods_detail_total_price"
                         android:textSize="@dimen/fontSize_36" />
                 </LinearLayout>
             </LinearLayout>
@@ -197,12 +208,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="@string/cashier_system_btn_del"
+                    android:id="@+id/cashier_goods_detail_del"
                     android:textSize="@dimen/fontSize_28" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:id="@+id/cashier_goods_detail_ok"
                     android:text="@string/cashier_system_btn_ok"
                     android:textSize="@dimen/fontSize_28" />
             </RelativeLayout>

@@ -12,17 +12,17 @@
         android:padding="15dp" >
 
         <TextView
-            android:id="@+id/gathering_back"
+            android:id="@+id/cashier_gathering_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:background="@android:color/white"
             android:clickable="true"
-            android:paddingBottom="10dp"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="10dp"
-            android:layout_centerVertical="true"
+            android:paddingTop="5dp"
             android:text="@string/cashier_system_btn_back"
             android:textColor="@android:color/black"
             android:textSize="@dimen/fontSize_28" />
@@ -118,13 +118,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/white" />
+        android:background="@color/white" 
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/gathering_center"
-        android:layout_weight="3"
+        android:layout_weight="4"
+        android:padding="20dp"
         android:gravity="center" >
 
         <GridLayout
@@ -134,161 +135,169 @@
             android:columnCount="5" >
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="1"
                 android:id="@+id/gathering_btn_1"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="2"
-                android:id="@+id/gathering_btn_2"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="3"
-                android:id="@+id/gathering_btn_3"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="50"
-                android:id="@+id/gathering_btn_50"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="X"
-                android:id="@+id/gathering_btn_backup"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="4"
-                android:id="@+id/gathering_btn_4"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="5"
-                android:id="@+id/gathering_btn_5"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="6"
-                android:id="@+id/gathering_btn_6"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:gravity="center"
-                android:paddingRight="20dp"
-                android:text="100"
-                android:id="@+id/gathering_btn_100"
+                android:paddingBottom="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
+                android:text="1"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
+                android:id="@+id/gathering_btn_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:paddingTop="20dp"
+                android:text="2"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
+                android:text="3"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:paddingTop="20dp"
+                android:text="50"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_backup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:paddingTop="20dp"
+                android:text="X"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
+                android:text="4"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:paddingTop="20dp"
+                android:text="5"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
+                android:text="6"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:text="100"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:layout_rowSpan="3"
                 android:gravity="center"
-                android:id="@+id/gathering_btn_ok"
                 android:text="@string/cashier_system_btn_ok"
                 android:textSize="@dimen/fontSize_20" />
 
             <Button
+                android:id="@+id/gathering_btn_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
+               android:paddingLeft="50dp"
                 android:paddingRight="50dp"
                 android:paddingTop="20dp"
                 android:text="7"
-                android:id="@+id/gathering_btn_7"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
+                android:id="@+id/gathering_btn_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="50dp"
+                android:paddingRight="40dp"
                 android:paddingTop="20dp"
                 android:text="8"
-                android:id="@+id/gathering_btn_8"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
+                android:id="@+id/gathering_btn_9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
+                android:paddingLeft="50dp"
                 android:paddingRight="50dp"
                 android:paddingTop="20dp"
                 android:text="9"
-                android:id="@+id/gathering_btn_9"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
+                android:id="@+id/gathering_btn_200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
@@ -296,48 +305,49 @@
                 android:paddingBottom="20dp"
                 android:paddingTop="20dp"
                 android:text="200"
-                android:id="@+id/gathering_btn_200"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
+                android:id="@+id/gathering_btn_0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
+                android:paddingLeft="50dp"
                 android:paddingRight="50dp"
                 android:paddingTop="20dp"
                 android:text="0"
-                android:id="@+id/gathering_btn_0"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingRight="30dp"
-                android:paddingTop="20dp"
-                android:text="00"
                 android:id="@+id/gathering_btn_00"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:paddingBottom="20dp"
                 android:paddingLeft="40dp"
-                android:paddingRight="50dp"
+                android:paddingRight="40dp"
                 android:paddingTop="20dp"
-                android:text="."
-                android:id="@+id/gathering_btn_spot"
+                android:text="00"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
+                android:id="@+id/gathering_btn_spot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="20dp"
+                android:text="."
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/gathering_btn_300"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
@@ -345,7 +355,6 @@
                 android:paddingBottom="20dp"
                 android:paddingTop="20dp"
                 android:text="300"
-                android:id="@+id/gathering_btn_300"
                 android:textSize="@dimen/fontSize_28" />
         </GridLayout>
     </RelativeLayout>
