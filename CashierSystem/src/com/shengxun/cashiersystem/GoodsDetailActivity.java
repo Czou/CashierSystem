@@ -53,6 +53,9 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * 保存传递过来的商品数据
 	 */
 	private ProductInfo product;
+	/**
+	 * 售价与总额
+	 */
 	private double new_price_d, total_price_d = 0;
 	/**
 	 * 消费人卡号
@@ -113,6 +116,9 @@ public class GoodsDetailActivity extends BaseActivity {
 	private void refreshData() {
 		title.setText(product.qp_name);
 		show_count.setText(product.buy_number + "");
+		// 设置edittext的光标位置
+		show_count
+				.setSelection(show_count.getText().toString().trim().length());
 		goods_count = product.buy_number;
 		old_price.setText(product.op_market_price + "");
 		new_price.setText(product.op_market_price + "");
@@ -151,7 +157,10 @@ public class GoodsDetailActivity extends BaseActivity {
 				break;
 			// 点击确定按钮
 			case R.id.cashier_goods_detail_ok:
-
+				if (BaseUtils.IsNotEmpty(order_id)) {
+					ConnectManager.getInstance().getPayOrderFormResult(
+							order_id, ajaxPayorder);
+				}
 				break;
 			// 点击增加数量
 			case R.id.cashier_goods_detail_add:
@@ -159,6 +168,8 @@ public class GoodsDetailActivity extends BaseActivity {
 					goods_count++;
 				}
 				show_count.setText(goods_count + "");
+				show_count.setSelection(show_count.getText().toString().trim()
+						.length());
 				break;
 			// 点击减少数量
 			case R.id.cashier_goods_detail_reduce:
@@ -166,6 +177,8 @@ public class GoodsDetailActivity extends BaseActivity {
 					goods_count--;
 				}
 				show_count.setText(goods_count + "");
+				show_count.setSelection(show_count.getText().toString().trim()
+						.length());
 				break;
 			default:
 				break;
@@ -245,6 +258,24 @@ public class GoodsDetailActivity extends BaseActivity {
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			C.showShort("取消订单失败", mActivity);
+		};
+	};
+	/**
+	 * 订单付款接口
+	 */
+	AjaxCallBack<String> ajaxPayorder = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("result", t).equals(
+							"1")) {
+				C.showShort("订单付款成功", mActivity);
+			}
+		};
+
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showShort("订单付款失败", mActivity);
 		};
 	};
 }

@@ -128,7 +128,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="100"
-                    android:inputType="number"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>

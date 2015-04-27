@@ -7,13 +7,16 @@ import com.shengxun.entity.ProductInfo;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -72,7 +75,11 @@ public class GatheringActivity extends BaseActivity {
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
-		gathering_cash.setText("0");
+		gathering_cash.setText("");
+		// 设置不显示输入法
+		gathering_cash.setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+		gathering_cash.setTextIsSelectable(true);
+		//设置光标位置
 		gathering_cash.setSelection(gathering_cash.length());
 		gathering_change = (EditText) findViewById(R.id.cashier_gathering_change);
 		btn_0 = (Button) findViewById(R.id.gathering_btn_0);
@@ -119,6 +126,7 @@ public class GatheringActivity extends BaseActivity {
 
 	/**
 	 * 初始化控件显示数据
+	 * 
 	 * @auth sw
 	 */
 	private void initWidgetData() {
@@ -145,84 +153,107 @@ public class GatheringActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+			// 记录光标位置
+			int index = gathering_cash.getSelectionStart();
+
 			switch (v.getId()) {
 			case R.id.cashier_gathering_back:
 				finish();
 				break;
 			case R.id.gathering_btn_0:
-				cash = cash + btn_0.getText().toString().trim();
+				addStringToEditText(btn_0.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_1:
-				cash = cash + btn_1.getText().toString().trim();
+				addStringToEditText(btn_1.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_2:
-				cash = cash + btn_2.getText().toString().trim();
+				addStringToEditText(btn_2.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_3:
-				cash = cash + btn_3.getText().toString().trim();
+				addStringToEditText(btn_3.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_4:
-				cash = cash + btn_4.getText().toString().trim();
+				addStringToEditText(btn_4.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_5:
-				cash = cash + btn_5.getText().toString().trim();
+				addStringToEditText(btn_5.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_6:
-				cash = cash + btn_6.getText().toString().trim();
+				addStringToEditText(btn_6.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_7:
-				cash = cash + btn_7.getText().toString().trim();
+				addStringToEditText(btn_7.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_8:
-				cash = cash + btn_8.getText().toString().trim();
+				addStringToEditText(btn_8.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_9:
-				cash = cash + btn_9.getText().toString().trim();
+				addStringToEditText(btn_9.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_50:
-				cash = cash + btn_50.getText().toString().trim();
+				addStringToEditText(btn_50.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_100:
-				cash = cash + btn_100.getText().toString().trim();
+				addStringToEditText(btn_100.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_200:
-				cash = cash + btn_200.getText().toString().trim();
+				addStringToEditText(btn_200.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_300:
-				cash = cash + btn_300.getText().toString().trim();
+				addStringToEditText(btn_300.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_00:
-				cash = cash + btn_00.getText().toString().trim();
+				addStringToEditText(btn_00.getText().toString().trim(), index);
 				break;
 			case R.id.gathering_btn_spot:
-				if(!hasSpot){
-					cash = cash + btn_spot.getText().toString().trim();
+				if (!hasSpot) {
+					addStringToEditText(btn_spot.getText().toString().trim(),
+							index);
 					hasSpot = true;
 				}
 				break;
 			case R.id.gathering_btn_backup:
-				if (BaseUtils.IsNotEmpty(cash)) {
-					if(cash.substring(cash.length()-1).equals(".")){
-						hasSpot = false;
-					}
-					cash = cash.substring(0, cash.length() - 1);
-					if(!BaseUtils.IsNotEmpty(cash)){
-						gathering_cash.setText("0");
-					}
-				}
+				delStringFromEditText(index);
 				break;
 			case R.id.gathering_btn_ok:
 				break;
 			default:
 				break;
 			}
-			if (BaseUtils.IsNotEmpty(cash)) {
-				gathering_cash.setText(cash);
-				//设置光标位置
-				gathering_cash.setSelection(cash.length());
-			}
 		}
 	};
+
+	/**
+	 * 在指定位置插入字符
+	 * @param str
+	 * @param index
+	 * @auth sw
+	 */
+	private void addStringToEditText(String str, int index) {
+		if (index < 0 || index >= cash.length()) {
+			gathering_cash.append(str);
+		} else {
+			gathering_cash.getText().insert(index, str);
+		}
+		cash = gathering_cash.getText().toString().trim();
+	}
+	/**
+	 * 删除当前光标所处位置字符
+	 * @auth sw
+	 */
+	private void delStringFromEditText(int index){
+		//光标当前位置不在第一位并且金额不为空
+		if (index>0&&BaseUtils.IsNotEmpty(cash)) {
+			// 判断删除的是否是小数点
+			if (cash.substring(index - 1, index).equals(".")) {
+				hasSpot = false;
+			}
+			cash = gathering_cash.getText().delete(index - 1, index)
+					.toString();
+			gathering_cash.setText(cash);
+			gathering_cash.setSelection(index-1);
+		}
+	}
 
 	/**
 	 * 文本内容改变监听
@@ -243,14 +274,14 @@ public class GatheringActivity extends BaseActivity {
 		public void afterTextChanged(Editable s) {
 			if (BaseUtils.IsNotEmpty(cash)) {
 				double change = Double.parseDouble(cash) - totalMoney;
+				//保留一位小数
 				BigDecimal bd = new BigDecimal(change);
-				change = bd.setScale(1,BigDecimal.ROUND_HALF_UP).doubleValue();
-				gathering_change.setText(change+"");
+				change = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+				gathering_change.setText(change + "");
 			} else {
 				gathering_change.setText("0");
 			}
 		}
 	};
-
 
 }
