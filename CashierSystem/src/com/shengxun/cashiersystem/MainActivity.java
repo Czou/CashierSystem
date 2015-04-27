@@ -185,9 +185,26 @@ public class MainActivity extends BaseActivity {
 	 * @param entity 删除该商品
 	 */
 	public void deleteGoods(ProductInfo entity){
-		
+		for(int i=0;i<dataList.size();i++){
+			if(dataList.get(i).op_bar_code.equals(entity.op_bar_code)){
+				dataList.remove(i);
+				cashierGoodsListAdapter.notifyDataSetChanged();
+				break;
+			}
+		}
 	}
-	
+	/**
+	 * @param entity 修改该商品数量
+	 */
+	public void updateGoods(ProductInfo entity){
+		for(int i=0;i<dataList.size();i++){
+			if(dataList.get(i).op_bar_code.equals(entity.op_bar_code)){
+				dataList.get(i).buy_number=entity.buy_number;
+				cashierGoodsListAdapter.notifyDataSetChanged();
+				break;
+			}
+		}
+	}
 	/**
 	 * item点击事件
 	 */
