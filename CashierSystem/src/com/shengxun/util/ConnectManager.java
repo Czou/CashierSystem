@@ -4,6 +4,8 @@ import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
 
+import android.nfc.cardemulation.CardEmulation;
+
 import com.shengxun.constant.C;
 import com.shengxun.constant.U;
 import com.zvezda.android.utils.BaseUtils;
@@ -72,9 +74,9 @@ public class ConnectManager {
 		finalHttp.configCharset("UTF-8");
 		finalHttp.get(U.CASHIER_SYSTEM_PRODUCT_LIST, params, ajaxCallBack);
 	}
+
 	/***************** 产品列表接口 LILIN End ********************/
-	
-	
+
 	/***************** 注册接口 sw start ********************/
 	/**
 	 * @param card_no
@@ -146,7 +148,7 @@ public class ConnectManager {
 
 	/***************** 产品分类列表接口 end *********************/
 
-	/***************** 创建订单接口  SW start ********************/
+	/***************** 创建订单接口 SW start ********************/
 	/**
 	 * @param consume_card_no
 	 * @param cashier_card_no
@@ -156,8 +158,9 @@ public class ConnectManager {
 	 * @param ajaxCallback
 	 */
 	public void getCreateOrderFormResult(String consume_card_no,
-			String cashier_card_no, String product_info, String pay_way,
-			String pay_money, AjaxCallBack<String> ajaxCallback) {
+			String cashier_card_no, String product_info,
+			String delivery_rs_code, String delivery_rs_code_id,
+			String pay_way, String pay_money, AjaxCallBack<String> ajaxCallback) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
 		params.put("sob_code", C.SOB_CODE);
@@ -165,8 +168,12 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		params.put("consume_card_no", consume_card_no);
-		params.put("cashier_card_no", cashier_card_no);
+		if (BaseUtils.IsNotEmpty(consume_card_no)) {
+			params.put("consume_card_no", consume_card_no);
+		}
+		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
+			params.put("cashier_card_no", cashier_card_no);
+		}
 		params.put("product_info", product_info);
 		params.put("pay_way", pay_way);
 		params.put("pay_way", pay_way);
@@ -176,7 +183,7 @@ public class ConnectManager {
 
 	/***************** 创建订单接口 End ********************/
 
-	/***************** 订单付款接口  SW start ********************/
+	/***************** 订单付款接口 SW start ********************/
 	/**
 	 * @param order_id
 	 * @param ajaxCallBack
@@ -316,7 +323,7 @@ public class ConnectManager {
 
 	/***************** 订单取消接口 end ********************/
 
-	/***************** 订单提货接口  SW START ********************/
+	/***************** 订单提货接口 SW START ********************/
 	/**
 	 * @param order_id
 	 * @param ajaxCallBack
@@ -439,7 +446,7 @@ public class ConnectManager {
 
 	/***************** 退货订单（提货店）详情接口 END ********************/
 
-	/***************** 退货订单（收银店）列表接口SW  START ********************/
+	/***************** 退货订单（收银店）列表接口SW START ********************/
 	/**
 	 * @param number
 	 * @param offset
@@ -484,7 +491,7 @@ public class ConnectManager {
 
 	/***************** 退货订单（提货店）列表接口 END ********************/
 
-	/***************** 取消退货订单接口 SW  START ********************/
+	/***************** 取消退货订单接口 SW START ********************/
 	/**
 	 * @param order_id
 	 * @param ajaxCallBack
@@ -573,6 +580,5 @@ public class ConnectManager {
 
 	}
 	/***************** 地区接口 end ********************/
-
 
 }

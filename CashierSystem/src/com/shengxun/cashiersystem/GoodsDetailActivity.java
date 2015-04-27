@@ -2,8 +2,11 @@ package com.shengxun.cashiersystem;
 
 import net.tsz.afinal.http.AjaxCallBack;
 
+import com.shengxun.constant.C;
+import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
 
 import android.os.Bundle;
@@ -17,8 +20,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 /**
  * 商品详细信息界面
+ * 
  * @author sw
  * @date 2015-4-24
  */
@@ -26,7 +31,8 @@ public class GoodsDetailActivity extends BaseActivity {
 	/**
 	 * 返回按钮
 	 */
-	private TextView goods_detail_back;
+	private TextView goods_detail_back, old_price, new_price, total_price,
+			title;
 	/**
 	 * 商品图片
 	 */
@@ -43,6 +49,21 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * 商品数量
 	 */
 	private int goods_count = 0;
+	/**
+	 * 保存传递过来的商品数据
+	 */
+	private ProductInfo product;
+	private double new_price_d, total_price_d = 0;
+	/**
+	 * 消费人卡号
+	 */
+	private String consume_card_no;
+	/**
+	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
+	 */
+	private int pay_way = 1;
+
+	private String order_id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +73,10 @@ public class GoodsDetailActivity extends BaseActivity {
 		setContentView(R.layout.cahsier_goods_detail_view);
 
 		initWidget();
+		// 创建订单
+		ConnectManager.getInstance().getCreateOrderFormResult(consume_card_no,
+				applicationCS.cashier_card_no, "", "", "", pay_way + "",
+				total_price_d + "", ajaxcallback);
 	}
 
 	/**
@@ -65,6 +90,10 @@ public class GoodsDetailActivity extends BaseActivity {
 		goods_add = (Button) findViewById(R.id.cashier_goods_detail_add);
 		goods_reduce = (Button) findViewById(R.id.cashier_goods_detail_reduce);
 		show_count = (EditText) findViewById(R.id.cashier_goods_detail_showcount);
+		old_price = (TextView) findViewById(R.id.cashier_goods_detail_old_price);
+		new_price = (TextView) findViewById(R.id.cashier_goods_detail_new_price);
+		total_price = (TextView) findViewById(R.id.cashier_goods_detail_total_price);
+		title = (TextView) findViewById(R.id.cashier_goods_detail_title);
 
 		goods_detail_back.setOnClickListener(myclick);
 		goods_detail_del.setOnClickListener(myclick);
@@ -72,15 +101,33 @@ public class GoodsDetailActivity extends BaseActivity {
 		goods_add.setOnClickListener(myclick);
 		goods_reduce.setOnClickListener(myclick);
 		show_count.addTextChangedListener(mytextchange);
-		
-		//获得产品信息
-		//ConnectManager.getInstance.
+
+		product = (ProductInfo) getIntent().getSerializableExtra("DATA");
+		LG.i(getClass(), "product--------->" + product);
+		refreshData();
 	}
+
 	/**
 	 * 更新显示数据
 	 */
-	private void updateData(){
-		
+	private void refreshData() {
+		title.setText(product.qp_name);
+		show_count.setText(product.buy_number + "");
+		goods_count = product.buy_number;
+		old_price.setText(product.op_market_price + "");
+		new_price.setText(product.op_market_price + "");
+		new_price_d = product.op_market_price;
+		calTotalPrice();
+	}
+
+	/**
+	 * 计算总额
+	 * 
+	 * @auth sw
+	 */
+	private void calTotalPrice() {
+		total_price_d = new_price_d * goods_count;
+		total_price.setText(total_price_d + "");
 	}
 
 	/**
@@ -91,26 +138,29 @@ public class GoodsDetailActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			//点击了返回按钮
+			// 点击了返回按钮
 			case R.id.cashier_goods_detail_back:
 				finish();
 				break;
-			//点击删除按钮
+			// 点击删除按钮,取消订单
 			case R.id.cashier_goods_detail_del:
-
+				if (BaseUtils.IsNotEmpty(order_id)) {
+					ConnectManager.getInstance().getOrderFormCanaelResult(
+							order_id, ajaxcancelorder);
+				}
 				break;
-			//点击确定按钮	
+			// 点击确定按钮
 			case R.id.cashier_goods_detail_ok:
 
 				break;
-			//点击增加数量
+			// 点击增加数量
 			case R.id.cashier_goods_detail_add:
 				if (goods_count < 99) {
 					goods_count++;
 				}
 				show_count.setText(goods_count + "");
 				break;
-			//点击减少数量
+			// 点击减少数量
 			case R.id.cashier_goods_detail_reduce:
 				if (goods_count > 0) {
 					goods_count--;
@@ -143,7 +193,7 @@ public class GoodsDetailActivity extends BaseActivity {
 		public void afterTextChanged(Editable s) {
 			// TODO Auto-generated method stub
 			Log.i("savion", "afterTextChanged" + s + "");
-			//最多允许输入99
+			// 最多允许输入99
 			if (s.toString().length() > 2) {
 				show_count.setText("99");
 				goods_count = 99;
@@ -152,21 +202,49 @@ public class GoodsDetailActivity extends BaseActivity {
 					goods_count = Integer.parseInt(s.toString().trim());
 				}
 			}
+			calTotalPrice();
 		}
 	};
 
 	/**
-	 * 获得产品信息回调
+	 * 创建订单信息回调
 	 */
 	AjaxCallBack<String> ajaxcallback = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "产品详细信息----->" + t);
-			updateData();
+			LG.i(getClass(), "订单详细信息----->" + t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
+				order_id = JSONParser.getStringFromJsonString("order_id", t);
+				C.showShort("创建订单成功", mActivity);
+			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
+			C.showShort("创建订单失败", mActivity);
+		};
+	};
+	/**
+	 * 取消订单接口
+	 */
+	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "取消订单信息------->" + t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("result", t).equals(
+							"ok")) {
+				C.showShort("取消订单成功", mActivity);
+				finish();
+			}
+
+		};
+
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showShort("取消订单失败", mActivity);
 		};
 	};
 }

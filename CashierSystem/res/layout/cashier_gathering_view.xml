@@ -68,12 +68,11 @@
                     android:textSize="@dimen/fontSize_22" />
 
                 <EditText
-                    android:id="@+id/cashier_gathering_total_money"
+                    android:id="@+id/cashier_gathering_card_no"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:gravity="center"
-                    android:text="69.5"
+                    android:text="1008611"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
@@ -128,8 +127,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:inputType="number"
                     android:text="100"
+                    android:inputType="number"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>

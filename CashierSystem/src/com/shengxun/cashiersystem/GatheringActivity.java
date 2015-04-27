@@ -1,12 +1,18 @@
 package com.shengxun.cashiersystem;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+import com.shengxun.entity.ProductInfo;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.LG;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,24 +36,23 @@ public class GatheringActivity extends BaseActivity {
 	/**
 	 * 保存总额,现金，找零数据
 	 */
-	private static String total_momey = "20", cash = "", change = "";
+	private static String cash = "", change = "";
 
+	private double totalMoney = 0;
 	/**
 	 * 所有按钮
 	 */
 	private Button btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7,
 			btn_8, btn_9, btn_50, btn_100, btn_200, btn_300, btn_00, btn_spot,
 			btn_back_up, btn_ok;
-
 	/**
-	 * 设置总额
-	 * 
-	 * @param str
-	 * @auth sw
+	 * 接收传递过来的商品列表
 	 */
-	public static void setTotalmoney(String str) {
-		total_momey = str;
-	}
+	private ArrayList<ProductInfo> goodsList;
+	/**
+	 * 记录是否已经有了小数点
+	 */
+	private boolean hasSpot = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class GatheringActivity extends BaseActivity {
 		setContentView(R.layout.cashier_gathering_view);
 
 		initWidget();
-
+		initWidgetData();
 	}
 
 	/**
@@ -67,6 +72,8 @@ public class GatheringActivity extends BaseActivity {
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
+		gathering_cash.setText("0");
+		gathering_cash.setSelection(gathering_cash.length());
 		gathering_change = (EditText) findViewById(R.id.cashier_gathering_change);
 		btn_0 = (Button) findViewById(R.id.gathering_btn_0);
 		btn_1 = (Button) findViewById(R.id.gathering_btn_1);
@@ -108,8 +115,26 @@ public class GatheringActivity extends BaseActivity {
 		btn_back_up.setOnClickListener(myclick);
 		btn_ok.setOnClickListener(myclick);
 
-		gathering_total_money.setText(total_momey);
+	}
 
+	/**
+	 * 初始化控件显示数据
+	 * @auth sw
+	 */
+	private void initWidgetData() {
+		// 获得传递商品信息列表
+		goodsList = (ArrayList<ProductInfo>) getIntent().getSerializableExtra(
+				"DATA");
+		if (goodsList == null) {
+			return;
+		}
+		// 计算总额
+		for (int i = 0; i < goodsList.size(); i++) {
+			totalMoney += (goodsList.get(i).buy_number)
+					* (goodsList.get(i).op_market_price);
+		}
+		LG.i(getClass(), "totalMoney -------->" + totalMoney);
+		gathering_total_money.setText(totalMoney + "");
 	}
 
 	/**
@@ -170,11 +195,20 @@ public class GatheringActivity extends BaseActivity {
 				cash = cash + btn_00.getText().toString().trim();
 				break;
 			case R.id.gathering_btn_spot:
-				cash = cash + btn_spot.getText().toString().trim();
+				if(!hasSpot){
+					cash = cash + btn_spot.getText().toString().trim();
+					hasSpot = true;
+				}
 				break;
 			case R.id.gathering_btn_backup:
-				if (cash != null && cash.length() > 0) {
+				if (BaseUtils.IsNotEmpty(cash)) {
+					if(cash.substring(cash.length()-1).equals(".")){
+						hasSpot = false;
+					}
 					cash = cash.substring(0, cash.length() - 1);
+					if(!BaseUtils.IsNotEmpty(cash)){
+						gathering_cash.setText("0");
+					}
 				}
 				break;
 			case R.id.gathering_btn_ok:
@@ -182,9 +216,17 @@ public class GatheringActivity extends BaseActivity {
 			default:
 				break;
 			}
+			if (BaseUtils.IsNotEmpty(cash)) {
+				gathering_cash.setText(cash);
+				//设置光标位置
+				gathering_cash.setSelection(cash.length());
+			}
 		}
 	};
 
+	/**
+	 * 文本内容改变监听
+	 */
 	TextWatcher mytextchange = new TextWatcher() {
 
 		@Override
@@ -199,14 +241,16 @@ public class GatheringActivity extends BaseActivity {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			gathering_cash.setText(cash);
 			if (BaseUtils.IsNotEmpty(cash)) {
-				gathering_change.setText(Double.parseDouble(cash)
-						- Double.parseDouble(total_momey) + "");
+				double change = Double.parseDouble(cash) - totalMoney;
+				BigDecimal bd = new BigDecimal(change);
+				change = bd.setScale(1,BigDecimal.ROUND_HALF_UP).doubleValue();
+				gathering_change.setText(change+"");
 			} else {
 				gathering_change.setText("0");
 			}
 		}
 	};
+
 
 }

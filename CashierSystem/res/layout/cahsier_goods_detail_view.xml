@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="猕猴桃果汁250ml礼品装"
+            android:id="@+id/cashier_goods_detail_title"
             android:textSize="@dimen/fontSize_48" />
     </RelativeLayout>
 

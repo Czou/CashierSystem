@@ -7,10 +7,11 @@ import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * 产品列表信息实体类
+ * 
  * @author sw
  */
-@DatabaseTable(tableName="productInfoTable")
-public class ProductInfo implements Serializable{
+@DatabaseTable(tableName = "productInfoTable")
+public class ProductInfo implements Serializable {
 
 	/**
 	 * 
@@ -19,7 +20,7 @@ public class ProductInfo implements Serializable{
 	/**
 	 * 产品编号
 	 */
-	@DatabaseField(id=true)
+	@DatabaseField(id = true)
 	public int op_id;
 	/**
 	 * 招商中心企业产品编号
@@ -37,7 +38,7 @@ public class ProductInfo implements Serializable{
 	@DatabaseField
 	public int op_number;
 	/**
-	 * 状态 1：正常  2：下架
+	 * 状态 1：正常 2：下架
 	 */
 	@DatabaseField
 	public int op_status;
@@ -56,11 +57,9 @@ public class ProductInfo implements Serializable{
 	 */
 	@DatabaseField
 	public String op_bar_code;
-	
-	
-	
+
 	/**
-	 * 订单产品编号 
+	 * 订单产品编号
 	 */
 	public String cop_id;
 	/**
@@ -87,8 +86,23 @@ public class ProductInfo implements Serializable{
 	public int crop_number;
 	public double crop_plat_buy_price;
 	public double crop_plat_sell_price;
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "ProductInfo [op_id=" + op_id + ", zqp_id=" + zqp_id
+				+ ", op_market_price=" + op_market_price + ", op_number="
+				+ op_number + ", op_status=" + op_status + ", qp_name="
+				+ qp_name + ", qy_id=" + qy_id + ", op_bar_code=" + op_bar_code
+				+ ", cop_id=" + cop_id + ", qp_id=" + qp_id + ", buy_number="
+				+ buy_number + ", co_id=" + co_id + ", cop_price=" + cop_price
+				+ ", cop_number=" + cop_number + ", cop_refund_number="
+				+ cop_refund_number + ", cop_plat_buy_price="
+				+ cop_plat_buy_price + ", cop_plat_sell_price="
+				+ cop_plat_sell_price + ", cro_id=" + cro_id + ", crop_id="
+				+ crop_id + ", refund_number=" + refund_number
+				+ ", crop_price=" + crop_price + ", crop_number=" + crop_number
+				+ ", crop_plat_buy_price=" + crop_plat_buy_price
+				+ ", crop_plat_sell_price=" + crop_plat_sell_price + "]";
+	}
 
 }
