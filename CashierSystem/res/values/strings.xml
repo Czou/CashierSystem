@@ -28,9 +28,9 @@
 	<string name="cashier_system_column_cargo_number">货号</string>
 	<string name="cashier_system_column_code">条码</string>
 	<string name="cashier_system_column_name">品名规格</string>
-	<string name="cashier_system_column_count">数量</string>
-	<string name="cashier_system_column_old_price">原价</string>
-	<string name="cashier_system_column_now_price">单价</string>
+	<string name="cashier_system_column_count">数量:</string>
+	<string name="cashier_system_column_old_price">原价:</string>
+	<string name="cashier_system_column_now_price">单价:</string>
 	<string name="cashier_system_column_money">金额</string>
 	<string name="cashier_system_column_clerk">营业员</string>
 	<string name="cashier_system_column_total_money">总额</string>

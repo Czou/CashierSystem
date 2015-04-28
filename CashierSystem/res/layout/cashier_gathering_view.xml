@@ -9,22 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#fe6850"
         android:padding="@dimen/layout_padding" >
 
-        <TextView
+        <Button
             android:id="@+id/cashier_gathering_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@android:color/white"
-            android:clickable="true"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp"
+            android:background="@null"
             android:text="@string/cashier_system_btn_back"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/fontSize_28" />
 
         <TextView
@@ -32,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/cashier_system_gathering_title"
+            android:textColor="@color/white"
             android:textSize="@dimen/fontSize_48" />
     </RelativeLayout>
 
@@ -42,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
+        android:background="#ecf0f1"
         android:gravity="center"
         android:paddingBottom="@dimen/layout_padding"
         android:paddingTop="@dimen/layout_padding" >
@@ -50,112 +48,125 @@
             android:id="@+id/cashier_gathering_center_board"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="#ecf0f1"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:padding="@dimen/layout_padding2"
+                android:background="@color/white"
                 android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#fec554"
+                    android:gravity="center"
+                    android:padding="10dp"
                     android:text="@string/cashier_system_column_card_number"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/fontSize_22" />
 
                 <EditText
                     android:id="@+id/cashier_gathering_card_no"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="1008611"
-                    android:textColor="@color/black"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
-            <!-- 分隔线 -->
-
-            <TextView style="@style/blackHDividerLine1DP" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:padding="@dimen/layout_padding2"
+                android:background="@color/white"
                 android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#fec554"
+                    android:gravity="center"
+                    android:padding="10dp"
                     android:text="@string/cashier_system_column_total_money"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/fontSize_22" />
 
                 <EditText
                     android:id="@+id/cashier_gathering_total_money"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
                     android:enabled="false"
-                    android:gravity="center"
-                    android:text="69.5"
+                    android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
-            <!-- 分隔线 -->
-
-            <TextView style="@style/blackHDividerLine1DP" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:padding="@dimen/layout_padding2"
+                android:background="@color/white"
                 android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#fec554"
+                    android:gravity="center"
+                    android:padding="10dp"
                     android:text="@string/cashier_system_column_cash"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/fontSize_22" />
 
                 <EditText
                     android:id="@+id/cashier_gathering_cash"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="100"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
+                    android:inputType="none"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
-            <!-- 分隔线 -->
-
-            <TextView style="@style/blackHDividerLine1DP" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:padding="@dimen/layout_padding2"
+                android:background="@color/white"
                 android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#fec554"
+                    android:gravity="center"
+                    android:padding="10dp"
                     android:text="@string/cashier_system_column_change"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/fontSize_22" />
 
                 <EditText
                     android:id="@+id/cashier_gathering_change"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
                     android:enabled="false"
-                    android:gravity="center"
                     android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
@@ -164,242 +175,313 @@
 
     <TextView style="@style/whiteHDividerLine2DP" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
-        android:gravity="center"
-        android:padding="20dp" >
+        android:layout_weight="3"
+        android:background="#262a33"
+        android:gravity="center" >
 
-        <GridLayout
-            android:id="@+id/gathering_gridlayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="5" >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+        </LinearLayout>
+        <!-- 分隔线 -->
 
-            <Button
-                android:id="@+id/gathering_btn_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="1"
-                android:textSize="@dimen/fontSize_28" />
+        <TextView style="@style/whiteVDividerLin1DP" />
 
-            <Button
-                android:id="@+id/gathering_btn_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="20dp"
-                android:text="2"
-                android:textSize="@dimen/fontSize_28" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/gathering_btn_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="3"
-                android:textSize="@dimen/fontSize_28" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/gathering_btn_50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="20dp"
-                android:text="50"
-                android:textSize="@dimen/fontSize_28" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="4" >
 
-            <Button
-                android:id="@+id/gathering_btn_backup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="20dp"
-                android:text="X"
-                android:textSize="@dimen/fontSize_28" />
+                    <TextView
+                        android:id="@+id/gathering_btn_1"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_22" />
+                    <!-- 分隔线 -->
 
-            <Button
-                android:id="@+id/gathering_btn_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="4"
-                android:textSize="@dimen/fontSize_28" />
+                    <TextView style="@style/whiteVDividerLin1DP" />
 
-            <Button
-                android:id="@+id/gathering_btn_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="20dp"
-                android:text="5"
-                android:textSize="@dimen/fontSize_28" />
+                    <TextView
+                        android:id="@+id/gathering_btn_2"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_22" />
+                    <!-- 分隔线 -->
 
-            <Button
-                android:id="@+id/gathering_btn_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="6"
-                android:textSize="@dimen/fontSize_28" />
+                    <TextView style="@style/whiteVDividerLin1DP" />
 
-            <Button
-                android:id="@+id/gathering_btn_100"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:text="100"
-                android:textSize="@dimen/fontSize_28" />
+                    <TextView
+                        android:id="@+id/gathering_btn_3"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="3"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_22" />
+                    <!-- 分隔线 -->
 
-            <Button
-                android:id="@+id/gathering_btn_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:layout_rowSpan="3"
-                android:gravity="center"
-                android:text="@string/cashier_system_btn_ok"
-                android:textSize="@dimen/fontSize_20" />
+                    <TextView style="@style/whiteVDividerLin1DP" />
 
-            <Button
-                android:id="@+id/gathering_btn_7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="7"
-                android:textSize="@dimen/fontSize_28" />
+                    <TextView
+                        android:id="@+id/gathering_btn_50"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="50"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_22" />
+                    <!-- 分隔线 -->
 
-            <Button
-                android:id="@+id/gathering_btn_8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="20dp"
-                android:text="8"
-                android:textSize="@dimen/fontSize_28" />
+                    <TextView style="@style/whiteVDividerLin1DP" />
+                </LinearLayout>
 
-            <Button
-                android:id="@+id/gathering_btn_9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="9"
-                android:textSize="@dimen/fontSize_28" />
+                <TextView
+                    android:id="@+id/gathering_btn_backup"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontSize_22" />
+            </LinearLayout>
+            <!-- 分隔线 -->
 
-            <Button
-                android:id="@+id/gathering_btn_200"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
-                android:text="200"
-                android:textSize="@dimen/fontSize_28" />
+            <TextView style="@style/whiteHDividerLine1DP" />
 
-            <Button
-                android:id="@+id/gathering_btn_0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="0"
-                android:textSize="@dimen/fontSize_28" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3" >
 
-            <Button
-                android:id="@+id/gathering_btn_00"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:paddingTop="20dp"
-                android:text="00"
-                android:textSize="@dimen/fontSize_28" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="4"
+                    android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/gathering_btn_spot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:paddingTop="20dp"
-                android:text="."
-                android:textSize="@dimen/fontSize_28" />
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" >
 
-            <Button
-                android:id="@+id/gathering_btn_300"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
-                android:text="300"
-                android:textSize="@dimen/fontSize_28" />
-        </GridLayout>
-    </RelativeLayout>
+                        <TextView
+                            android:id="@+id/gathering_btn_4"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="4"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_5"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="5"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_6"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="6"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_100"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="100"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                    </LinearLayout>
+                    <!-- 分隔线 -->
+
+                    <TextView style="@style/whiteHDividerLine1DP" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" >
+
+                        <TextView
+                            android:id="@+id/gathering_btn_7"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="7"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_8"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="8"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_9"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="9"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_200"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="200"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                    </LinearLayout>
+                    <!-- 分隔线 -->
+
+                    <TextView style="@style/whiteHDividerLine1DP" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" >
+
+                        <TextView
+                            android:id="@+id/gathering_btn_0"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_00"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="00"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_spot"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="."
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                        <!-- 分隔线 -->
+
+                        <TextView style="@style/whiteVDividerLin1DP" />
+
+                        <TextView
+                            android:id="@+id/gathering_btn_300"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="300"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontSize_22" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- 分隔线 -->
+
+                <TextView style="@style/whiteVDividerLin1DP" />
+
+                <TextView
+                    android:id="@+id/gathering_btn_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="#ff503f"
+                    android:gravity="center"
+                    android:text="@string/cashier_system_btn_ok"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontSize_22"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- 分隔线 -->
+
+        <TextView style="@style/whiteVDividerLin1DP" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>

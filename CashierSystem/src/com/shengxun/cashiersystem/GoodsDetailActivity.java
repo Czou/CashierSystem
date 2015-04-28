@@ -12,13 +12,11 @@ import com.zvezda.android.utils.LG;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -33,10 +31,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	 */
 	private TextView goods_detail_back, old_price, new_price, total_price,
 			title;
-	/**
-	 * 商品图片
-	 */
-	private ImageView goods_detail_iv;
 	/**
 	 * 删除,确定,增加数量，减少数量按钮
 	 */
@@ -65,7 +59,9 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
 	 */
 	private int pay_way = 1;
-
+	/**
+	 * 订单号
+	 */
 	private String order_id;
 
 	@Override
@@ -88,7 +84,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	private void initWidget() {
 		goods_detail_back = (TextView) findViewById(R.id.cashier_goods_detail_back);
 		goods_detail_del = (Button) findViewById(R.id.cashier_goods_detail_del);
-		goods_detail_iv = (ImageView) findViewById(R.id.cashier_goods_detail_iv);
 		goods_detail_ok = (Button) findViewById(R.id.cashier_goods_detail_ok);
 		goods_add = (Button) findViewById(R.id.cashier_goods_detail_add);
 		goods_reduce = (Button) findViewById(R.id.cashier_goods_detail_reduce);
@@ -96,6 +91,7 @@ public class GoodsDetailActivity extends BaseActivity {
 		old_price = (TextView) findViewById(R.id.cashier_goods_detail_old_price);
 		new_price = (TextView) findViewById(R.id.cashier_goods_detail_new_price);
 		total_price = (TextView) findViewById(R.id.cashier_goods_detail_total_price);
+		total_price.setText(total_price.getText()+":");
 		title = (TextView) findViewById(R.id.cashier_goods_detail_title);
 
 		goods_detail_back.setOnClickListener(myclick);
@@ -128,7 +124,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 	/**
 	 * 计算总额
-	 * 
 	 * @auth sw
 	 */
 	private void calTotalPrice() {
@@ -204,15 +199,16 @@ public class GoodsDetailActivity extends BaseActivity {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
-			Log.i("savion", "afterTextChanged" + s + "");
 			// 最多允许输入99
 			if (s.toString().length() > 2) {
 				show_count.setText("99");
+				show_count.setSelection(show_count.length());
 				goods_count = 99;
 			} else {
 				if (BaseUtils.IsNotEmpty(s)) {
 					goods_count = Integer.parseInt(s.toString().trim());
+				}else{
+					goods_count = 0;
 				}
 			}
 			calTotalPrice();

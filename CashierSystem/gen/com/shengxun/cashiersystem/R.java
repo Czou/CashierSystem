@@ -94,10 +94,12 @@ public final class R {
         public static final int text_padding=0x7f050005;
     }
     public static final class drawable {
-        public static final int goods_detail_test=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int logo_144=0x7f020002;
-        public static final int orange_corner_bg=0x7f020003;
+        public static final int blue_button_corner_bg=0x7f020000;
+        public static final int goods_detail_test=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int logo_144=0x7f020003;
+        public static final int orange_corner_bg=0x7f020004;
+        public static final int red_button_corner_bg=0x7f020005;
     }
     public static final class id {
         public static final int cashier_gathering_back=0x7f080013;
@@ -121,43 +123,42 @@ public final class R {
         public static final int cashier_listview=0x7f080003;
         public static final int cashier_system_business=0x7f080002;
         public static final int cashier_system_close_cashbox=0x7f080006;
-        public static final int cashier_system_column_cargo_number=0x7f08002e;
-        public static final int cashier_system_column_clerk=0x7f080035;
-        public static final int cashier_system_column_code=0x7f08002f;
-        public static final int cashier_system_column_count=0x7f080031;
-        public static final int cashier_system_column_money=0x7f080034;
-        public static final int cashier_system_column_name=0x7f080030;
-        public static final int cashier_system_column_now_price=0x7f080033;
-        public static final int cashier_system_column_old_price=0x7f080032;
-        public static final int cashier_system_column_sort=0x7f08002d;
+        public static final int cashier_system_column_cargo_number=0x7f08002d;
+        public static final int cashier_system_column_clerk=0x7f080034;
+        public static final int cashier_system_column_code=0x7f08002e;
+        public static final int cashier_system_column_count=0x7f080030;
+        public static final int cashier_system_column_money=0x7f080033;
+        public static final int cashier_system_column_name=0x7f08002f;
+        public static final int cashier_system_column_now_price=0x7f080032;
+        public static final int cashier_system_column_old_price=0x7f080031;
+        public static final int cashier_system_column_sort=0x7f08002c;
         public static final int cashier_system_machine_status=0x7f080000;
         public static final int cashier_system_machine_time=0x7f080001;
         public static final int cashier_system_open_cashbox=0x7f080005;
         public static final int cashier_system_receive_payments=0x7f080004;
-        public static final int gathering_btn_0=0x7f080029;
-        public static final int gathering_btn_00=0x7f08002a;
-        public static final int gathering_btn_1=0x7f08001b;
-        public static final int gathering_btn_100=0x7f080023;
-        public static final int gathering_btn_2=0x7f08001c;
-        public static final int gathering_btn_200=0x7f080028;
-        public static final int gathering_btn_3=0x7f08001d;
-        public static final int gathering_btn_300=0x7f08002c;
-        public static final int gathering_btn_4=0x7f080020;
-        public static final int gathering_btn_5=0x7f080021;
-        public static final int gathering_btn_50=0x7f08001e;
-        public static final int gathering_btn_6=0x7f080022;
-        public static final int gathering_btn_7=0x7f080025;
-        public static final int gathering_btn_8=0x7f080026;
-        public static final int gathering_btn_9=0x7f080027;
-        public static final int gathering_btn_backup=0x7f08001f;
-        public static final int gathering_btn_ok=0x7f080024;
-        public static final int gathering_btn_spot=0x7f08002b;
-        public static final int gathering_gridlayout=0x7f08001a;
+        public static final int gathering_btn_0=0x7f080027;
+        public static final int gathering_btn_00=0x7f080028;
+        public static final int gathering_btn_1=0x7f08001a;
+        public static final int gathering_btn_100=0x7f080022;
+        public static final int gathering_btn_2=0x7f08001b;
+        public static final int gathering_btn_200=0x7f080026;
+        public static final int gathering_btn_3=0x7f08001c;
+        public static final int gathering_btn_300=0x7f08002a;
+        public static final int gathering_btn_4=0x7f08001f;
+        public static final int gathering_btn_5=0x7f080020;
+        public static final int gathering_btn_50=0x7f08001d;
+        public static final int gathering_btn_6=0x7f080021;
+        public static final int gathering_btn_7=0x7f080023;
+        public static final int gathering_btn_8=0x7f080024;
+        public static final int gathering_btn_9=0x7f080025;
+        public static final int gathering_btn_backup=0x7f08001e;
+        public static final int gathering_btn_ok=0x7f08002b;
+        public static final int gathering_btn_spot=0x7f080029;
         public static final int gathering_top=0x7f080012;
-        public static final int user_login=0x7f080038;
-        public static final int user_name=0x7f080036;
-        public static final int user_password=0x7f080037;
-        public static final int user_reset=0x7f080039;
+        public static final int user_login=0x7f080037;
+        public static final int user_name=0x7f080035;
+        public static final int user_password=0x7f080036;
+        public static final int user_reset=0x7f080038;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -243,14 +244,20 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
-        /**  水平黑色分割线 
+        /**  水平黑色分割线 1dp
          */
         public static final int blackHDividerLine1DP=0x7f070002;
-        /**  水平白色分割线 
+        /**  水平白色分割线1dp 
+         */
+        public static final int whiteHDividerLine1DP=0x7f070004;
+        /**  水平白色分割线2dp 
          */
         public static final int whiteHDividerLine2DP=0x7f070003;
-        /**  垂直白色分割线 
+        /**  垂直白色分割线1dp 
          */
-        public static final int whiteVDividerLine2DP=0x7f070004;
+        public static final int whiteVDividerLin1DP=0x7f070006;
+        /**  垂直白色分割线2dp 
+         */
+        public static final int whiteVDividerLine2DP=0x7f070005;
     }
 }

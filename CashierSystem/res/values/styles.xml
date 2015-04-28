@@ -16,21 +16,33 @@
     <style name="AppTheme" parent="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    <!-- 水平黑色分割线 -->
+    <!-- 水平黑色分割线 1dp-->
     <style name="blackHDividerLine1DP">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/black</item>
     </style>
-<!-- 水平白色分割线 -->
+	<!-- 水平白色分割线2dp -->
     <style name="whiteHDividerLine2DP">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@color/white</item>
     </style>
-    <!-- 垂直白色分割线 -->
+    <!-- 水平白色分割线1dp -->
+    <style name="whiteHDividerLine1DP">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    <!-- 垂直白色分割线2dp -->
     <style name="whiteVDividerLine2DP">
-        <item name="android:layout_width">3dp</item>
+        <item name="android:layout_width">2dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    <!-- 垂直白色分割线1dp -->
+    <style name="whiteVDividerLin1DP">
+        <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/white</item>
     </style>
