@@ -34,6 +34,7 @@
         <activity
             android:name=".GatheringActivity"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
              >
         </activity>
         <activity
