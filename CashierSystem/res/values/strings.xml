@@ -55,6 +55,8 @@
 	<string name="cashier_system_receive_payments">收款</string>
 	<string name="cashier_system_open_cashbox">打开钱箱</string>
 	<string name="cashier_system_close_cashbox">关闭钱箱</string>
+	<string name="cashier_system_get_good">提货</string>
+	<string name="cashier_system_return_good">退货</string>
 	<string name="cashier_system_setting">设置</string>
 	
     
