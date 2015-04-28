@@ -1,10 +1,14 @@
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- 分割线高度 -->
+    <dimen name="split_line_height">0.5dp</dimen>
+    <dimen name="cashier_system_edit_height">45dp</dimen>
+    <dimen name="cashier_system_title_height">90dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cashier_system_column_title">50dp</dimen>
-	<dimen name="input_text_height">60dp</dimen>
+	<dimen name="input_text_height">45dp</dimen>
 	<dimen name="input_text_width">150dp</dimen>
 	<!-- 文字padding -->
 	<dimen name="text_padding">10dp</dimen>

@@ -91,9 +91,7 @@ public class GoodsDetailActivity extends BaseActivity {
 		old_price = (TextView) findViewById(R.id.cashier_goods_detail_old_price);
 		new_price = (TextView) findViewById(R.id.cashier_goods_detail_new_price);
 		total_price = (TextView) findViewById(R.id.cashier_goods_detail_total_price);
-		total_price.setText(total_price.getText()+":");
 		title = (TextView) findViewById(R.id.cashier_goods_detail_title);
-
 		goods_detail_back.setOnClickListener(myclick);
 		goods_detail_del.setOnClickListener(myclick);
 		goods_detail_ok.setOnClickListener(myclick);
@@ -148,6 +146,8 @@ public class GoodsDetailActivity extends BaseActivity {
 				if (BaseUtils.IsNotEmpty(order_id)) {
 					ConnectManager.getInstance().getOrderFormCanaelResult(
 							order_id, ajaxcancelorder);
+				}else{
+					C.showShort("订单未创建成功", mActivity);
 				}
 				break;
 			// 点击确定按钮
@@ -155,6 +155,8 @@ public class GoodsDetailActivity extends BaseActivity {
 				if (BaseUtils.IsNotEmpty(order_id)) {
 					ConnectManager.getInstance().getPayOrderFormResult(
 							order_id, ajaxPayorder);
+				}else{
+					C.showShort("订单未创建成功", mActivity);
 				}
 				break;
 			// 点击增加数量
@@ -188,13 +190,11 @@ public class GoodsDetailActivity extends BaseActivity {
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
@@ -227,6 +227,8 @@ public class GoodsDetailActivity extends BaseActivity {
 							"1")) {
 				order_id = JSONParser.getStringFromJsonString("order_id", t);
 				C.showShort("创建订单成功", mActivity);
+			}else{
+				C.showShort("订单创建失败", mActivity);
 			}
 		};
 

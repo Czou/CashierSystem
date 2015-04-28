@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#fe6850"
+        android:background="@drawable/title"
         android:padding="15dp" >
 
         <Button
@@ -20,6 +20,7 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:clickable="true"
+            android:drawableLeft="@drawable/back"
             android:text="@string/cashier_system_btn_back"
             android:textColor="@color/white"
             android:textSize="@dimen/fontSize_28" />
@@ -31,7 +32,8 @@
             android:layout_centerInParent="true"
             android:text="猕猴桃果汁250ml礼品装"
             android:textColor="@color/white"
-            android:textSize="@dimen/fontSize_48" />
+            android:textSize="@dimen/fontSize_48"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <!-- 分割线 -->
@@ -72,8 +74,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -86,6 +88,7 @@
                         android:id="@+id/cashier_goods_detail_old_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:text="3.6"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontSize_28" />
@@ -98,8 +101,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -112,6 +115,7 @@
                         android:id="@+id/cashier_goods_detail_new_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:text="3.6"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontSize_28" />
@@ -125,8 +129,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:padding="20dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -136,10 +140,15 @@
                         android:textSize="@dimen/fontSize_28" />
 
                     <Button
-                        android:id="@+id/cashier_goods_detail_add"
+                        android:id="@+id/cashier_goods_detail_reduce"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+" />
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/gray_dark_corner_bg"
+                        android:padding="10dp"
+                        android:text="―"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_18" />
 
                     <EditText
                         android:id="@+id/cashier_goods_detail_showcount"
@@ -151,10 +160,14 @@
                         android:text="0" />
 
                     <Button
-                        android:id="@+id/cashier_goods_detail_reduce"
+                        android:id="@+id/cashier_goods_detail_add"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="-" />
+                        android:background="@drawable/gray_dark_corner_bg"
+                        android:padding="10dp"
+                        android:text="＋"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_18" />
                 </LinearLayout>
 
                 <!-- 分隔线 -->
@@ -164,13 +177,13 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cashier_system_column_total_money"
+                        android:text="@string/cashier_system_column_total_money_withcolon"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontSize_28" />
 
@@ -178,43 +191,44 @@
                         android:id="@+id/cashier_goods_detail_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:text="3.6"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontSize_28" />
                 </LinearLayout>
-                 <!-- 分隔线 -->
+                <!-- 分隔线 -->
 
                 <TextView style="@style/blackHDividerLine1DP" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <Button
                         android:id="@+id/cashier_goods_detail_del"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:layout_weight="1"
                         android:background="@drawable/red_button_corner_bg"
                         android:padding="20dp"
-                        android:textColor="@color/white"
                         android:text="@string/cashier_system_btn_del"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/fontSize_36" />
 
                     <Button
                         android:id="@+id/cashier_goods_detail_ok"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/blue_button_corner_bg"
                         android:padding="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:text="@string/cashier_system_btn_ok"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/fontSize_36" />
                 </LinearLayout>
             </LinearLayout>
