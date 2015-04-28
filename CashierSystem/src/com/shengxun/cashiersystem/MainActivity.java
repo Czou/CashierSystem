@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -25,6 +26,7 @@ import com.j256.ormlite.dao.Dao;
 import com.shengxun.adapter.CashierGoodsListAdapter;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
+import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
 import com.zvezda.android.utils.TimeConversion;
@@ -38,12 +40,21 @@ import com.zvezda.android.utils.TimeConversion;
 public class MainActivity extends BaseActivity {
 
 	public static MainActivity instance=null;
+	//设置
+	private ImageView cashier_system_machine_setting=null;
+	//退出
+	private ImageView cashier_system_machine_exit=null;
+	//机器是否联网
+	private TextView cashier_system_machine_status=null;
+	//确定输入的条形码
+	private TextView cashier_system_btn_ok=null;
+	//收银员
+	private TextView cashier_system_clerk=null;
 	//收款
 	private TextView cashier_system_receive_payments=null;
 	//打开钱箱
 	private TextView cashier_system_open_cashbox=null;
-	//机器是否联网
-	private TextView cashier_system_machine_status=null;
+	
 	//当前时间
 	private TextView cashier_system_machine_time=null;
 	//商品条码
@@ -66,6 +77,12 @@ public class MainActivity extends BaseActivity {
 		initWidget();
 	}
 	private void initWidget() {
+		cashier_system_machine_setting=(ImageView) this.findViewById(R.id.cashier_system_machine_setting);
+		cashier_system_machine_exit=(ImageView) this.findViewById(R.id.cashier_system_machine_exit);
+		
+		
+		cashier_system_clerk=(TextView) this.findViewById(R.id.cashier_system_clerk);
+		cashier_system_btn_ok=(TextView) this.findViewById(R.id.cashier_system_btn_ok);
 		cashier_system_receive_payments=(TextView) this.findViewById(R.id.cashier_system_receive_payments);
 		cashier_system_open_cashbox=(TextView) this.findViewById(R.id.cashier_system_open_cashbox);
 		cashier_system_machine_status=(TextView) this.findViewById(R.id.cashier_system_machine_status);
@@ -77,31 +94,40 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if(actionId==EditorInfo.IME_ACTION_DONE){
-					String op_bar_code=cashier_system_business.getText().toString();
-					if(BaseUtils.IsNotEmpty(op_bar_code)){
-						try {
-							ArrayList<ProductInfo> productInfos=(ArrayList<ProductInfo>) productsDao.queryBuilder().where().eq("op_bar_code", op_bar_code).query();
-							//查询到数据且唯一
-							if(productInfos!=null&&productInfos.size()==1){
-								LG.e(getClass(),"productInfos.get(0).qp_name"+productInfos.get(0).qp_name);
-								refreshData(productInfos.get(0));
-							}
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					}
+					checkedThisGoodCode();
 				}
 				return false;
 			}
 		});
 		
 		cashier_listview=(ListView) this.findViewById(R.id.cashier_listview);
+		cashier_system_machine_setting.setOnClickListener(onClickListener);
+		cashier_system_machine_exit.setOnClickListener(onClickListener);
+		cashier_system_btn_ok.setOnClickListener(onClickListener);
 		cashier_system_receive_payments.setOnClickListener(onClickListener);
 		cashier_system_open_cashbox.setOnClickListener(onClickListener);
 		cashier_listview.setOnItemClickListener(myItemClick);
 		initWidgetData();
 	}
+	private void checkedThisGoodCode() {
+		String op_bar_code=cashier_system_business.getText().toString();
+		if(BaseUtils.IsNotEmpty(op_bar_code)){
+			try {
+				ArrayList<ProductInfo> productInfos=(ArrayList<ProductInfo>) productsDao.queryBuilder().where().eq("op_bar_code", op_bar_code).query();
+				//查询到数据且唯一
+				if(productInfos!=null&&productInfos.size()==1){
+					LG.e(getClass(),"productInfos.get(0).qp_name"+productInfos.get(0).qp_name);
+					refreshData(productInfos.get(0));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	private void initWidgetData() {
+		if(applicationCS.loginInfo!=null&&applicationCS.loginInfo.cashier_info!=null){
+			cashier_system_clerk.setText("Hi,"+applicationCS.loginInfo.cashier_info.me_id);
+		}
 		if(BaseUtils.isNetworkAvailable(mActivity)){
 			cashier_system_machine_status.setText(Html.fromHtml(resources.getString(R.string.cashier_system_machine_status)+BaseUtils.getColorHtmlText("已联网", "#FF0000")));
 		}else{
@@ -176,6 +202,27 @@ public class MainActivity extends BaseActivity {
 					JBCashBoxInterface.closeCashBox();
 				}
 					break;
+					//设置
+				case R.id.cashier_system_machine_setting:
+				{
+					
+				}
+					break;
+					//退出
+				case R.id.cashier_system_machine_exit:
+				{
+					goActivity(LoginActivity.class);
+					applicationCS.loginInfo=null;
+					AppManager.getAppManager().finishActivity(mActivity);
+				}
+					break;
+					//确定条形码
+				case R.id.cashier_system_btn_ok:
+				{
+					checkedThisGoodCode();
+				}
+					break;
+					
 			}
 		}
 		

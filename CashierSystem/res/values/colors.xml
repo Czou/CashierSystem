@@ -8,5 +8,6 @@
     <color name="white">#ffffff</color>
      <color name="white_f5">#F5F5F5</color>
     <color name="no_color">#00000000</color>
-
+	
+    <color name="red_color">#FF503F</color>
 </resources>

@@ -36,6 +36,11 @@ public class LoginActivity extends BaseActivity{
 		user_reset=(TextView) this.findViewById(R.id.user_reset);
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
+		
+		//测试使用账号
+		user_name.setText("T00010088");
+		user_password.setText("532614");
+		
 	}
 	private OnClickListener onClickListener=new OnClickListener(){
 

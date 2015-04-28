@@ -42,7 +42,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:gravity="center" >
+        android:gravity="center"
+        android:paddingBottom="@dimen/layout_padding"
+        android:paddingTop="@dimen/layout_padding" >
 
         <LinearLayout
             android:id="@+id/cashier_gathering_center_board"
@@ -52,9 +54,37 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/layout_padding"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="@dimen/layout_padding2"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cashier_system_column_card_number"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize_22" />
+
+                <EditText
+                    android:id="@+id/cashier_gathering_card_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="1008611"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize_22" />
+            </LinearLayout>
+            <!-- 分隔线 -->
+
+            <TextView style="@style/blackHDividerLine1DP" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="@dimen/layout_padding2"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -62,24 +92,27 @@
                     android:layout_height="wrap_content"
                     android:text="@string/cashier_system_column_total_money"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/fontSize_36" />
+                    android:textSize="@dimen/fontSize_22" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="69.5"
+                <EditText
                     android:id="@+id/cashier_gathering_total_money"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:text="69.5"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/fontSize_36" />
+                    android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
             <!-- 分隔线 -->
 
             <TextView style="@style/blackHDividerLine1DP" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/layout_padding"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="@dimen/layout_padding2"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -87,24 +120,26 @@
                     android:layout_height="wrap_content"
                     android:text="@string/cashier_system_column_cash"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/fontSize_36" />
+                    android:textSize="@dimen/fontSize_22" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100"
+                <EditText
                     android:id="@+id/cashier_gathering_cash"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="100"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/fontSize_36" />
+                    android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
             <!-- 分隔线 -->
 
             <TextView style="@style/blackHDividerLine1DP" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/layout_padding"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="@dimen/layout_padding2"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -112,15 +147,17 @@
                     android:layout_height="wrap_content"
                     android:text="@string/cashier_system_column_change"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/fontSize_36" />
+                    android:textSize="@dimen/fontSize_22" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="30.5"
+                <EditText
                     android:id="@+id/cashier_gathering_change"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:inputType="number"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/fontSize_36" />
+                    android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
