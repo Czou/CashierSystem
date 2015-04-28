@@ -54,6 +54,10 @@ public class MainActivity extends BaseActivity {
 	private TextView cashier_system_receive_payments=null;
 	//打开钱箱
 	private TextView cashier_system_open_cashbox=null;
+	//提货
+	private TextView cashier_system_get_good=null;
+	//退货
+	private TextView cashier_system_return_good=null;
 	
 	//当前时间
 	private TextView cashier_system_machine_time=null;
@@ -85,6 +89,8 @@ public class MainActivity extends BaseActivity {
 		cashier_system_btn_ok=(TextView) this.findViewById(R.id.cashier_system_btn_ok);
 		cashier_system_receive_payments=(TextView) this.findViewById(R.id.cashier_system_receive_payments);
 		cashier_system_open_cashbox=(TextView) this.findViewById(R.id.cashier_system_open_cashbox);
+		cashier_system_get_good=(TextView) this.findViewById(R.id.cashier_system_get_good);
+		cashier_system_return_good=(TextView) this.findViewById(R.id.cashier_system_return_good);
 		cashier_system_machine_status=(TextView) this.findViewById(R.id.cashier_system_machine_status);
 		cashier_system_machine_time=(TextView) this.findViewById(R.id.cashier_system_machine_time);
 		
@@ -106,6 +112,8 @@ public class MainActivity extends BaseActivity {
 		cashier_system_btn_ok.setOnClickListener(onClickListener);
 		cashier_system_receive_payments.setOnClickListener(onClickListener);
 		cashier_system_open_cashbox.setOnClickListener(onClickListener);
+		cashier_system_get_good.setOnClickListener(onClickListener);
+		cashier_system_return_good.setOnClickListener(onClickListener);
 		cashier_listview.setOnItemClickListener(myItemClick);
 		initWidgetData();
 	}
@@ -196,10 +204,16 @@ public class MainActivity extends BaseActivity {
 					JBCashBoxInterface.openCashBox();
 				}
 					break;
-					//关闭钱箱
-				case R.id.cashier_system_close_cashbox:
+					//提货
+				case R.id.cashier_system_get_good:
 				{
-					JBCashBoxInterface.closeCashBox();
+					
+				}
+					break;
+					//退货
+				case R.id.cashier_system_return_good:
+				{
+					
 				}
 					break;
 					//设置

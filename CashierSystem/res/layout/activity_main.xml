@@ -290,7 +290,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="@drawable/red_coner_bg"
                 android:gravity="center"
                 android:text="@string/cashier_system_receive_payments"
@@ -302,22 +302,32 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@drawable/orange_corner_bg"
                 android:gravity="center"
                 android:text="@string/cashier_system_open_cashbox"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize_20" />
-
-            <TextView
-                android:id="@+id/cashier_system_close_cashbox"
+ 			<TextView
+                android:id="@+id/cashier_system_get_good"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
+                android:background="@drawable/green_coner_bg"
+                android:gravity="center"
+                android:text="@string/cashier_system_get_good"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_20" />
+            <TextView
+                android:id="@+id/cashier_system_return_good"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="2"
                 android:background="@drawable/cyan_light_coner_bg"
                 android:gravity="center"
-                android:text="@string/cashier_system_close_cashbox"
+                android:text="@string/cashier_system_return_good"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize_20" />
         </LinearLayout>
