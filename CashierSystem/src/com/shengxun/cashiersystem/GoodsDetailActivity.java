@@ -72,10 +72,6 @@ public class GoodsDetailActivity extends BaseActivity {
 		setContentView(R.layout.cahsier_goods_detail_view);
 
 		initWidget();
-		// 创建订单
-		ConnectManager.getInstance().getCreateOrderFormResult(consume_card_no,
-				applicationCS.cashier_card_no, "", "", "", pay_way + "",
-				total_price_d + "", ajaxcallback);
 	}
 
 	/**
@@ -127,6 +123,8 @@ public class GoodsDetailActivity extends BaseActivity {
 	private void calTotalPrice() {
 		total_price_d = new_price_d * goods_count;
 		total_price.setText(total_price_d + "");
+		//更改实体的数据
+		product.buy_number = goods_count;
 	}
 
 	/**
@@ -143,20 +141,14 @@ public class GoodsDetailActivity extends BaseActivity {
 				break;
 			// 点击删除按钮,取消订单
 			case R.id.cashier_goods_detail_del:
-				if (BaseUtils.IsNotEmpty(order_id)) {
-					ConnectManager.getInstance().getOrderFormCanaelResult(
-							order_id, ajaxcancelorder);
-				}else{
-					C.showShort("订单未创建成功", mActivity);
+				if(MainActivity.instance!=null){
+					MainActivity.instance.deleteGoods(product);
 				}
 				break;
 			// 点击确定按钮
 			case R.id.cashier_goods_detail_ok:
-				if (BaseUtils.IsNotEmpty(order_id)) {
-					ConnectManager.getInstance().getPayOrderFormResult(
-							order_id, ajaxPayorder);
-				}else{
-					C.showShort("订单未创建成功", mActivity);
+				if(MainActivity.instance!=null){
+					MainActivity.instance.updateGoods(product);
 				}
 				break;
 			// 点击增加数量
@@ -215,65 +207,6 @@ public class GoodsDetailActivity extends BaseActivity {
 		}
 	};
 
-	/**
-	 * 创建订单信息回调
-	 */
-	AjaxCallBack<String> ajaxcallback = new AjaxCallBack<String>() {
-		public void onSuccess(String t) {
-			super.onSuccess(t);
-			LG.i(getClass(), "订单详细信息----->" + t);
-			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("status", t).equals(
-							"1")) {
-				order_id = JSONParser.getStringFromJsonString("order_id", t);
-				C.showShort("创建订单成功", mActivity);
-			}else{
-				C.showShort("订单创建失败", mActivity);
-			}
-		};
-
-		public void onFailure(Throwable t, int errorNo, String strMsg) {
-			super.onFailure(t, errorNo, strMsg);
-			C.showShort("创建订单失败", mActivity);
-		};
-	};
-	/**
-	 * 取消订单接口
-	 */
-	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
-		public void onSuccess(String t) {
-			super.onSuccess(t);
-			LG.i(getClass(), "取消订单信息------->" + t);
-			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("result", t).equals(
-							"ok")) {
-				C.showShort("取消订单成功", mActivity);
-				finish();
-			}
-
-		};
-
-		public void onFailure(Throwable t, int errorNo, String strMsg) {
-			super.onFailure(t, errorNo, strMsg);
-			C.showShort("取消订单失败", mActivity);
-		};
-	};
-	/**
-	 * 订单付款接口
-	 */
-	AjaxCallBack<String> ajaxPayorder = new AjaxCallBack<String>() {
-		public void onSuccess(String t) {
-			super.onSuccess(t);
-			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("result", t).equals(
-							"1")) {
-				C.showShort("订单付款成功", mActivity);
-			}
-		};
-
-		public void onFailure(Throwable t, int errorNo, String strMsg) {
-			super.onFailure(t, errorNo, strMsg);
-			C.showShort("订单付款失败", mActivity);
-		};
-	};
+	
+	
 }

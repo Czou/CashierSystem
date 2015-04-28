@@ -3,8 +3,13 @@ package com.shengxun.cashiersystem;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import net.tsz.afinal.http.AjaxCallBack;
+
+import com.shengxun.constant.C;
 import com.shengxun.entity.ProductInfo;
+import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
 
 import android.os.Bundle;
@@ -26,10 +31,6 @@ import android.widget.TextView;
  */
 public class GatheringActivity extends BaseActivity {
 	/**
-	 * 返回按钮
-	 */
-	TextView gathering_back;
-	/**
 	 * 总额，现金，找零输入框
 	 */
 	EditText gathering_total_money, gathering_cash, gathering_change;
@@ -44,7 +45,9 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private TextView btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7,
 			btn_8, btn_9, btn_50, btn_100, btn_200, btn_300, btn_00, btn_spot,
-			btn_back_up, btn_ok;
+			btn_back_up, btn_ok, swing_card, gathering_back;
+
+	private Button order_cancel;
 	/**
 	 * 接收传递过来的商品列表
 	 */
@@ -52,6 +55,7 @@ public class GatheringActivity extends BaseActivity {
 	/**
 	 * 记录是否已经有了小数点
 	 */
+	private String order_id;
 	private boolean hasSpot = false;
 
 	@Override
@@ -76,7 +80,7 @@ public class GatheringActivity extends BaseActivity {
 		// 设置不显示输入法
 		gathering_cash.setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 		gathering_cash.setTextIsSelectable(true);
-		//设置光标位置
+		// 设置光标位置
 		gathering_cash.setSelection(gathering_cash.length());
 		gathering_change = (EditText) findViewById(R.id.cashier_gathering_change);
 		btn_0 = (TextView) findViewById(R.id.gathering_btn_0);
@@ -97,6 +101,8 @@ public class GatheringActivity extends BaseActivity {
 		btn_spot = (TextView) findViewById(R.id.gathering_btn_spot);
 		btn_back_up = (TextView) findViewById(R.id.gathering_btn_backup);
 		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
+		swing_card = (TextView) findViewById(R.id.cashier_gathering_order_cancel);
+		order_cancel = (Button) findViewById(R.id.cashier_gathering_order_cancel);
 
 		gathering_back.setOnClickListener(myclick);
 		gathering_cash.addTextChangedListener(mytextchange);
@@ -118,6 +124,8 @@ public class GatheringActivity extends BaseActivity {
 		btn_00.setOnClickListener(myclick);
 		btn_back_up.setOnClickListener(myclick);
 		btn_ok.setOnClickListener(myclick);
+		order_cancel.setOnClickListener(myclick);
+		swing_card.setOnClickListener(myclick);
 
 	}
 
@@ -215,6 +223,12 @@ public class GatheringActivity extends BaseActivity {
 				break;
 			case R.id.gathering_btn_ok:
 				break;
+			case R.id.cashier_gathering_btn_swing_card:
+				// ConnectManager.getInstance().getCreateOrderFormResult(
+				// consume_card_no, cashier_card_no, product_info,
+				// delivery_rs_code, delivery_rs_code_id, pay_way,
+				// pay_money, ajaxCallback);
+				break;
 			default:
 				break;
 			}
@@ -223,6 +237,7 @@ public class GatheringActivity extends BaseActivity {
 
 	/**
 	 * 在指定位置插入字符
+	 * 
 	 * @param str
 	 * @param index
 	 * @auth sw
@@ -235,21 +250,22 @@ public class GatheringActivity extends BaseActivity {
 		}
 		cash = gathering_cash.getText().toString().trim();
 	}
+
 	/**
 	 * 删除当前光标所处位置字符
+	 * 
 	 * @auth sw
 	 */
-	private void delStringFromEditText(int index){
-		//光标当前位置不在第一位并且金额不为空
-		if (index>0&&BaseUtils.IsNotEmpty(cash)) {
+	private void delStringFromEditText(int index) {
+		// 光标当前位置不在第一位并且金额不为空
+		if (index > 0 && BaseUtils.IsNotEmpty(cash)) {
 			// 判断删除的是否是小数点
 			if (cash.substring(index - 1, index).equals(".")) {
 				hasSpot = false;
 			}
-			cash = gathering_cash.getText().delete(index - 1, index)
-					.toString();
+			cash = gathering_cash.getText().delete(index - 1, index).toString();
 			gathering_cash.setText(cash);
-			gathering_cash.setSelection(index-1);
+			gathering_cash.setSelection(index - 1);
 		}
 	}
 
@@ -272,7 +288,7 @@ public class GatheringActivity extends BaseActivity {
 		public void afterTextChanged(Editable s) {
 			if (BaseUtils.IsNotEmpty(cash)) {
 				double change = Double.parseDouble(cash) - totalMoney;
-				//保留一位小数
+				// 保留一位小数
 				BigDecimal bd = new BigDecimal(change);
 				change = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 				gathering_change.setText(change + "");
@@ -281,5 +297,65 @@ public class GatheringActivity extends BaseActivity {
 			}
 		}
 	};
+	/**
+	 * 创建订单信息回调
+	 */
+	AjaxCallBack<String> ajaxcallback = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "订单详细信息----->" + t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
+				order_id = JSONParser.getStringFromJsonString("order_id", t);
+				C.showShort("创建订单成功", mActivity);
+			} else {
+				C.showShort("订单创建失败", mActivity);
+			}
+		};
 
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showShort("创建订单失败", mActivity);
+		};
+	};
+	/**
+	 * 取消订单接口
+	 */
+	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "取消订单信息------->" + t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("result", t).equals(
+							"ok")) {
+				C.showShort("取消订单成功", mActivity);
+				finish();
+			}
+
+		};
+
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showShort("取消订单失败", mActivity);
+		};
+	};
+	/**
+	 * 订单付款接口
+	 */
+	AjaxCallBack<String> ajaxPayorder = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("result", t).equals(
+							"1")) {
+				C.showShort("订单付款成功", mActivity);
+			}
+		};
+
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showShort("订单付款失败", mActivity);
+		};
+	};
 }
