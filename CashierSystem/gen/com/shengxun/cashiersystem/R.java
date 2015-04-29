@@ -122,13 +122,13 @@ public final class R {
     }
     public static final class id {
         public static final int cashier_gathering_back=0x7f080018;
+        public static final int cashier_gathering_btn_order_cancel=0x7f080019;
         public static final int cashier_gathering_btn_swing_card=0x7f08001d;
         public static final int cashier_gathering_card_no=0x7f08001c;
         public static final int cashier_gathering_cash=0x7f08001f;
         public static final int cashier_gathering_center=0x7f08001a;
         public static final int cashier_gathering_center_board=0x7f08001b;
         public static final int cashier_gathering_change=0x7f080020;
-        public static final int cashier_gathering_order_cancel=0x7f080019;
         public static final int cashier_gathering_total_money=0x7f08001e;
         public static final int cashier_goods_detail_add=0x7f080013;
         public static final int cashier_goods_detail_back=0x7f08000c;

@@ -62,13 +62,13 @@ int drawable set 0x7f020010
 int drawable title 0x7f020011
 int drawable user 0x7f020012
 int id cashier_gathering_back 0x7f080018
+int id cashier_gathering_btn_order_cancel 0x7f080019
 int id cashier_gathering_btn_swing_card 0x7f08001d
 int id cashier_gathering_card_no 0x7f08001c
 int id cashier_gathering_cash 0x7f08001f
 int id cashier_gathering_center 0x7f08001a
 int id cashier_gathering_center_board 0x7f08001b
 int id cashier_gathering_change 0x7f080020
-int id cashier_gathering_order_cancel 0x7f080019
 int id cashier_gathering_total_money 0x7f08001e
 int id cashier_goods_detail_add 0x7f080013
 int id cashier_goods_detail_back 0x7f08000c

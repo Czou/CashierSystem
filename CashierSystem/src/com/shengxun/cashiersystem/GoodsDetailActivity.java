@@ -1,12 +1,9 @@
 package com.shengxun.cashiersystem;
 
-import net.tsz.afinal.http.AjaxCallBack;
 
 import com.shengxun.constant.C;
 import com.shengxun.entity.ProductInfo;
-import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
-import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
 
 import android.os.Bundle;
@@ -51,19 +48,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * 售价与总额
 	 */
 	private double new_price_d, total_price_d = 0;
-	/**
-	 * 消费人卡号
-	 */
-	private String consume_card_no;
-	/**
-	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
-	 */
-	private int pay_way = 1;
-	/**
-	 * 订单号
-	 */
-	private String order_id;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -143,12 +127,14 @@ public class GoodsDetailActivity extends BaseActivity {
 			case R.id.cashier_goods_detail_del:
 				if(MainActivity.instance!=null){
 					MainActivity.instance.deleteGoods(product);
+					C.showShort("删除成功", mActivity);
 				}
 				break;
 			// 点击确定按钮
 			case R.id.cashier_goods_detail_ok:
 				if(MainActivity.instance!=null){
 					MainActivity.instance.updateGoods(product);
+					C.showShort("修改成功", mActivity);
 				}
 				break;
 			// 点击增加数量

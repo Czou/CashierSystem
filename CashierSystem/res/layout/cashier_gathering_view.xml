@@ -32,7 +32,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/fontSize_48" />
         <Button
-            android:id="@+id/cashier_gathering_order_cancel"
+            android:id="@+id/cashier_gathering_btn_order_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

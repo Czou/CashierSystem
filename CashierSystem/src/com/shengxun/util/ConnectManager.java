@@ -169,11 +169,13 @@ public class ConnectManager {
 		params.put("verify_code", C.VERIFY_CODE);
 
 		if (BaseUtils.IsNotEmpty(consume_card_no)) {
-			params.put("consume_card_no", consume_card_no);
+			params.put("delivery_rs_code", delivery_rs_code);
 		}
 		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
-			params.put("cashier_card_no", cashier_card_no);
+			params.put("cashier_card_no_id", delivery_rs_code_id);
 		}
+		params.put("consume_card_no", consume_card_no);
+		params.put("cashier_card_no", cashier_card_no);
 		params.put("product_info", product_info);
 		params.put("pay_way", pay_way);
 		params.put("pay_way", pay_way);
