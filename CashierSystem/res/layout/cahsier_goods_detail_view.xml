@@ -2,42 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ecf0f1"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@drawable/title"
         android:padding="15dp" >
 
-        <TextView
+        <Button
             android:id="@+id/cashier_goods_detail_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@android:color/white"
+            android:background="@null"
             android:clickable="true"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp"
+            android:drawableLeft="@drawable/back"
             android:text="@string/cashier_system_btn_back"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/fontSize_28" />
 
         <TextView
+            android:id="@+id/cashier_goods_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="猕猴桃果汁250ml礼品装"
-            android:id="@+id/cashier_goods_detail_title"
-            android:textSize="@dimen/fontSize_48" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontSize_48"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <!-- 分割线 -->
 
-    <TextView style="@style/whiteHDividerLine2DP"/>
+    <TextView style="@style/whiteHDividerLine2DP" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +48,8 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:padding="20dp" >
 
             <ImageView
                 android:id="@+id/cashier_goods_detail_iv"
@@ -56,157 +58,180 @@
                 android:layout_centerInParent="true"
                 android:src="@drawable/goods_detail_test" />
         </RelativeLayout>
-        <!--  -->
-
-        <TextView style="@style/whiteVDividerLine2DP"/>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:padding="15dp" >
+            android:padding="20dp" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:background="@color/white"
                 android:orientation="vertical" >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/cashier_system_column_old_price"
                         android:textColor="@color/black"
-                        android:padding="10dp"
-                        android:textSize="@dimen/fontSize_36" />
+                        android:textSize="@dimen/fontSize_28" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3.6"
-                        android:textColor="@color/black"
-                        android:padding="10dp"
                         android:id="@+id/cashier_goods_detail_old_price"
-                        android:textSize="@dimen/fontSize_36" />
-                </LinearLayout>
-                
-                <!-- 分隔线 -->
-                <TextView style="@style/blackHDividerLine1DP" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:padding="10dp"
-                        android:text="@string/cashier_system_column_now_price"
-                        android:textSize="@dimen/fontSize_36" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:text="3.6"
                         android:textColor="@color/black"
-                        android:padding="10dp"
-                        android:id="@+id/cashier_goods_detail_new_price"
-                        android:textSize="@dimen/fontSize_36" />
+                        android:textSize="@dimen/fontSize_28" />
                 </LinearLayout>
-                
+
                 <!-- 分隔线 -->
+
                 <TextView style="@style/blackHDividerLine1DP" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cashier_system_column_now_price"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontSize_28" />
+
+                    <TextView
+                        android:id="@+id/cashier_goods_detail_new_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="3.6"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontSize_28" />
+                </LinearLayout>
+
+                <!-- 分隔线 -->
+
+                <TextView style="@style/blackHDividerLine1DP" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:padding="10dp"
                         android:text="@string/cashier_system_column_count"
-                        android:textSize="@dimen/fontSize_36" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontSize_28" />
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+"
-                        android:id="@+id/cashier_goods_detail_add"
-                        />
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:inputType="number"
-                        android:id="@+id/cashier_goods_detail_showcount"
-                        />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
                         android:id="@+id/cashier_goods_detail_reduce"
-                        />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/gray_dark_corner_bg"
+                        android:padding="10dp"
+                        android:text="―"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_18" />
+
+                    <EditText
+                        android:id="@+id/cashier_goods_detail_showcount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:padding="10dp"
+                        android:text="0" />
+
+                    <Button
+                        android:id="@+id/cashier_goods_detail_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/gray_dark_corner_bg"
+                        android:padding="10dp"
+                        android:text="＋"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_18" />
                 </LinearLayout>
 
                 <!-- 分隔线 -->
+
                 <TextView style="@style/blackHDividerLine1DP" />
-                
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/cashier_system_column_total_money_withcolon"
                         android:textColor="@color/black"
-                        android:padding="10dp"
-                        android:text="@string/cashier_system_column_total_money"
-                        android:textSize="@dimen/fontSize_36" />
+                        android:textSize="@dimen/fontSize_28" />
 
                     <TextView
+                        android:id="@+id/cashier_goods_detail_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:text="3.6"
                         android:textColor="@color/black"
-                        android:padding="10dp"
-                        android:id="@+id/cashier_goods_detail_total_price"
+                        android:textSize="@dimen/fontSize_28" />
+                </LinearLayout>
+                <!-- 分隔线 -->
+
+                <TextView style="@style/blackHDividerLine1DP" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp" >
+
+                    <Button
+                        android:id="@+id/cashier_goods_detail_del"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_weight="1"
+                        android:background="@drawable/red_button_corner_bg"
+                        android:padding="20dp"
+                        android:text="@string/cashier_system_btn_del"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fontSize_36" />
+
+                    <Button
+                        android:id="@+id/cashier_goods_detail_ok"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/blue_button_corner_bg"
+                        android:padding="20dp"
+                        android:text="@string/cashier_system_btn_ok"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/fontSize_36" />
                 </LinearLayout>
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true" >
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="@string/cashier_system_btn_del"
-                    android:id="@+id/cashier_goods_detail_del"
-                    android:textSize="@dimen/fontSize_28" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/cashier_goods_detail_ok"
-                    android:text="@string/cashier_system_btn_ok"
-                    android:textSize="@dimen/fontSize_28" />
-            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 

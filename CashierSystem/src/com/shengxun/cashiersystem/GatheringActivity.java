@@ -7,16 +7,13 @@ import com.shengxun.entity.ProductInfo;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,13 +36,13 @@ public class GatheringActivity extends BaseActivity {
 	/**
 	 * 保存总额,现金，找零数据
 	 */
-	private static String cash = "", change = "";
+	private static String cash = "";
 
 	private double totalMoney = 0;
 	/**
 	 * 所有按钮
 	 */
-	private Button btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7,
+	private TextView btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7,
 			btn_8, btn_9, btn_50, btn_100, btn_200, btn_300, btn_00, btn_spot,
 			btn_back_up, btn_ok;
 	/**
@@ -82,24 +79,24 @@ public class GatheringActivity extends BaseActivity {
 		//设置光标位置
 		gathering_cash.setSelection(gathering_cash.length());
 		gathering_change = (EditText) findViewById(R.id.cashier_gathering_change);
-		btn_0 = (Button) findViewById(R.id.gathering_btn_0);
-		btn_1 = (Button) findViewById(R.id.gathering_btn_1);
-		btn_2 = (Button) findViewById(R.id.gathering_btn_2);
-		btn_3 = (Button) findViewById(R.id.gathering_btn_3);
-		btn_4 = (Button) findViewById(R.id.gathering_btn_4);
-		btn_5 = (Button) findViewById(R.id.gathering_btn_5);
-		btn_6 = (Button) findViewById(R.id.gathering_btn_6);
-		btn_7 = (Button) findViewById(R.id.gathering_btn_7);
-		btn_8 = (Button) findViewById(R.id.gathering_btn_8);
-		btn_9 = (Button) findViewById(R.id.gathering_btn_9);
-		btn_50 = (Button) findViewById(R.id.gathering_btn_50);
-		btn_100 = (Button) findViewById(R.id.gathering_btn_100);
-		btn_200 = (Button) findViewById(R.id.gathering_btn_200);
-		btn_300 = (Button) findViewById(R.id.gathering_btn_300);
-		btn_00 = (Button) findViewById(R.id.gathering_btn_00);
-		btn_spot = (Button) findViewById(R.id.gathering_btn_spot);
-		btn_back_up = (Button) findViewById(R.id.gathering_btn_backup);
-		btn_ok = (Button) findViewById(R.id.gathering_btn_ok);
+		btn_0 = (TextView) findViewById(R.id.gathering_btn_0);
+		btn_1 = (TextView) findViewById(R.id.gathering_btn_1);
+		btn_2 = (TextView) findViewById(R.id.gathering_btn_2);
+		btn_3 = (TextView) findViewById(R.id.gathering_btn_3);
+		btn_4 = (TextView) findViewById(R.id.gathering_btn_4);
+		btn_5 = (TextView) findViewById(R.id.gathering_btn_5);
+		btn_6 = (TextView) findViewById(R.id.gathering_btn_6);
+		btn_7 = (TextView) findViewById(R.id.gathering_btn_7);
+		btn_8 = (TextView) findViewById(R.id.gathering_btn_8);
+		btn_9 = (TextView) findViewById(R.id.gathering_btn_9);
+		btn_50 = (TextView) findViewById(R.id.gathering_btn_50);
+		btn_100 = (TextView) findViewById(R.id.gathering_btn_100);
+		btn_200 = (TextView) findViewById(R.id.gathering_btn_200);
+		btn_300 = (TextView) findViewById(R.id.gathering_btn_300);
+		btn_00 = (TextView) findViewById(R.id.gathering_btn_00);
+		btn_spot = (TextView) findViewById(R.id.gathering_btn_spot);
+		btn_back_up = (TextView) findViewById(R.id.gathering_btn_backup);
+		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
 
 		gathering_back.setOnClickListener(myclick);
 		gathering_cash.addTextChangedListener(mytextchange);
@@ -129,6 +126,7 @@ public class GatheringActivity extends BaseActivity {
 	 * 
 	 * @auth sw
 	 */
+	@SuppressWarnings("unchecked")
 	private void initWidgetData() {
 		// 获得传递商品信息列表
 		goodsList = (ArrayList<ProductInfo>) getIntent().getSerializableExtra(
