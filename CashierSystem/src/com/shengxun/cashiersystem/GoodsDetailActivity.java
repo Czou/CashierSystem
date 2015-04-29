@@ -1,11 +1,5 @@
 package com.shengxun.cashiersystem;
 
-
-import com.shengxun.constant.C;
-import com.shengxun.entity.ProductInfo;
-import com.zvezda.android.utils.BaseUtils;
-import com.zvezda.android.utils.LG;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +9,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.shengxun.constant.C;
+import com.shengxun.entity.ProductInfo;
+import com.zvezda.android.utils.AppManager;
+import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.LG;
 
 /**
  * 商品详细信息界面
@@ -48,6 +48,7 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * 售价与总额
 	 */
 	private double new_price_d, total_price_d = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -102,12 +103,13 @@ public class GoodsDetailActivity extends BaseActivity {
 
 	/**
 	 * 计算总额
+	 * 
 	 * @auth sw
 	 */
 	private void calTotalPrice() {
 		total_price_d = new_price_d * goods_count;
 		total_price.setText(total_price_d + "");
-		//更改实体的数据
+		// 更改实体的数据
 		product.buy_number = goods_count;
 	}
 
@@ -125,16 +127,24 @@ public class GoodsDetailActivity extends BaseActivity {
 				break;
 			// 点击删除按钮,取消订单
 			case R.id.cashier_goods_detail_del:
-				if(MainActivity.instance!=null){
+				if (MainActivity.instance != null) {
 					MainActivity.instance.deleteGoods(product);
-					C.showShort("删除成功", mActivity);
+					AppManager.getAppManager().finishActivity(mActivity);
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_order_detail_modify_success),
+							mActivity);
 				}
 				break;
 			// 点击确定按钮
 			case R.id.cashier_goods_detail_ok:
-				if(MainActivity.instance!=null){
+				if (MainActivity.instance != null) {
 					MainActivity.instance.updateGoods(product);
-					C.showShort("修改成功", mActivity);
+					AppManager.getAppManager().finishActivity(mActivity);
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_order_detail_modify_success),
+							mActivity);
 				}
 				break;
 			// 点击增加数量
@@ -185,7 +195,7 @@ public class GoodsDetailActivity extends BaseActivity {
 			} else {
 				if (BaseUtils.IsNotEmpty(s)) {
 					goods_count = Integer.parseInt(s.toString().trim());
-				}else{
+				} else {
 					goods_count = 0;
 				}
 			}
@@ -193,6 +203,4 @@ public class GoodsDetailActivity extends BaseActivity {
 		}
 	};
 
-	
-	
 }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -17,14 +16,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 import com.shengxun.constant.C;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
-import com.zvezda.android.utils.LG;
+
+import com.zvezda.android.utils.AppManager;
 
 /**
  * 收款界面
@@ -91,7 +90,7 @@ public class GatheringActivity extends BaseActivity {
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
 		gathering_card_no = (EditText) findViewById(R.id.cashier_gathering_card_no);
-		gathering_cash.setText("");
+		// gathering_cash.setText("");
 		// 设置不显示输入法
 		gathering_cash.setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 		gathering_cash.setTextIsSelectable(true);
@@ -163,7 +162,6 @@ public class GatheringActivity extends BaseActivity {
 		for (int i = 0; i < goodsList.size(); i++) {
 			totalMoney += (goodsList.get(i).buy_number)
 					* (goodsList.get(i).op_market_price);
-			LG.i(getClass(), "goodslist ======>" + goodsList.get(i));
 		}
 		gathering_total_money.setText(totalMoney + "");
 	}
@@ -239,6 +237,11 @@ public class GatheringActivity extends BaseActivity {
 				if (BaseUtils.IsNotEmpty(order_id)) {
 					ConnectManager.getInstance().getPayOrderFormResult(
 							order_id, ajaxPayorder);
+				} else {
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_error),
+							mActivity);
 				}
 				break;
 			// 刷卡创建订单
@@ -248,11 +251,14 @@ public class GatheringActivity extends BaseActivity {
 					if (applicationCS != null) {
 						ConnectManager.getInstance().getCreateOrderFormResult(
 								card_no, applicationCS.cashier_card_no,
-								montageString(), "", "", pay_way + "",
+								goodsList, "", "", pay_way + "",
 								totalMoney + "", ajaxcreateorder);
 					}
 				} else {
-					C.showShort("卡号不能为空", mActivity);
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_card_null),
+							mActivity);
 				}
 				break;
 			// 取消订单
@@ -260,6 +266,11 @@ public class GatheringActivity extends BaseActivity {
 				if (BaseUtils.IsNotEmpty(order_id)) {
 					ConnectManager.getInstance().getOrderFormCanaelResult(
 							order_id, ajaxcancelorder);
+				} else {
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_error),
+							mActivity);
 				}
 				break;
 			default:
@@ -267,26 +278,6 @@ public class GatheringActivity extends BaseActivity {
 			}
 		}
 	};
-
-	/**
-	 * 拼接产品购买信息字符串
-	 * 
-	 * @auth sw
-	 */
-	private String montageString() {
-		String product_info = "";
-		for (int i = 0; i < goodsList.size(); i++) {
-			if (i == 0) {
-				product_info = "product_info[" + goodsList.get(i).op_id + "]="
-						+ goodsList.get(i).buy_number;
-			} else {
-				product_info += "&product_info[" + goodsList.get(i).op_id
-						+ "]=" + goodsList.get(i).buy_number;
-			}
-		}
-		LG.e(getClass(), "product_info-------------->" + product_info);
-		return product_info;
-	}
 
 	/**
 	 * 在指定位置插入字符
@@ -387,48 +378,54 @@ public class GatheringActivity extends BaseActivity {
 		@Override
 		public void afterTextChanged(Editable s) {
 			cash = gathering_cash.getText().toString().trim();
+
 			if (BaseUtils.IsNotEmpty(cash)) {
-				String st = cash.charAt(0) + "";
-				if (st.equals(".")) {
-					cash = "";
-					gathering_cash.setText(cash);
-					return;
-				}else{
+				// 如果cash是一个数字,则计算change
+				if (BaseUtils.isNumber(cash)) {
+					double change = Double.parseDouble(cash) - totalMoney;
+					// 保留一位小数
+					BigDecimal bd = new BigDecimal(change);
+					change = bd.setScale(1, BigDecimal.ROUND_HALF_UP)
+							.doubleValue();
+					gathering_change.setText(change + "");
 				}
-				double change = Double.parseDouble(cash) - totalMoney;
-				// 保留一位小数
-				BigDecimal bd = new BigDecimal(change);
-				change = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-				gathering_change.setText(change + "");
 			} else {
 				gathering_change.setText("0");
 			}
 		}
 	};
-	
+
 	/**
 	 * 创建订单信息回调
 	 */
 	AjaxCallBack<String> ajaxcreateorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "订单详细信息----->" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
-				order_id = JSONParser.getStringFromJsonString("order_id", t);
-				C.showShort("创建订单成功", mActivity);
+				String data = JSONParser.getStringFromJsonString("data", t);
+				order_id = JSONParser.getStringFromJsonString("order_id", data);
+				C.showShort(
+						resources
+								.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
+						mActivity);
 				// 创建订单成功，取消订单按钮可见
 				order_cancel.setVisibility(View.VISIBLE);
-				finish();
 			} else {
-				C.showShort("订单创建失败", mActivity);
+				C.showShort(
+						resources
+								.getString(R.string.cashier_system_alert_gathering_create_order_fail),
+						mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("创建订单失败", mActivity);
+			C.showShort(
+					resources
+							.getString(R.string.cashier_system_alert_gathering_create_order_fail),
+					mActivity);
 		};
 	};
 	/**
@@ -437,24 +434,40 @@ public class GatheringActivity extends BaseActivity {
 	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "取消订单信息------->" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("result", t).equals(
 							"ok")) {
-				C.showShort("取消订单成功", mActivity);
-				finish();
+				String data = JSONParser.getStringFromJsonString("data", t);
+				if (JSONParser.getStringFromJsonString("result", data).equals(
+						"ok")) {
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
+							mActivity);
+					AppManager.getAppManager().finishActivity(mActivity);
+				} else {
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+							mActivity);
+				}
 			} else {
-				C.showShort("取消订单失败", mActivity);
+				C.showShort(
+						resources
+								.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+						mActivity);
 			}
 
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("取消订单失败", mActivity);
+			C.showShort(
+					resources
+							.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+					mActivity);
 		};
 	};
-
 
 	/**
 	 * 订单付款接口
@@ -463,17 +476,36 @@ public class GatheringActivity extends BaseActivity {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("result", t).equals(
-							"ok")) {
-				C.showShort("订单付款成功", mActivity);
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
+				String data = JSONParser.getStringFromJsonString("data", t);
+				if (JSONParser.getStringFromJsonString("result", data).equals(
+						"ok")) {
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_pay_success),
+							mActivity);
+					AppManager.getAppManager().finishActivity(mActivity);
+				} else {
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
+							mActivity);
+				}
 			} else {
-				C.showShort("订单付款失败", mActivity);
+				C.showShort(
+						resources
+								.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
+						mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("订单付款失败", mActivity);
+			C.showShort(
+					resources
+							.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
+					mActivity);
 		};
 	};
 }

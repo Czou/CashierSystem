@@ -66,4 +66,14 @@
 	<string name="cashier_system_alert_no_login">请输入账号密码！</string>
 	<string name="cashier_system_alert_login_fail">登录失败！</string>
 	<string name="cashier_system_alert_login_no_permissions">你的账号已被封禁，请联系管理员！</string>
+	<string name="cashier_system_alert_gathering_order_error">订单信息错误!</string>
+	<string name="cashier_system_alert_gathering_card_null">卡号不能为空！</string>
+	<string name="cashier_system_alert_gathering_create_order_success">订单创建成功！</string>
+	<string name="cashier_system_alert_gathering_create_order_fail">订单创建失败！</string>
+	<string name="cashier_system_alert_gathering_order_cancel_fail">取消订单失败！</string>
+	<string name="cashier_system_alert_gathering_order_cancel_success">取消订单成功！</string>
+	<string name="cashier_system_alert_gathering_order_pay_success">订单付款成功！</string>
+	<string name="cashier_system_alert_gathering_order_pay_fail">订单付款失败！</string>
+	<string name="cashier_system_alert_order_detail_del_success">删除成功！</string>
+	<string name="cashier_system_alert_order_detail_modify_success">修改成功！</string>
 </resources>
