@@ -1,13 +1,14 @@
 package com.shengxun.util;
 
+import java.util.ArrayList;
+
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
 
-import android.nfc.cardemulation.CardEmulation;
-
 import com.shengxun.constant.C;
 import com.shengxun.constant.U;
+import com.shengxun.entity.ProductInfo;
 import com.zvezda.android.utils.BaseUtils;
 
 /**
@@ -158,7 +159,7 @@ public class ConnectManager {
 	 * @param ajaxCallback
 	 */
 	public void getCreateOrderFormResult(String consume_card_no,
-			String cashier_card_no, String product_info,
+			String cashier_card_no, ArrayList<ProductInfo> products,
 			String delivery_rs_code, String delivery_rs_code_id,
 			String pay_way, String pay_money, AjaxCallBack<String> ajaxCallback) {
 		AjaxParams params = new AjaxParams();
@@ -168,17 +169,24 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		if (BaseUtils.IsNotEmpty(consume_card_no)) {
-			params.put("consume_card_no", consume_card_no);
+		if (BaseUtils.IsNotEmpty(delivery_rs_code)) {
+			params.put("delivery_rs_code", delivery_rs_code);
 		}
-		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
-			params.put("cashier_card_no", cashier_card_no);
+		if (BaseUtils.IsNotEmpty(delivery_rs_code_id)) {
+			params.put("cashier_card_no_id", delivery_rs_code_id);
 		}
-		params.put("product_info", product_info);
+		params.put("consume_card_no", consume_card_no);
+		params.put("cashier_card_no", cashier_card_no);
+		if(products!=null&&products.size()>0){
+			for(int i=0;i<products.size();i++){
+				params.put("product_info["+products.get(i).op_id+"]", products.get(i).buy_number+"");	
+			}
+		}
+		
 		params.put("pay_way", pay_way);
-		params.put("pay_way", pay_way);
+		params.put("pay_money", pay_money);
 		finalHttp.configCharset("utf-8");
-		finalHttp.get(U.CASH_STRING_CREATE_ORDERFORM, params, ajaxCallback);
+		finalHttp.post(U.CASH_STRING_CREATE_ORDERFORM, params, ajaxCallback);
 	}
 
 	/***************** 创建订单接口 End ********************/

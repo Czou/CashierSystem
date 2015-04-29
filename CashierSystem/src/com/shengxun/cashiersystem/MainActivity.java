@@ -162,6 +162,9 @@ public class MainActivity extends BaseActivity {
 			dataList.add(entity);
 		}
 		cashierGoodsListAdapter.notifyDataSetChanged();
+		refreshNowTotal();
+	}
+	private void refreshNowTotal() {
 		//购买商品总价
 		double totalPayment=0;
 		for(int i=0;i<dataList.size();i++){
@@ -250,6 +253,7 @@ public class MainActivity extends BaseActivity {
 			if(dataList.get(i).op_bar_code.equals(entity.op_bar_code)){
 				dataList.remove(i);
 				cashierGoodsListAdapter.notifyDataSetChanged();
+				refreshNowTotal();
 				break;
 			}
 		}
@@ -262,6 +266,7 @@ public class MainActivity extends BaseActivity {
 			if(dataList.get(i).op_bar_code.equals(entity.op_bar_code)){
 				dataList.get(i).buy_number=entity.buy_number;
 				cashierGoodsListAdapter.notifyDataSetChanged();
+				refreshNowTotal();
 				break;
 			}
 		}

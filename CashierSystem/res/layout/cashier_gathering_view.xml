@@ -31,6 +31,17 @@
             android:text="@string/cashier_system_gathering_title"
             android:textColor="@color/white"
             android:textSize="@dimen/fontSize_48" />
+        <Button
+            android:id="@+id/cashier_gathering_btn_order_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:text="@string/cashier_system_gathering_order_cancel"
+            android:visibility="invisible"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/fontSize_28" />
     </RelativeLayout>
 
     <TextView style="@style/whiteHDividerLine2DP" />
@@ -71,12 +82,24 @@
 
                 <EditText
                     android:id="@+id/cashier_gathering_card_no"
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="fill_parent"
                     android:background="@null"
                     android:inputType="text"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
+                    android:textSize="@dimen/fontSize_22" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#fec554"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/cashier_system_column_swing_card"
+                    android:textColor="@color/white"
+                    android:id="@+id/cashier_gathering_btn_swing_card"
+                    android:clickable="true"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
 

@@ -25,6 +25,7 @@
 	<string name="setting">设置</string>
 	
 	<string name="cashier_system_gathering_title">收款</string>
+	<string name="cashier_system_gathering_order_cancel">取消订单</string>
 	
 	<!-- 收银系统的商品描述栏目 -->
 	<string name="cashier_system_column_sort">序</string>
@@ -41,6 +42,7 @@
 	<string name="cashier_system_column_cash">现金</string>
 	<string name="cashier_system_column_change">找零</string>
 	<string name="cashier_system_column_card_number">卡号</string>
+	<string name="cashier_system_column_swing_card">刷卡</string>
 	
 	<string name="cashier_system_business">商品:</string>
 	<string name="cashier_system_business_hint">支持扫描条码和输入条码</string>
