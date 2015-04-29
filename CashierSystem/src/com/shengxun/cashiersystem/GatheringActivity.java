@@ -4,6 +4,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.shengxun.constant.C;
 import com.shengxun.entity.ProductInfo;
@@ -11,18 +25,6 @@ import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
-
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * 收款界面
@@ -49,7 +51,8 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private TextView btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7,
 			btn_8, btn_9, btn_50, btn_100, btn_200, btn_300, btn_00, btn_spot,
-			btn_back_up, btn_ok, swing_card, gathering_back;
+			btn_ok, swing_card, gathering_back;
+	private ImageButton btn_back_up;
 	private Button order_cancel;
 	/**
 	 * 接收传递过来的商品列表
@@ -111,7 +114,7 @@ public class GatheringActivity extends BaseActivity {
 		btn_300 = (TextView) findViewById(R.id.gathering_btn_300);
 		btn_00 = (TextView) findViewById(R.id.gathering_btn_00);
 		btn_spot = (TextView) findViewById(R.id.gathering_btn_spot);
-		btn_back_up = (TextView) findViewById(R.id.gathering_btn_backup);
+		btn_back_up = (ImageButton) findViewById(R.id.gathering_btn_backup);
 		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
 		swing_card = (TextView) findViewById(R.id.cashier_gathering_btn_swing_card);
 		order_cancel = (Button) findViewById(R.id.cashier_gathering_btn_order_cancel);
@@ -153,14 +156,14 @@ public class GatheringActivity extends BaseActivity {
 		// 获得传递商品信息列表
 		goodsList = (ArrayList<ProductInfo>) getIntent().getSerializableExtra(
 				"DATA");
-		if (goodsList == null||goodsList.size()==0) {
+		if (goodsList == null || goodsList.size() == 0) {
 			return;
 		}
 		// 计算总额
 		for (int i = 0; i < goodsList.size(); i++) {
 			totalMoney += (goodsList.get(i).buy_number)
 					* (goodsList.get(i).op_market_price);
-			LG.i(getClass(), "goodslist ======>"+goodsList.get(i));
+			LG.i(getClass(), "goodslist ======>" + goodsList.get(i));
 		}
 		gathering_total_money.setText(totalMoney + "");
 	}
@@ -274,11 +277,11 @@ public class GatheringActivity extends BaseActivity {
 		String product_info = "";
 		for (int i = 0; i < goodsList.size(); i++) {
 			if (i == 0) {
-				product_info = "product_info[" + goodsList.get(i).op_id + "]"
+				product_info = "product_info[" + goodsList.get(i).op_id + "]="
 						+ goodsList.get(i).buy_number;
 			} else {
-				product_info += "&product_info[" + goodsList.get(i).op_id + "]"
-						+ goodsList.get(i).buy_number;
+				product_info += "&product_info[" + goodsList.get(i).op_id
+						+ "]=" + goodsList.get(i).buy_number;
 			}
 		}
 		LG.e(getClass(), "product_info-------------->" + product_info);
@@ -327,8 +330,7 @@ public class GatheringActivity extends BaseActivity {
 			card_no = gathering_card_no.getText().toString().trim();
 			index = gathering_card_no.getSelectionStart();
 			if (index > 0 && BaseUtils.IsNotEmpty(card_no)) {
-				gathering_card_no.getText().delete(index - 1, index)
-						.toString();
+				gathering_card_no.getText().delete(index - 1, index).toString();
 			}
 			// 删除cash中的数据
 		} else if (FocusPosition == 2) {
@@ -339,8 +341,7 @@ public class GatheringActivity extends BaseActivity {
 				if (cash.substring(index - 1, index).equals(".")) {
 					hasSpot = false;
 				}
-				gathering_cash.getText().delete(index - 1, index)
-						.toString();
+				gathering_cash.getText().delete(index - 1, index).toString();
 			}
 		}
 	}
@@ -387,8 +388,14 @@ public class GatheringActivity extends BaseActivity {
 		public void afterTextChanged(Editable s) {
 			cash = gathering_cash.getText().toString().trim();
 			if (BaseUtils.IsNotEmpty(cash)) {
+				String st = cash.charAt(0) + "";
+				if (st.equals(".")) {
+					cash = "";
+					gathering_cash.setText(cash);
+					return;
+				}else{
+				}
 				double change = Double.parseDouble(cash) - totalMoney;
-				LG.i(getClass(), "cash===>"+cash+",totalmoney====>"+totalMoney);
 				// 保留一位小数
 				BigDecimal bd = new BigDecimal(change);
 				change = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -398,6 +405,7 @@ public class GatheringActivity extends BaseActivity {
 			}
 		}
 	};
+	
 	/**
 	 * 创建订单信息回调
 	 */
@@ -446,6 +454,8 @@ public class GatheringActivity extends BaseActivity {
 			C.showShort("取消订单失败", mActivity);
 		};
 	};
+
+
 	/**
 	 * 订单付款接口
 	 */

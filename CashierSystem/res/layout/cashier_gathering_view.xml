@@ -67,7 +67,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@color/white"
+              
                 android:orientation="horizontal" >
 
                 <TextView
@@ -85,7 +85,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="fill_parent"
-                    android:background="@null"
+                    android:background="@color/white"
                     android:inputType="text"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
@@ -93,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:background="#fec554"
+                    android:background="@drawable/blue_button_corner_bg"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/cashier_system_column_swing_card"
@@ -285,15 +285,15 @@
                     <TextView style="@style/whiteVDividerLin1DP" />
                 </LinearLayout>
 
-                <TextView
+                <ImageButton
                     android:id="@+id/gathering_btn_backup"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="X"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/fontSize_22" />
+                    android:src="@drawable/del"
+                    android:clickable="true"
+                    android:background="@null"
+                     />
             </LinearLayout>
             <!-- 分隔线 -->
 
