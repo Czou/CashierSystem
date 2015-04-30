@@ -197,11 +197,23 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
+        public static final int cashier_system_alert_gathering_card_null=0x7f060037;
+        public static final int cashier_system_alert_gathering_create_order_fail=0x7f060039;
+        public static final int cashier_system_alert_gathering_create_order_success=0x7f060038;
+        public static final int cashier_system_alert_gathering_order_cancel_fail=0x7f06003a;
+        public static final int cashier_system_alert_gathering_order_cancel_success=0x7f06003b;
+        public static final int cashier_system_alert_gathering_order_error=0x7f060036;
+        public static final int cashier_system_alert_gathering_order_pay_fail=0x7f06003d;
+        public static final int cashier_system_alert_gathering_order_pay_success=0x7f06003c;
         public static final int cashier_system_alert_login_fail=0x7f060032;
-        public static final int cashier_system_alert_login_no_permissions=0x7f060033;
+        public static final int cashier_system_alert_login_no_permissions=0x7f060035;
         /**  提示语 
          */
         public static final int cashier_system_alert_no_login=0x7f060031;
+        public static final int cashier_system_alert_no_product=0x7f060033;
+        public static final int cashier_system_alert_no_return_product=0x7f060034;
+        public static final int cashier_system_alert_order_detail_del_success=0x7f06003e;
+        public static final int cashier_system_alert_order_detail_modify_success=0x7f06003f;
         public static final int cashier_system_btn_back=0x7f06000d;
         public static final int cashier_system_btn_del=0x7f06000f;
         public static final int cashier_system_btn_ok=0x7f06000e;

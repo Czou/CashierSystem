@@ -21,9 +21,20 @@ import com.zvezda.database.utils.ORMOpearationDao;
  */
 public class ApplicationCS extends Application{
 
+	/**
+	 * 登录的收银员信息 
+	 */
 	public LoginInfo loginInfo=null;
 	
+	/**
+	 * 收银员的卡号
+	 */
 	public String cashier_card_no=null;
+	
+	/**
+	 * LED是否打开
+	 */
+	public boolean isOpenLED=false;
 	/**
 	 * ORM数据库操作封装
 	 */

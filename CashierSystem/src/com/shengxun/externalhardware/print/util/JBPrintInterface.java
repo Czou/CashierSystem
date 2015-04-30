@@ -1,4 +1,7 @@
 package com.shengxun.externalhardware.print.util;
+import com.shengxun.externalhardware.GpioControl;
+import com.shengxun.externalhardware.SerialPortTools;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 

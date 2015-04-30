@@ -1,5 +1,7 @@
 package com.shengxun.externalhardware.cashbox;
 
+import com.shengxun.externalhardware.GpioControl;
+
 
 
 public class JBCashBoxInterface {

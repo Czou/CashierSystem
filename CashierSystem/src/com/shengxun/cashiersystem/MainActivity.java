@@ -24,8 +24,10 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.j256.ormlite.dao.Dao;
 import com.shengxun.adapter.CashierGoodsListAdapter;
+import com.shengxun.constant.C;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
+import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
@@ -146,7 +148,8 @@ public class MainActivity extends BaseActivity {
 		timerUpdate.schedule(myMachineTime, 1000, 1000);
 		cashierGoodsListAdapter=new CashierGoodsListAdapter(mActivity,dataList);
 		cashier_listview.setAdapter(cashierGoodsListAdapter);
-		
+		//打开LED
+		applicationCS.isOpenLED=JBLEDInterface.openLed();
 	}
 	
 	private void refreshData(ProductInfo entity){
@@ -198,7 +201,12 @@ public class MainActivity extends BaseActivity {
 					//收款
 				case R.id.cashier_system_receive_payments:
 				{
-					goActivity(GatheringActivity.class,dataList);
+					if(dataList!=null&&dataList.size()>0){
+						goActivity(GatheringActivity.class,dataList);
+					}else{
+						C.showShort(resources.getString(R.string.cashier_system_alert_no_product), mActivity);
+					}
+					
 				}
 					break;
 					//打开钱箱
@@ -216,7 +224,14 @@ public class MainActivity extends BaseActivity {
 					//退货
 				case R.id.cashier_system_return_good:
 				{
+
+					if(dataList!=null&&dataList.size()>0){
+						
+					}else{
+						C.showShort(resources.getString(R.string.cashier_system_alert_no_return_product), mActivity);
+					}
 					
+				
 				}
 					break;
 					//设置
@@ -282,4 +297,10 @@ public class MainActivity extends BaseActivity {
 			goActivity(GoodsDetailActivity.class,dataList.get(postion));
 		}
 	};
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		JBLEDInterface.closeLed();
+	}
+	
 }

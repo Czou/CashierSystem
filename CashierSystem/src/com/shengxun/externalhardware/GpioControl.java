@@ -1,4 +1,4 @@
-package com.shengxun.externalhardware.print.util;
+package com.shengxun.externalhardware;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
