@@ -16,10 +16,16 @@
 	
 	<string name="cashier_system_title">健康安全网名优特产收银系统</string>
 	<string name="cashier_system_contact">圣勋技术中心\n联系电话：023-67716071</string>
+	<string name="cashier_system_contact_tech">技术中心：023-67713860</string>
 	<string name="cashier_system_help">Esc 退出</string>
 	<string name="cashier_system_btn_back">返回</string>
 	<string name="cashier_system_btn_ok">确定</string>
 	<string name="cashier_system_btn_del">删除</string>
+	<string name="cashier_system_btn_open">打开</string>
+	<string name="cashier_system_btn_close">关闭</string>
+	<string name="cashier_system_btn_pickup_ok">确认提货</string>
+	<string name="cashier_system_btn_return_ok">确认退货</string>
+	<string name="cashier_system_btn_search_order">查询订单</string>
 	
 	<string name="exit">退出</string>
 	<string name="setting">设置</string>
@@ -43,6 +49,8 @@
 	<string name="cashier_system_column_change">找零</string>
 	<string name="cashier_system_column_card_number">卡号</string>
 	<string name="cashier_system_column_swing_card">刷卡</string>
+	<string name="cashier_system_column_order_number">订单号:</string>
+	<string name="cashier_system_column_return_money">退款金额:</string>
 	
 	<string name="cashier_system_business">商品:</string>
 	<string name="cashier_system_business_hint">支持扫描条码和输入条码</string>
@@ -53,6 +61,7 @@
 	<string name="cashier_system_machine_order_receive">上单实收:</string>
 	<string name="cashier_system_machine_order_return_balance">上单找零:</string>
 	<string name="cashier_system_machine_user">收银员:</string>
+	<string name="cashier_system_machine_showcustom">客显:</string>
 
 	<string name="cashier_system_receive_payments">收款</string>
 	<string name="cashier_system_open_cashbox">打开钱箱</string>
@@ -78,4 +87,6 @@
 	<string name="cashier_system_alert_gathering_order_pay_fail">订单付款失败！</string>
 	<string name="cashier_system_alert_order_detail_del_success">删除成功！</string>
 	<string name="cashier_system_alert_order_detail_modify_success">修改成功！</string>
+	<string name="cashier_system_alert_no_order_number">请输入提货订单号</string>
+	<string name="cashier_system_alert_no_return_order_number">请输入需要退货的订单号</string>
 </resources>

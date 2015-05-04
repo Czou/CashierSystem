@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/gathering_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/title"
+        android:padding="@dimen/layout_padding" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/cashier_system_return_good"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontSize_36" />
+
+        <Button
+            android:id="@+id/cashier_goods_return_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:drawableLeft="@drawable/back"
+            android:text="@string/cashier_system_btn_back"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/fontSize_28" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:background="#ecf0f1"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/cashier_system_column_order_number"
+                    android:textSize="@dimen/fontSize_28" />
+
+                <EditText
+                    android:id="@+id/cashier_goods_return_order_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/cashier_system_alert_no_return_order_number"
+                    android:textSize="@dimen/fontSize_28" />
+
+                <Button
+                    android:id="@+id/cashier_goods_return_search_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/blue_button_corner_bg"
+                    android:padding="15dp"
+                    android:text="@string/cashier_system_btn_search_order"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontSize_28" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/cashier_system_column_return_money"
+            android:textColor="@color/black"
+            android:id="@+id/cashier_goods_return_money"
+            android:textSize="@dimen/fontSize_28" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/red_button_corner_bg"
+            android:enabled="false"
+            android:padding="15dp"
+            android:id="@+id/cashier_goods_return_ok"
+            android:text="@string/cashier_system_btn_return_ok"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontSize_28" />
+    </RelativeLayout>
+
+</LinearLayout>

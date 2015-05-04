@@ -7,19 +7,20 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".app.ApplicationCS"
         android:allowBackup="true"
         android:icon="@drawable/logo_144"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-         >
-         <activity 
-            android:name=".LoginActivity" 
-            android:screenOrientation="landscape">
+        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,21 +29,30 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="landscape"
-             >
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".GatheringActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-             >
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".GoodsDetailActivity"
-            android:screenOrientation="landscape"
-             >
+            android:screenOrientation="landscape" >
         </activity>
-        
+        <activity
+            android:name=".SettingActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".GoodsReturnActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.shengxun.cashiersystem.GoodsPickupActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
     </application>
 
 </manifest>

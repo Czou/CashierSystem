@@ -1,6 +1,7 @@
 package com.shengxun.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -361,7 +362,7 @@ public class ConnectManager {
 	 * @param pay_way
 	 * @param ajaxCallBack
 	 */
-	public void getOrderFormRefundResult(String order_id, String product_info,
+	public void getOrderFormRefundResult(String order_id, List<ProductInfo> product_info,
 			String cashier_card_no, String pay_way,
 			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
@@ -372,9 +373,17 @@ public class ConnectManager {
 		params.put("verify_code", C.VERIFY_CODE);
 
 		params.put("order_id", order_id);
-		params.put("product_info", product_info);
-		params.put("cashier_card_no", cashier_card_no);
-		params.put("pay_way", pay_way);
+		if(BaseUtils.IsNotEmpty(cashier_card_no)){
+			params.put("cashier_card_no", cashier_card_no);
+		}
+		if(BaseUtils.IsNotEmpty(pay_way)){
+			params.put("pay_way", pay_way);
+		}
+		if(product_info!=null&&product_info.size()>0){
+			for(int i=0;i<product_info.size();i++){
+				params.put("product_info["+product_info.get(i).op_id+"]", product_info.get(i).buy_number+"");	
+			}
+		}
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_ORDERFORM_REFUND, params, ajaxCallBack);
 
@@ -390,8 +399,7 @@ public class ConnectManager {
 	 * @param pay_way
 	 * @param ajaxCallBack
 	 */
-	public void getReturnOrderFormResult(String order_id, String product_info,
-			String cashier_card_no, String pay_way,
+	public void getReturnOrderFormResult(String order_id, 
 			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码

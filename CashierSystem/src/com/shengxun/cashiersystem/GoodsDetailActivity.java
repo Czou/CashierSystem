@@ -123,7 +123,7 @@ public class GoodsDetailActivity extends BaseActivity {
 			switch (v.getId()) {
 			// 点击了返回按钮
 			case R.id.cashier_goods_detail_back:
-				finish();
+				AppManager.getAppManager().finishActivity(mActivity);
 				break;
 			// 点击删除按钮,取消订单
 			case R.id.cashier_goods_detail_del:
