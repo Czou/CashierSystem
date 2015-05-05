@@ -25,10 +25,10 @@ import com.zvezda.android.utils.LG;
  */
 public class GoodsReturnActivity extends BaseActivity {
 
-	// 订单号输入框
-	EditText order_no;
+	// 订单号输入框,卡号
+	EditText order_no, card_no;
 	// 确认退款，返回和查询订单按钮
-	Button ok, back, search_order;
+	Button return_ok, back, search_order, swing_card;
 	// 支付方式，1、现金，2、信用卡，3、储蓄卡，4、储值卡，目前只支持现金支付
 	String pay_way = "1";
 	// 收银员卡号
@@ -52,14 +52,17 @@ public class GoodsReturnActivity extends BaseActivity {
 	 */
 	private void initWidget() {
 		order_no = (EditText) findViewById(R.id.cashier_goods_return_order_no);
-		ok = (Button) findViewById(R.id.cashier_goods_return_ok);
-		back = (Button) findViewById(R.id.cashier_goods_return_exit);
+		card_no = (EditText) findViewById(R.id.cashier_goods_return_card_no);
+		return_ok = (Button) findViewById(R.id.cashier_goods_return_ok);
+		back = (Button) findViewById(R.id.cashier_goods_return_back);
 		search_order = (Button) findViewById(R.id.cashier_goods_return_search_order);
+		swing_card = (Button) findViewById(R.id.cashier_goods_return_swing_card);
 		return_money = (TextView) findViewById(R.id.cashier_goods_return_money);
 
-		ok.setOnClickListener(myclick);
+		return_ok.setOnClickListener(myclick);
 		back.setOnClickListener(myclick);
 		search_order.setOnClickListener(myclick);
+		swing_card.setOnClickListener(myclick);
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -72,12 +75,22 @@ public class GoodsReturnActivity extends BaseActivity {
 						refund_order_no, ajaxcallback);
 				break;
 			// 返回
-			case R.id.cashier_goods_return_exit:
+			case R.id.cashier_goods_return_back:
 				AppManager.getAppManager().finishActivity(mActivity);
 				break;
 			// 查询订单
 			case R.id.cashier_goods_return_search_order:
-				checkIfNull();
+				if (checkIfNull(order_no)) {
+					// 查询该订单是否存在
+					ConnectManager.getInstance().getOrderFormDetailResult(
+							order_no.getText().toString().trim(), searchorder);
+				}
+				break;
+			// 验证卡号
+			case R.id.cashier_goods_return_swing_card:
+				if (checkIfNull(card_no)) {
+
+				}
 				break;
 			default:
 				break;
@@ -90,16 +103,15 @@ public class GoodsReturnActivity extends BaseActivity {
 	 * 
 	 * @auth shouwei
 	 */
-	private void checkIfNull() {
-		String order = order_no.getText().toString().trim();
-		if (BaseUtils.IsNotEmpty(order)) {
-			// 查询该订单是否存在
-			ConnectManager.getInstance().getOrderFormDetailResult(order,
-					searchorder);
+	private boolean checkIfNull(EditText et) {
+		String et_str = et.getText().toString().trim();
+		if (BaseUtils.IsNotEmpty(et_str)) {
+			return true;
 		} else {
 			C.showShort(resources
 					.getString(R.string.cashier_system_alert_no_order_number),
 					mActivity);
+			return false;
 		}
 	}
 
@@ -169,7 +181,7 @@ public class GoodsReturnActivity extends BaseActivity {
 						data);
 				// 创建退货订单成功
 				return_money.setText(return_money.getText() + order_money);
-				ok.setEnabled(true);
+				return_ok.setEnabled(true);
 			} else {
 				C.showShort("创建订单失败", mActivity);
 			}

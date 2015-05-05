@@ -14,15 +14,17 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
 /**
  * 订单提货界面
+ * 
  * @author sw
  * @date 2015-5-4
  */
 public class GoodsPickupActivity extends BaseActivity {
 
-	EditText order_no;
-	Button ok, exit;
+	EditText order_no, card_no;
+	Button ok, exit, swing_card;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,12 @@ public class GoodsPickupActivity extends BaseActivity {
 		order_no = (EditText) findViewById(R.id.cashier_goods_pickup_order_no);
 		ok = (Button) findViewById(R.id.cashier_goods_pickup_ok);
 		exit = (Button) findViewById(R.id.cashier_goods_pickup_exit);
+		card_no = (EditText) findViewById(R.id.cashier_goods_pickup_card_no);
+		swing_card = (Button) findViewById(R.id.cashier_goods_pickup_swing_card);
 
 		ok.setOnClickListener(myclick);
 		exit.setOnClickListener(myclick);
-
+		swing_card.setOnClickListener(myclick);
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -48,10 +52,20 @@ public class GoodsPickupActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.cashier_goods_pickup_ok:
-				checkIfNull();
+				//验证订单号
+				if (checkIfNull(order_no)) {
+					ConnectManager.getInstance().getOrderFormPickUpResult(
+							order_no.getText().toString().trim(), ajaxCallBack);
+				}
 				break;
 			case R.id.cashier_goods_pickup_exit:
 				AppManager.getAppManager().finishActivity(mActivity);
+				break;
+			case R.id.cashier_goods_pickup_swing_card:
+				//验证卡号
+				if (checkIfNull(card_no)) {
+					
+				}
 				break;
 			default:
 				break;
@@ -64,15 +78,15 @@ public class GoodsPickupActivity extends BaseActivity {
 	 * 
 	 * @auth shouwei
 	 */
-	private void checkIfNull() {
-		String order = order_no.getText().toString().trim();
-		if (BaseUtils.IsNotEmpty(order)) {
-			ConnectManager.getInstance().getOrderFormPickUpResult(order,
-					ajaxCallBack);
+	private boolean checkIfNull(EditText et) {
+		String et_str = et.getText().toString().trim();
+		if (BaseUtils.IsNotEmpty(et_str)) {
+			return true;
 		} else {
 			C.showShort(resources
 					.getString(R.string.cashier_system_alert_no_order_number),
 					mActivity);
+			return false;
 		}
 	}
 

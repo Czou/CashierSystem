@@ -105,21 +105,22 @@ public final class R {
         public static final int cyan_light_coner_bg=0x7f020002;
         public static final int del=0x7f020003;
         public static final int exit=0x7f020004;
-        public static final int goods_detail_test=0x7f020005;
-        public static final int gray_dark_corner_bg=0x7f020006;
-        public static final int gray_light_coner_bg=0x7f020007;
-        public static final int green_coner_bg=0x7f020008;
-        public static final int ic_launcher=0x7f020009;
-        public static final int login_bg=0x7f02000a;
-        public static final int logo_144=0x7f02000b;
-        public static final int orange_corner_bg=0x7f02000c;
-        public static final int out=0x7f02000d;
-        public static final int password=0x7f02000e;
-        public static final int red_button_corner_bg=0x7f02000f;
-        public static final int red_coner_bg=0x7f020010;
-        public static final int set=0x7f020011;
-        public static final int title=0x7f020012;
-        public static final int user=0x7f020013;
+        public static final int fill_box=0x7f020005;
+        public static final int goods_detail_test=0x7f020006;
+        public static final int gray_dark_corner_bg=0x7f020007;
+        public static final int gray_light_coner_bg=0x7f020008;
+        public static final int green_coner_bg=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
+        public static final int login_bg=0x7f02000b;
+        public static final int logo_144=0x7f02000c;
+        public static final int orange_corner_bg=0x7f02000d;
+        public static final int out=0x7f02000e;
+        public static final int password=0x7f02000f;
+        public static final int red_button_corner_bg=0x7f020010;
+        public static final int red_coner_bg=0x7f020011;
+        public static final int set=0x7f020012;
+        public static final int title=0x7f020013;
+        public static final int user=0x7f020014;
     }
     public static final class id {
         public static final int cashier_gathering_back=0x7f080018;
@@ -142,18 +143,22 @@ public final class R {
         public static final int cashier_goods_detail_showcount=0x7f080012;
         public static final int cashier_goods_detail_title=0x7f08000d;
         public static final int cashier_goods_detail_total_price=0x7f080014;
+        public static final int cashier_goods_pickup_card_no=0x7f08003d;
         public static final int cashier_goods_pickup_exit=0x7f08003c;
-        public static final int cashier_goods_pickup_ok=0x7f08003e;
-        public static final int cashier_goods_pickup_order_no=0x7f08003d;
-        public static final int cashier_goods_return_exit=0x7f08003f;
-        public static final int cashier_goods_return_money=0x7f080042;
-        public static final int cashier_goods_return_ok=0x7f080043;
-        public static final int cashier_goods_return_order_no=0x7f080040;
-        public static final int cashier_goods_return_search_order=0x7f080041;
+        public static final int cashier_goods_pickup_ok=0x7f080040;
+        public static final int cashier_goods_pickup_order_no=0x7f08003f;
+        public static final int cashier_goods_pickup_swing_card=0x7f08003e;
+        public static final int cashier_goods_return_back=0x7f080041;
+        public static final int cashier_goods_return_card_no=0x7f080042;
+        public static final int cashier_goods_return_money=0x7f080046;
+        public static final int cashier_goods_return_ok=0x7f080047;
+        public static final int cashier_goods_return_order_no=0x7f080044;
+        public static final int cashier_goods_return_search_order=0x7f080045;
+        public static final int cashier_goods_return_swing_card=0x7f080043;
         public static final int cashier_listview=0x7f080007;
-        public static final int cashier_setting_back=0x7f080044;
-        public static final int cashier_setting_btn_close=0x7f080046;
-        public static final int cashier_setting_btn_open=0x7f080045;
+        public static final int cashier_setting_back=0x7f080048;
+        public static final int cashier_setting_btn_close=0x7f08004a;
+        public static final int cashier_setting_btn_open=0x7f080049;
         public static final int cashier_system_btn_ok=0x7f080006;
         public static final int cashier_system_business=0x7f080005;
         public static final int cashier_system_clerk=0x7f080001;
@@ -193,11 +198,11 @@ public final class R {
         public static final int gathering_btn_ok=0x7f080032;
         public static final int gathering_btn_spot=0x7f080030;
         public static final int gathering_top=0x7f080017;
-        public static final int login_layout_v_center=0x7f080047;
-        public static final int user_login=0x7f08004a;
-        public static final int user_name=0x7f080048;
-        public static final int user_password=0x7f080049;
-        public static final int user_reset=0x7f08004b;
+        public static final int login_layout_v_center=0x7f08004b;
+        public static final int user_login=0x7f08004e;
+        public static final int user_name=0x7f08004c;
+        public static final int user_password=0x7f08004d;
+        public static final int user_reset=0x7f08004f;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -226,8 +231,10 @@ public final class R {
          */
         public static final int cashier_system_alert_no_login=0x7f06003a;
         public static final int cashier_system_alert_no_order_number=0x7f060049;
+        public static final int cashier_system_alert_no_pickup_card_no=0x7f06004a;
         public static final int cashier_system_alert_no_product=0x7f06003c;
-        public static final int cashier_system_alert_no_return_order_number=0x7f06004a;
+        public static final int cashier_system_alert_no_return_card_no=0x7f06004b;
+        public static final int cashier_system_alert_no_return_order_number=0x7f06004c;
         public static final int cashier_system_alert_no_return_product=0x7f06003d;
         public static final int cashier_system_alert_order_detail_del_success=0x7f060047;
         public static final int cashier_system_alert_order_detail_modify_success=0x7f060048;
@@ -307,11 +314,15 @@ public final class R {
 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
         
          */
         public static final int AppBaseTheme=0x7f070000;
@@ -321,7 +332,8 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
-        /**  水平黑色分割线 1dp
+        public static final int Theme_CustomDialog=0x7f070007;
+        /**  水平黑色分割线 1dp 
          */
         public static final int blackHDividerLine1DP=0x7f070002;
         /**  水平白色分割线1dp 

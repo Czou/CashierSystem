@@ -23,9 +23,9 @@
 	<string name="cashier_system_btn_del">删除</string>
 	<string name="cashier_system_btn_open">打开</string>
 	<string name="cashier_system_btn_close">关闭</string>
-	<string name="cashier_system_btn_pickup_ok">确认提货</string>
+	<string name="cashier_system_btn_pickup_ok">提货</string>
 	<string name="cashier_system_btn_return_ok">确认退货</string>
-	<string name="cashier_system_btn_search_order">查询订单</string>
+	<string name="cashier_system_btn_search_order">查单</string>
 	
 	<string name="exit">退出</string>
 	<string name="setting">设置</string>
@@ -87,6 +87,8 @@
 	<string name="cashier_system_alert_gathering_order_pay_fail">订单付款失败！</string>
 	<string name="cashier_system_alert_order_detail_del_success">删除成功！</string>
 	<string name="cashier_system_alert_order_detail_modify_success">修改成功！</string>
-	<string name="cashier_system_alert_no_order_number">请输入提货订单号</string>
+	<string name="cashier_system_alert_no_order_number">提货订单号或卡号不能为空</string>
+	<string name="cashier_system_alert_no_pickup_card_no">请输入提货人卡号</string>
+	<string name="cashier_system_alert_no_return_card_no">请输入退货人卡号</string>
 	<string name="cashier_system_alert_no_return_order_number">请输入需要退货的订单号</string>
 </resources>

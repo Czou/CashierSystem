@@ -24,6 +24,7 @@ import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
+import com.zvezda.android.utils.LG;
 
 /**
  * 收款界面
@@ -250,7 +251,7 @@ public class GatheringActivity extends BaseActivity {
 							mActivity);
 				}
 				break;
-			// 刷卡创建订单
+			// 刷卡创建订单(点击刷卡，让收银机处于准备读卡状态，一旦检测到刷卡，就读取卡条上数据)
 			case R.id.cashier_gathering_btn_swing_card:
 				card_no = gathering_card_no.getText().toString().trim();
 				if (BaseUtils.IsNotEmpty(card_no)) {
@@ -410,6 +411,7 @@ public class GatheringActivity extends BaseActivity {
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
+				LG.i(getClass(),"创建订单信息====》"+t);
 				String data = JSONParser.getStringFromJsonString("data", t);
 				order_id = JSONParser.getStringFromJsonString("order_id", data);
 				C.showShort(

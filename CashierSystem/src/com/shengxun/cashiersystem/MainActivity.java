@@ -8,6 +8,8 @@ import java.util.TimerTask;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,11 +17,13 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -83,7 +87,6 @@ public class MainActivity extends BaseActivity {
 		setContentView(R.layout.activity_main);
 		instance = this;
 		productsDao = ormOpearationDao.getDao(ProductInfo.class);
-		refreshGoodsToLast();
 		initWidget();
 	}
 
@@ -256,6 +259,11 @@ public class MainActivity extends BaseActivity {
 			// 提货
 			case R.id.cashier_system_get_good: {
 				goActivity(GoodsPickupActivity.class);
+
+				// AlertDialog ad = new AlertDialog.Builder(mActivity).create();
+				// ad.show();
+				// ad.setContentView(R.layout.cashier_goods_pickup_view);
+
 			}
 				break;
 			// 退货
@@ -289,7 +297,6 @@ public class MainActivity extends BaseActivity {
 				checkedThisGoodCode();
 			}
 				break;
-
 			}
 		}
 
@@ -325,56 +332,56 @@ public class MainActivity extends BaseActivity {
 		}
 	}
 
-	/**
-	 * 更新数据库的商品数据到最新的服务器数据
-	 * 
-	 * @auth shouwei
-	 */
-	private void refreshGoodsToLast() {
-		ConnectManager.getInstance().getProductList(ajaxCallBack);
-	}
-
-	/**
-	 * 根据商品状态添加或删除商品
-	 * 
-	 * @param list
-	 * @auth shouwei
-	 */
-	private void refresh(List<ProductInfo> list) {
-		int status = 1;
-		List<ProductInfo> p;
-		LG.i(getClass(), "listsize====>" + list.size());
-		if (list != null && list.size() > 0) {
-			for (int i = 0; i < list.size(); i++) {
-				status = list.get(i).op_status;
-				LG.i(getClass(), i + ":status===>" + status);
-				// 下架商品
-				if (status == 2) {
-					try {
-						p = (List<ProductInfo>) productsDao.queryBuilder()
-								.where().eq("op_id", list.get(i).op_id);
-						if (p != null && p.size() > 0) {
-							productsDao.deleteBuilder().where()
-									.eq("op_id", list.get(i).op_id);
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					// 新增商品
-				} else if (status == 0) {
-					try {
-						productsDao.createIfNotExists(list.get(i));
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					// 正常商品
-				} else {
-
-				}
-			}
-		}
-	}
+	// /**
+	// * 更新数据库的商品数据到最新的服务器数据
+	// *
+	// * @auth shouwei
+	// */
+	// private void refreshGoodsToLast() {
+	// ConnectManager.getInstance().getProductList(ajaxCallBack);
+	// }
+	//
+	// /**
+	// * 根据商品状态添加或删除商品
+	// *
+	// * @param list
+	// * @auth shouwei
+	// */
+	// private void refresh(List<ProductInfo> list) {
+	// int status = 1;
+	// List<ProductInfo> p;
+	// LG.i(getClass(), "listsize====>" + list.size());
+	// if (list != null && list.size() > 0) {
+	// for (int i = 0; i < list.size(); i++) {
+	// status = list.get(i).op_status;
+	// LG.i(getClass(), i + ":status===>" + status);
+	// // 下架商品
+	// if (status == 2) {
+	// try {
+	// p = (List<ProductInfo>) productsDao.queryBuilder()
+	// .where().eq("op_id", list.get(i).op_id);
+	// if (p != null && p.size() > 0) {
+	// productsDao.deleteBuilder().where()
+	// .eq("op_id", list.get(i).op_id);
+	// }
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// }
+	// // 新增商品
+	// } else if (status == 0) {
+	// try {
+	// productsDao.createIfNotExists(list.get(i));
+	// } catch (SQLException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// // 正常商品
+	// } else {
+	//
+	// }
+	// }
+	// }
+	// }
 
 	/**
 	 * item点击事件
@@ -387,35 +394,5 @@ public class MainActivity extends BaseActivity {
 			goActivity(GoodsDetailActivity.class, dataList.get(postion));
 		}
 	};
-
-	AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
-
-		public void onSuccess(String t) {
-			super.onSuccess(t);
-			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
-				String data = JSONParser.getStringFromJsonString("data", t);
-				LG.i(getClass(), "data====>" + data);
-				String product = JSONParser.getStringFromJsonString(
-						"product_list", data);
-				List<ProductInfo> list = (List<ProductInfo>) JSONParser
-						.JSON2Array(product, ProductInfo.class);
-				refresh(list);
-				LG.i(getClass(), "t=+====>" + t);
-			} else {
-				C.showShort("更新数据失败", mActivity);
-			}
-		};
-
-		public void onFailure(Throwable t, int errorNo, String strMsg) {
-			super.onFailure(t, errorNo, strMsg);
-			C.showShort("更新数据失败", mActivity);
-		};
-	};
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		JBLEDInterface.closeLed();
-	}
 
 }
