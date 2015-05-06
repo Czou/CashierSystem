@@ -1,19 +1,26 @@
 package com.shengxun.cashiersystem;
 
-import net.tsz.afinal.http.AjaxCallBack;
+import java.util.ArrayList;
 
+import net.tsz.afinal.http.AjaxCallBack;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.shengxun.adapter.CashierPickupGoodsAdapter;
 import com.shengxun.constant.C;
+import com.shengxun.entity.OrderDetailInfo;
+import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
-
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
+import com.zvezda.android.utils.LG;
 
 /**
  * 订单提货界面
@@ -23,8 +30,14 @@ import android.widget.EditText;
  */
 public class GoodsPickupActivity extends BaseActivity {
 
-	EditText order_no, card_no;
-	Button ok, exit, swing_card;
+	private EditText et_order_no, et_card_no;
+	private Button ok, exit, swing_card, check_order;
+	private String card_no, order_no;
+	private ArrayList<ProductInfo> product_list;
+	private CashierPickupGoodsAdapter cpga;
+	private ListView lv;
+	private double total_money = 0;
+	private TextView show_money;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +49,18 @@ public class GoodsPickupActivity extends BaseActivity {
 	}
 
 	private void initWidget() {
-		order_no = (EditText) findViewById(R.id.cashier_goods_pickup_order_no);
+		product_list = new ArrayList<ProductInfo>();
+		et_order_no = (EditText) findViewById(R.id.cashier_goods_pickup_order_no);
 		ok = (Button) findViewById(R.id.cashier_goods_pickup_ok);
 		exit = (Button) findViewById(R.id.cashier_goods_pickup_exit);
-		card_no = (EditText) findViewById(R.id.cashier_goods_pickup_card_no);
+		et_card_no = (EditText) findViewById(R.id.cashier_goods_pickup_card_no);
 		swing_card = (Button) findViewById(R.id.cashier_goods_pickup_swing_card);
+		check_order = (Button) findViewById(R.id.cashier_goods_pickup_checkorder);
+		lv = (ListView) findViewById(R.id.cashier_goods_pickup_lv);
+		show_money = (TextView) findViewById(R.id.cashier_goods_pickup_money);
 
 		ok.setOnClickListener(myclick);
+		check_order.setOnClickListener(myclick);
 		exit.setOnClickListener(myclick);
 		swing_card.setOnClickListener(myclick);
 	}
@@ -51,20 +69,46 @@ public class GoodsPickupActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			// 开始订单提货
 			case R.id.cashier_goods_pickup_ok:
-				//验证订单号
-				if (checkIfNull(order_no)) {
-					ConnectManager.getInstance().getOrderFormPickUpResult(
-							order_no.getText().toString().trim(), ajaxCallBack);
+				card_no = et_card_no.getText().toString().trim();
+				order_no = et_order_no.getText().toString().trim();
+				// 验证卡号不为空
+				if (BaseUtils.IsNotEmpty(card_no)) {
+					// 验证订单号
+					if (BaseUtils.IsNotEmpty(order_no)) {
+						ConnectManager.getInstance()
+								.getOrderFormDeliveryDetailResult(order_no,
+										ordercheck);
+					} else {
+						C.showShort("请输入订单号", mActivity);
+					}
+				} else {
+					C.showShort("请刷卡", mActivity);
 				}
 				break;
+			// 退出
 			case R.id.cashier_goods_pickup_exit:
 				AppManager.getAppManager().finishActivity(mActivity);
 				break;
 			case R.id.cashier_goods_pickup_swing_card:
-				//验证卡号
-				if (checkIfNull(card_no)) {
-					
+				// 验证卡号
+				break;
+			case R.id.cashier_goods_pickup_checkorder:
+				order_no = et_order_no.getText().toString().trim();
+				card_no = et_card_no.getText().toString().trim();
+				// 验证消费者卡号非空
+				if (BaseUtils.IsNotEmpty(card_no)) {
+					// 验证订单号非空
+					if (BaseUtils.IsNotEmpty(order_no)) {
+						// 查询该订单是否存在
+						ConnectManager.getInstance().getOrderFormDetailResult(
+								order_no, ordercheck);
+					} else {
+						C.showShort("请输入订单号", mActivity);
+					}
+				} else {
+					C.showShort("请刷卡", mActivity);
 				}
 				break;
 			default:
@@ -74,22 +118,8 @@ public class GoodsPickupActivity extends BaseActivity {
 	};
 
 	/**
-	 * 检查输入框是否为空
-	 * 
-	 * @auth shouwei
+	 * 订单提货接口回调
 	 */
-	private boolean checkIfNull(EditText et) {
-		String et_str = et.getText().toString().trim();
-		if (BaseUtils.IsNotEmpty(et_str)) {
-			return true;
-		} else {
-			C.showShort(resources
-					.getString(R.string.cashier_system_alert_no_order_number),
-					mActivity);
-			return false;
-		}
-	}
-
 	AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
 
 		public void onSuccess(String t) {
@@ -111,6 +141,55 @@ public class GoodsPickupActivity extends BaseActivity {
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			C.showShort("订单提货失败", mActivity);
+		};
+	};
+
+	/**
+	 * 刷新商品列表信息
+	 * 
+	 * @param list
+	 * @auth shouwei
+	 */
+	private void refreshGoodsData(ArrayList<ProductInfo> list) {
+		cpga = new CashierPickupGoodsAdapter(mActivity, list);
+		lv.setAdapter(cpga);
+		for (int i = 0; i < list.size(); i++) {
+			total_money += list.get(i).buy_number * list.get(i).cop_price;
+		}
+		show_money
+				.setText(show_money.getText().toString().trim() + total_money);
+	}
+
+	/**
+	 * 订单信息回调
+	 */
+	AjaxCallBack<String> ordercheck = new AjaxCallBack<String>() {
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showShort("订单错误", mActivity);
+		};
+
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "pick up t ====>" + t);
+			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
+				String data = JSONParser.getStringFromJsonString("data", t);
+				OrderDetailInfo odi = (OrderDetailInfo) JSONParser.JSON2Object(
+						data, OrderDetailInfo.class);
+				// 验证消费者卡号是否一致
+				if (odi.getOrder_info().me_id.equals(card_no)) {
+					// 订单提货
+					// ConnectManager.getInstance().getOrderFormPickUpResult(
+					// order_no, ajaxCallBack);
+					product_list = (ArrayList<ProductInfo>) odi
+							.getProduct_info();
+					refreshGoodsData(product_list);
+				} else {
+					C.showShort("消费卡号不一致", mActivity);
+				}
+			} else {
+				C.showShort("订单错误", mActivity);
+			}
 		};
 	};
 }

@@ -47,12 +47,12 @@
         <activity
             android:name=".GoodsReturnActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Dialog">
+            >
         </activity>
         <activity
             android:name="com.shengxun.cashiersystem.GoodsPickupActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Dialog" >
+             >
         </activity>
     </application>
 

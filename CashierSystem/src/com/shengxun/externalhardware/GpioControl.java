@@ -76,7 +76,7 @@ public class GpioControl {
 	
 	/**
 	 * 激活（上、下电）
-	 * */
+	 **/
 	public static final int activate(String type, boolean open) {
 		FileInputStream mCalfdIn = null;
 		String str = gB(open) + type;

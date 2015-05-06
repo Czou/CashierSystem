@@ -11,6 +11,7 @@ import com.shengxun.constant.C;
 import com.shengxun.constant.U;
 import com.shengxun.entity.ProductInfo;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.LG;
 
 /**
  * 连接服务器的连接管理

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="15dp" >
+
+    <TextView
+        android:id="@+id/cashier_return_item_goods_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="123"
+        android:textSize="@dimen/fontSize_20" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/cashier_return_item_reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/gray_dark_corner_bg"
+            android:padding="10dp"
+            android:text="―"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontSize_18" />
+
+        <EditText
+            android:id="@+id/cashier_return_item_showcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="number"
+            android:padding="10dp"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/cashier_return_item_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gray_dark_corner_bg"
+            android:padding="10dp"
+            android:text="＋"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontSize_18" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cashier_return_item_goods_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
