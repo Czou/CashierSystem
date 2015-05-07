@@ -1,6 +1,7 @@
 package com.shengxun.cashiersystem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import com.shengxun.adapter.CashierPickupGoodsAdapter;
 import com.shengxun.constant.C;
-import com.shengxun.entity.OrderDetailInfo;
+import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
@@ -71,20 +72,9 @@ public class GoodsPickupActivity extends BaseActivity {
 			switch (v.getId()) {
 			// 开始订单提货
 			case R.id.cashier_goods_pickup_ok:
-				card_no = et_card_no.getText().toString().trim();
-				order_no = et_order_no.getText().toString().trim();
-				// 验证卡号不为空
-				if (BaseUtils.IsNotEmpty(card_no)) {
-					// 验证订单号
-					if (BaseUtils.IsNotEmpty(order_no)) {
-						ConnectManager.getInstance()
-								.getOrderFormDeliveryDetailResult(order_no,
-										ordercheck);
-					} else {
-						C.showShort("请输入订单号", mActivity);
-					}
-				} else {
-					C.showShort("请刷卡", mActivity);
+				if (BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
+					ConnectManager.getInstance().getOrderFormPickUpResult(
+							order_no, card_no,applicationCS.cashier_card_no, ajaxCallBack);
 				}
 				break;
 			// 退出
@@ -124,6 +114,7 @@ public class GoodsPickupActivity extends BaseActivity {
 
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "t=====>" + t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
@@ -153,11 +144,12 @@ public class GoodsPickupActivity extends BaseActivity {
 	private void refreshGoodsData(ArrayList<ProductInfo> list) {
 		cpga = new CashierPickupGoodsAdapter(mActivity, list);
 		lv.setAdapter(cpga);
+		total_money = 0;
 		for (int i = 0; i < list.size(); i++) {
-			total_money += list.get(i).buy_number * list.get(i).cop_price;
+			total_money += list.get(i).cop_number * list.get(i).cop_price;
 		}
-		show_money
-				.setText(show_money.getText().toString().trim() + total_money);
+		ok.setEnabled(true);
+		show_money.setText("总额:" + total_money);
 	}
 
 	/**
@@ -174,19 +166,15 @@ public class GoodsPickupActivity extends BaseActivity {
 			LG.i(getClass(), "pick up t ====>" + t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
-				OrderDetailInfo odi = (OrderDetailInfo) JSONParser.JSON2Object(
-						data, OrderDetailInfo.class);
-				// 验证消费者卡号是否一致
-				if (odi.getOrder_info().me_id.equals(card_no)) {
-					// 订单提货
-					// ConnectManager.getInstance().getOrderFormPickUpResult(
-					// order_no, ajaxCallBack);
-					product_list = (ArrayList<ProductInfo>) odi
-							.getProduct_info();
-					refreshGoodsData(product_list);
-				} else {
-					C.showShort("消费卡号不一致", mActivity);
-				}
+				String order_detail = JSONParser.getStringFromJsonString(
+						"order_detail", data);
+				String product_detail = JSONParser.getStringFromJsonString(
+						"product_list", data);
+				OrderInfo od = (OrderInfo) JSONParser.JSON2Object(order_detail,
+						OrderInfo.class);
+				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
+						product_detail, ProductInfo.class);
+				refreshGoodsData(product_list);
 			} else {
 				C.showShort("订单错误", mActivity);
 			}

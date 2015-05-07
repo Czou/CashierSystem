@@ -2,6 +2,7 @@ package com.shengxun.cashiersystem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.os.Bundle;
@@ -14,13 +15,20 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.shengxun.adapter.AreaAdapte;
 import com.shengxun.constant.C;
+import com.shengxun.entity.AreaInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.shengxun.externalhardware.print.util.JBPrintInterface;
@@ -49,7 +57,7 @@ public class GatheringActivity extends BaseActivity {
 	/**
 	 * 保存产品总额
 	 */
-	private double totalMoney = 0,change = -1;
+	private double totalMoney = 0, change = -1;
 	/**
 	 * 所有按钮
 	 */
@@ -63,6 +71,10 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private ArrayList<ProductInfo> goodsList;
 	/**
+	 * 保存创建订单返回的商品列表
+	 */
+	private ArrayList<ProductInfo> productInfo;
+	/**
 	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
 	 */
 	private int pay_way = 1;
@@ -75,6 +87,13 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private boolean hasSpot = false;
 	private String order_id;
+	private Spinner sp1, sp2, sp3;
+	private ArrayList<AreaInfo> areaListsheng;
+	private ArrayList<AreaInfo> areaListshi;
+	private ArrayList<AreaInfo> areaListxian;
+	private String areaLevel = "1", parent_id = "";
+	private int areaFlag = 1;
+	private String province, shi, xian;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +104,8 @@ public class GatheringActivity extends BaseActivity {
 
 		initWidget();
 		initWidgetData();
+
+		initAreaData();
 	}
 
 	/**
@@ -133,6 +154,13 @@ public class GatheringActivity extends BaseActivity {
 		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
 		swing_card = (TextView) findViewById(R.id.cashier_gathering_btn_swing_card);
 		order_cancel = (Button) findViewById(R.id.cashier_gathering_btn_order_cancel);
+		sp1 = (Spinner) findViewById(R.id.gathering_area_1);
+		sp2 = (Spinner) findViewById(R.id.gathering_area_2);
+		sp3 = (Spinner) findViewById(R.id.gathering_area_3);
+
+		sp1.setOnItemSelectedListener(myitemclick);
+		sp2.setOnItemSelectedListener(myitemclick);
+		sp3.setOnItemSelectedListener(myitemclick);
 
 		gathering_cash.setOnFocusChangeListener(myfocuschange);
 		gathering_card_no.setOnFocusChangeListener(myfocuschange);
@@ -185,6 +213,25 @@ public class GatheringActivity extends BaseActivity {
 		} else {
 			applicationCS.isOpenLED = JBLEDInterface.openLed();
 			JBLEDInterface.ledDisplay(totalMoney + "");
+		}
+	}
+
+	private void initAreaData() {
+		areaFlag = 1;
+		ConnectManager.getInstance()
+				.getAreaResult("2", parent_id, areacallback);
+	}
+
+	private void refreshAreaData(ArrayList<AreaInfo> list, int flag) {
+		if (areaFlag == 1) {
+			AreaAdapte areaAdapter = new AreaAdapte(mActivity, list);
+			sp1.setAdapter(areaAdapter);
+		} else if (areaFlag == 2) {
+			AreaAdapte areaAdapter = new AreaAdapte(mActivity, list);
+			sp2.setAdapter(areaAdapter);
+		} else if (areaFlag == 3) {
+			AreaAdapte areaAdapter = new AreaAdapte(mActivity, list);
+			sp3.setAdapter(areaAdapter);
 		}
 	}
 
@@ -257,8 +304,8 @@ public class GatheringActivity extends BaseActivity {
 			// 支付订单
 			case R.id.gathering_btn_ok:
 				if (BaseUtils.IsNotEmpty(order_id)) {
-					//如未付款则不予执行订单付款接口
-					if(change<0){
+					// 如未付款则不予执行订单付款接口
+					if (change < 0) {
 						C.showShort("还未付款", mActivity);
 						break;
 					}
@@ -277,10 +324,12 @@ public class GatheringActivity extends BaseActivity {
 				break;
 			// 取消订单
 			case R.id.cashier_gathering_btn_order_cancel:
-				if (BaseUtils.IsNotEmpty(order_id)) {
-					LG.i(getClass(), "cancel order id =====>"+order_id);
+				if (BaseUtils.IsNotEmpty(order_id)
+						&& BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
+					LG.i(getClass(), "cancel order id =====>" + order_id);
 					ConnectManager.getInstance().getOrderFormCanaelResult(
-							order_id, ajaxcancelorder);
+							order_id, applicationCS.cashier_card_no, card_no,
+							ajaxcancelorder);
 				} else {
 					C.showShort(
 							resources
@@ -375,6 +424,10 @@ public class GatheringActivity extends BaseActivity {
 		}
 	}
 
+	private void printBillInfo(String data) {
+
+	}
+
 	/**
 	 * 焦点改变监听
 	 */
@@ -440,13 +493,17 @@ public class GatheringActivity extends BaseActivity {
 	AjaxCallBack<String> ajaxcreateorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "create t====>" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
-				LG.i(getClass(), "创建订单信息====》" + t);
 				String data = JSONParser.getStringFromJsonString("data", t);
 				order_id = JSONParser.getStringFromJsonString("order_id", data);
-				LG.i(getClass(), "order no ====>"+order_id);
+				String product_detail = JSONParser.getStringFromJsonString(
+						"product_list", data);
+				productInfo = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
+						product_detail, ProductInfo.class);
+				printBillInfo(data);
 				C.showShort(
 						resources
 								.getString(R.string.cashier_system_alert_gathering_create_order_success),
@@ -476,7 +533,7 @@ public class GatheringActivity extends BaseActivity {
 	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "CANCEL ORDER ====>"+t);
+			LG.i(getClass(), "CANCEL ORDER ====>" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
@@ -509,6 +566,7 @@ public class GatheringActivity extends BaseActivity {
 					resources
 							.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
 					mActivity);
+			LG.i(getClass(), "t ===>" + t);
 		};
 	};
 
@@ -556,4 +614,92 @@ public class GatheringActivity extends BaseActivity {
 					mActivity);
 		};
 	};
+
+	AjaxCallBack<String> areacallback = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "area -- >" + t);
+			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
+				String data = JSONParser.getStringFromJsonString("data", t);
+				String area = JSONParser.getStringFromJsonString("area_list",
+						data);
+				switch (areaFlag) {
+				case 1:
+					areaListsheng = (ArrayList<AreaInfo>) JSONParser
+							.JSON2Array(area, AreaInfo.class);
+					refreshAreaData(areaListsheng, areaFlag);
+					break;
+				case 2:
+					areaListshi = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
+							area, AreaInfo.class);
+					refreshAreaData(areaListshi, areaFlag);
+					break;
+				case 3:
+					areaListxian = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
+							area, AreaInfo.class);
+					refreshAreaData(areaListxian, areaFlag);
+					break;
+				default:
+					break;
+				}
+
+			} else {
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+						mActivity);
+			}
+		};
+
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showShort("获取地区失败", mActivity);
+		};
+	};
+
+	OnItemSelectedListener myitemclick = new OnItemSelectedListener() {
+
+		@Override
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			LG.i(getClass(), "arg1= =>" + arg1.getId());
+			LG.i(getClass(), "arg0= =>" + arg0.getId());
+			LG.i(getClass(), "arg2= =>" + arg2);
+			LG.i(getClass(), "arg3= =>" + arg3);
+			switch (arg0.getId()) {
+			case R.id.gathering_area_1:
+				areaFlag = 2;
+				ConnectManager.getInstance().getAreaResult("3",
+						areaListsheng.get(arg2).aid, areacallback);
+				province = areaListsheng.get(arg2).name;
+				break;
+			case R.id.gathering_area_2:
+				areaFlag = 3;
+				ConnectManager.getInstance().getAreaResult("4",
+						areaListshi.get(arg2).aid, areacallback);
+				shi = areaListshi.get(arg2).name;
+				break;
+			case R.id.gathering_area_3:
+				areaFlag = 4;
+				xian = areaListxian.get(arg2).name;
+				// ConnectManager.getInstance().getAreaResult("4",
+				// areaListxian.get(arg2).aid, areacallback);
+				ConnectManager.getInstance().getOpcenterResult("", "",
+						"fw_center", province, shi, xian, "", "",
+						new AjaxCallBack<String>() {
+							public void onSuccess(String t) {
+								super.onSuccess(t);
+								LG.i(getClass(), "opcenter =---->" + t);
+							};
+						});
+				break;
+			default:
+				break;
+			}
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+
+		}
+	};
+
 }

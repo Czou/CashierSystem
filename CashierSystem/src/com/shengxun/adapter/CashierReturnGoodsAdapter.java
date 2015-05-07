@@ -16,15 +16,23 @@ import android.widget.TextView;
 
 import com.shengxun.cashiersystem.CheckBoxChangeListener;
 import com.shengxun.cashiersystem.R;
+import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.LG;
 
 public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
+
+	OrderInfo order;
 
 	public CashierReturnGoodsAdapter(Activity mActivity,
 			ArrayList<ProductInfo> dataList) {
 		super(mActivity, dataList);
+	}
+
+	public void setOrderInfo(OrderInfo order) {
+		this.order = order;
 	}
 
 	/**
@@ -49,6 +57,8 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		ProductInfo entity = (ProductInfo) getItem(position);
 		TextView cashier_goods_name = ViewHolder.get(convertView,
 				R.id.cashier_return_item_goods_name);
+		TextView cashier_is_return = ViewHolder.get(convertView,
+				R.id.cashier_return_item_is_return);
 		final TextView cashier_goods_number = ViewHolder.get(convertView,
 				R.id.cashier_return_item_showcount);
 		Button add = ViewHolder.get(convertView, R.id.cashier_return_item_add);
@@ -56,45 +66,25 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				R.id.cashier_return_item_reduce);
 		CheckBox cashier_goods_cb = ViewHolder.get(convertView,
 				R.id.cashier_return_item_goods_cb);
+		LG.i(getClass(), convertView.getTag() + "");
 
 		cashier_goods_name.setText(entity.qp_name + "");
-		cashier_goods_number.setText(entity.buy_number + "");
+		cashier_goods_number.setText(entity.cop_number + "");
+		switch (order.co_status) {
+		case 1:
+			cashier_is_return.setText("正常");
+			break;
+		case 2:
+			cashier_is_return.setText("已付");
+			break;
+		case 3:
+			cashier_is_return.setText("已取消");
+			break;
+		default:
+			break;
+		}
 		cashier_goods_cb.setChecked(false);
-		dataList.get(position).isChecked = false;
 		final int mPosition = position;
-		cashier_goods_number.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-			}
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-			}
-			@Override
-			public void afterTextChanged(Editable s) {
-				String str = s.toString().trim();
-				if (BaseUtils.isInteger(str)) {
-					if(Integer.parseInt(str)>=0){
-						dataList.get(mPosition).buy_number = Integer.parseInt(str);
-					}
-				}
-			}
-		});
-		add.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dataList.get(mPosition).buy_number++;
-				cashier_goods_number.setText(dataList.get(mPosition).buy_number);
-			}
-		});
-		reduce.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dataList.get(mPosition).buy_number--;
-				cashier_goods_number.setText(dataList.get(mPosition).buy_number);
-			}
-		});
 
 		cashier_goods_cb
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {

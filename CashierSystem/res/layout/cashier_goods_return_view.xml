@@ -157,7 +157,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:background="@drawable/red_button_corner_bg"
-            android:enabled="false"
+            android:enabled="true"
             android:padding="15dp"
             android:text="@string/cashier_system_btn_return_ok"
             android:textColor="@color/white"

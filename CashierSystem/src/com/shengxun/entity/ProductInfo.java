@@ -88,7 +88,6 @@ public class ProductInfo implements Serializable {
 	public double crop_plat_sell_price;
 	// 商品项是否被选中，在退货时使用到
 	public boolean isChecked = false;
-
 	@Override
 	public String toString() {
 		return "ProductInfo [op_id=" + op_id + ", zqp_id=" + zqp_id
@@ -104,7 +103,9 @@ public class ProductInfo implements Serializable {
 				+ crop_id + ", refund_number=" + refund_number
 				+ ", crop_price=" + crop_price + ", crop_number=" + crop_number
 				+ ", crop_plat_buy_price=" + crop_plat_buy_price
-				+ ", crop_plat_sell_price=" + crop_plat_sell_price + "]";
+				+ ", crop_plat_sell_price=" + crop_plat_sell_price
+				+ ", isChecked=" + isChecked + "]";
 	}
+
 
 }

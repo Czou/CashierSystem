@@ -27,8 +27,8 @@ public class CashierPickupGoodsAdapter extends ABaseAdapter<ProductInfo>{
 		}
 		TextView cashier_goods_name = ViewHolder.get(convertView, R.id.cashier_pickup_item_goods_name);
 		TextView cashier_goods_count = ViewHolder.get(convertView, R.id.cashier_pickup_item_goods_count);
-		cashier_goods_name.setText(dataList.get(position).qp_name);
-		cashier_goods_count.setText(dataList.get(position).buy_number);
+		cashier_goods_name.setText(dataList.get(position).qp_name+"");
+		cashier_goods_count.setText(dataList.get(position).cop_number+"");
 		return convertView;
 	}
 	

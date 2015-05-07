@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="horizontal"
     android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:padding="15dp" >
 
     <TextView
@@ -18,12 +18,23 @@
         android:text="123"
         android:textSize="@dimen/fontSize_20" />
 
+    <TextView
+        android:id="@+id/cashier_return_item_is_return"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="123"
+        android:textSize="@dimen/fontSize_20" />
+    
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/cashier_return_item_reduce"
@@ -34,7 +45,8 @@
             android:padding="10dp"
             android:text="―"
             android:textColor="@color/white"
-            android:textSize="@dimen/fontSize_18" />
+            android:textSize="@dimen/fontSize_18"
+            android:visibility="invisible" />
 
         <EditText
             android:id="@+id/cashier_return_item_showcount"
@@ -43,6 +55,7 @@
             android:background="@null"
             android:inputType="number"
             android:padding="10dp"
+            android:enabled="false"
             android:text="0" />
 
         <Button
@@ -53,7 +66,8 @@
             android:padding="10dp"
             android:text="＋"
             android:textColor="@color/white"
-            android:textSize="@dimen/fontSize_18" />
+            android:textSize="@dimen/fontSize_18"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <CheckBox

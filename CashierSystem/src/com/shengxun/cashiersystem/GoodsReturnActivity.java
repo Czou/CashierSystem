@@ -1,9 +1,9 @@
 package com.shengxun.cashiersystem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import net.tsz.afinal.http.AjaxCallBack;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.shengxun.adapter.CashierReturnGoodsAdapter;
 import com.shengxun.constant.C;
-import com.shengxun.entity.OrderDetailInfo;
+import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
@@ -38,7 +38,7 @@ public class GoodsReturnActivity extends BaseActivity {
 	// 支付方式，1、现金，2、信用卡，3、储蓄卡，4、储值卡，目前只支持现金支付
 	String pay_way = "1";
 	// 收银员卡号,订单号，总额
-	String card_no, cashier_card_no, order_no, refund_order_no, order_money;
+	String card_no, cashier_card_no, order_no, refund_order_no;
 	// 退款金额文本框
 	TextView return_money;
 	ListView lv;
@@ -46,6 +46,9 @@ public class GoodsReturnActivity extends BaseActivity {
 	CashierReturnGoodsAdapter crga;
 	// 保存需要退货的商品列表
 	ArrayList<ProductInfo> product_list;
+	ArrayList<ProductInfo> refund_product_list;
+	OrderInfo od;
+	double order_money = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,14 +87,15 @@ public class GoodsReturnActivity extends BaseActivity {
 			switch (v.getId()) {
 			// 确认退款
 			case R.id.cashier_goods_return_ok:
-
 				if (BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
 					cashier_card_no = applicationCS.cashier_card_no;
+					// 创建退货订单
+					ConnectManager.getInstance().getOrderFormRefundResult(
+							 order_no, product_list, cashier_card_no,
+							pay_way,card_no, createReturnOrder);
+				} else {
+					C.showShort("收银员卡号失效", mActivity);
 				}
-				// 创建退货订单
-				ConnectManager.getInstance().getOrderFormRefundResult(order_no,
-						product_list, cashier_card_no, pay_way,
-						createReturnOrder);
 				break;
 			// 返回
 			case R.id.cashier_goods_return_back:
@@ -132,9 +136,37 @@ public class GoodsReturnActivity extends BaseActivity {
 	 */
 	private void refreshGoodsData(ArrayList<ProductInfo> list) {
 
-		 crga = new CashierReturnGoodsAdapter(mActivity, list,cbcl);
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).isChecked = false;
+		}
+		crga = new CashierReturnGoodsAdapter(mActivity, list, cbcl);
+		crga.setOrderInfo(od);
 		lv.setAdapter(crga);
 
+	}
+
+	/**
+	 * 检查订单状态
+	 * 
+	 * @param status
+	 * @auth shouwei
+	 */
+	private void checkOrderStatus(int status) {
+		// 未付款状态
+		if (status == 1) {
+			AlertDialog d = new AlertDialog.Builder(mActivity).create();
+			d.setTitle("订单尚未付款，无需退款");
+			d.show();
+			// 已付款状态
+		} else if (status == 2) {
+			// 已退货状态
+		} else if (status == 3) {
+			AlertDialog d = new AlertDialog.Builder(mActivity).create();
+			d.setTitle("订单已退货，无需重复退货");
+			d.show();
+		}
+		// 刷新商品列表
+		refreshGoodsData(product_list);
 	}
 
 	/**
@@ -165,23 +197,21 @@ public class GoodsReturnActivity extends BaseActivity {
 	 * 查询订单回调
 	 */
 	AjaxCallBack<String> searchorder = new AjaxCallBack<String>() {
+		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "t============>" + t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
-				OrderDetailInfo odi = (OrderDetailInfo) JSONParser.JSON2Object(
-						data, OrderDetailInfo.class);
-				// order_no = odi.getOrder_info().co_id;
-				// 验证消费者卡号
-				if (odi.getOrder_info().me_id.equals(card_no)) {
-					// 刷新商品列表
-					product_list = (ArrayList<ProductInfo>) odi
-							.getProduct_info();
-					refreshGoodsData((ArrayList) odi.getProduct_info());
-				} else {
-					C.showShort("消费者卡号不一致", mActivity);
-				}
+				String order_detail = JSONParser.getStringFromJsonString(
+						"order_detail", data);
+				String product_detail = JSONParser.getStringFromJsonString(
+						"product_list", data);
+				od = (OrderInfo) JSONParser.JSON2Object(order_detail,
+						OrderInfo.class);
+				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
+						product_detail, ProductInfo.class);
+				checkOrderStatus(od.co_status);
 			} else {
 				C.showShort("订单错误s", mActivity);
 			}
@@ -203,22 +233,21 @@ public class GoodsReturnActivity extends BaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				refund_order_no = JSONParser.getStringFromJsonString(
 						"refund_order_id", data);
-				order_money = JSONParser.getStringFromJsonString("order_money",
-						data);
 				// 创建退货订单成功
-				return_money.setText(return_money.getText() + order_money);
 				return_ok.setEnabled(true);
 				// 退货订单退款
 				ConnectManager.getInstance().getReturnOrderFormResult(
 						refund_order_no, refundordercallback);
 			} else {
-				C.showShort("创建退货订单失败", mActivity);
+//				C.showShort("创建退货订单失败", mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_desc", t), mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			C.showShort("创建退货订单失败", mActivity);
+			LG.i(getClass(), "strMsg===>"+strMsg);
 		};
 	};
 	/**
@@ -251,14 +280,21 @@ public class GoodsReturnActivity extends BaseActivity {
 
 		@Override
 		public void setCheckedPosition(ArrayList<ProductInfo> dataList) {
-			product_list = dataList;
-			for (int i = 0; i < product_list.size(); i++) {
-				if (product_list.get(i).isChecked) {
-					order_money += (product_list.get(i).buy_number * product_list
-							.get(i).cop_price) + "";
+			refund_product_list = new ArrayList<ProductInfo>();
+			refund_product_list.clear();
+			for (int i = 0; i < dataList.size(); i++) {
+				if(dataList.get(i).isChecked){
+					refund_product_list.add(dataList.get(i));
 				}
 			}
-			return_money.setText(order_money);
+			order_money = 0;
+			for (int i = 0; i < dataList.size(); i++) {
+				if (dataList.get(i).isChecked) {
+					order_money += (product_list.get(i).cop_number * product_list
+							.get(i).cop_price);
+				}
+			}
+			return_money.setText("退款金额:" + order_money);
 		}
 	};
 
