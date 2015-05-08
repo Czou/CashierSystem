@@ -29,6 +29,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.shengxun.adapter.AreaAdapte;
 import com.shengxun.constant.C;
 import com.shengxun.entity.AreaInfo;
+import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.shengxun.externalhardware.print.util.JBPrintInterface;
@@ -50,10 +51,12 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	EditText gathering_total_money, gathering_cash, gathering_change,
 			gathering_card_no;
+	
+	private static EditText gathering_opcenter;
 	/**
 	 * 保存现金数据
 	 */
-	private static String cash = "", card_no = "";
+	private static String cash = "", card_no = "", order_id,delivery_rs_code = "",delivery_rs_code_id="";
 	/**
 	 * 保存产品总额
 	 */
@@ -63,7 +66,7 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private TextView btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7,
 			btn_8, btn_9, btn_50, btn_100, btn_200, btn_300, btn_00, btn_spot,
-			btn_ok, swing_card, gathering_back;
+			btn_ok, swing_card, gathering_back, btn_select_opcenter;
 	private ImageButton btn_back_up;
 	private Button order_cancel;
 	/**
@@ -71,29 +74,29 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private ArrayList<ProductInfo> goodsList;
 	/**
-	 * 保存创建订单返回的商品列表
+	 * 保存创建订单返回的商品列表用以打印
 	 */
 	private ArrayList<ProductInfo> productInfo;
 	/**
 	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
-	 */
-	private int pay_way = 1;
-	/**
 	 * 焦点位置，1为卡号输入框，2为现金输入框,默认1;
 	 */
-	private int FocusPosition = 1;
+	private int pay_way = 1,FocusPosition = 1;
 	/**
 	 * 记录是否已经有了小数点
 	 */
 	private boolean hasSpot = false;
-	private String order_id;
-	private Spinner sp1, sp2, sp3;
-	private ArrayList<AreaInfo> areaListsheng;
-	private ArrayList<AreaInfo> areaListshi;
-	private ArrayList<AreaInfo> areaListxian;
-	private String areaLevel = "1", parent_id = "";
-	private int areaFlag = 1;
-	private String province, shi, xian;
+	private static OpcenterInfo opcenter;
+
+	/**
+	 * 设置运营中心信息
+	 * @param op
+	 * @auth shouwei
+	 */
+	public static void setOpcenter(OpcenterInfo op) {
+		opcenter = op;
+		gathering_opcenter.setText(opcenter.name+"");
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +107,7 @@ public class GatheringActivity extends BaseActivity {
 
 		initWidget();
 		initWidgetData();
-
-		initAreaData();
+		initPrinter();
 	}
 
 	/**
@@ -115,6 +117,7 @@ public class GatheringActivity extends BaseActivity {
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
+		gathering_opcenter = (EditText) findViewById(R.id.cashier_gathering_opcenter);
 		gathering_card_no = (EditText) findViewById(R.id.cashier_gathering_card_no);
 		gathering_card_no
 				.setOnEditorActionListener(new OnEditorActionListener() {
@@ -154,16 +157,11 @@ public class GatheringActivity extends BaseActivity {
 		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
 		swing_card = (TextView) findViewById(R.id.cashier_gathering_btn_swing_card);
 		order_cancel = (Button) findViewById(R.id.cashier_gathering_btn_order_cancel);
-		sp1 = (Spinner) findViewById(R.id.gathering_area_1);
-		sp2 = (Spinner) findViewById(R.id.gathering_area_2);
-		sp3 = (Spinner) findViewById(R.id.gathering_area_3);
-
-		sp1.setOnItemSelectedListener(myitemclick);
-		sp2.setOnItemSelectedListener(myitemclick);
-		sp3.setOnItemSelectedListener(myitemclick);
+		btn_select_opcenter = (TextView) findViewById(R.id.cashier_gathering_btn_select_opcenter);
 
 		gathering_cash.setOnFocusChangeListener(myfocuschange);
 		gathering_card_no.setOnFocusChangeListener(myfocuschange);
+		btn_select_opcenter.setOnClickListener(myclick);
 		gathering_back.setOnClickListener(myclick);
 		gathering_cash.addTextChangedListener(mytextchange);
 		btn_0.setOnClickListener(myclick);
@@ -215,25 +213,16 @@ public class GatheringActivity extends BaseActivity {
 			JBLEDInterface.ledDisplay(totalMoney + "");
 		}
 	}
-
-	private void initAreaData() {
-		areaFlag = 1;
-		ConnectManager.getInstance()
-				.getAreaResult("2", parent_id, areacallback);
+	
+	/**
+	 * 初始化打印机
+	 * @auth shouwei
+	 */
+	private void initPrinter(){
+		JBPrintInterface.openPrinter();
+		JBPrintInterface.convertPrinterControl();
 	}
-
-	private void refreshAreaData(ArrayList<AreaInfo> list, int flag) {
-		if (areaFlag == 1) {
-			AreaAdapte areaAdapter = new AreaAdapte(mActivity, list);
-			sp1.setAdapter(areaAdapter);
-		} else if (areaFlag == 2) {
-			AreaAdapte areaAdapter = new AreaAdapte(mActivity, list);
-			sp2.setAdapter(areaAdapter);
-		} else if (areaFlag == 3) {
-			AreaAdapte areaAdapter = new AreaAdapte(mActivity, list);
-			sp3.setAdapter(areaAdapter);
-		}
-	}
+	
 
 	/**
 	 * 点击事件
@@ -337,6 +326,9 @@ public class GatheringActivity extends BaseActivity {
 							mActivity);
 				}
 				break;
+			case R.id.cashier_gathering_btn_select_opcenter:
+				goActivity(AreaSelectActivity.class);
+				break;
 			default:
 				break;
 			}
@@ -354,8 +346,12 @@ public class GatheringActivity extends BaseActivity {
 			LG.i(getClass(), "Total money =====>" + totalMoney
 					+ ",goodsList size===>" + goodsList.size());
 			if (applicationCS != null) {
+				if(opcenter!=null){
+//					delivery_rs_code =
+					delivery_rs_code_id = opcenter.id;
+				}
 				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
-						applicationCS.cashier_card_no, goodsList, "", "",
+						applicationCS.cashier_card_no, goodsList, delivery_rs_code, delivery_rs_code_id,
 						pay_way + "", totalMoney + "", ajaxcreateorder);
 			}
 		} else {
@@ -511,11 +507,8 @@ public class GatheringActivity extends BaseActivity {
 				// 创建订单成功，取消订单按钮可见
 				order_cancel.setVisibility(View.VISIBLE);
 			} else {
-				C.showShort(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_create_order_fail),
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
 						mActivity);
-
 			}
 		};
 
@@ -552,9 +545,7 @@ public class GatheringActivity extends BaseActivity {
 							mActivity);
 				}
 			} else {
-				C.showShort(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
 						mActivity);
 			}
 
@@ -583,7 +574,7 @@ public class GatheringActivity extends BaseActivity {
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
 
-					JBPrintInterface.openPrinter();
+					//开始打印
 					JBPrintInterface.printText_GB2312(totalMoney + "");
 
 					C.showShort(
@@ -599,9 +590,7 @@ public class GatheringActivity extends BaseActivity {
 							mActivity);
 				}
 			} else {
-				C.showShort(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
 						mActivity);
 			}
 		};
@@ -613,93 +602,6 @@ public class GatheringActivity extends BaseActivity {
 							.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
 					mActivity);
 		};
-	};
-
-	AjaxCallBack<String> areacallback = new AjaxCallBack<String>() {
-		public void onSuccess(String t) {
-			super.onSuccess(t);
-			LG.i(getClass(), "area -- >" + t);
-			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
-				String data = JSONParser.getStringFromJsonString("data", t);
-				String area = JSONParser.getStringFromJsonString("area_list",
-						data);
-				switch (areaFlag) {
-				case 1:
-					areaListsheng = (ArrayList<AreaInfo>) JSONParser
-							.JSON2Array(area, AreaInfo.class);
-					refreshAreaData(areaListsheng, areaFlag);
-					break;
-				case 2:
-					areaListshi = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
-							area, AreaInfo.class);
-					refreshAreaData(areaListshi, areaFlag);
-					break;
-				case 3:
-					areaListxian = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
-							area, AreaInfo.class);
-					refreshAreaData(areaListxian, areaFlag);
-					break;
-				default:
-					break;
-				}
-
-			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
-						mActivity);
-			}
-		};
-
-		public void onFailure(Throwable t, int errorNo, String strMsg) {
-			super.onFailure(t, errorNo, strMsg);
-			C.showShort("获取地区失败", mActivity);
-		};
-	};
-
-	OnItemSelectedListener myitemclick = new OnItemSelectedListener() {
-
-		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			LG.i(getClass(), "arg1= =>" + arg1.getId());
-			LG.i(getClass(), "arg0= =>" + arg0.getId());
-			LG.i(getClass(), "arg2= =>" + arg2);
-			LG.i(getClass(), "arg3= =>" + arg3);
-			switch (arg0.getId()) {
-			case R.id.gathering_area_1:
-				areaFlag = 2;
-				ConnectManager.getInstance().getAreaResult("3",
-						areaListsheng.get(arg2).aid, areacallback);
-				province = areaListsheng.get(arg2).name;
-				break;
-			case R.id.gathering_area_2:
-				areaFlag = 3;
-				ConnectManager.getInstance().getAreaResult("4",
-						areaListshi.get(arg2).aid, areacallback);
-				shi = areaListshi.get(arg2).name;
-				break;
-			case R.id.gathering_area_3:
-				areaFlag = 4;
-				xian = areaListxian.get(arg2).name;
-				// ConnectManager.getInstance().getAreaResult("4",
-				// areaListxian.get(arg2).aid, areacallback);
-				ConnectManager.getInstance().getOpcenterResult("", "",
-						"fw_center", province, shi, xian, "", "",
-						new AjaxCallBack<String>() {
-							public void onSuccess(String t) {
-								super.onSuccess(t);
-								LG.i(getClass(), "opcenter =---->" + t);
-							};
-						});
-				break;
-			default:
-				break;
-			}
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-
-		}
 	};
 
 }

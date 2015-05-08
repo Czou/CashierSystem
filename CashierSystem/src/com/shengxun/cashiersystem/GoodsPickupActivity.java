@@ -125,7 +125,8 @@ public class GoodsPickupActivity extends BaseActivity {
 					C.showShort("订单提货失败", mActivity);
 				}
 			} else {
-				C.showShort("订单提货失败", mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+						mActivity);
 			}
 		};
 
@@ -176,7 +177,8 @@ public class GoodsPickupActivity extends BaseActivity {
 						product_detail, ProductInfo.class);
 				refreshGoodsData(product_list);
 			} else {
-				C.showShort("订单错误", mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+						mActivity);
 			}
 		};
 	};

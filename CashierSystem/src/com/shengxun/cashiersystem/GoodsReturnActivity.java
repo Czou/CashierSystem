@@ -184,7 +184,8 @@ public class GoodsReturnActivity extends BaseActivity {
 					C.showShort("退款失败", mActivity);
 				}
 			} else {
-				C.showShort("退款失败", mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+						mActivity);
 			}
 		};
 
@@ -213,7 +214,8 @@ public class GoodsReturnActivity extends BaseActivity {
 						product_detail, ProductInfo.class);
 				checkOrderStatus(od.co_status);
 			} else {
-				C.showShort("订单错误s", mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+						mActivity);
 			}
 		};
 
@@ -239,8 +241,8 @@ public class GoodsReturnActivity extends BaseActivity {
 				ConnectManager.getInstance().getReturnOrderFormResult(
 						refund_order_no, refundordercallback);
 			} else {
-//				C.showShort("创建退货订单失败", mActivity);
-				C.showShort(JSONParser.getStringFromJsonString("error_desc", t), mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+						mActivity);
 			}
 		};
 
@@ -266,7 +268,8 @@ public class GoodsReturnActivity extends BaseActivity {
 					C.showShort("退款失败", mActivity);
 				}
 			} else {
-				C.showShort("退款失败", mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+						mActivity);
 			}
 		};
 

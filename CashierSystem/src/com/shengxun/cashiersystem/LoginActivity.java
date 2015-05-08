@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.shengxun.constant.C;
 import com.shengxun.entity.LoginInfo;
+import com.shengxun.util.AndroidAdjustResizeUtil;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
@@ -30,6 +31,7 @@ public class LoginActivity extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_view);
+		AndroidAdjustResizeUtil.assistActivity(mActivity);
 		user_name=(EditText) this.findViewById(R.id.user_name);
 		user_password=(EditText) this.findViewById(R.id.user_password);
 		user_login=(TextView) this.findViewById(R.id.user_login);

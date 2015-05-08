@@ -1,5 +1,6 @@
 package com.shengxun.cashiersystem;
 
+import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.zvezda.android.utils.AppManager;
 
 import android.os.Bundle;
@@ -22,12 +23,12 @@ public class SettingActivity extends BaseActivity {
 	private void initWidget() {
 
 		btn_back = (Button) findViewById(R.id.cashier_setting_back);
-		btn_open = (Button) findViewById(R.id.cashier_setting_btn_open);
-		btn_close = (Button) findViewById(R.id.cashier_setting_btn_close);
+//		btn_open = (Button) findViewById(R.id.cashier_setting_btn_open);
+//		btn_close = (Button) findViewById(R.id.cashier_setting_btn_close);
 
+//		btn_open.setOnClickListener(myclick);
+//		btn_close.setOnClickListener(myclick);
 		btn_back.setOnClickListener(myclick);
-		btn_open.setOnClickListener(myclick);
-		btn_close.setOnClickListener(myclick);
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -38,12 +39,14 @@ public class SettingActivity extends BaseActivity {
 			case R.id.cashier_setting_back:
 				AppManager.getAppManager().finishActivity(mActivity);
 				break;
-			case R.id.cashier_setting_btn_open:
-
-				break;
-			case R.id.cashier_setting_btn_close:
-
-				break;
+			// 打开客显
+//			case R.id.cashier_setting_btn_open:
+//				JBLEDInterface.openLed();
+//				break;
+//			// 关闭客显
+//			case R.id.cashier_setting_btn_close:
+//				JBLEDInterface.closeLed();
+//				break;
 			default:
 				break;
 			}

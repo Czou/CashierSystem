@@ -20,7 +20,8 @@
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
             android:name=".GatheringActivity"
@@ -52,6 +54,17 @@
         <activity
             android:name="com.shengxun.cashiersystem.GoodsPickupActivity"
             android:screenOrientation="landscape"
+             >
+        </activity>
+         <activity
+            android:name="com.shengxun.cashiersystem.TestActivity"
+            android:screenOrientation="landscape"
+             >
+        </activity>
+        <activity
+            android:name="com.shengxun.cashiersystem.AreaSelectActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.CustomDialog"
              >
         </activity>
     </application>

@@ -55,7 +55,7 @@
         android:background="#ecf0f1"
         android:gravity="center"
         android:paddingBottom="@dimen/layout_padding"
-        android:paddingTop="@dimen/layout_padding" >
+        android:paddingTop="10dp" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -93,6 +93,7 @@
                     android:background="@color/white"
                     android:inputType="text"
                     android:paddingLeft="10dp"
+                    android:hint="@string/cashier_system_hint_no_card_no"
                     android:singleLine="true"
                     android:textSize="@dimen/fontSize_22" />
 
@@ -112,7 +113,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="13dp"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:orientation="horizontal" >
@@ -143,7 +144,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="13dp"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:orientation="horizontal" >
@@ -173,7 +174,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="13dp"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:orientation="horizontal" >
@@ -200,12 +201,54 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="13dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#fec554"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/cashier_system_get_good"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontSize_22" />
+
+                <EditText
+                    android:id="@+id/cashier_gathering_opcenter"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:inputType="text"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:hint="@string/cashier_system_hint_no_opcenter"
+                    android:enabled="false"
+                    android:textSize="@dimen/fontSize_22" />
+
+                <TextView
+                    android:id="@+id/cashier_gathering_btn_select_opcenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/blue_button_corner_bg"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/cashier_system_column_select_opcenter"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontSize_22" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="13dp"
+                android:visibility="gone"
                 android:background="@color/white"
                 android:orientation="vertical" >
 

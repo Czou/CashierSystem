@@ -32,6 +32,7 @@
 	
 	<string name="cashier_system_gathering_title">收款</string>
 	<string name="cashier_system_gathering_order_cancel">取消订单</string>
+	<string name="cashier_system_title_area_select">选择收货店</string>
 	
 	<!-- 收银系统的商品描述栏目 -->
 	<string name="cashier_system_column_sort">序</string>
@@ -49,6 +50,7 @@
 	<string name="cashier_system_column_change">找零</string>
 	<string name="cashier_system_column_card_number">卡号</string>
 	<string name="cashier_system_column_swing_card">刷卡</string>
+	<string name="cashier_system_column_select_opcenter">浏览</string>
 	<string name="cashier_system_column_order_number">订单号:</string>
 	<string name="cashier_system_column_return_money">退款金额:</string>
 	
@@ -88,7 +90,12 @@
 	<string name="cashier_system_alert_order_detail_del_success">删除成功！</string>
 	<string name="cashier_system_alert_order_detail_modify_success">修改成功！</string>
 	<string name="cashier_system_alert_no_order_number">提货订单号或卡号不能为空</string>
-	<string name="cashier_system_alert_no_pickup_card_no">请输入提货人卡号</string>
-	<string name="cashier_system_alert_no_return_card_no">请输入退货人卡号</string>
-	<string name="cashier_system_alert_no_return_order_number">请输入需要退货的订单号</string>
+	
+	<!-- hint提示语 -->
+	<string name="cashier_system_hint_no_order_number">请输入提货订单号</string>
+	<string name="cashier_system_hint_no_return_order_number">请输入需要退货的订单号</string>
+	<string name="cashier_system_hint_no_pickup_card_no">请输入提货人卡号</string>
+	<string name="cashier_system_hint_no_return_card_no">请输入退货人卡号</string>
+	<string name="cashier_system_hint_no_opcenter">请选择收货店地址</string>
+	<string name="cashier_system_hint_no_card_no">请刷卡或输入卡号</string>
 </resources>
