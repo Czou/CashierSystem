@@ -1,4 +1,4 @@
-package com.shengxun.externalhardware;
+package android_serialport_api;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;

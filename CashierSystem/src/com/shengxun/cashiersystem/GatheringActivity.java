@@ -2,7 +2,6 @@ package com.shengxun.cashiersystem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.os.Bundle;
@@ -15,20 +14,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.shengxun.adapter.AreaAdapte;
 import com.shengxun.constant.C;
-import com.shengxun.entity.AreaInfo;
 import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.led.JBLEDInterface;
@@ -107,7 +99,6 @@ public class GatheringActivity extends BaseActivity {
 
 		initWidget();
 		initWidgetData();
-		initPrinter();
 	}
 
 	/**
@@ -206,24 +197,9 @@ public class GatheringActivity extends BaseActivity {
 					* (goodsList.get(i).op_market_price);
 		}
 		gathering_total_money.setText(totalMoney + "");
-		if (applicationCS.isOpenLED) {
-			JBLEDInterface.ledDisplay(totalMoney + "");
-		} else {
-			applicationCS.isOpenLED = JBLEDInterface.openLed();
-			JBLEDInterface.ledDisplay(totalMoney + "");
-		}
+		//显示收费金额
+		JBLEDInterface.ledDisplay(totalMoney + "");
 	}
-	
-	/**
-	 * 初始化打印机
-	 * @auth shouwei
-	 */
-	private void initPrinter(){
-		JBPrintInterface.openPrinter();
-		JBPrintInterface.convertPrinterControl();
-	}
-	
-
 	/**
 	 * 点击事件
 	 */
@@ -573,16 +549,14 @@ public class GatheringActivity extends BaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
-
-					//开始打印
-					JBPrintInterface.printText_GB2312(totalMoney + "");
-
 					C.showShort(
 							resources
 									.getString(R.string.cashier_system_alert_gathering_order_pay_success),
 							mActivity);
+					printPaymentInfo();
+
+					
 					AppManager.getAppManager().finishActivity(mActivity);
-					JBPrintInterface.closePrinter();
 				} else {
 					C.showShort(
 							resources
@@ -593,7 +567,8 @@ public class GatheringActivity extends BaseActivity {
 				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
 						mActivity);
 			}
-		};
+		}
+
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
@@ -603,5 +578,12 @@ public class GatheringActivity extends BaseActivity {
 					mActivity);
 		};
 	};
-
+	
+	/**
+	 * 打印收银信息
+	 */
+	private void printPaymentInfo() {
+		//开始打印
+		JBPrintInterface.printText_GB2312( "名优特产"+"消费金额:"+totalMoney );
+	};
 }

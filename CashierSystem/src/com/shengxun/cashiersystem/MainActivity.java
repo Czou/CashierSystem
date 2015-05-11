@@ -2,14 +2,10 @@ package com.shengxun.cashiersystem;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.tsz.afinal.http.AjaxCallBack;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,13 +13,11 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -34,10 +28,9 @@ import com.shengxun.constant.C;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
 import com.shengxun.externalhardware.led.JBLEDInterface;
-import com.shengxun.util.ConnectManager;
+import com.shengxun.externalhardware.print.util.JBPrintInterface;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
-import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
 import com.zvezda.android.utils.TimeConversion;
 
@@ -88,8 +81,20 @@ public class MainActivity extends BaseActivity {
 		instance = this;
 		productsDao = ormOpearationDao.getDao(ProductInfo.class);
 		initWidget();
+		initExternalHardware();
+		
 	}
-
+	/**
+	 * 初始化硬件设备
+	 */
+	private void initExternalHardware(){
+		//开客显
+		JBLEDInterface.openLed();
+		JBLEDInterface.convertLedControl();
+		//开打印机
+		JBPrintInterface.openPrinter();
+		JBPrintInterface.convertPrinterControl();
+	}
 	private void initWidget() {
 		cashier_system_machine_setting = (ImageView) this
 				.findViewById(R.id.cashier_system_machine_setting);
@@ -181,8 +186,6 @@ public class MainActivity extends BaseActivity {
 		cashierGoodsListAdapter = new CashierGoodsListAdapter(mActivity,
 				dataList);
 		cashier_listview.setAdapter(cashierGoodsListAdapter);
-		// 打开LED
-		applicationCS.isOpenLED = JBLEDInterface.openLed();
 	}
 
 	private void refreshData(ProductInfo entity) {
@@ -395,4 +398,12 @@ public class MainActivity extends BaseActivity {
 		}
 	};
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		JBLEDInterface.closeLed();
+		JBPrintInterface.closePrinter();
+	}
+
+	
 }

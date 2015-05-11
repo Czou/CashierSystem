@@ -32,10 +32,6 @@ public class ApplicationCS extends Application{
 	public String cashier_card_no=null;
 	
 	/**
-	 * LED是否打开
-	 */
-	public boolean isOpenLED=false;
-	/**
 	 * ORM数据库操作封装
 	 */
 	protected ORMOpearationDao ormOpearationDao=null;
