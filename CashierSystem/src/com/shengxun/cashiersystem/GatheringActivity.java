@@ -3,10 +3,10 @@ package com.shengxun.cashiersystem;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import net.tsz.afinal.http.AjaxCallBack;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -74,7 +74,7 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private ArrayList<ProductInfo> productInfo;
 	/**
-	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金 焦点位置，1为卡号输入框，2为现金输入框,默认1;
+	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金, 焦点位置，1为卡号输入框，2为现金输入框,默认1;
 	 */
 	private int pay_way = 1, FocusPosition = 1;
 	/**
@@ -120,22 +120,15 @@ public class GatheringActivity extends BaseActivity {
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 			}
-
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 			}
-
 			@Override
 			public void afterTextChanged(Editable s) {
-				card_no = gathering_card_no.getText().toString().trim();
-				if (card_no.length() >= 11) {
-					String asc = card_no.substring(0, 3);
-					card_no = BaseUtils.StringToChar(asc)
-							+ card_no.substring(3);
-					LG.i(getClass(), "card_no === >" + card_no);
-					gathering_card_no.setText(card_no);
-				}
+				String str = s.toString();
+				//刷卡字符处理方法
+				//SwingStringManage(str);
 			}
 		});
 		// 设置刷卡输入框的回车事件
@@ -242,6 +235,30 @@ public class GatheringActivity extends BaseActivity {
 	private void initPrinter() {
 		JBPrintInterface.openPrinter();
 		// JBPrintInterface.convertPrinterControl();
+	}
+	
+	/**
+	 * 刷卡 字符处理
+	 * @auth shouwei
+	 */
+	private void SwingStringManage(String str){
+		String newStr="";
+		//过滤掉特殊字符
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if ((c >= '0' && c <= '9') || (c <= 'Z' && c >= 'A')
+					|| (c <= 'z' && c >= 'a')) {
+				newStr += c;
+			}
+		}
+		card_no = newStr;
+		//将开头部分asc码转化为asc字符
+		if (newStr.length() > 10) {
+			card_no = BaseUtils.StringToChar(newStr.substring(0, 3))
+					+ newStr.substring(3);
+			gathering_card_no.setText(card_no);
+			gathering_cash.setText(card_no);
+		}
 	}
 
 	/**
@@ -445,11 +462,12 @@ public class GatheringActivity extends BaseActivity {
 	 * @param data
 	 * @auth shouwei
 	 */
+	@SuppressLint("SimpleDateFormat")
 	private String printBillInfo() {
 		String s = "健康安全网" + "\n" + "名优特产运营中心" + "\n" + "【名优特产●重庆招商运营中心】销售小票"
-				+ "\n" + "机号:" + "\t" + "收银员:" + applicationCS.cashier_card_no
-				+ "\n" + "单号:" + order_id + "\n" + "商品名称" + "    " + "单价*数量"
-				+ "  " + "金额" + "\n";
+				+ "\n" + "机号:" + "收银员:" + applicationCS.cashier_card_no + "\n"
+				+ "单号:" + order_id + "\n" + "商品名称" + "    " + "单价*数量" + "  "
+				+ "金额" + "\n";
 		int count = 0;
 		for (int i = 0; i < productInfo.size(); i++) {
 			s = s + productInfo.get(i).qp_name + "  "
@@ -649,5 +667,6 @@ public class GatheringActivity extends BaseActivity {
 					mActivity);
 		};
 	};
+	
 
 }
