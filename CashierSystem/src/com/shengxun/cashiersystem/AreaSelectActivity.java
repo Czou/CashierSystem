@@ -3,7 +3,6 @@ package com.shengxun.cashiersystem;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
-import net.tsz.afinal.http.AjaxParams;
 
 import com.shengxun.adapter.AreaAdapte;
 import com.shengxun.adapter.OpcenterAdapte;
@@ -38,9 +37,21 @@ public class AreaSelectActivity extends BaseActivity {
 	 * spinner标记，用来区分当前改变的spinner，1:province,2:city,3:town,4:opcenter
 	 */
 	int areaFlag = 1;
+	/**
+	 * 省，市，县的数据list
+	 */
 	ArrayList<AreaInfo> provinceList, cityList, townList;
+	/**
+	 * 招商中心数据list
+	 */
 	ArrayList<OpcenterInfo> opcenterList;
+	/**
+	 * 当前省，市，县，招商中心以及父id
+	 */
 	String province, city, town, opcenter, parent_id = "";
+	/**
+	 * 返回，确定按钮
+	 */
 	Button btn_back,btn_ok;
 
 	@Override
@@ -96,18 +107,22 @@ public class AreaSelectActivity extends BaseActivity {
 	 */
 	private void refreshAreaData(ArrayList<?> list, int flag) {
 		if (areaFlag == 1) {
+			@SuppressWarnings("unchecked")
 			AreaAdapte areaAdapter = new AreaAdapte(mActivity,
 					(ArrayList<AreaInfo>) list);
 			sp_province.setAdapter(areaAdapter);
 		} else if (areaFlag == 2) {
+			@SuppressWarnings("unchecked")
 			AreaAdapte areaAdapter = new AreaAdapte(mActivity,
 					(ArrayList<AreaInfo>) list);
 			sp_city.setAdapter(areaAdapter);
 		} else if (areaFlag == 3) {
+			@SuppressWarnings("unchecked")
 			AreaAdapte areaAdapter = new AreaAdapte(mActivity,
 					(ArrayList<AreaInfo>) list);
 			sp_town.setAdapter(areaAdapter);
 		} else if (areaFlag == 4) {
+			@SuppressWarnings("unchecked")
 			OpcenterAdapte opcenterAdapter = new OpcenterAdapte(mActivity,
 					(ArrayList<OpcenterInfo>) list);
 			sp_opcenter.setAdapter(opcenterAdapter);
@@ -158,6 +173,7 @@ public class AreaSelectActivity extends BaseActivity {
 				ConnectManager.getInstance().getOpcenterResult("", "",
 						"fw_center", province, city, town, "", "",
 						new AjaxCallBack<String>() {
+							@SuppressWarnings("unchecked")
 							public void onSuccess(String t) {
 								super.onSuccess(t);
 								LG.i(getClass(), "opcenter =---->" + t);

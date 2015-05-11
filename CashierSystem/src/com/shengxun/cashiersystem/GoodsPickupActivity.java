@@ -91,8 +91,8 @@ public class GoodsPickupActivity extends BaseActivity {
 				if (BaseUtils.IsNotEmpty(card_no)) {
 					// 验证订单号非空
 					if (BaseUtils.IsNotEmpty(order_no)) {
-						// 查询该订单是否存在
-						ConnectManager.getInstance().getOrderFormDetailResult(
+						// 查询该取货店订单是否存在
+						ConnectManager.getInstance().getOrderFormDeliveryDetailResult(
 								order_no, ordercheck);
 					} else {
 						C.showShort("请输入订单号", mActivity);

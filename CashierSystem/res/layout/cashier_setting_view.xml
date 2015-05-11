@@ -91,7 +91,8 @@
                 android:text="@string/cashier_system_machine_showcustom"
                 android:textSize="@dimen/fontSize_28" />
             
-            <Switch
+            <!-- <Switch
+                android:id="@+id/cashier_switch_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="打开中"
@@ -99,8 +100,7 @@
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/fontSize_28"
                 />
-
-            <!--
+			-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,7 +130,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
-            -->
         </RelativeLayout>
     </RelativeLayout>
 

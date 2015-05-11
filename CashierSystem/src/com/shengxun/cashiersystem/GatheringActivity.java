@@ -1,8 +1,10 @@
 package com.shengxun.cashiersystem;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.os.Bundle;
@@ -15,20 +17,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.shengxun.adapter.AreaAdapte;
 import com.shengxun.constant.C;
-import com.shengxun.entity.AreaInfo;
 import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.led.JBLEDInterface;
@@ -51,12 +46,13 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	EditText gathering_total_money, gathering_cash, gathering_change,
 			gathering_card_no;
-	
+
 	private static EditText gathering_opcenter;
 	/**
 	 * 保存现金数据
 	 */
-	private static String cash = "", card_no = "", order_id,delivery_rs_code = "",delivery_rs_code_id="";
+	private static String cash = "", card_no = "", order_id,
+			delivery_rs_code = "", delivery_rs_code_id = "";
 	/**
 	 * 保存产品总额
 	 */
@@ -78,10 +74,9 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private ArrayList<ProductInfo> productInfo;
 	/**
-	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
-	 * 焦点位置，1为卡号输入框，2为现金输入框,默认1;
+	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金 焦点位置，1为卡号输入框，2为现金输入框,默认1;
 	 */
-	private int pay_way = 1,FocusPosition = 1;
+	private int pay_way = 1, FocusPosition = 1;
 	/**
 	 * 记录是否已经有了小数点
 	 */
@@ -89,13 +84,14 @@ public class GatheringActivity extends BaseActivity {
 	private static OpcenterInfo opcenter;
 
 	/**
-	 * 设置运营中心信息
+	 * 设置运营中心信息read
+	 * 
 	 * @param op
 	 * @auth shouwei
 	 */
 	public static void setOpcenter(OpcenterInfo op) {
 		opcenter = op;
-		gathering_opcenter.setText(opcenter.name+"");
+		gathering_opcenter.setText(opcenter.name + "");
 	}
 
 	@Override
@@ -119,6 +115,30 @@ public class GatheringActivity extends BaseActivity {
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
 		gathering_opcenter = (EditText) findViewById(R.id.cashier_gathering_opcenter);
 		gathering_card_no = (EditText) findViewById(R.id.cashier_gathering_card_no);
+		gathering_card_no.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				card_no = gathering_card_no.getText().toString().trim();
+				if (card_no.length() >= 11) {
+					String asc = card_no.substring(0, 3);
+					card_no = BaseUtils.StringToChar(asc)
+							+ card_no.substring(3);
+					LG.i(getClass(), "card_no === >" + card_no);
+					gathering_card_no.setText(card_no);
+				}
+			}
+		});
+		// 设置刷卡输入框的回车事件
 		gathering_card_no
 				.setOnEditorActionListener(new OnEditorActionListener() {
 					@Override
@@ -213,16 +233,16 @@ public class GatheringActivity extends BaseActivity {
 			JBLEDInterface.ledDisplay(totalMoney + "");
 		}
 	}
-	
+
 	/**
 	 * 初始化打印机
+	 * 
 	 * @auth shouwei
 	 */
-	private void initPrinter(){
+	private void initPrinter() {
 		JBPrintInterface.openPrinter();
-		JBPrintInterface.convertPrinterControl();
+		// JBPrintInterface.convertPrinterControl();
 	}
-	
 
 	/**
 	 * 点击事件
@@ -234,7 +254,7 @@ public class GatheringActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.cashier_gathering_back:
-				finish();
+				AppManager.getAppManager().finishActivity(mActivity);
 				break;
 			case R.id.gathering_btn_0:
 				addStringToEditText(btn_0.getText().toString().trim());
@@ -343,16 +363,15 @@ public class GatheringActivity extends BaseActivity {
 	private void createOrder() {
 		card_no = gathering_card_no.getText().toString().trim();
 		if (BaseUtils.IsNotEmpty(card_no)) {
-			LG.i(getClass(), "Total money =====>" + totalMoney
-					+ ",goodsList size===>" + goodsList.size());
 			if (applicationCS != null) {
-				if(opcenter!=null){
-//					delivery_rs_code =
+				if (opcenter != null) {
+					// delivery_rs_code =
 					delivery_rs_code_id = opcenter.id;
 				}
 				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
-						applicationCS.cashier_card_no, goodsList, delivery_rs_code, delivery_rs_code_id,
-						pay_way + "", totalMoney + "", ajaxcreateorder);
+						applicationCS.cashier_card_no, goodsList,
+						delivery_rs_code, delivery_rs_code_id, pay_way + "",
+						totalMoney + "", ajaxcreateorder);
 			}
 		} else {
 			C.showShort(
@@ -420,8 +439,35 @@ public class GatheringActivity extends BaseActivity {
 		}
 	}
 
-	private void printBillInfo(String data) {
-
+	/**
+	 * 拼接打印字符串
+	 * 
+	 * @param data
+	 * @auth shouwei
+	 */
+	private String printBillInfo() {
+		String s = "健康安全网" + "\n" + "名优特产运营中心" + "\n" + "【名优特产●重庆招商运营中心】销售小票"
+				+ "\n" + "机号:" + "\t" + "收银员:" + applicationCS.cashier_card_no
+				+ "\n" + "单号:" + order_id + "\n" + "商品名称" + "    " + "单价*数量"
+				+ "  " + "金额" + "\n";
+		int count = 0;
+		for (int i = 0; i < productInfo.size(); i++) {
+			s = s + productInfo.get(i).qp_name + "  "
+					+ productInfo.get(i).op_market_price + "*"
+					+ productInfo.get(i).buy_number + "  "
+					+ productInfo.get(i).buy_number
+					* productInfo.get(i).op_market_price + "\n";
+			count += productInfo.get(i).buy_number;
+		}
+		s = s + "\n" + "件数:" + count + "\n\n" + "实收RMB:" + cash + "\n"
+				+ "找零RMB:" + change + "\n\n";
+		Date d = new Date();
+		SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		s = s + "======" + sim.format(d) + "======" + "\n" + "谢谢惠顾欢迎下次光临"
+				+ "\n" + "客服电话:400-011-5808" + "\n" + "请当面清点所购商品和找零" + "\n"
+				+ "保留收银小票以作退换货凭证" + "\n" + "更多服务请登陆tc.051jk.com查询";
+		System.out.println(s);
+		return s;
 	}
 
 	/**
@@ -487,6 +533,7 @@ public class GatheringActivity extends BaseActivity {
 	 * 创建订单信息回调
 	 */
 	AjaxCallBack<String> ajaxcreateorder = new AjaxCallBack<String>() {
+		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "create t====>" + t);
@@ -499,7 +546,6 @@ public class GatheringActivity extends BaseActivity {
 						"product_list", data);
 				productInfo = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
-				printBillInfo(data);
 				C.showShort(
 						resources
 								.getString(R.string.cashier_system_alert_gathering_create_order_success),
@@ -574,8 +620,8 @@ public class GatheringActivity extends BaseActivity {
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
 
-					//开始打印
-					JBPrintInterface.printText_GB2312(totalMoney + "");
+					// 开始打印
+					JBPrintInterface.printText_GB2312(printBillInfo());
 
 					C.showShort(
 							resources

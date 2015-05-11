@@ -178,6 +178,8 @@ public final class R {
         public static final int cashier_return_item_reduce=0x7f08005c;
         public static final int cashier_return_item_showcount=0x7f08005d;
         public static final int cashier_setting_back=0x7f080060;
+        public static final int cashier_setting_btn_close=0x7f080062;
+        public static final int cashier_setting_btn_open=0x7f080061;
         public static final int cashier_system_btn_ok=0x7f080006;
         public static final int cashier_system_business=0x7f080005;
         public static final int cashier_system_clerk=0x7f080001;
@@ -220,11 +222,11 @@ public final class R {
         public static final int gathering_btn_ok=0x7f08003e;
         public static final int gathering_btn_spot=0x7f08003c;
         public static final int gathering_top=0x7f08000c;
-        public static final int login_layout_v_center=0x7f080061;
-        public static final int user_login=0x7f080064;
-        public static final int user_name=0x7f080062;
-        public static final int user_password=0x7f080063;
-        public static final int user_reset=0x7f080065;
+        public static final int login_layout_v_center=0x7f080063;
+        public static final int user_login=0x7f080066;
+        public static final int user_name=0x7f080064;
+        public static final int user_password=0x7f080065;
+        public static final int user_reset=0x7f080067;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -367,21 +369,24 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
-        public static final int Theme_CustomDialog=0x7f070007;
+        public static final int Theme_CustomDialog=0x7f070008;
         /**  水平黑色分割线 1dp 
          */
         public static final int blackHDividerLine1DP=0x7f070002;
+        /**  垂直黑色分割线 1dp 
+         */
+        public static final int blackVDividerLine1DP=0x7f070003;
         /**  水平白色分割线1dp 
          */
-        public static final int whiteHDividerLine1DP=0x7f070004;
+        public static final int whiteHDividerLine1DP=0x7f070005;
         /**  水平白色分割线2dp 
          */
-        public static final int whiteHDividerLine2DP=0x7f070003;
+        public static final int whiteHDividerLine2DP=0x7f070004;
         /**  垂直白色分割线1dp 
          */
-        public static final int whiteVDividerLin1DP=0x7f070006;
+        public static final int whiteVDividerLin1DP=0x7f070007;
         /**  垂直白色分割线2dp 
          */
-        public static final int whiteVDividerLine2DP=0x7f070005;
+        public static final int whiteVDividerLine2DP=0x7f070006;
     }
 }

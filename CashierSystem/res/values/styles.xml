@@ -22,6 +22,12 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/black</item>
     </style>
+    <!-- 垂直黑色分割线 1dp -->
+    <style name="blackVDividerLine1DP">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/black</item>
+    </style>
     <!-- 水平白色分割线2dp -->
     <style name="whiteHDividerLine2DP">
         <item name="android:layout_width">match_parent</item>

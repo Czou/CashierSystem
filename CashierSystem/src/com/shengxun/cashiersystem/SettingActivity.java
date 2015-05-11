@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Switch;
 
 public class SettingActivity extends BaseActivity {
 
 	Button btn_back, btn_open, btn_close;
+	
+	Switch sw_open;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +26,11 @@ public class SettingActivity extends BaseActivity {
 	private void initWidget() {
 
 		btn_back = (Button) findViewById(R.id.cashier_setting_back);
-//		btn_open = (Button) findViewById(R.id.cashier_setting_btn_open);
-//		btn_close = (Button) findViewById(R.id.cashier_setting_btn_close);
+		btn_open = (Button) findViewById(R.id.cashier_setting_btn_open);
+		btn_close = (Button) findViewById(R.id.cashier_setting_btn_close);
 
-//		btn_open.setOnClickListener(myclick);
-//		btn_close.setOnClickListener(myclick);
+		btn_open.setOnClickListener(myclick);
+		btn_close.setOnClickListener(myclick);
 		btn_back.setOnClickListener(myclick);
 	}
 
@@ -39,14 +42,16 @@ public class SettingActivity extends BaseActivity {
 			case R.id.cashier_setting_back:
 				AppManager.getAppManager().finishActivity(mActivity);
 				break;
-			// 打开客显
-//			case R.id.cashier_setting_btn_open:
-//				JBLEDInterface.openLed();
-//				break;
-//			// 关闭客显
-//			case R.id.cashier_setting_btn_close:
-//				JBLEDInterface.closeLed();
-//				break;
+			 //打开客显
+			case R.id.cashier_setting_btn_open:
+				applicationCS.isOpenLED = true;
+				JBLEDInterface.openLed();
+				break;
+			// 关闭客显
+			case R.id.cashier_setting_btn_close:
+				applicationCS.isOpenLED = false;
+				JBLEDInterface.closeLed();
+				break;
 			default:
 				break;
 			}
