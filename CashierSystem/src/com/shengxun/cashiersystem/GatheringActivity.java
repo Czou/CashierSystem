@@ -2,28 +2,42 @@ package com.shengxun.cashiersystem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
+import com.shengxun.adapter.AreaAdapte;
 import com.shengxun.constant.C;
+import com.shengxun.entity.AreaInfo;
+import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.led.JBLEDInterface;
+import com.shengxun.externalhardware.print.util.JBPrintInterface;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
+import com.zvezda.android.utils.LG;
 
 /**
  * 收款界面
@@ -37,20 +51,22 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	EditText gathering_total_money, gathering_cash, gathering_change,
 			gathering_card_no;
+	
+	private static EditText gathering_opcenter;
 	/**
 	 * 保存现金数据
 	 */
-	private static String cash = "", card_no = "";
+	private static String cash = "", card_no = "", order_id,delivery_rs_code = "",delivery_rs_code_id="";
 	/**
 	 * 保存产品总额
 	 */
-	private double totalMoney = 0;
+	private double totalMoney = 0, change = -1;
 	/**
 	 * 所有按钮
 	 */
 	private TextView btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7,
 			btn_8, btn_9, btn_50, btn_100, btn_200, btn_300, btn_00, btn_spot,
-			btn_ok, swing_card, gathering_back;
+			btn_ok, swing_card, gathering_back, btn_select_opcenter;
 	private ImageButton btn_back_up;
 	private Button order_cancel;
 	/**
@@ -58,18 +74,29 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private ArrayList<ProductInfo> goodsList;
 	/**
-	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
+	 * 保存创建订单返回的商品列表用以打印
 	 */
-	private int pay_way = 1;
+	private ArrayList<ProductInfo> productInfo;
 	/**
+	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
 	 * 焦点位置，1为卡号输入框，2为现金输入框,默认1;
 	 */
-	private int FocusPosition = 1;
+	private int pay_way = 1,FocusPosition = 1;
 	/**
 	 * 记录是否已经有了小数点
 	 */
-	private String order_id;
 	private boolean hasSpot = false;
+	private static OpcenterInfo opcenter;
+
+	/**
+	 * 设置运营中心信息
+	 * @param op
+	 * @auth shouwei
+	 */
+	public static void setOpcenter(OpcenterInfo op) {
+		opcenter = op;
+		gathering_opcenter.setText(opcenter.name+"");
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +107,7 @@ public class GatheringActivity extends BaseActivity {
 
 		initWidget();
 		initWidgetData();
+		initPrinter();
 	}
 
 	/**
@@ -89,7 +117,19 @@ public class GatheringActivity extends BaseActivity {
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
+		gathering_opcenter = (EditText) findViewById(R.id.cashier_gathering_opcenter);
 		gathering_card_no = (EditText) findViewById(R.id.cashier_gathering_card_no);
+		gathering_card_no
+				.setOnEditorActionListener(new OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_DONE) {
+							createOrder();
+						}
+						return false;
+					}
+				});
 		// gathering_cash.setText("");
 		// 设置不显示输入法
 		gathering_cash.setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -117,9 +157,11 @@ public class GatheringActivity extends BaseActivity {
 		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
 		swing_card = (TextView) findViewById(R.id.cashier_gathering_btn_swing_card);
 		order_cancel = (Button) findViewById(R.id.cashier_gathering_btn_order_cancel);
+		btn_select_opcenter = (TextView) findViewById(R.id.cashier_gathering_btn_select_opcenter);
 
 		gathering_cash.setOnFocusChangeListener(myfocuschange);
 		gathering_card_no.setOnFocusChangeListener(myfocuschange);
+		btn_select_opcenter.setOnClickListener(myclick);
 		gathering_back.setOnClickListener(myclick);
 		gathering_cash.addTextChangedListener(mytextchange);
 		btn_0.setOnClickListener(myclick);
@@ -164,13 +206,23 @@ public class GatheringActivity extends BaseActivity {
 					* (goodsList.get(i).op_market_price);
 		}
 		gathering_total_money.setText(totalMoney + "");
-		if(applicationCS.isOpenLED){
-			JBLEDInterface.ledDisplay(totalMoney+"");
-		}else{
-			applicationCS.isOpenLED=JBLEDInterface.openLed();
-			JBLEDInterface.ledDisplay(totalMoney+"");
+		if (applicationCS.isOpenLED) {
+			JBLEDInterface.ledDisplay(totalMoney + "");
+		} else {
+			applicationCS.isOpenLED = JBLEDInterface.openLed();
+			JBLEDInterface.ledDisplay(totalMoney + "");
 		}
 	}
+	
+	/**
+	 * 初始化打印机
+	 * @auth shouwei
+	 */
+	private void initPrinter(){
+		JBPrintInterface.openPrinter();
+		JBPrintInterface.convertPrinterControl();
+	}
+	
 
 	/**
 	 * 点击事件
@@ -241,6 +293,11 @@ public class GatheringActivity extends BaseActivity {
 			// 支付订单
 			case R.id.gathering_btn_ok:
 				if (BaseUtils.IsNotEmpty(order_id)) {
+					// 如未付款则不予执行订单付款接口
+					if (change < 0) {
+						C.showShort("还未付款", mActivity);
+						break;
+					}
 					ConnectManager.getInstance().getPayOrderFormResult(
 							order_id, ajaxPayorder);
 				} else {
@@ -252,26 +309,16 @@ public class GatheringActivity extends BaseActivity {
 				break;
 			// 刷卡创建订单
 			case R.id.cashier_gathering_btn_swing_card:
-				card_no = gathering_card_no.getText().toString().trim();
-				if (BaseUtils.IsNotEmpty(card_no)) {
-					if (applicationCS != null) {
-						ConnectManager.getInstance().getCreateOrderFormResult(
-								card_no, applicationCS.cashier_card_no,
-								goodsList, "", "", pay_way + "",
-								totalMoney + "", ajaxcreateorder);
-					}
-				} else {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_card_null),
-							mActivity);
-				}
+				createOrder();
 				break;
 			// 取消订单
 			case R.id.cashier_gathering_btn_order_cancel:
-				if (BaseUtils.IsNotEmpty(order_id)) {
+				if (BaseUtils.IsNotEmpty(order_id)
+						&& BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
+					LG.i(getClass(), "cancel order id =====>" + order_id);
 					ConnectManager.getInstance().getOrderFormCanaelResult(
-							order_id, ajaxcancelorder);
+							order_id, applicationCS.cashier_card_no, card_no,
+							ajaxcancelorder);
 				} else {
 					C.showShort(
 							resources
@@ -279,11 +326,41 @@ public class GatheringActivity extends BaseActivity {
 							mActivity);
 				}
 				break;
+			case R.id.cashier_gathering_btn_select_opcenter:
+				goActivity(AreaSelectActivity.class);
+				break;
 			default:
 				break;
 			}
 		}
 	};
+
+	/**
+	 * 创建订单
+	 * 
+	 * @auth shouwei
+	 */
+	private void createOrder() {
+		card_no = gathering_card_no.getText().toString().trim();
+		if (BaseUtils.IsNotEmpty(card_no)) {
+			LG.i(getClass(), "Total money =====>" + totalMoney
+					+ ",goodsList size===>" + goodsList.size());
+			if (applicationCS != null) {
+				if(opcenter!=null){
+//					delivery_rs_code =
+					delivery_rs_code_id = opcenter.id;
+				}
+				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
+						applicationCS.cashier_card_no, goodsList, delivery_rs_code, delivery_rs_code_id,
+						pay_way + "", totalMoney + "", ajaxcreateorder);
+			}
+		} else {
+			C.showShort(
+					resources
+							.getString(R.string.cashier_system_alert_gathering_card_null),
+					mActivity);
+		}
+	}
 
 	/**
 	 * 在指定位置插入字符
@@ -343,6 +420,10 @@ public class GatheringActivity extends BaseActivity {
 		}
 	}
 
+	private void printBillInfo(String data) {
+
+	}
+
 	/**
 	 * 焦点改变监听
 	 */
@@ -388,7 +469,7 @@ public class GatheringActivity extends BaseActivity {
 			if (BaseUtils.IsNotEmpty(cash)) {
 				// 如果cash是一个数字,则计算change
 				if (BaseUtils.isNumber(cash)) {
-					double change = Double.parseDouble(cash) - totalMoney;
+					change = Double.parseDouble(cash) - totalMoney;
 					// 保留一位小数
 					BigDecimal bd = new BigDecimal(change);
 					change = bd.setScale(1, BigDecimal.ROUND_HALF_UP)
@@ -397,6 +478,7 @@ public class GatheringActivity extends BaseActivity {
 				}
 			} else {
 				gathering_change.setText("0");
+				change = -1;
 			}
 		}
 	};
@@ -407,21 +489,25 @@ public class GatheringActivity extends BaseActivity {
 	AjaxCallBack<String> ajaxcreateorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "create t====>" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				order_id = JSONParser.getStringFromJsonString("order_id", data);
+				String product_detail = JSONParser.getStringFromJsonString(
+						"product_list", data);
+				productInfo = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
+						product_detail, ProductInfo.class);
+				printBillInfo(data);
 				C.showShort(
 						resources
-								.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
+								.getString(R.string.cashier_system_alert_gathering_create_order_success),
 						mActivity);
 				// 创建订单成功，取消订单按钮可见
 				order_cancel.setVisibility(View.VISIBLE);
 			} else {
-				C.showShort(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_create_order_fail),
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
 						mActivity);
 			}
 		};
@@ -440,9 +526,10 @@ public class GatheringActivity extends BaseActivity {
 	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "CANCEL ORDER ====>" + t);
 			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("result", t).equals(
-							"ok")) {
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
@@ -458,9 +545,7 @@ public class GatheringActivity extends BaseActivity {
 							mActivity);
 				}
 			} else {
-				C.showShort(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
 						mActivity);
 			}
 
@@ -472,6 +557,7 @@ public class GatheringActivity extends BaseActivity {
 					resources
 							.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
 					mActivity);
+			LG.i(getClass(), "t ===>" + t);
 		};
 	};
 
@@ -487,11 +573,16 @@ public class GatheringActivity extends BaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
+
+					//开始打印
+					JBPrintInterface.printText_GB2312(totalMoney + "");
+
 					C.showShort(
 							resources
 									.getString(R.string.cashier_system_alert_gathering_order_pay_success),
 							mActivity);
 					AppManager.getAppManager().finishActivity(mActivity);
+					JBPrintInterface.closePrinter();
 				} else {
 					C.showShort(
 							resources
@@ -499,9 +590,7 @@ public class GatheringActivity extends BaseActivity {
 							mActivity);
 				}
 			} else {
-				C.showShort(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
 						mActivity);
 			}
 		};
@@ -514,4 +603,5 @@ public class GatheringActivity extends BaseActivity {
 					mActivity);
 		};
 	};
+
 }

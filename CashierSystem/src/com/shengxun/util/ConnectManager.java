@@ -1,6 +1,8 @@
 package com.shengxun.util;
 
+import java.io.ObjectOutputStream.PutField;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -10,6 +12,7 @@ import com.shengxun.constant.C;
 import com.shengxun.constant.U;
 import com.shengxun.entity.ProductInfo;
 import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.LG;
 
 /**
  * 连接服务器的连接管理
@@ -177,12 +180,13 @@ public class ConnectManager {
 		}
 		params.put("consume_card_no", consume_card_no);
 		params.put("cashier_card_no", cashier_card_no);
-		if(products!=null&&products.size()>0){
-			for(int i=0;i<products.size();i++){
-				params.put("product_info["+products.get(i).op_id+"]", products.get(i).buy_number+"");	
+		if (products != null && products.size() > 0) {
+			for (int i = 0; i < products.size(); i++) {
+				params.put("product_info[" + products.get(i).op_id + "]",
+						products.get(i).buy_number + "");
 			}
 		}
-		
+
 		params.put("pay_way", pay_way);
 		params.put("pay_money", pay_money);
 		finalHttp.configCharset("utf-8");
@@ -254,7 +258,8 @@ public class ConnectManager {
 		params.put("order_id", order_id);
 
 		finalHttp.configCharset("utf-8");
-		finalHttp.get(U.CASH_STRING_ORDERFORM_DETAIL, params, ajaxCallBack);
+		finalHttp.get(U.CASH_STRING_ORDERFORM_DELIVERY_DETAIL, params,
+				ajaxCallBack);
 
 	}
 
@@ -316,6 +321,7 @@ public class ConnectManager {
 	 * @param ajaxCallBack
 	 */
 	public void getOrderFormCanaelResult(String order_id,
+			String cashier_card_no, String consume_card_no,
 			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
@@ -324,6 +330,8 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
+		params.put("cashier_card_no", cashier_card_no);
+		params.put("consume_card_no", consume_card_no);
 		params.put("order_id", order_id);
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_ORDERFORM_CANAEL, params, ajaxCallBack);
@@ -336,8 +344,8 @@ public class ConnectManager {
 	 * @param order_id
 	 * @param ajaxCallBack
 	 */
-	public void getOrderFormPickUpResult(String order_id,
-			AjaxCallBack<String> ajaxCallBack) {
+	public void getOrderFormPickUpResult(String order_id, String card_no,
+			String cashier_card_no, AjaxCallBack<String> ajaxCallBack) {
 
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
@@ -346,6 +354,8 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
+		params.put("cashier_card_no", cashier_card_no);
+		params.put("card_no", card_no);
 		params.put("order_id", order_id);
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_ORDERFORM_PICKUP, params, ajaxCallBack);
@@ -361,8 +371,9 @@ public class ConnectManager {
 	 * @param pay_way
 	 * @param ajaxCallBack
 	 */
-	public void getOrderFormRefundResult(String order_id, String product_info,
-			String cashier_card_no, String pay_way,
+	public void getOrderFormRefundResult(String order_id,
+			ArrayList<ProductInfo> product_info, String cashier_card_no,
+			String pay_way, String consume_card_no,
 			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
@@ -371,10 +382,25 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
+		// params.put("card_no", card_no);
 		params.put("order_id", order_id);
-		params.put("product_info", product_info);
-		params.put("cashier_card_no", cashier_card_no);
-		params.put("pay_way", pay_way);
+		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
+			params.put("cashier_card_no", cashier_card_no);
+		}
+		if (BaseUtils.IsNotEmpty(pay_way)) {
+			params.put("pay_way", pay_way);
+		}
+
+		if (BaseUtils.IsNotEmpty(consume_card_no)) {
+			params.put("consume_card_no", consume_card_no);
+		}
+
+		if (product_info != null && product_info.size() > 0) {
+			for (int i = 0; i < product_info.size(); i++) {
+				params.put("product_info[" + product_info.get(i).op_id + "]",
+						product_info.get(i).buy_number + "");
+			}
+		}
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_ORDERFORM_REFUND, params, ajaxCallBack);
 
@@ -390,8 +416,7 @@ public class ConnectManager {
 	 * @param pay_way
 	 * @param ajaxCallBack
 	 */
-	public void getReturnOrderFormResult(String order_id, String product_info,
-			String cashier_card_no, String pay_way,
+	public void getReturnOrderFormResult(String order_id,
 			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
@@ -545,21 +570,30 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		if (!BaseUtils.IsNotEmpty(number)) {
-			number = "20";
+		if(BaseUtils.IsNotEmpty(opcenter_type)){
+			params.put("opcenter_type", opcenter_type);
 		}
-		if (!BaseUtils.IsNotEmpty(offset)) {
-			offset = "0";
+		if(BaseUtils.IsNotEmpty(number)){
+			params.put("number", number);
 		}
-		params.put("number", number);
-		params.put("offset", offset);
-		params.put("opcenter_type", opcenter_type);
-		params.put("numbsearch_provinceer", search_province);
-		params.put("search_city", search_city);
-		params.put("search_town", search_town);
-		params.put("search_name", search_name);
-		params.put("search_address", search_address);
-
+		if(BaseUtils.IsNotEmpty(offset)){
+			params.put("offset", offset);
+		}
+		if(BaseUtils.IsNotEmpty(search_province)){
+			params.put("search_province", search_province);
+		}
+		if(BaseUtils.IsNotEmpty(search_city)){
+			params.put("search_city", search_city);
+		}
+		if(BaseUtils.IsNotEmpty(search_town)){
+			params.put("search_town", search_town);
+		}
+		if(BaseUtils.IsNotEmpty(search_name)){
+			params.put("search_name", search_name);
+		}
+		if(BaseUtils.IsNotEmpty(search_address)){
+			params.put("search_address", search_address);
+		}
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_OPCENTER, params, ajaxCallBack);
 	}
@@ -580,9 +614,12 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		params.put("search_level", search_level);
-		params.put("parent_aid", parent_aid);
-
+		if(BaseUtils.IsNotEmpty(search_level)){
+			params.put("search_level", search_level);
+		}
+		if(BaseUtils.IsNotEmpty(parent_aid)){
+			params.put("parent_aid", parent_aid);
+		}
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_AREA, params, ajaxCallBack);
 

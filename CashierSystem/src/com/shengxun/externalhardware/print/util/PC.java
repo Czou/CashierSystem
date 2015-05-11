@@ -7,7 +7,6 @@ public class PC {
 
 	public static SerialPortTools printSerialPortTools;
 	
-	
 	public static String printPort_58mm = "/dev/ttyS6"; // 打印串口
 	public static int printBaudrate_58mm = 115200; // 打印波特率
 

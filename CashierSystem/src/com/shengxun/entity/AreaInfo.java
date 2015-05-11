@@ -24,4 +24,11 @@ public class AreaInfo {
 	 */
 	public String level;
 	
+	@Override
+	public String toString() {
+		return "AreaInfo [aid=" + aid + ", pid=" + pid + ", name=" + name
+				+ ", level=" + level + "]";
+	}
+	
+	
 }
