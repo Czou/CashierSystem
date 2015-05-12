@@ -339,9 +339,7 @@ public class GatheringActivity extends BaseActivity {
 							order_id, ajaxPayorder);
 				} else {
 					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_error),
-							mActivity);
+							resources.getString(R.string.cashier_system_alert_gathering_order_error),mActivity);
 				}
 				break;
 			// 刷卡创建订单
@@ -357,10 +355,7 @@ public class GatheringActivity extends BaseActivity {
 							order_id, applicationCS.cashier_card_no, card_no,
 							ajaxcancelorder);
 				} else {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_error),
-							mActivity);
+					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_error),mActivity);
 				}
 				break;
 			case R.id.cashier_gathering_btn_select_opcenter:
@@ -391,10 +386,7 @@ public class GatheringActivity extends BaseActivity {
 						totalMoney + "", ajaxcreateorder);
 			}
 		} else {
-			C.showShort(
-					resources
-							.getString(R.string.cashier_system_alert_gathering_card_null),
-					mActivity);
+			C.showShort(resources.getString(R.string.cashier_system_alert_gathering_card_null),mActivity);
 		}
 	}
 
@@ -555,33 +547,22 @@ public class GatheringActivity extends BaseActivity {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "create t====>" + t);
-			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("status", t).equals(
-							"1")) {
+			if (BaseUtils.IsNotEmpty(t) && JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				order_id = JSONParser.getStringFromJsonString("order_id", data);
-				String product_detail = JSONParser.getStringFromJsonString(
-						"product_list", data);
-				productInfo = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
-						product_detail, ProductInfo.class);
-				C.showShort(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_create_order_success),
-						mActivity);
+				String product_detail = JSONParser.getStringFromJsonString("product_list", data);
+				productInfo = (ArrayList<ProductInfo>) JSONParser.JSON2Array(product_detail, ProductInfo.class);
+				C.showShort(resources.getString(R.string.cashier_system_alert_gathering_create_order_success),mActivity);
 				// 创建订单成功，取消订单按钮可见
 				order_cancel.setVisibility(View.VISIBLE);
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
-						mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort(
-					resources
-							.getString(R.string.cashier_system_alert_gathering_create_order_fail),
-					mActivity);
+			C.showShort(resources.getString(R.string.cashier_system_alert_gathering_create_order_fail),mActivity);
 		};
 	};
 	/**
@@ -591,36 +572,23 @@ public class GatheringActivity extends BaseActivity {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "CANCEL ORDER ====>" + t);
-			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("status", t).equals(
-							"1")) {
+			if (BaseUtils.IsNotEmpty(t) && JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
-				if (JSONParser.getStringFromJsonString("result", data).equals(
-						"ok")) {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
-							mActivity);
+				if (JSONParser.getStringFromJsonString("result", data).equals("ok")) {
+					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_cancel_success),mActivity);
 					AppManager.getAppManager().finishActivity(mActivity);
 				} else {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
-							mActivity);
+					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),mActivity);
 				}
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
-						mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
 			}
 
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort(
-					resources
-							.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
-					mActivity);
+			C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),mActivity);
 			LG.i(getClass(), "t ===>" + t);
 		};
 	};
@@ -631,40 +599,27 @@ public class GatheringActivity extends BaseActivity {
 	AjaxCallBack<String> ajaxPayorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("status", t).equals(
-							"1")) {
+			if (BaseUtils.IsNotEmpty(t)&& JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
-				if (JSONParser.getStringFromJsonString("result", data).equals(
-						"ok")) {
+				if (JSONParser.getStringFromJsonString("result", data).equals("ok")) {
 
 					// 开始打印
 					JBPrintInterface.printText_GB2312(printBillInfo());
 
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_pay_success),
-							mActivity);
+					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_pay_success),mActivity);
 					AppManager.getAppManager().finishActivity(mActivity);
 					JBPrintInterface.closePrinter();
 				} else {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
-							mActivity);
+					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_pay_fail),mActivity);
 				}
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
-						mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort(
-					resources
-							.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
-					mActivity);
+			C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_pay_fail),mActivity);
 		};
 	};
 	

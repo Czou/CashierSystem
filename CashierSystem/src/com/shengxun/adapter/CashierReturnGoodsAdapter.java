@@ -3,15 +3,14 @@ package com.shengxun.adapter;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shengxun.cashiersystem.CheckBoxChangeListener;
@@ -19,7 +18,6 @@ import com.shengxun.cashiersystem.R;
 import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
-import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
 
 public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
@@ -59,17 +57,22 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				R.id.cashier_return_item_goods_name);
 		TextView cashier_is_return = ViewHolder.get(convertView,
 				R.id.cashier_return_item_is_return);
-		final TextView cashier_goods_number = ViewHolder.get(convertView,
+		TextView cashier_goods_number = ViewHolder.get(convertView,
 				R.id.cashier_return_item_showcount);
 		Button add = ViewHolder.get(convertView, R.id.cashier_return_item_add);
 		Button reduce = ViewHolder.get(convertView,
 				R.id.cashier_return_item_reduce);
 		CheckBox cashier_goods_cb = ViewHolder.get(convertView,
 				R.id.cashier_return_item_goods_cb);
+		
+		add.setOnClickListener(new MyClick(position, cashier_goods_number));
+		reduce.setOnClickListener(new MyClick(position, cashier_goods_number));
+		
 		LG.i(getClass(), convertView.getTag() + "");
 
 		cashier_goods_name.setText(entity.qp_name + "");
 		cashier_goods_number.setText(entity.cop_number + "");
+		cashier_goods_cb.setChecked(entity.isChecked);
 		switch (order.co_status) {
 		case 1:
 			cashier_is_return.setText("正常");
@@ -83,7 +86,7 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		default:
 			break;
 		}
-		cashier_goods_cb.setChecked(false);
+		
 		final int mPosition = position;
 
 		cashier_goods_cb
@@ -91,15 +94,43 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
-						if (isChecked) {
-							dataList.get(mPosition).isChecked = true;
-						} else {
-							dataList.get(mPosition).isChecked = false;
-						}
-						listener.setCheckedPosition(dataList);
+						dataList.get(mPosition).isChecked = !dataList
+								.get(mPosition).isChecked;
+						notifyDataSetChanged();
 					}
 				});
+
 		return convertView;
+	}
+
+	class MyClick implements OnClickListener {
+
+		int position;
+		TextView et;
+
+		public MyClick(int position, TextView et) {
+			this.position = position;
+			this.et = et;
+		}
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.cashier_return_item_add:
+				dataList.get(position).cop_number +=1;
+				et.setText(dataList.get(position).cop_number+"");
+				listener.setCheckedPosition(dataList);
+				
+				break;
+			case R.id.cashier_return_item_reduce:
+				dataList.get(position).cop_number -=1;
+				et.setText(dataList.get(position).cop_number+"");
+				listener.setCheckedPosition(dataList);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 }

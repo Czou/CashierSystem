@@ -62,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hint="@string/cashier_system_hint_no_return_card_no"
-                android:inputType="number"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button

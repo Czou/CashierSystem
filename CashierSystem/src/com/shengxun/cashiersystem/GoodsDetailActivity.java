@@ -131,9 +131,7 @@ public class GoodsDetailActivity extends BaseActivity {
 					MainActivity.instance.deleteGoods(product);
 					AppManager.getAppManager().finishActivity(mActivity);
 					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_order_detail_modify_success),
-							mActivity);
+							resources.getString(R.string.cashier_system_alert_order_detail_modify_success),mActivity);
 				}
 				break;
 			// 点击确定按钮
@@ -141,10 +139,7 @@ public class GoodsDetailActivity extends BaseActivity {
 				if (MainActivity.instance != null) {
 					MainActivity.instance.updateGoods(product);
 					AppManager.getAppManager().finishActivity(mActivity);
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_order_detail_modify_success),
-							mActivity);
+					C.showShort(resources.getString(R.string.cashier_system_alert_order_detail_modify_success),mActivity);
 				}
 				break;
 			// 点击增加数量

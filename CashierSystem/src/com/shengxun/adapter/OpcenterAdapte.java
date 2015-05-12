@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shengxun.cashiersystem.R;
-import com.shengxun.entity.AreaInfo;
 import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.util.ViewHolder;
 

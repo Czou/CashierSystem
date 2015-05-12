@@ -58,7 +58,7 @@
                 android:text="―"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize_18"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
             <EditText
                 android:id="@+id/cashier_return_item_showcount"
@@ -79,7 +79,7 @@
                 android:text="＋"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize_18"
-                android:visibility="invisible" />
+                android:visibility="visible" />
         </LinearLayout>
         
         <TextView style="@style/blackVDividerLine1DP" />
