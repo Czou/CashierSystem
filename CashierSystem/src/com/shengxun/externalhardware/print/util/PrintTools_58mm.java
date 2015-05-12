@@ -37,6 +37,9 @@ public class PrintTools_58mm {
 	/* 标准大小 */
 	public static final byte[] FS_FONT_ALIGN = new byte[] { FS, 0x21, 1, ESC,
 			0x21, 1 };
+	/* 大字体 */
+	public static final byte[] FS_FONT_ALIGN_BIG = new byte[] { FS, 0x21, 1, ESC,
+			0x21, 48 };
 	/* 靠左打印命令 */
 	public static final byte[] ESC_ALIGN_LEFT = new byte[] { 0x1b, 'a', 0x00 };
 	/* 居中打印命令 */

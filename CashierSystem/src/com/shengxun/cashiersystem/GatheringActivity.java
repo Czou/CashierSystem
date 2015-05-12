@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,13 +22,16 @@ import android.widget.TextView.OnEditorActionListener;
 import com.shengxun.constant.C;
 import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.entity.ProductInfo;
+import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
 import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.shengxun.externalhardware.print.util.JBPrintInterface;
+import com.shengxun.externalhardware.print.util.PrintTools_58mm;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
+import com.zvezda.android.utils.TimeConversion;
 
 /**
  * 收款界面
@@ -43,12 +45,13 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	EditText gathering_total_money, gathering_cash, gathering_change,
 			gathering_card_no;
-	
+
 	private static EditText gathering_opcenter;
 	/**
 	 * 保存现金数据
 	 */
-	private static String cash = "", card_no = "", order_id,delivery_rs_code = "",delivery_rs_code_id="";
+	private static String cash = "", card_no = "", order_id,
+			delivery_rs_code = "", delivery_rs_code_id = "";
 	/**
 	 * 保存产品总额
 	 */
@@ -70,10 +73,9 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private ArrayList<ProductInfo> productInfo;
 	/**
-	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金
-	 * 焦点位置，1为卡号输入框，2为现金输入框,默认1;
+	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金 焦点位置，1为卡号输入框，2为现金输入框,默认1;
 	 */
-	private int pay_way = 1,FocusPosition = 1;
+	private int pay_way = 1, FocusPosition = 1;
 	/**
 	 * 记录是否已经有了小数点
 	 */
@@ -81,18 +83,18 @@ public class GatheringActivity extends BaseActivity {
 	private static OpcenterInfo opcenter;
 
 	/**
-	 * 设置运营中心信息
+	 * 设置运营中心信息read
+	 * 
 	 * @param op
 	 * @auth shouwei
 	 */
 	public static void setOpcenter(OpcenterInfo op) {
 		opcenter = op;
-		gathering_opcenter.setText(opcenter.name+"");
+		gathering_opcenter.setText(opcenter.name + "");
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cashier_gathering_view);
@@ -110,22 +112,21 @@ public class GatheringActivity extends BaseActivity {
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
 		gathering_opcenter = (EditText) findViewById(R.id.cashier_gathering_opcenter);
 		gathering_card_no = (EditText) findViewById(R.id.cashier_gathering_card_no);
-		gathering_card_no
-				.setOnEditorActionListener(new OnEditorActionListener() {
+		
+		// 设置刷卡输入框的回车事件
+		gathering_card_no.setOnEditorActionListener(new OnEditorActionListener() {
 					@Override
-					public boolean onEditorAction(TextView v, int actionId,
-							KeyEvent event) {
-						if (actionId == EditorInfo.IME_ACTION_DONE) {
-							createOrder();
-						}
-						return false;
+					public boolean onEditorAction(TextView v, int actionId,KeyEvent event) {
+						createOrder();
+						LG.e(getClass(),"actionId---->"+actionId);
+						return true;
 					}
 				});
 		// gathering_cash.setText("");
 		// 设置不显示输入法
 		gathering_cash.setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 		gathering_cash.setTextIsSelectable(true);
-		// 设置光标位置
+		// 设置光标位置0
 		gathering_cash.setSelection(gathering_cash.length());
 		gathering_change = (EditText) findViewById(R.id.cashier_gathering_change);
 		btn_0 = (TextView) findViewById(R.id.gathering_btn_0);
@@ -198,7 +199,9 @@ public class GatheringActivity extends BaseActivity {
 		}
 		gathering_total_money.setText(totalMoney + "");
 		//显示收费金额
+		JBLEDInterface.convertLedControl();
 		JBLEDInterface.ledDisplay(totalMoney + "");
+
 	}
 	/**
 	 * 点击事件
@@ -210,7 +213,7 @@ public class GatheringActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.cashier_gathering_back:
-				finish();
+				AppManager.getAppManager().finishActivity(mActivity);
 				break;
 			case R.id.gathering_btn_0:
 				addStringToEditText(btn_0.getText().toString().trim());
@@ -319,22 +322,18 @@ public class GatheringActivity extends BaseActivity {
 	private void createOrder() {
 		card_no = gathering_card_no.getText().toString().trim();
 		if (BaseUtils.IsNotEmpty(card_no)) {
-			LG.i(getClass(), "Total money =====>" + totalMoney
-					+ ",goodsList size===>" + goodsList.size());
 			if (applicationCS != null) {
-				if(opcenter!=null){
-//					delivery_rs_code =
+				if (opcenter != null) {
+					// delivery_rs_code =
 					delivery_rs_code_id = opcenter.id;
 				}
 				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
-						applicationCS.cashier_card_no, goodsList, delivery_rs_code, delivery_rs_code_id,
-						pay_way + "", totalMoney + "", ajaxcreateorder);
+						applicationCS.cashier_card_no, goodsList,
+						delivery_rs_code, delivery_rs_code_id, pay_way + "",
+						totalMoney + "", ajaxcreateorder);
 			}
 		} else {
-			C.showShort(
-					resources
-							.getString(R.string.cashier_system_alert_gathering_card_null),
-					mActivity);
+			C.showShort(resources.getString(R.string.cashier_system_alert_gathering_card_null),mActivity);
 		}
 	}
 
@@ -396,8 +395,68 @@ public class GatheringActivity extends BaseActivity {
 		}
 	}
 
-	private void printBillInfo(String data) {
+	/**
+	 * 拼接打印字符串
+	 * @auth LL
+	 */
+	private void printBillInfo() {
+		
+		PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_CENTER);
+		PrintTools_58mm.writeEnterLine(1);
+		PrintTools_58mm.print_gbk("健康安全网");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print(PrintTools_58mm.FS_FONT_ALIGN_BIG);
+		PrintTools_58mm.print_gbk("名优特产运营中心");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print(PrintTools_58mm.FS_FONT_ALIGN);
+		PrintTools_58mm.print_gbk("【名优特产●重庆招商运营中心】销售小票");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_LEFT);
+		PrintTools_58mm.print_gbk("机号:"+applicationCS.mc_id+ "    收银员:"+ applicationCS.cashier_card_no);
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("单号:" + order_id);
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("商品名称" + "      " + "单价*数量"+ "    " + "金额");
+		
+		int count = 0;
+		for (int i = 0; i < productInfo.size(); i++) {
+			String s =productInfo.get(i).qp_name + "  "
+					+ productInfo.get(i).op_market_price + "*"
+					+ productInfo.get(i).buy_number + "  "
+					+ productInfo.get(i).buy_number
+					* productInfo.get(i).op_market_price + "\n";
+			PrintTools_58mm.print(PrintTools_58mm.LF);
+//			PrintTools_58mm.print(PrintTools_58mm.HT);
+//			PrintTools_58mm.print_gbk(""+ productInfo.get(i).qp_name);
+//			PrintTools_58mm.print(PrintTools_58mm.HT);
+//			PrintTools_58mm.print_gbk(productInfo.get(i).op_market_price + "*"+ productInfo.get(i).buy_number);
+//			PrintTools_58mm.print(PrintTools_58mm.HT);
+//			PrintTools_58mm.print_gbk(""+productInfo.get(i).buy_number* productInfo.get(i).op_market_price);
+			PrintTools_58mm.print_gbk(""+s);
+			count += productInfo.get(i).buy_number;
+		}
 
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("件数:" + count);
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("实收RMB:" + cash );
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("找零RMB:" + change);
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_CENTER);
+		PrintTools_58mm.print_gbk("======" +TimeConversion.getSystemAppTimeCN()+ "======" );
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("谢谢惠顾欢迎下次光临");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("客服电话:400-011-5808");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("请当面清点所购商品和找零");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("保留收银小票以作退换货凭证");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("更多服务请登陆tc.051jk.com查询");
+		PrintTools_58mm.writeEnterLine(2);
+		PrintTools_58mm.resetPrint();
 	}
 
 	/**
@@ -463,6 +522,7 @@ public class GatheringActivity extends BaseActivity {
 	 * 创建订单信息回调
 	 */
 	AjaxCallBack<String> ajaxcreateorder = new AjaxCallBack<String>() {
+		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "create t====>" + t);
@@ -475,7 +535,6 @@ public class GatheringActivity extends BaseActivity {
 						"product_list", data);
 				productInfo = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
-				printBillInfo(data);
 				C.showShort(
 						resources
 								.getString(R.string.cashier_system_alert_gathering_create_order_success),
@@ -544,38 +603,28 @@ public class GatheringActivity extends BaseActivity {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser.getStringFromJsonString("status", t).equals(
-							"1")) {
+					&& JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
-				if (JSONParser.getStringFromJsonString("result", data).equals(
-						"ok")) {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_pay_success),
-							mActivity);
+				if (JSONParser.getStringFromJsonString("result", data).equals("ok")) {
+					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_pay_success),mActivity);
+					// 开始打印
 					printPaymentInfo();
-
-					
+					if(MainActivity.instance!=null){
+						MainActivity.instance.clearGoods();
+					}
 					AppManager.getAppManager().finishActivity(mActivity);
 				} else {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
-							mActivity);
+					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_pay_fail),mActivity);
 				}
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
-						mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),mActivity);
 			}
 		}
 
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort(
-					resources
-							.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
-					mActivity);
+			C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_pay_fail),mActivity);
 		};
 	};
 	
@@ -584,6 +633,8 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private void printPaymentInfo() {
 		//开始打印
-		JBPrintInterface.printText_GB2312( "名优特产"+"消费金额:"+totalMoney );
+		JBPrintInterface.convertPrinterControl();
+		JBCashBoxInterface.openCashBox();
+		printBillInfo();
 	};
 }

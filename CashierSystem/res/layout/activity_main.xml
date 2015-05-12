@@ -116,7 +116,6 @@
                 android:layout_marginBottom="5dp"
                 android:paddingLeft="10dp"
                 android:hint="@string/cashier_system_business_hint"
-                android:inputType="number"
                 android:singleLine="true"
                 android:background="@color/white"
                 android:textColor="@android:color/black" />

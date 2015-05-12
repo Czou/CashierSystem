@@ -32,6 +32,11 @@ public class ApplicationCS extends Application{
 	public String cashier_card_no=null;
 	
 	/**
+	 * 收银机的编号
+	 */
+	public String mc_id=null;
+	
+	/**
 	 * ORM数据库操作封装
 	 */
 	protected ORMOpearationDao ormOpearationDao=null;
@@ -58,7 +63,7 @@ public class ApplicationCS extends Application{
 					Dao<ProductInfo,Integer> productsDao=ormOpearationDao.getDao(ProductInfo.class);
 					//productsDao.executeRawNoArgs("DELETE FROM productInfoTable");//删除所有数据
 					for(ProductInfo entity:products){
-					 productsDao.createIfNotExists(entity);
+					 productsDao.createOrUpdate(entity);
 					}
 				}
 			}} catch (Exception e) {

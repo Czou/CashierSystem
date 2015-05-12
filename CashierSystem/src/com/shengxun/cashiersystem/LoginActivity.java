@@ -85,6 +85,7 @@ public class LoginActivity extends BaseActivity{
 					applicationCS.loginInfo=(LoginInfo) JSONParser.JSON2Object(data, LoginInfo.class);
 					if(applicationCS.loginInfo!=null&&applicationCS.loginInfo.cashier_info!=null){
 						if(applicationCS.loginInfo.cashier_info.c_status==1){
+							applicationCS.mc_id=applicationCS.loginInfo.mc_id;
 							goActivity(MainActivity.class);
 							AppManager.getAppManager().finishActivity(mActivity);
 						}else{

@@ -13,7 +13,6 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -89,47 +88,37 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void initExternalHardware(){
 		//开客显
-		JBLEDInterface.openLed();
-		JBLEDInterface.convertLedControl();
+		if(!JBLEDInterface.openLed()){
+			JBLEDInterface.closeLed();
+			JBLEDInterface.openLed();
+		}
 		//开打印机
-		JBPrintInterface.openPrinter();
-		JBPrintInterface.convertPrinterControl();
+		if(!JBPrintInterface.openPrinter()){
+			JBPrintInterface.closePrinter();
+			JBPrintInterface.openPrinter();
+		}
 	}
 	private void initWidget() {
-		cashier_system_machine_setting = (ImageView) this
-				.findViewById(R.id.cashier_system_machine_setting);
-		cashier_system_machine_exit = (ImageView) this
-				.findViewById(R.id.cashier_system_machine_exit);
+		cashier_system_machine_setting = (ImageView) this.findViewById(R.id.cashier_system_machine_setting);
+		cashier_system_machine_exit = (ImageView) this.findViewById(R.id.cashier_system_machine_exit);
 
-		cashier_system_clerk = (TextView) this
-				.findViewById(R.id.cashier_system_clerk);
-		cashier_system_btn_ok = (TextView) this
-				.findViewById(R.id.cashier_system_btn_ok);
-		cashier_system_receive_payments = (TextView) this
-				.findViewById(R.id.cashier_system_receive_payments);
-		cashier_system_open_cashbox = (TextView) this
-				.findViewById(R.id.cashier_system_open_cashbox);
-		cashier_system_get_good = (TextView) this
-				.findViewById(R.id.cashier_system_get_good);
-		cashier_system_return_good = (TextView) this
-				.findViewById(R.id.cashier_system_return_good);
-		cashier_system_machine_status = (TextView) this
-				.findViewById(R.id.cashier_system_machine_status);
-		cashier_system_machine_time = (TextView) this
-				.findViewById(R.id.cashier_system_machine_time);
+		cashier_system_clerk = (TextView) this.findViewById(R.id.cashier_system_clerk);
+		cashier_system_btn_ok = (TextView) this.findViewById(R.id.cashier_system_btn_ok);
+		cashier_system_receive_payments = (TextView) this.findViewById(R.id.cashier_system_receive_payments);
+		cashier_system_open_cashbox = (TextView) this.findViewById(R.id.cashier_system_open_cashbox);
+		cashier_system_get_good = (TextView) this.findViewById(R.id.cashier_system_get_good);
+		cashier_system_return_good = (TextView) this.findViewById(R.id.cashier_system_return_good);
+		cashier_system_machine_status = (TextView) this.findViewById(R.id.cashier_system_machine_status);
+		cashier_system_machine_time = (TextView) this.findViewById(R.id.cashier_system_machine_time);
 
-		cashier_system_business = (EditText) this
-				.findViewById(R.id.cashier_system_business);
-		cashier_system_business
-				.setOnEditorActionListener(new OnEditorActionListener() {
+		cashier_system_business = (EditText) this.findViewById(R.id.cashier_system_business);
+		cashier_system_business.setOnEditorActionListener(new OnEditorActionListener() {
 
 					@Override
-					public boolean onEditorAction(TextView v, int actionId,
-							KeyEvent event) {
-						if (actionId == EditorInfo.IME_ACTION_DONE) {
-							checkedThisGoodCode();
-						}
-						return false;
+					public boolean onEditorAction(TextView v, int actionId,KeyEvent event) {
+						checkedThisGoodCode();
+						LG.e(getClass(),"actionId---->"+actionId);
+						return true;
 					}
 				});
 
@@ -149,15 +138,16 @@ public class MainActivity extends BaseActivity {
 		String op_bar_code = cashier_system_business.getText().toString();
 		if (BaseUtils.IsNotEmpty(op_bar_code)) {
 			try {
-				ArrayList<ProductInfo> productInfos = (ArrayList<ProductInfo>) productsDao
-						.queryBuilder().where().eq("op_bar_code", op_bar_code)
-						.query();
+				//产品条码存在且状态正常
+				ArrayList<ProductInfo> productInfos = (ArrayList<ProductInfo>) productsDao.queryBuilder().where().eq("op_bar_code", op_bar_code).and().eq("op_status", "1").query();
 				// 查询到数据且唯一
 				if (productInfos != null && productInfos.size() == 1) {
-					LG.e(getClass(), "productInfos.get(0).qp_name"
-							+ productInfos.get(0).qp_name);
+					LG.e(getClass(), "productInfos.get(0).qp_name"+ productInfos.get(0).qp_name);
 					refreshData(productInfos.get(0));
+				}else{
+					C.showLong(resources.getString(R.string.cashier_system_alert_no_have_product), mActivity);
 				}
+				cashier_system_business.setText("");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -209,13 +199,11 @@ public class MainActivity extends BaseActivity {
 		double totalPayment = 0;
 		for (int i = 0; i < dataList.size(); i++) {
 			// 每个商品的总价相加
-			totalPayment += dataList.get(i).buy_number
-					* dataList.get(i).op_market_price;
+			totalPayment += dataList.get(i).buy_number*dataList.get(i).op_market_price;
 
 		}
 		// 刷新付款总金额
-		cashier_system_receive_payments.setText(resources
-				.getString(R.string.cashier_system_receive_payments)
+		cashier_system_receive_payments.setText(resources.getString(R.string.cashier_system_receive_payments)
 				+ "￥"
 				+ totalPayment + "");
 	}
@@ -224,8 +212,7 @@ public class MainActivity extends BaseActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			cashier_system_machine_time.setText(""
-					+ TimeConversion.getSystemAppTimeCN());
+			cashier_system_machine_time.setText(""+ TimeConversion.getSystemAppTimeCN());
 		}
 
 	};
@@ -246,10 +233,7 @@ public class MainActivity extends BaseActivity {
 				if (dataList != null && dataList.size() > 0) {
 					goActivity(GatheringActivity.class, dataList);
 				} else {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_no_product),
-							mActivity);
+					C.showShort(resources.getString(R.string.cashier_system_alert_no_product),mActivity);
 				}
 
 			}
@@ -334,7 +318,14 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 	}
-
+	/**
+	 *    清空已购商品
+	 */
+	public void clearGoods() {
+		dataList.clear();
+		cashierGoodsListAdapter.notifyDataSetChanged();
+		refreshNowTotal();
+	}
 	// /**
 	// * 更新数据库的商品数据到最新的服务器数据
 	// *

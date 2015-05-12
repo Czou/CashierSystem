@@ -77,6 +77,7 @@
 	<string name="cashier_system_alert_no_login">请输入账号密码！</string>
 	<string name="cashier_system_alert_login_fail">登录失败！</string>
 	<string name="cashier_system_alert_no_product">还没有选购任何商品噢！</string>
+	<string name="cashier_system_alert_no_have_product">商品不存在或者已下架！</string>
 	<string name="cashier_system_alert_no_return_product">还没有任何商品可退换噢！</string>
 	<string name="cashier_system_alert_login_no_permissions">你的账号已被封禁，请联系管理员！</string>
 	<string name="cashier_system_alert_gathering_order_error">订单信息错误!</string>
