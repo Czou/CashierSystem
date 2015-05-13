@@ -34,8 +34,10 @@ public class GoodsPickupActivity extends BaseActivity {
 	private Button ok, exit, swing_card, check_order;
 	private String card_no, order_no;
 	private ArrayList<ProductInfo> product_list;
+	//适配器
 	private CashierPickupGoodsAdapter cpga;
 	private ListView lv;
+	//总额
 	private double total_money = 0;
 	private TextView show_money;
 
@@ -124,8 +126,7 @@ public class GoodsPickupActivity extends BaseActivity {
 					C.showShort("订单提货失败", mActivity);
 				}
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
-						mActivity);
+				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
 			}
 		};
 
@@ -161,6 +162,7 @@ public class GoodsPickupActivity extends BaseActivity {
 			C.showShort("订单错误", mActivity);
 		};
 
+		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "pick up t ====>" + t);
@@ -176,7 +178,7 @@ public class GoodsPickupActivity extends BaseActivity {
 						product_detail, ProductInfo.class);
 				refreshGoodsData(product_list);
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),
 						mActivity);
 			}
 		};

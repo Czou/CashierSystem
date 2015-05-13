@@ -246,11 +246,6 @@ public class MainActivity extends BaseActivity {
 			// 提货
 			case R.id.cashier_system_get_good: {
 				goActivity(GoodsPickupActivity.class);
-
-				// AlertDialog ad = new AlertDialog.Builder(mActivity).create();
-				// ad.show();
-				// ad.setContentView(R.layout.cashier_goods_pickup_view);
-
 			}
 				break;
 			// 退货
