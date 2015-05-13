@@ -88,9 +88,17 @@ public class GatheringActivity extends BaseActivity {
 	 * @param op
 	 * @auth shouwei
 	 */
-	public static void setOpcenter(OpcenterInfo op) {
-		opcenter = op;
-		gathering_opcenter.setText(opcenter.name + "");
+	public static void setOpcenter(OpcenterInfo op,String type) {
+		if(BaseUtils.IsNotEmpty(op)){
+			opcenter = op;
+			delivery_rs_code = type;
+			delivery_rs_code_id = op.id;
+			gathering_opcenter.setText(opcenter.name + "");
+		}else{
+			delivery_rs_code = "";
+			delivery_rs_code_id = "";
+			gathering_opcenter.setText("");
+		}
 	}
 
 	@Override

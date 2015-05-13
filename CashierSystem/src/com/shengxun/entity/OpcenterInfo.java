@@ -19,5 +19,11 @@ public class OpcenterInfo {
 	 * 运营中心地址 	
 	 */
 	public String address;
+	@Override
+	public String toString() {
+		return "OpcenterInfo [id=" + id + ", name=" + name + ", address="
+				+ address + "]";
+	}
+	
 
 }

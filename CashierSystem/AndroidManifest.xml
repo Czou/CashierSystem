@@ -62,7 +62,8 @@
         <activity
             android:name="com.shengxun.cashiersystem.AreaSelectActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.CustomDialog" >
+            android:theme="@style/Theme.CustomDialog"
+            >
         </activity>
     </application>
 

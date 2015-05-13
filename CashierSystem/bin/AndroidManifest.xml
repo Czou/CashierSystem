@@ -40,7 +40,8 @@
         </activity>
         <activity
             android:name=".GoodsDetailActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
             android:name=".SettingActivity"
@@ -48,24 +49,21 @@
         </activity>
         <activity
             android:name=".GoodsReturnActivity"
-            android:screenOrientation="landscape"
-            >
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.shengxun.cashiersystem.GoodsPickupActivity"
-            android:screenOrientation="landscape"
-             >
+            android:screenOrientation="landscape" >
         </activity>
-         <activity
+        <activity
             android:name="com.shengxun.cashiersystem.TestActivity"
-            android:screenOrientation="landscape"
-             >
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.shengxun.cashiersystem.AreaSelectActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.CustomDialog"
-             >
+            >
         </activity>
     </application>
 
