@@ -38,6 +38,7 @@ public class AreaSelectActivity extends BaseActivity {
 	Spinner sp_province, sp_city, sp_town, sp_opcenter, sp_type;
 	/**
 	 * spinner标记，用来区分当前改变的spinner，1:province,2:city,3:town,4:opcenter
+	 * 
 	 */
 	int areaFlag = 1;
 	/**
@@ -59,7 +60,7 @@ public class AreaSelectActivity extends BaseActivity {
 	/**
 	 * 返回，确定按钮
 	 */
-	Button btn_back, btn_ok,btn_del;
+	Button btn_back, btn_ok, btn_del;
 	/**
 	 * 运营中心类型adapter
 	 */
@@ -69,6 +70,10 @@ public class AreaSelectActivity extends BaseActivity {
 	 * 当前选择运营中心
 	 */
 	OpcenterInfo opcenterInfo;
+	/**
+	 * isFirst:是否是第一次进入,第一次进入
+	 */
+	boolean isFirstIn = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -197,10 +202,10 @@ public class AreaSelectActivity extends BaseActivity {
 									.JSON2Array(opcenter, OpcenterInfo.class);
 							if (BaseUtils.IsNotEmpty(opcenterList)) {
 								refreshAreaData(opcenterList, areaFlag);
-								if(opcenterList.size()==0){
+								if (opcenterList.size() == 0) {
 									C.showShort("当前地区无运营中心", mActivity);
 								}
-							} 
+							}
 						} else {
 							C.showShort(JSONParser.getStringFromJsonString(
 									"error_desc", t), mActivity);
@@ -255,7 +260,14 @@ public class AreaSelectActivity extends BaseActivity {
 			case R.id.area_select_opcenter_type:
 				type = typeList.get(position).getType();
 				areaFlag = 4;
-				getOpcenter();
+				//因为sp_type是在其他spinner之前进行赋值的，
+				//所以一走入AreaSelectActivity时会出现运营中心一闪而过的画面
+				//所以第一次进入时不应该让其搜索运营中心
+				if(isFirstIn){
+					isFirstIn = false;
+				}else{
+					getOpcenter();
+				}
 				break;
 			case R.id.area_select_town:
 				town = townList.get(position).name;
@@ -268,7 +280,6 @@ public class AreaSelectActivity extends BaseActivity {
 						&& opcenterList.size() != 0) {
 					opcenterInfo = opcenterList.get(position);
 				}
-				LG.i(getClass(),"opcenter---->"+opcenterInfo+","+opcenterList.size()+","+opcenterList.get(2).toString());
 				break;
 			default:
 				break;
