@@ -72,7 +72,8 @@ public class MainActivity extends BaseActivity {
 	 * 产品数据库
 	 */
 	private Dao<ProductInfo, Integer> productsDao = null;
-
+	
+	public boolean isOpenPrint=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,6 +82,15 @@ public class MainActivity extends BaseActivity {
 		productsDao = ormOpearationDao.getDao(ProductInfo.class);
 		initWidget();
 		initExternalHardware();
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(isOpenPrint==false){
+					initExternalHardware();
+				}
+			}
+		}, 3000);
 		
 	}
 	/**
@@ -95,7 +105,7 @@ public class MainActivity extends BaseActivity {
 		//开打印机
 		if(!JBPrintInterface.openPrinter()){
 			JBPrintInterface.closePrinter();
-			JBPrintInterface.openPrinter();
+			isOpenPrint=JBPrintInterface.openPrinter();
 		}
 	}
 	private void initWidget() {

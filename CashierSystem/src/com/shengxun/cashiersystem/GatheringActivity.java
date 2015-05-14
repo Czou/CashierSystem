@@ -412,19 +412,26 @@ public class GatheringActivity extends BaseActivity {
 		PrintTools_58mm.print_gbk("商品名称" + "      " + "单价*数量"+ "    " + "金额");
 		int count = 0;
 		for (int i = 0; i < productInfo.size(); i++) {
-			String s =productInfo.get(i).qp_name + "  "
-					+ productInfo.get(i).op_market_price + "*"
-					+ productInfo.get(i).buy_number + "  "
-					+ productInfo.get(i).buy_number
-					* productInfo.get(i).op_market_price + "\n";
 			PrintTools_58mm.print(PrintTools_58mm.LF);
-//			PrintTools_58mm.print(PrintTools_58mm.HT);
-//			PrintTools_58mm.print_gbk(""+ productInfo.get(i).qp_name);
-//			PrintTools_58mm.print(PrintTools_58mm.HT);
-//			PrintTools_58mm.print_gbk(productInfo.get(i).op_market_price + "*"+ productInfo.get(i).buy_number);
-//			PrintTools_58mm.print(PrintTools_58mm.HT);
-//			PrintTools_58mm.print_gbk(""+productInfo.get(i).buy_number* productInfo.get(i).op_market_price);
-			PrintTools_58mm.print_gbk(""+s);
+			if(BaseUtils.IsNotEmpty(productInfo.get(i).qp_name)&&productInfo.get(i).qp_name.length()>7){
+				String name_prefix=productInfo.get(i).qp_name.substring(0, 7);
+				String name_suffix=productInfo.get(i).qp_name.substring(7, productInfo.get(i).qp_name.length())
+						+ "  "
+						+ productInfo.get(i).op_market_price + "*"
+						+ productInfo.get(i).buy_number + "  "
+						+ productInfo.get(i).buy_number
+						* productInfo.get(i).op_market_price + "";
+				PrintTools_58mm.print_gbk(""+name_prefix);
+				PrintTools_58mm.print(PrintTools_58mm.LF);
+				PrintTools_58mm.print_gbk(""+name_suffix);
+			}else{
+				String s =productInfo.get(i).qp_name + "  "
+						+ productInfo.get(i).op_market_price + "*"
+						+ productInfo.get(i).buy_number + "  "
+						+ productInfo.get(i).buy_number
+						* productInfo.get(i).op_market_price + "";
+				PrintTools_58mm.print_gbk(""+s);
+			}
 			count += productInfo.get(i).buy_number;
 		}
 
