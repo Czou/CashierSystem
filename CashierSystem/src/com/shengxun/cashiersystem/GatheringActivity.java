@@ -521,6 +521,7 @@ public class GatheringActivity extends BaseActivity {
 		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "create order ====>"+t);
 			if (BaseUtils.IsNotEmpty(t) && JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				order_id = JSONParser.getStringFromJsonString("order_id", data);

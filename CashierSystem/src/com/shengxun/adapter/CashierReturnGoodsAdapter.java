@@ -84,10 +84,10 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		//订单状态
 		switch (order.co_status) {
 		case 1:
-			cashier_is_return.setText("未退款");
+			cashier_is_return.setText("未付款");
 			break;
 		case 2:
-			cashier_is_return.setText("已退款");
+			cashier_is_return.setText("已付款");
 			break;
 		case 3:
 			cashier_is_return.setText("已取消");
