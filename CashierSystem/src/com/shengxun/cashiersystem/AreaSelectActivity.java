@@ -83,7 +83,7 @@ public class AreaSelectActivity extends BaseActivity {
 		setContentView(R.layout.area_select_view);
 
 		initWidget();
-		initOpTypeData();
+//		initOpTypeData();
 		initAreaData();
 	}
 
@@ -185,7 +185,7 @@ public class AreaSelectActivity extends BaseActivity {
 		LG.i(getClass(), "city===>" + city);
 		LG.i(getClass(), "town===>" + town);
 		LG.i(getClass(), "type===>" + type);
-		ConnectManager.getInstance().getOpcenterResult("", "", "fw_center",
+		ConnectManager.getInstance().getOpcenterResult("", "", type,
 				province, city, town, "", "", new AjaxCallBack<String>() {
 					@SuppressWarnings("unchecked")
 					public void onSuccess(String t) {
@@ -250,34 +250,28 @@ public class AreaSelectActivity extends BaseActivity {
 				areaFlag = 2;
 				ConnectManager.getInstance().getAreaResult("3",
 						provinceList.get(position).aid, areacallback);
-				province = provinceList.get(position).name;
+				province = provinceList.get(position).aid;
 				break;
 			case R.id.area_select_city:
 				LG.i(getClass(), "city on itemselect");
 				areaFlag = 3;
 				ConnectManager.getInstance().getAreaResult("4",
 						cityList.get(position).aid, areacallback);
-				city = cityList.get(position).name;
+				city = cityList.get(position).aid;
 				break;
 			case R.id.area_select_opcenter_type:
 				LG.i(getClass(), "type on itemselect");
 				type = typeList.get(position).getType();
 				areaFlag = 4;
-				//因为sp_type是在其他spinner之前进行赋值的，
-				//所以一走入AreaSelectActivity时会出现运营中心一闪而过的画面
-				//所以第一次进入时不应该让其搜索运营中心
-				if(isFirstIn){
-					isFirstIn = false;
-				}else{
-					getOpcenter();
-				}
+				//获取 运营中心数据
+				getOpcenter();
 				break;
 			case R.id.area_select_town:
 				LG.i(getClass(), "town on itemselect");
-				town = townList.get(position).name;
+				town = townList.get(position).aid;
 				// 每次更换地区都重新获取一次运营中心列表
 				areaFlag = 4;
-				getOpcenter();
+				initOpTypeData();
 				break;
 			case R.id.area_select_opcenter:
 				LG.i(getClass(), "opcenter on itemselect");
