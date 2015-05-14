@@ -246,18 +246,21 @@ public class AreaSelectActivity extends BaseActivity {
 				long id) {
 			switch (av.getId()) {
 			case R.id.area_select_province:
+				LG.i(getClass(), "province on itemselect");
 				areaFlag = 2;
 				ConnectManager.getInstance().getAreaResult("3",
 						provinceList.get(position).aid, areacallback);
 				province = provinceList.get(position).name;
 				break;
 			case R.id.area_select_city:
+				LG.i(getClass(), "city on itemselect");
 				areaFlag = 3;
 				ConnectManager.getInstance().getAreaResult("4",
 						cityList.get(position).aid, areacallback);
 				city = cityList.get(position).name;
 				break;
 			case R.id.area_select_opcenter_type:
+				LG.i(getClass(), "type on itemselect");
 				type = typeList.get(position).getType();
 				areaFlag = 4;
 				//因为sp_type是在其他spinner之前进行赋值的，
@@ -270,12 +273,14 @@ public class AreaSelectActivity extends BaseActivity {
 				}
 				break;
 			case R.id.area_select_town:
+				LG.i(getClass(), "town on itemselect");
 				town = townList.get(position).name;
 				// 每次更换地区都重新获取一次运营中心列表
 				areaFlag = 4;
 				getOpcenter();
 				break;
 			case R.id.area_select_opcenter:
+				LG.i(getClass(), "opcenter on itemselect");
 				if (BaseUtils.IsNotEmpty(opcenterList)
 						&& opcenterList.size() != 0) {
 					opcenterInfo = opcenterList.get(position);

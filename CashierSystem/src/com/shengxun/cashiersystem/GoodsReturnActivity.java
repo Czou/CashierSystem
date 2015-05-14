@@ -114,13 +114,13 @@ public class GoodsReturnActivity extends BaseActivity {
 	private void createRefundOrder() {
 		cashier_card_no = applicationCS.cashier_card_no;
 		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
-			if (BaseUtils.IsNotEmpty(refund_product_list) || refund_product_list.size() == 0) {
+			if (BaseUtils.IsNotEmpty(refund_product_list) && refund_product_list.size() > 0) {
 				// 创建退货订单
 				ConnectManager.getInstance().getOrderFormRefundResult(order_no,
 						refund_product_list, cashier_card_no, pay_way, card_no,
 						createReturnOrder);
 			} else {
-				C.showShort("退货信息失效或无数据", mActivity);
+				C.showShort("退货信息失效或无数据",mActivity);
 			}
 		} else {
 			C.showShort("收银员卡号失效", mActivity);
