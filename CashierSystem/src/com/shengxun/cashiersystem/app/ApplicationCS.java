@@ -6,6 +6,7 @@ import net.tsz.afinal.http.AjaxCallBack;
 import android.app.Application;
 
 import com.j256.ormlite.dao.Dao;
+import com.shengxun.entity.AreaInfo;
 import com.shengxun.entity.LoginInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ConnectManager;
@@ -15,39 +16,43 @@ import com.zvezda.android.utils.LG;
 import com.zvezda.database.utils.ORMOpearationDao;
 
 /**
- * 模块描述：应用程序
- * 2015-4-21 下午1:50:45
- * Write by LILIN
+ * 模块描述：应用程序 2015-4-21 下午1:50:45 Write by LILIN
  */
-public class ApplicationCS extends Application{
+public class ApplicationCS extends Application {
 
 	/**
-	 * 登录的收银员信息 
+	 * 登录的收银员信息
 	 */
-	public LoginInfo loginInfo=null;
-	
+	public LoginInfo loginInfo = null;
+
 	/**
 	 * 收银员的卡号
 	 */
-	public String cashier_card_no=null;
-	
+	public String cashier_card_no = null;
+
 	/**
 	 * 收银机的编号
 	 */
-	public String mc_id=null;
-	
+	public String mc_id = null;
+
 	/**
 	 * ORM数据库操作封装
 	 */
-	protected ORMOpearationDao ormOpearationDao=null;
+	protected ORMOpearationDao ormOpearationDao = null;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		ormOpearationDao=new ORMOpearationDao(getApplicationContext());
+		ormOpearationDao = new ORMOpearationDao(getApplicationContext());
 		LG.i(ApplicationCS.class, "收银系统启动------>1:获取联网最新产品信息");
 		ConnectManager.getInstance().getProductList(ajaxCallBack);
+		ConnectManager.getInstance().getAreaResult("1", "", areaAjaxCallBack);
+		ConnectManager.getInstance().getAreaResult("2", "", areaAjaxCallBack);
+		ConnectManager.getInstance().getAreaResult("3", "", areaAjaxCallBack);
+		ConnectManager.getInstance().getAreaResult("4", "", areaAjaxCallBack);
 	}
-	private AjaxCallBack<String> ajaxCallBack=new AjaxCallBack<String>() {
+
+	private AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
 
 		@SuppressWarnings("unchecked")
 		@Override
@@ -55,18 +60,24 @@ public class ApplicationCS extends Application{
 			super.onSuccess(t);
 			LG.i(ApplicationCS.class, "收银系统启动------>2：将最新的数据写入数据库");
 			try {
-			if(BaseUtils.IsNotEmpty(t)&&JSONParser.getStringFromJsonString("status", t).equals("1")){
-				String data=JSONParser.getStringFromJsonString("data", t);
-				String product_list=JSONParser.getStringFromJsonString("product_list", data);
-				ArrayList<ProductInfo> products=(ArrayList<ProductInfo>) JSONParser.JSON2Array(product_list, ProductInfo.class);
-				if(products!=null&&products.size()>0){
-					Dao<ProductInfo,Integer> productsDao=ormOpearationDao.getDao(ProductInfo.class);
-					//productsDao.executeRawNoArgs("DELETE FROM productInfoTable");//删除所有数据
-					for(ProductInfo entity:products){
-					 productsDao.createOrUpdate(entity);
+				if (BaseUtils.IsNotEmpty(t)
+						&& JSONParser.getStringFromJsonString("status", t)
+								.equals("1")) {
+					String data = JSONParser.getStringFromJsonString("data", t);
+					String product_list = JSONParser.getStringFromJsonString(
+							"product_list", data);
+					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
+							.JSON2Array(product_list, ProductInfo.class);
+					if (products != null && products.size() > 0) {
+						Dao<ProductInfo, Integer> productsDao = ormOpearationDao
+								.getDao(ProductInfo.class);
+						// productsDao.executeRawNoArgs("DELETE FROM productInfoTable");//删除所有数据
+						for (ProductInfo entity : products) {
+							productsDao.createOrUpdate(entity);
+						}
 					}
 				}
-			}} catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -75,7 +86,40 @@ public class ApplicationCS extends Application{
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 		}
-		
-		
+
+	};
+	private AjaxCallBack<String> areaAjaxCallBack = new AjaxCallBack<String>() {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(ApplicationCS.class, "收银系统启动------>4：将最新的地理区域信息写入数据库");
+			try {
+				if (BaseUtils.IsNotEmpty(t)
+						&& JSONParser.getStringFromJsonString("status", t)
+								.equals("1")) {
+					String data = JSONParser.getStringFromJsonString("data", t);
+					String area_list = JSONParser.getStringFromJsonString(
+							"area_list", data);
+					ArrayList<AreaInfo> areas = (ArrayList<AreaInfo>) JSONParser
+							.JSON2Array(area_list, AreaInfo.class);
+					if (areas != null && areas.size() > 0) {
+						Dao<AreaInfo, Integer> areaDao = ormOpearationDao.getDao(AreaInfo.class);
+						for (AreaInfo ai : areas) {
+							areaDao.createOrUpdate(ai);
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+		}
+
 	};
 }

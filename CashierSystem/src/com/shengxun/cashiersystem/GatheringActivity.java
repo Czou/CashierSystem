@@ -322,6 +322,7 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private void createOrder() {
 		card_no = gathering_card_no.getText().toString().trim();
+		LG.i(getClass(), "before create order====>card_no:"+card_no+",delivery_rs_code:"+delivery_rs_code+",delivery_rs_code_id:"+delivery_rs_code_id);
 		if (BaseUtils.IsNotEmpty(card_no)) {
 			if (applicationCS != null) {
 				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
@@ -383,7 +384,7 @@ public class GatheringActivity extends BaseActivity {
 			index = gathering_cash.getSelectionStart();
 			// 光标当前位置不在第一位并且金额不为空
 			if (index > 0 && BaseUtils.IsNotEmpty(cash)) {
-				// 判断删除的是否是小数点
+				//判断删除的是否是小数点
 				if (cash.substring(index - 1, index).equals(".")) {
 					hasSpot = false;
 				}

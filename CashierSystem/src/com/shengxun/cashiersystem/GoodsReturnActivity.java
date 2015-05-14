@@ -237,7 +237,8 @@ public class GoodsReturnActivity extends BaseActivity {
 				isPayed = (OrderInfo) JSONParser.JSON2Object(order_detail,
 						OrderInfo.class);
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(product_detail, ProductInfo.class);
-				checkOrderStatus(isPayed.co_status);
+				//checkOrderStatus(isPayed.co_status);
+				refreshGoodsData(product_list);
 			} else {
 				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
 			}
