@@ -86,11 +86,13 @@
         android:background="@color/black"
         android:padding="3dp" >
         <TextView
+            android:id="@+id/cashier_system_center_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
+            android:paddingLeft="7dp"
             android:gravity="left"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/fontSize_22" />
         <LinearLayout
             android:layout_width="0dp"
@@ -327,6 +329,17 @@
                 android:background="@drawable/cyan_light_coner_bg"
                 android:gravity="center"
                 android:text="@string/cashier_system_return_good"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_20" />
+            <TextView
+                android:id="@+id/cashier_system_search_order"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bule_corner_bg"
+                android:gravity="center"
+                android:text="@string/cashier_system_search_order"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize_20" />
         </LinearLayout>

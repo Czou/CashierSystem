@@ -49,7 +49,7 @@
             android:layout_weight="6"
             android:layout_height="match_parent"
             android:layout_marginLeft="0dp"
-            android:background="@color/white"
+            android:background="@color/green"
             android:text="@string/cashier_system_column_name"
             android:gravity="center"
             android:textSize="@dimen/fontSize_20"

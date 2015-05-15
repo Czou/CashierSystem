@@ -356,7 +356,7 @@ public class ConnectManager {
 		params.put("verify_code", C.VERIFY_CODE);
 
 		params.put("cashier_card_no", cashier_card_no);
-		params.put("card_no", card_no);
+		params.put("consume_card_no", card_no);
 		params.put("order_id", order_id);
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_ORDERFORM_PICKUP, params, ajaxCallBack);
@@ -399,7 +399,7 @@ public class ConnectManager {
 		if (product_info != null && product_info.size() > 0) {
 			for (int i = 0; i < product_info.size(); i++) {
 				params.put("product_info[" + product_info.get(i).cop_id + "]",
-						product_info.get(i).buy_number + "");
+						product_info.get(i).cop_number + "");
 			}
 		}
 		finalHttp.configCharset("utf-8");
@@ -623,7 +623,6 @@ public class ConnectManager {
 		}
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_AREA, params, ajaxCallBack);
-
 	}
 	/***************** 地区接口 end ********************/
 

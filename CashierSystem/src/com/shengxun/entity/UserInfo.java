@@ -6,13 +6,13 @@ package com.shengxun.entity;
  * Write by LILIN
  */
 public class UserInfo {
-	public String meid;
-	public String meusername;
-	public String menickname;
-	public String merealname;
-	public String meidcard;
-	public String memobile;
-	public String mefax;
-	public String meregtime;
-	public String melastime;
+	public String me_id;
+	public String me_username;
+	public String me_nickname;
+	public String me_realname;
+	public String me_idcard;
+	public String me_mobile;
+	public String me_fax;
+	public String me_regtime;
+	public String me_lastime;
 }

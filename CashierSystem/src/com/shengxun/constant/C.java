@@ -5,6 +5,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface.OnKeyListener;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shengxun.cashiersystem.R;
+import com.shengxun.customview.LDialog;
 import com.shengxun.util.MD5Util;
 import com.zvezda.algorithm.utils.AlgorithmUtils;
 /**
@@ -82,6 +84,14 @@ public class C
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
 	
+	/**
+	 * 对话框提示
+	 * @param msg
+	 * @param mActivity
+	 */
+	public static void showDialogAlert(String msg,Activity mActivity){
+		LDialog.openMessageDialog("", msg, false, mActivity);
+	}
 	/**
 	 * 等待框
 	 */

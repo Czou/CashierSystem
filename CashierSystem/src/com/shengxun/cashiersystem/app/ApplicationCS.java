@@ -64,11 +64,10 @@ public class ApplicationCS extends Application {
 					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
 							.JSON2Array(product_list, ProductInfo.class);
 					if (products != null && products.size() > 0) {
-						Dao<ProductInfo, Integer> productsDao = ormOpearationDao
-								.getDao(ProductInfo.class);
-						// productsDao.executeRawNoArgs("DELETE FROM productInfoTable");//删除所有数据
+						Dao<ProductInfo, Integer> productsDao = ormOpearationDao.getDao(ProductInfo.class);
+						productsDao.executeRawNoArgs("DELETE FROM productInfoTable");//删除所有数据
 						for (ProductInfo entity : products) {
-							productsDao.createOrUpdate(entity);
+							productsDao.create(entity);
 						}
 					}
 				}

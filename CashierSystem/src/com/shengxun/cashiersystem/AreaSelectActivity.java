@@ -209,11 +209,11 @@ public class AreaSelectActivity extends BaseActivity {
 							if (BaseUtils.IsNotEmpty(opcenterList)) {
 								refreshAreaData(opcenterList, 4);
 								if (opcenterList.size() == 0) {
-									C.showShort("当前地区无运营中心", mActivity);
+									C.showDialogAlert("当前地区无运营中心", mActivity);
 								}
 							}
 						} else {
-							C.showShort(JSONParser.getStringFromJsonString(
+							C.showDialogAlert(JSONParser.getStringFromJsonString(
 									"error_desc", t), mActivity);
 						}
 					};

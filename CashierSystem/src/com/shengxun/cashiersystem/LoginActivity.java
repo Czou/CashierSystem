@@ -67,6 +67,7 @@ public class LoginActivity extends BaseActivity{
 				//确认登录
 			case R.id.user_login:
 				{
+					C.openProgressDialog(mActivity, null, "正在登录，请耐心等待...");
 					String str_user_name=user_name.getText().toString();
 					String str_user_password=user_password.getText().toString();
 					if(BaseUtils.IsNotEmpty(str_user_name)
@@ -76,7 +77,7 @@ public class LoginActivity extends BaseActivity{
 						ConnectManager.getInstance().getLoginResult(login_code, loginAjaxCallBack);
 							
 					}else{
-						C.showShort(""+resources.getString(R.string.cashier_system_alert_no_login), mActivity);
+						C.showDialogAlert(""+resources.getString(R.string.cashier_system_alert_no_login), mActivity);
 					}
 				}
 				break;
@@ -105,21 +106,22 @@ public class LoginActivity extends BaseActivity{
 							goActivity(MainActivity.class);
 							AppManager.getAppManager().finishActivity(mActivity);
 						}else{
-							C.showShort(""+resources.getString(R.string.cashier_system_alert_login_no_permissions), mActivity);
+							C.showDialogAlert(""+resources.getString(R.string.cashier_system_alert_login_no_permissions), mActivity);
 
 						}
 					}
 					
 				}else{
-					C.showShort(""+resources.getString(R.string.cashier_system_alert_login_fail), mActivity);
+					C.showDialogAlert(""+resources.getString(R.string.cashier_system_alert_login_fail), mActivity);
 				}
+				C.closeProgressDialog();
 			}
 
 			@Override
 			public void onFailure(Throwable t, int errorNo, String strMsg) {
 				super.onFailure(t, errorNo, strMsg);
-				C.showShort(""+resources.getString(R.string.cashier_system_alert_login_fail), mActivity);
-
+				C.showDialogAlert(""+resources.getString(R.string.cashier_system_alert_login_fail), mActivity);
+				C.closeProgressDialog();
 			}
 			
 		};

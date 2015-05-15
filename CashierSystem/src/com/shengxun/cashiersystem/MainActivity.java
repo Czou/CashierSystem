@@ -58,6 +58,10 @@ public class MainActivity extends BaseActivity {
 	private TextView cashier_system_get_good = null;
 	// 退货
 	private TextView cashier_system_return_good = null;
+	// 退货
+	private TextView cashier_system_search_order = null;
+	//中心
+	private TextView cashier_system_center_name=null;
 
 	// 当前时间
 	private TextView cashier_system_machine_time = null;
@@ -118,9 +122,10 @@ public class MainActivity extends BaseActivity {
 		cashier_system_open_cashbox = (TextView) this.findViewById(R.id.cashier_system_open_cashbox);
 		cashier_system_get_good = (TextView) this.findViewById(R.id.cashier_system_get_good);
 		cashier_system_return_good = (TextView) this.findViewById(R.id.cashier_system_return_good);
+		cashier_system_search_order = (TextView) this.findViewById(R.id.cashier_system_search_order);
 		cashier_system_machine_status = (TextView) this.findViewById(R.id.cashier_system_machine_status);
 		cashier_system_machine_time = (TextView) this.findViewById(R.id.cashier_system_machine_time);
-
+		cashier_system_center_name = (TextView) this.findViewById(R.id.cashier_system_center_name);
 		cashier_system_business = (EditText) this.findViewById(R.id.cashier_system_business);
 		cashier_system_business.setOnEditorActionListener(new OnEditorActionListener() {
 
@@ -140,6 +145,7 @@ public class MainActivity extends BaseActivity {
 		cashier_system_open_cashbox.setOnClickListener(onClickListener);
 		cashier_system_get_good.setOnClickListener(onClickListener);
 		cashier_system_return_good.setOnClickListener(onClickListener);
+		cashier_system_search_order.setOnClickListener(onClickListener);
 		cashier_listview.setOnItemClickListener(myItemClick);
 		initWidgetData();
 	}
@@ -155,7 +161,7 @@ public class MainActivity extends BaseActivity {
 					LG.e(getClass(), "productInfos.get(0).qp_name"+ productInfos.get(0).qp_name);
 					refreshData(productInfos.get(0));
 				}else{
-					C.showLong(resources.getString(R.string.cashier_system_alert_no_have_product), mActivity);
+					C.showDialogAlert(resources.getString(R.string.cashier_system_alert_no_have_product), mActivity);
 				}
 				cashier_system_business.setText("");
 			} catch (SQLException e) {
@@ -165,10 +171,20 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void initWidgetData() {
-		if (applicationCS.loginInfo != null
-				&& applicationCS.loginInfo.cashier_info != null) {
-			cashier_system_clerk.setText("Hi,"
-					+ applicationCS.loginInfo.cashier_info.me_id);
+		if (applicationCS.loginInfo != null) {
+			if(applicationCS.loginInfo.user_info != null){
+				String clerk_name="Hi,";
+				if(BaseUtils.IsNotEmpty(applicationCS.loginInfo.user_info.me_realname)){
+					clerk_name+=applicationCS.loginInfo.user_info.me_realname;
+					
+				}else{
+					clerk_name+=applicationCS.loginInfo.user_info.me_username;
+				}
+				cashier_system_clerk.setText(clerk_name);
+			}
+			if(applicationCS.loginInfo.cashier_info != null){
+				cashier_system_center_name.setText(""+applicationCS.loginInfo.cashier_info.rs_code_name);
+			}
 		}
 		if (BaseUtils.isNetworkAvailable(mActivity)) {
 			cashier_system_machine_status.setText(Html.fromHtml(resources
@@ -243,7 +259,7 @@ public class MainActivity extends BaseActivity {
 				if (dataList != null && dataList.size() > 0) {
 					goActivity(GatheringActivity.class, dataList);
 				} else {
-					C.showShort(resources.getString(R.string.cashier_system_alert_no_product),mActivity);
+					C.showDialogAlert(resources.getString(R.string.cashier_system_alert_no_product),mActivity);
 				}
 
 			}
@@ -261,6 +277,11 @@ public class MainActivity extends BaseActivity {
 			// 退货
 			case R.id.cashier_system_return_good: {
 				goActivity(GoodsReturnActivity.class);
+			}
+				break;
+			// 查单
+			case R.id.cashier_system_search_order: {
+				
 			}
 				break;
 			// 设置
@@ -322,57 +343,7 @@ public class MainActivity extends BaseActivity {
 		cashierGoodsListAdapter.notifyDataSetChanged();
 		refreshNowTotal();
 	}
-	// /**
-	// * 更新数据库的商品数据到最新的服务器数据
-	// *
-	// * @auth shouwei
-	// */
-	// private void refreshGoodsToLast() {
-	// ConnectManager.getInstance().getProductList(ajaxCallBack);
-	// }
-	//
-	// /**
-	// * 根据商品状态添加或删除商品
-	// *
-	// * @param list
-	// * @auth shouwei
-	// */
-	// private void refresh(List<ProductInfo> list) {
-	// int status = 1;
-	// List<ProductInfo> p;
-	// LG.i(getClass(), "listsize====>" + list.size());
-	// if (list != null && list.size() > 0) {
-	// for (int i = 0; i < list.size(); i++) {
-	// status = list.get(i).op_status;
-	// LG.i(getClass(), i + ":status===>" + status);
-	// // 下架商品
-	// if (status == 2) {
-	// try {
-	// p = (List<ProductInfo>) productsDao.queryBuilder()
-	// .where().eq("op_id", list.get(i).op_id);
-	// if (p != null && p.size() > 0) {
-	// productsDao.deleteBuilder().where()
-	// .eq("op_id", list.get(i).op_id);
-	// }
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// }
-	// // 新增商品
-	// } else if (status == 0) {
-	// try {
-	// productsDao.createIfNotExists(list.get(i));
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// // 正常商品
-	// } else {
-	//
-	// }
-	// }
-	// }
-	// }
-
+	
 	/**
 	 * item点击事件
 	 */

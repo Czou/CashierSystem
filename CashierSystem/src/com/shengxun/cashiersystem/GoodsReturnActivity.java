@@ -48,7 +48,7 @@ public class GoodsReturnActivity extends BaseActivity {
 	ArrayList<ProductInfo> product_list;
 	// 保存创建退货订单时的的数据
 	ArrayList<ProductInfo> refund_product_list;
-	//保存当前订单的订单信息(获得订单付款情况，用以显示商品是否已付款)
+	// 保存当前订单的订单信息(获得订单付款情况，用以显示商品是否已付款)
 	OrderInfo isPayed;
 	double order_money = 0;
 
@@ -83,8 +83,6 @@ public class GoodsReturnActivity extends BaseActivity {
 		swing_card.setOnClickListener(myclick);
 	}
 
-	
-
 	/**
 	 * 查询该订单
 	 * 
@@ -95,16 +93,16 @@ public class GoodsReturnActivity extends BaseActivity {
 		if (BaseUtils.IsNotEmpty(card_no)) {
 			// 验证订单号非空
 			if (BaseUtils.IsNotEmpty(order_no)) {
-				return_money.setText("退款金额:" +"");
+				return_money.setText("退款金额:" + "");
 				product_list.clear();
 				// 查询该订单是否存在
 				ConnectManager.getInstance().getOrderFormDetailResult(order_no,
 						searchorder);
 			} else {
-				C.showShort("请输入订单号", mActivity);
+				C.showDialogAlert("请输入订单号", mActivity);
 			}
 		} else {
-			C.showShort("请刷卡", mActivity);
+			C.showDialogAlert("请刷卡", mActivity);
 		}
 	}
 
@@ -116,16 +114,21 @@ public class GoodsReturnActivity extends BaseActivity {
 	private void createRefundOrder() {
 		cashier_card_no = applicationCS.cashier_card_no;
 		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
-			if (BaseUtils.IsNotEmpty(refund_product_list) && refund_product_list.size() > 0) {
-				// 创建退货订单
-				ConnectManager.getInstance().getOrderFormRefundResult(order_no,
-						refund_product_list, cashier_card_no, pay_way, card_no,
-						createReturnOrder);
-			} else {
-				C.showShort("退货信息失效或无数据",mActivity);
+			if (product_list != null && product_list.size() > 0) {
+				if (BaseUtils.IsNotEmpty(refund_product_list)
+						&& refund_product_list.size() > 0) {
+					// 创建退货订单
+					ConnectManager.getInstance().getOrderFormRefundResult(
+							order_no, refund_product_list, cashier_card_no,
+							pay_way, card_no, createReturnOrder);
+				} else {
+					C.showDialogAlert("未选择退货商品或信息失效", mActivity);
+				}
+			}else{
+				C.showDialogAlert("请先查单", mActivity);
 			}
 		} else {
-			C.showShort("收银员卡号失效", mActivity);
+			C.showDialogAlert("收银员卡号失效", mActivity);
 		}
 	}
 
@@ -146,31 +149,30 @@ public class GoodsReturnActivity extends BaseActivity {
 
 	}
 
-	/**
-	 * 检查订单状态
-	 * 
-	 * @param status
-	 * @auth shouwei
-	 */
-	private void checkOrderStatus(int status) {
-		// 未付款状态
-		if (status == 1) {
-			AlertDialog d = new AlertDialog.Builder(mActivity).create();
-			d.setTitle("订单尚未付款，无需退款");
-			d.show();
-			// 已付款状态
-		} else if (status == 2) {
-			// 已退货状态
-		} else if (status == 3) {
-			AlertDialog d = new AlertDialog.Builder(mActivity).create();
-			d.setTitle("订单已退货，无需重复退货");
-			d.show();
-		}
-		// 刷新商品列表
-		refreshGoodsData(product_list);
-	}
+	// /**
+	// * 检查订单状态
+	// *
+	// * @param status
+	// * @auth shouwei
+	// */
+	// private void checkOrderStatus(int status) {
+	// // 未付款状态
+	// if (status == 1) {
+	// AlertDialog d = new AlertDialog.Builder(mActivity).create();
+	// d.setTitle("订单尚未付款，无需退款");
+	// d.show();
+	// // 已付款状态
+	// } else if (status == 2) {
+	// // 已退货状态
+	// } else if (status == 3) {
+	// AlertDialog d = new AlertDialog.Builder(mActivity).create();
+	// d.setTitle("订单已退货，无需重复退货");
+	// d.show();
+	// }
+	// // 刷新商品列表
+	// refreshGoodsData(product_list);
+	// }
 
-	
 	OnClickListener myclick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -197,7 +199,7 @@ public class GoodsReturnActivity extends BaseActivity {
 			}
 		}
 	};
-	
+
 	/**
 	 * 退货订单退款回调
 	 */
@@ -208,18 +210,20 @@ public class GoodsReturnActivity extends BaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("return", data).equals(
 						"ok")) {
-					C.showShort("退款成功", mActivity);
+					C.showDialogAlert("退款成功", mActivity);
 				} else {
-					C.showShort("退款失败", mActivity);
+					C.showDialogAlert("退款失败", mActivity);
 				}
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
+				C.showDialogAlert(
+						JSONParser.getStringFromJsonString("error_desc", t),
+						mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("退款失败", mActivity);
+			C.showDialogAlert("退款失败", mActivity);
 		};
 	};
 	/**
@@ -238,17 +242,20 @@ public class GoodsReturnActivity extends BaseActivity {
 						"product_list", data);
 				isPayed = (OrderInfo) JSONParser.JSON2Object(order_detail,
 						OrderInfo.class);
-				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(product_detail, ProductInfo.class);
-				//checkOrderStatus(isPayed.co_status);
+				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
+						product_detail, ProductInfo.class);
+				// checkOrderStatus(isPayed.co_status);
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
+				C.showDialogAlert(
+						JSONParser.getStringFromJsonString("error_desc", t),
+						mActivity);
 			}
 			refreshGoodsData(product_list);
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("订单错误", mActivity);
+			C.showDialogAlert("订单错误", mActivity);
 		};
 	};
 	/**
@@ -263,17 +270,20 @@ public class GoodsReturnActivity extends BaseActivity {
 				refund_order_no = JSONParser.getStringFromJsonString(
 						"refund_order_id", data);
 				// 创建退货订单成功
-				C.showShort("创建退货订单成功"+refund_order_no, mActivity);
+				C.showDialogAlert("创建退货订单成功" + refund_order_no, mActivity);
 				// 退货订单退款
-				ConnectManager.getInstance().getReturnOrderFormResult(refund_order_no, refundordercallback);
+				ConnectManager.getInstance().getReturnOrderFormResult(
+						refund_order_no, refundordercallback);
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
+				C.showDialogAlert(
+						JSONParser.getStringFromJsonString("error_desc", t),
+						mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("创建退货订单失败", mActivity);
+			C.showDialogAlert("创建退货订单失败", mActivity);
 			LG.i(getClass(), "strMsg===>" + strMsg);
 		};
 	};
@@ -283,24 +293,26 @@ public class GoodsReturnActivity extends BaseActivity {
 	AjaxCallBack<String> refundordercallback = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.e(getClass(), "t===>"+t);
+			LG.i(getClass(), "t===>" + t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
-					C.showShort("退款成功", mActivity);
+					C.showDialogAlert("退款成功", mActivity);
 					AppManager.getAppManager().finishActivity(mActivity);
 				} else {
-					C.showShort("退款失败", mActivity);
+					C.showDialogAlert("退款失败", mActivity);
 				}
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
+				C.showDialogAlert(
+						JSONParser.getStringFromJsonString("error_desc", t),
+						mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("退款失败", mActivity);
+			C.showDialogAlert("退款失败", mActivity);
 		};
 	};
 	/**

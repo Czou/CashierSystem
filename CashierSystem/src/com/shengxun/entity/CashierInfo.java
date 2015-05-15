@@ -6,8 +6,10 @@ package com.shengxun.entity;
  * Write by LILIN
  */
 public class CashierInfo {
+	public String c_id;
 	public String me_id;
 	public String rs_code;
 	public String rs_code_id;
+	public String rs_code_name;
 	public int c_status;
 }

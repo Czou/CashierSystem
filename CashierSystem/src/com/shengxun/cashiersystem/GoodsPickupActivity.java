@@ -34,12 +34,15 @@ public class GoodsPickupActivity extends BaseActivity {
 	private Button ok, exit, swing_card, check_order;
 	private String card_no, order_no;
 	private ArrayList<ProductInfo> product_list;
-	//适配器
+	// 适配器
 	private CashierPickupGoodsAdapter cpga;
 	private ListView lv;
-	//总额
+	// 总额
 	private double total_money = 0;
 	private TextView show_money;
+	private OrderInfo status;
+	// 是否查询订单，如未查询则不允许提货
+	private boolean hasSearchOrder = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,23 @@ public class GoodsPickupActivity extends BaseActivity {
 		exit.setOnClickListener(myclick);
 		swing_card.setOnClickListener(myclick);
 	}
+	
+	/**
+	 * 刷新商品列表信息
+	 * 
+	 * @param list
+	 * @auth shouwei
+	 */
+	private void refreshGoodsData(ArrayList<ProductInfo> list) {
+		cpga = new CashierPickupGoodsAdapter(mActivity, list);
+		cpga.setStatus(status);
+		lv.setAdapter(cpga);
+		total_money = 0;
+		for (int i = 0; i < list.size(); i++) {
+			total_money += list.get(i).cop_number * list.get(i).cop_price;
+		}
+		show_money.setText("总额:" + total_money);
+	}
 
 	OnClickListener myclick = new OnClickListener() {
 		@Override
@@ -74,8 +94,13 @@ public class GoodsPickupActivity extends BaseActivity {
 			// 开始订单提货
 			case R.id.cashier_goods_pickup_ok:
 				if (BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
-					ConnectManager.getInstance().getOrderFormPickUpResult(
-							order_no, card_no,applicationCS.cashier_card_no, ajaxCallBack);
+					if (product_list != null && product_list.size() > 0) {
+						ConnectManager.getInstance().getOrderFormPickUpResult(
+								order_no, card_no,
+								applicationCS.cashier_card_no, ajaxCallBack);
+					}else{
+						C.showDialogAlert("请先查单", mActivity);
+					}
 				}
 				break;
 			// 退出
@@ -93,15 +118,16 @@ public class GoodsPickupActivity extends BaseActivity {
 					// 验证订单号非空
 					if (BaseUtils.IsNotEmpty(order_no)) {
 						product_list.clear();
-						show_money.setText("总额:" +"");
+						show_money.setText("总额:" + "");
 						// 查询该取货店订单是否存在
-						ConnectManager.getInstance().getOrderFormDeliveryDetailResult(
-								order_no, ordercheck);
+						ConnectManager.getInstance()
+								.getOrderFormDeliveryDetailResult(order_no,
+										ordercheck);
 					} else {
-						C.showShort("请输入订单号", mActivity);
+						C.showDialogAlert("请输入订单号", mActivity);
 					}
 				} else {
-					C.showShort("请刷卡", mActivity);
+					C.showDialogAlert("请刷卡", mActivity);
 				}
 				break;
 			default:
@@ -117,43 +143,29 @@ public class GoodsPickupActivity extends BaseActivity {
 
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "t=====>" + t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
-					C.showShort("订单提货成功", mActivity);
+					C.showDialogAlert("订单提货成功", mActivity);
 					AppManager.getAppManager().finishActivity(mActivity);
 				} else {
-					C.showShort("订单提货失败", mActivity);
+					C.showDialogAlert("订单提货失败", mActivity);
 				}
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
+				C.showDialogAlert(
+						JSONParser.getStringFromJsonString("error_desc", t),
+						mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("订单提货失败", mActivity);
+			C.showDialogAlert("订单提货失败", mActivity);
 		};
 	};
 
-	/**
-	 * 刷新商品列表信息
-	 * 
-	 * @param list
-	 * @auth shouwei
-	 */
-	private void refreshGoodsData(ArrayList<ProductInfo> list) {
-		cpga = new CashierPickupGoodsAdapter(mActivity, list);
-		lv.setAdapter(cpga);
-		total_money = 0;
-		for (int i = 0; i < list.size(); i++) {
-			total_money += list.get(i).cop_number * list.get(i).cop_price;
-		}
-		ok.setEnabled(true);
-		show_money.setText("总额:" + total_money);
-	}
+	
 
 	/**
 	 * 订单信息回调
@@ -161,7 +173,8 @@ public class GoodsPickupActivity extends BaseActivity {
 	AjaxCallBack<String> ordercheck = new AjaxCallBack<String>() {
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("订单错误", mActivity);
+			C.showDialogAlert("订单错误", mActivity);
+			refreshGoodsData(product_list);
 		};
 
 		@SuppressWarnings("unchecked")
@@ -172,15 +185,18 @@ public class GoodsPickupActivity extends BaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				String order_detail = JSONParser.getStringFromJsonString(
 						"order_detail", data);
+				status = (OrderInfo) JSONParser.JSON2Object(order_detail,
+						OrderInfo.class);
 				String product_detail = JSONParser.getStringFromJsonString(
 						"product_list", data);
 				OrderInfo od = (OrderInfo) JSONParser.JSON2Object(order_detail,
 						OrderInfo.class);
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
-				
+
 			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),
+				C.showDialogAlert(
+						JSONParser.getStringFromJsonString("error_desc", t),
 						mActivity);
 			}
 			refreshGoodsData(product_list);
