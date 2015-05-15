@@ -356,7 +356,7 @@ public class ConnectManager {
 		params.put("verify_code", C.VERIFY_CODE);
 
 		params.put("cashier_card_no", cashier_card_no);
-		params.put("card_no", card_no);
+		params.put("consume_card_no", card_no);
 		params.put("order_id", order_id);
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_ORDERFORM_PICKUP, params, ajaxCallBack);

@@ -30,8 +30,9 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 	public CashierReturnGoodsAdapter(Activity mActivity,
 			ArrayList<ProductInfo> dataList) {
 		super(mActivity, dataList);
-		
+
 	}
+
 	public void setOrderInfo(OrderInfo order) {
 		this.order = order;
 	}
@@ -46,12 +47,12 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 	public CashierReturnGoodsAdapter(Activity mActivity,
 			ArrayList<ProductInfo> dataList, CheckBoxChangeListener listener) {
 		super(mActivity, dataList, listener);
-		//保存初始商品列表数量,
+		// 保存初始商品列表数量,
 		product_number = new ArrayList<Integer>();
 		for (int i = 0; i < dataList.size(); i++) {
 			product_number.add(dataList.get(i).cop_number);
 		}
-		LG.i(getClass(), "size ====>"+product_number.size());
+		LG.i(getClass(), "size ====>" + product_number.size());
 	}
 
 	@Override
@@ -62,12 +63,15 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 					R.layout.cashier_return_goods_list_item, null);
 		}
 		ProductInfo entity = (ProductInfo) getItem(position);
+		LG.i(getClass(), "prodyct adapter===>" + entity.toString());
 		TextView cashier_goods_name = ViewHolder.get(convertView,
 				R.id.cashier_return_item_goods_name);
 		TextView cashier_is_return = ViewHolder.get(convertView,
 				R.id.cashier_return_item_is_return);
 		TextView cashier_goods_number = ViewHolder.get(convertView,
 				R.id.cashier_return_item_showcount);
+		TextView cashier_goods_price = ViewHolder.get(convertView,
+				R.id.cashier_return_item_goods_single_price);
 		Button add = ViewHolder.get(convertView, R.id.cashier_return_item_add);
 		Button reduce = ViewHolder.get(convertView,
 				R.id.cashier_return_item_reduce);
@@ -81,7 +85,8 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
 		cashier_goods_name.setText(entity.qp_name + "");
 		cashier_goods_number.setText(entity.cop_number + "");
-		//订单状态
+		cashier_goods_price.setText(entity.cop_price+"");
+		// 订单状态
 		switch (order.co_status) {
 		case 1:
 			cashier_is_return.setText("未付款");
@@ -119,7 +124,7 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 					dataList.get(position).cop_number += 1;
 					et.setText(dataList.get(position).cop_number + "");
 					listener.setCheckedPosition(dataList);
-				}else{
+				} else {
 					C.showShort("退货数量不能大于订单最大数量", mActivity);
 				}
 				break;
@@ -128,7 +133,7 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 					dataList.get(position).cop_number -= 1;
 					et.setText(dataList.get(position).cop_number + "");
 					listener.setCheckedPosition(dataList);
-				}else{
+				} else {
 					C.showShort("退货数量不能小于0", mActivity);
 				}
 				break;

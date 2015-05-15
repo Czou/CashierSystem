@@ -40,6 +40,7 @@ public class GoodsPickupActivity extends BaseActivity {
 	//总额
 	private double total_money = 0;
 	private TextView show_money;
+	private String status="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,8 +145,9 @@ public class GoodsPickupActivity extends BaseActivity {
 	 * @param list
 	 * @auth shouwei
 	 */
-	private void refreshGoodsData(ArrayList<ProductInfo> list) {
+	private void refreshGoodsData(ArrayList<ProductInfo> list,String status) {
 		cpga = new CashierPickupGoodsAdapter(mActivity, list);
+		cpga.setStatus(BaseUtils.isNumber(status)?Integer.parseInt(status):-1);
 		lv.setAdapter(cpga);
 		total_money = 0;
 		for (int i = 0; i < list.size(); i++) {
@@ -172,6 +174,7 @@ public class GoodsPickupActivity extends BaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				String order_detail = JSONParser.getStringFromJsonString(
 						"order_detail", data);
+				status = JSONParser.getStringFromJsonString("co_status", order_detail);
 				String product_detail = JSONParser.getStringFromJsonString(
 						"product_list", data);
 				OrderInfo od = (OrderInfo) JSONParser.JSON2Object(order_detail,
@@ -183,7 +186,7 @@ public class GoodsPickupActivity extends BaseActivity {
 				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),
 						mActivity);
 			}
-			refreshGoodsData(product_list);
+			refreshGoodsData(product_list,status);
 		};
 	};
 }
