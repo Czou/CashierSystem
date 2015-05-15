@@ -85,20 +85,22 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
 		cashier_goods_name.setText(entity.qp_name + "");
 		cashier_goods_number.setText(entity.cop_number + "");
-		cashier_goods_price.setText(entity.cop_price+"");
+		cashier_goods_price.setText(entity.cop_price + "");
 		// 订单状态
-		switch (order.co_status) {
-		case 1:
-			cashier_is_return.setText("未付款");
-			break;
-		case 2:
-			cashier_is_return.setText("已付款");
-			break;
-		case 3:
-			cashier_is_return.setText("已取消");
-			break;
-		default:
-			break;
+		if (order != null) {
+			switch (order.co_status) {
+			case 1:
+				cashier_is_return.setText("未付款");
+				break;
+			case 2:
+				cashier_is_return.setText("已付款");
+				break;
+			case 3:
+				cashier_is_return.setText("已取消");
+				break;
+			default:
+				break;
+			}
 		}
 
 		return convertView;

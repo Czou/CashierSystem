@@ -117,6 +117,9 @@ public class GoodsReturnActivity extends BaseActivity {
 		cashier_card_no = applicationCS.cashier_card_no;
 		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
 			if (BaseUtils.IsNotEmpty(refund_product_list) && refund_product_list.size() > 0) {
+				for (int i = 0; i < refund_product_list.size(); i++) {
+					LG.i(getClass(), "REFUND_DATA SIZE ====>"+refund_product_list.get(i).toString());
+				}
 				// 创建退货订单
 				ConnectManager.getInstance().getOrderFormRefundResult(order_no,
 						refund_product_list, cashier_card_no, pay_way, card_no,
@@ -283,7 +286,7 @@ public class GoodsReturnActivity extends BaseActivity {
 	AjaxCallBack<String> refundordercallback = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.e(getClass(), "t===>"+t);
+			LG.i(getClass(), "t===>"+t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(

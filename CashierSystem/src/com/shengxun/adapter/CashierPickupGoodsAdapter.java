@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shengxun.cashiersystem.R;
+import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
 
 public class CashierPickupGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
-	int status;
+	private OrderInfo status;
 
 	public CashierPickupGoodsAdapter(Activity mActivity,
 			ArrayList<ProductInfo> dataList) {
@@ -21,7 +22,7 @@ public class CashierPickupGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(OrderInfo status) {
 		this.status = status;
 	}
 
@@ -43,18 +44,20 @@ public class CashierPickupGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		cashier_goods_name.setText(dataList.get(position).qp_name + "");
 		cashier_goods_count.setText(dataList.get(position).cop_number + "");
 		cashier_goods_status.setText(dataList.get(position).cop_price + "");
-		switch (status) {
-		case 1:
-			cashier_goods_status.setText("正常");
-			break;
-		case 2:
-			cashier_goods_status.setText("已付");
-			break;
-		case 3:
-			cashier_goods_status.setText("取消");
-			break;
-		default:
-			break;
+		if (status != null) {
+			switch (status.co_status) {
+			case 1:
+				cashier_goods_status.setText("正常");
+				break;
+			case 2:
+				cashier_goods_status.setText("已付");
+				break;
+			case 3:
+				cashier_goods_status.setText("取消");
+				break;
+			default:
+				break;
+			}
 		}
 		return convertView;
 	}

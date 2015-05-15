@@ -399,7 +399,7 @@ public class ConnectManager {
 		if (product_info != null && product_info.size() > 0) {
 			for (int i = 0; i < product_info.size(); i++) {
 				params.put("product_info[" + product_info.get(i).cop_id + "]",
-						product_info.get(i).buy_number + "");
+						product_info.get(i).cop_number + "");
 			}
 		}
 		finalHttp.configCharset("utf-8");
