@@ -9,6 +9,11 @@ import android.widget.Switch;
 import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.zvezda.android.utils.AppManager;
 
+/**
+ * 设置界面
+ * @author sw
+ * @date 2015-5-15
+ */
 public class SettingActivity extends BaseActivity {
 
 	Button btn_back, btn_open, btn_close;

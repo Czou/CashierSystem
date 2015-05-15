@@ -11,7 +11,13 @@ import com.shengxun.cashiersystem.R;
 import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
+import com.zvezda.android.utils.LG;
 
+/**
+ * 订单商品信息工厂(通用于提货界面GoodsPickupActivity与查询订单界面SearchOrderActivity)
+ * @author sw
+ * @date 2015-5-15
+ */
 public class CashierPickupGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
 	private OrderInfo status;
@@ -43,7 +49,7 @@ public class CashierPickupGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				R.id.cashier_pickup_item_goods_single_price);
 		cashier_goods_name.setText(dataList.get(position).qp_name + "");
 		cashier_goods_count.setText(dataList.get(position).cop_number + "");
-		cashier_goods_status.setText(dataList.get(position).cop_price + "");
+		cashier_goods_price.setText(dataList.get(position).cop_price+"");
 		if (status != null) {
 			switch (status.co_status) {
 			case 1:

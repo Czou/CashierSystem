@@ -193,9 +193,13 @@ public final class R {
         public static final int cashier_return_show_name=0x7f09005b;
         public static final int cashier_return_show_single_price=0x7f09005c;
         public static final int cashier_return_show_status=0x7f09005d;
-        public static final int cashier_setting_back=0x7f09006d;
-        public static final int cashier_setting_btn_close=0x7f09006f;
-        public static final int cashier_setting_btn_open=0x7f09006e;
+        public static final int cashier_search_order_btnback=0x7f09006d;
+        public static final int cashier_search_order_btnsearch=0x7f09006f;
+        public static final int cashier_search_order_lv=0x7f090070;
+        public static final int cashier_search_order_no=0x7f09006e;
+        public static final int cashier_setting_back=0x7f090071;
+        public static final int cashier_setting_btn_close=0x7f090073;
+        public static final int cashier_setting_btn_open=0x7f090072;
         public static final int cashier_system_btn_ok=0x7f090006;
         public static final int cashier_system_business=0x7f090005;
         public static final int cashier_system_clerk=0x7f090001;
@@ -238,11 +242,11 @@ public final class R {
         public static final int gathering_btn_ok=0x7f090040;
         public static final int gathering_btn_spot=0x7f09003e;
         public static final int gathering_top=0x7f09000c;
-        public static final int login_layout_v_center=0x7f090070;
-        public static final int user_login=0x7f090073;
-        public static final int user_name=0x7f090071;
-        public static final int user_password=0x7f090072;
-        public static final int user_reset=0x7f090074;
+        public static final int login_layout_v_center=0x7f090074;
+        public static final int user_login=0x7f090077;
+        public static final int user_name=0x7f090075;
+        public static final int user_password=0x7f090076;
+        public static final int user_reset=0x7f090078;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -255,31 +259,32 @@ public final class R {
         public static final int cashier_goods_return_view=0x7f030007;
         public static final int cashier_pickup_goods_list_item=0x7f030008;
         public static final int cashier_return_goods_list_item=0x7f030009;
-        public static final int cashier_setting_view=0x7f03000a;
-        public static final int login_view=0x7f03000b;
+        public static final int cashier_search_order_view=0x7f03000a;
+        public static final int cashier_setting_view=0x7f03000b;
+        public static final int login_view=0x7f03000c;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
-        public static final int cashier_system_alert_gathering_card_null=0x7f060043;
-        public static final int cashier_system_alert_gathering_create_order_fail=0x7f060045;
-        public static final int cashier_system_alert_gathering_create_order_success=0x7f060044;
-        public static final int cashier_system_alert_gathering_order_cancel_fail=0x7f060046;
-        public static final int cashier_system_alert_gathering_order_cancel_success=0x7f060047;
-        public static final int cashier_system_alert_gathering_order_error=0x7f060042;
-        public static final int cashier_system_alert_gathering_order_pay_fail=0x7f060049;
-        public static final int cashier_system_alert_gathering_order_pay_success=0x7f060048;
-        public static final int cashier_system_alert_login_fail=0x7f06003d;
-        public static final int cashier_system_alert_login_no_permissions=0x7f060041;
-        public static final int cashier_system_alert_no_have_product=0x7f06003f;
+        public static final int cashier_system_alert_gathering_card_null=0x7f060044;
+        public static final int cashier_system_alert_gathering_create_order_fail=0x7f060046;
+        public static final int cashier_system_alert_gathering_create_order_success=0x7f060045;
+        public static final int cashier_system_alert_gathering_order_cancel_fail=0x7f060047;
+        public static final int cashier_system_alert_gathering_order_cancel_success=0x7f060048;
+        public static final int cashier_system_alert_gathering_order_error=0x7f060043;
+        public static final int cashier_system_alert_gathering_order_pay_fail=0x7f06004a;
+        public static final int cashier_system_alert_gathering_order_pay_success=0x7f060049;
+        public static final int cashier_system_alert_login_fail=0x7f06003e;
+        public static final int cashier_system_alert_login_no_permissions=0x7f060042;
+        public static final int cashier_system_alert_no_have_product=0x7f060040;
         /**  提示语 
          */
-        public static final int cashier_system_alert_no_login=0x7f06003c;
-        public static final int cashier_system_alert_no_order_number=0x7f06004c;
-        public static final int cashier_system_alert_no_product=0x7f06003e;
-        public static final int cashier_system_alert_no_return_product=0x7f060040;
-        public static final int cashier_system_alert_order_detail_del_success=0x7f06004a;
-        public static final int cashier_system_alert_order_detail_modify_success=0x7f06004b;
+        public static final int cashier_system_alert_no_login=0x7f06003d;
+        public static final int cashier_system_alert_no_order_number=0x7f06004d;
+        public static final int cashier_system_alert_no_product=0x7f06003f;
+        public static final int cashier_system_alert_no_return_product=0x7f060041;
+        public static final int cashier_system_alert_order_detail_del_success=0x7f06004b;
+        public static final int cashier_system_alert_order_detail_modify_success=0x7f06004c;
         public static final int cashier_system_btn_back=0x7f06000e;
         public static final int cashier_system_btn_close=0x7f060012;
         public static final int cashier_system_btn_del=0x7f060010;
@@ -317,14 +322,15 @@ public final class R {
         public static final int cashier_system_gathering_title=0x7f060018;
         public static final int cashier_system_get_good=0x7f060039;
         public static final int cashier_system_help=0x7f06000d;
-        public static final int cashier_system_hint_no_card_no=0x7f060052;
-        public static final int cashier_system_hint_no_opcenter=0x7f060051;
+        public static final int cashier_system_hint_input_order_no=0x7f06004f;
+        public static final int cashier_system_hint_no_card_no=0x7f060054;
+        public static final int cashier_system_hint_no_opcenter=0x7f060053;
         /**  hint提示语 
          */
-        public static final int cashier_system_hint_no_order_number=0x7f06004d;
-        public static final int cashier_system_hint_no_pickup_card_no=0x7f06004f;
-        public static final int cashier_system_hint_no_return_card_no=0x7f060050;
-        public static final int cashier_system_hint_no_return_order_number=0x7f06004e;
+        public static final int cashier_system_hint_no_order_number=0x7f06004e;
+        public static final int cashier_system_hint_no_pickup_card_no=0x7f060051;
+        public static final int cashier_system_hint_no_return_card_no=0x7f060052;
+        public static final int cashier_system_hint_no_return_order_number=0x7f060050;
         /**  收银系统的机器和操作信息 
          */
         public static final int cashier_system_machine_number=0x7f06002f;
@@ -337,7 +343,8 @@ public final class R {
         public static final int cashier_system_open_cashbox=0x7f060037;
         public static final int cashier_system_receive_payments=0x7f060036;
         public static final int cashier_system_return_good=0x7f06003a;
-        public static final int cashier_system_setting=0x7f06003b;
+        public static final int cashier_system_search_order=0x7f06003b;
+        public static final int cashier_system_setting=0x7f06003c;
         public static final int cashier_system_title=0x7f06000a;
         public static final int cashier_system_title_area_select=0x7f06001a;
         public static final int exit=0x7f060016;

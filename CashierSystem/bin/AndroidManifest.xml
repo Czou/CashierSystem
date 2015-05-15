@@ -65,6 +65,11 @@
             android:theme="@style/Theme.CustomDialog"
             >
         </activity>
+        <activity
+            android:name="com.shengxun.cashiersystem.SearchOrderActivity"
+            android:screenOrientation="landscape"
+            >
+        </activity>
     </application>
 
 </manifest>

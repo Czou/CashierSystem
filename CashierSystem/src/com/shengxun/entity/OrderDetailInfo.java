@@ -34,4 +34,11 @@ public class OrderDetailInfo {
 		this.product_info = product_info;
 	}
 
+	@Override
+	public String toString() {
+		return "OrderDetailInfo [order_info=" + order_info + ", product_info="
+				+ product_info + "]";
+	}
+	
+	
 }

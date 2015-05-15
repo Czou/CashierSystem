@@ -256,6 +256,7 @@ public class GoodsReturnActivity extends BaseActivity {
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			C.showShort("订单错误", mActivity);
+			refreshGoodsData(product_list);
 		};
 	};
 	/**

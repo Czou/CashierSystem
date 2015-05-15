@@ -17,12 +17,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/cashier_system_get_good"
+            android:text="@string/cashier_system_search_order"
             android:textColor="@color/white"
             android:textSize="@dimen/fontSize_36" />
 
         <Button
-            android:id="@+id/cashier_goods_pickup_exit"
+            android:id="@+id/cashier_search_order_btnback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -37,56 +37,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="#ecf0f1"
-        android:gravity="center_vertical"
+        android:layout_weight="1"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:background="#ecf0f1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp" >
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/cashier_system_column_card_number"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fontSize_28" />
-
-            <EditText
-                android:id="@+id/cashier_goods_pickup_card_no"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:digits="T0123456789"
-                android:hint="@string/cashier_system_hint_no_pickup_card_no"
-                android:textSize="@dimen/fontSize_28" />
-
-            <Button
-                android:id="@+id/cashier_goods_pickup_swing_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/blue_button_corner_bg"
-                android:padding="20dp"
-                android:text="@string/cashier_system_column_swing_card"
-                android:textColor="@color/white"
-                android:textSize="@dimen/fontSize_28"
-                android:visibility="invisible" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_height="wrap_content"
             android:background="#ecf0f1"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -102,16 +59,16 @@
                 android:textSize="@dimen/fontSize_28" />
 
             <EditText
-                android:id="@+id/cashier_goods_pickup_order_no"
+                android:id="@+id/cashier_search_order_no"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="@string/cashier_system_hint_no_order_number"
+                android:hint="@string/cashier_system_hint_input_order_no"
                 android:inputType="number"
                 android:textSize="@dimen/fontSize_28" />
 
             <Button
-                android:id="@+id/cashier_goods_pickup_checkorder"
+                android:id="@+id/cashier_search_order_btnsearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -129,10 +86,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="5"
         android:orientation="vertical" >
 
-        <LinearLayout
+         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -201,40 +158,11 @@
         <TextView style="@style/blackHDividerLine1DP" />
 
         <ListView
-            android:id="@+id/cashier_goods_pickup_lv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:id="@+id/cashier_search_order_lv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#ecf0f1" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:padding="15dp" >
-
-        <TextView
-            android:id="@+id/cashier_goods_pickup_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/cashier_system_column_total_money_withcolon"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_28" />
-
-        <Button
-            android:id="@+id/cashier_goods_pickup_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/red_button_corner_bg"
-            android:enabled="true"
-            android:padding="15dp"
-            android:text="@string/cashier_system_btn_pickup_ok"
-            android:textColor="@color/white"
-            android:textSize="@dimen/fontSize_28" />
-    </RelativeLayout>
 
 </LinearLayout>
