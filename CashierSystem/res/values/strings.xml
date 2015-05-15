@@ -90,7 +90,7 @@
     <string name="cashier_system_hint_no_return_order_number">请输入需要退货的订单号</string>
     <string name="cashier_system_hint_no_pickup_card_no">请输入提货人卡号</string>
     <string name="cashier_system_hint_no_return_card_no">请输入退货人卡号</string>
-    <string name="cashier_system_hint_no_opcenter">请选择收货店地址</string>
+    <string name="cashier_system_hint_no_opcenter">请选择收货店地址(可选)</string>
     <string name="cashier_system_hint_no_card_no">请刷卡或输入卡号</string>
 
 </resources>

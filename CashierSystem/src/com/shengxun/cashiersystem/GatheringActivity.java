@@ -157,7 +157,7 @@ public class GatheringActivity extends BaseActivity {
 		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
 		swing_card = (TextView) findViewById(R.id.cashier_gathering_btn_swing_card);
 		order_cancel = (Button) findViewById(R.id.cashier_gathering_btn_order_cancel);
-		btn_select_opcenter = (TextView) findViewById(R.id.cashier_gathering_btn_select_opcenter);
+		btn_select_opcenter = (TextView) findViewById(R.id.cashier_gathering_btn_select_area);
 
 		gathering_cash.setOnFocusChangeListener(myfocuschange);
 		gathering_card_no.setOnFocusChangeListener(myfocuschange);
@@ -306,7 +306,7 @@ public class GatheringActivity extends BaseActivity {
 					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_error),mActivity);
 				}
 				break;
-			case R.id.cashier_gathering_btn_select_opcenter:
+			case R.id.cashier_gathering_btn_select_area:
 				goActivity(AreaSelectActivity.class);
 				break;
 			default:
