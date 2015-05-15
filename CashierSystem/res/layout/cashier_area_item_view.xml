@@ -6,10 +6,10 @@
     android:orientation="horizontal" >
     
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/area_item_tv"
-        android:text="1"
+		android:gravity="center"        
         android:textSize="@dimen/fontSize_22"
         android:textColor="@color/black"
         />

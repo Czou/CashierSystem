@@ -5,9 +5,15 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface.OnKeyListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shengxun.cashiersystem.R;
 import com.shengxun.util.MD5Util;
 import com.zvezda.algorithm.utils.AlgorithmUtils;
 /**
@@ -63,18 +69,66 @@ public class C
 	
 	/**  短提示
 	 * @param msg
-	 * @param mActivity
+	 * @param mContext
 	 */
-	public static void showShort(String msg,Activity mActivity){
-		Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+	public static void showShort(String msg,Context mContext){
+		Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
 	}
 	/**长提示
 	 * @param msg
-	 * @param mActivity
+	 * @param mContext
 	 */
-	public static void showLong(String msg,Activity mActivity){
-		Toast.makeText(mActivity, msg, Toast.LENGTH_LONG).show();
+	public static void showLong(String msg,Context mContext){
+		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
 	
+	/**
+	 * 等待框
+	 */
+	private static AlertDialog customProgressDialog = null;
+	/**
+	 * 打开等待框
+	 * @param context
+	 * @param onKeyListener
+	 * @param object
+	 */
+	public static void openProgressDialog(Context context, OnKeyListener onKeyListener, Object object)
+	{
+		if (customProgressDialog != null && customProgressDialog.isShowing())
+		{
+			return;
+		}
+		customProgressDialog = new AlertDialog.Builder(context).create();
+		customProgressDialog.setCancelable(true);
+		customProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		customProgressDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		customProgressDialog.show();
+		customProgressDialog.getWindow().setContentView(R.layout.pragress_dialog_layout);
+		if (onKeyListener != null)
+		{
+			customProgressDialog.setOnKeyListener(onKeyListener);
+		}
+		final TextView infoView = (TextView) customProgressDialog.findViewById(R.id.dialogInfo);
+		if (object instanceof Integer)
+		{
+			infoView.setText((Integer) object);
+		} 
+		else if (object instanceof String)
+		{
+			infoView.setText((String) object);
+		}
+	}
+
+	/**
+	 * 关闭等待框
+	 */
+	public static void closeProgressDialog()
+	{
+		if (customProgressDialog != null)
+		{
+			customProgressDialog.cancel();
+			customProgressDialog = null;
+		}
+	}
 	
 }

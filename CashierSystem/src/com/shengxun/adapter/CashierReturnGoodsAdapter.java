@@ -32,7 +32,6 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		super(mActivity, dataList);
 		
 	}
-
 	public void setOrderInfo(OrderInfo order) {
 		this.order = order;
 	}

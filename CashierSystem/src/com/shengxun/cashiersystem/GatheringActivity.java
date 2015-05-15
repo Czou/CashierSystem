@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +31,6 @@ import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
-import com.zvezda.android.utils.LG;
 import com.zvezda.android.utils.TimeConversion;
 
 /**
@@ -88,9 +88,18 @@ public class GatheringActivity extends BaseActivity {
 	 * @param op
 	 * @auth shouwei
 	 */
-	public static void setOpcenter(OpcenterInfo op) {
-		opcenter = op;
-		gathering_opcenter.setText(opcenter.name + "");
+	public static void setOpcenter(OpcenterInfo op,String type) {
+		if(BaseUtils.IsNotEmpty(op)){
+			opcenter = op;
+			delivery_rs_code = type;
+			delivery_rs_code_id = op.id;
+			gathering_opcenter.setText(opcenter.name + "");
+			Log.i("savion","op===>"+op.toString());
+		}else{
+			delivery_rs_code = "";
+			delivery_rs_code_id = "";
+			gathering_opcenter.setText("");
+		}
 	}
 
 	@Override
@@ -117,7 +126,6 @@ public class GatheringActivity extends BaseActivity {
 					@Override
 					public boolean onEditorAction(TextView v, int actionId,KeyEvent event) {
 						createOrder();
-						LG.e(getClass(),"actionId---->"+actionId);
 						return true;
 					}
 				});
@@ -290,7 +298,6 @@ public class GatheringActivity extends BaseActivity {
 			case R.id.cashier_gathering_btn_order_cancel:
 				if (BaseUtils.IsNotEmpty(order_id)
 						&& BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
-					LG.i(getClass(), "cancel order id =====>" + order_id);
 					ConnectManager.getInstance().getOrderFormCanaelResult(
 							order_id, applicationCS.cashier_card_no, card_no,
 							ajaxcancelorder);
@@ -316,10 +323,6 @@ public class GatheringActivity extends BaseActivity {
 		card_no = gathering_card_no.getText().toString().trim();
 		if (BaseUtils.IsNotEmpty(card_no)) {
 			if (applicationCS != null) {
-				if (opcenter != null) {
-					// delivery_rs_code =
-					delivery_rs_code_id = opcenter.id;
-				}
 				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
 						applicationCS.cashier_card_no, goodsList,
 						delivery_rs_code, delivery_rs_code_id, pay_way + "",
@@ -524,7 +527,6 @@ public class GatheringActivity extends BaseActivity {
 		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "create t====>" + t);
 			if (BaseUtils.IsNotEmpty(t) && JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				order_id = JSONParser.getStringFromJsonString("order_id", data);
@@ -549,7 +551,6 @@ public class GatheringActivity extends BaseActivity {
 	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "CANCEL ORDER ====>" + t);
 			if (BaseUtils.IsNotEmpty(t) && JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals("ok")) {
@@ -567,7 +568,6 @@ public class GatheringActivity extends BaseActivity {
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),mActivity);
-			LG.i(getClass(), "t ===>" + t);
 		};
 	};
 

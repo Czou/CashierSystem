@@ -73,10 +73,11 @@
             android:textSize="@dimen/fontSize_28" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
+        android:orientation="vertical"
         android:background="#ffffff"
         android:padding="15dp" >
 
@@ -131,6 +132,24 @@
                     android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
         </RelativeLayout>
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/check_new_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/clickToUpdate"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@drawable/red_button_corner_bg"
+                android:textSize="@dimen/fontSize_28" />
+            
+        </RelativeLayout>
+        
+    </LinearLayout>
 
 </LinearLayout>

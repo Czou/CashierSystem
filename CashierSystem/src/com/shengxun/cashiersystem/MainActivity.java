@@ -399,6 +399,7 @@ public class MainActivity extends BaseActivity {
 		super.onDestroy();
 		JBLEDInterface.closeLed();
 		JBPrintInterface.closePrinter();
+		JBCashBoxInterface.closeCashBox();
 	}
 
 	

@@ -111,4 +111,9 @@ public class U
 	 */
 	public static final String CASH_STRING_AREA = CASHIER_SYSTEM_URL+"sy_area/area_list";
 	
+	/**
+	 * 22.软件更新
+	 */
+	public static final String CASH_STRING_APP_UPDATE=CASHIER_SYSTEM_URL+"app_gateway/app/latest_version";
+	
 }

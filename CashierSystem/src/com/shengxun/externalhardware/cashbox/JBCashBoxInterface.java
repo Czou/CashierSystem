@@ -24,7 +24,7 @@ public class JBCashBoxInterface {
 			return false;
 	}
 	
-	public static Runnable openBox = new Runnable() {
+	private static Runnable openBox = new Runnable() {
 		public void run() {
 			try {
 				System.err.println("open box");

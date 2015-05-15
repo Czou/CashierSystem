@@ -5,8 +5,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.shengxun.externalhardware.led.JBLEDInterface;
+import com.shengxun.util.CheckVersionManager;
 import com.zvezda.android.utils.AppManager;
 
 public class SettingActivity extends BaseActivity {
@@ -15,11 +17,11 @@ public class SettingActivity extends BaseActivity {
 	
 	Switch sw_open;
 
+	private TextView check_new_app=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cashier_setting_view);
-
 		initWidget();
 	}
 
@@ -29,9 +31,11 @@ public class SettingActivity extends BaseActivity {
 		btn_open = (Button) findViewById(R.id.cashier_setting_btn_open);
 		btn_close = (Button) findViewById(R.id.cashier_setting_btn_close);
 
+		check_new_app = (TextView) findViewById(R.id.check_new_app);
 		btn_open.setOnClickListener(myclick);
 		btn_close.setOnClickListener(myclick);
 		btn_back.setOnClickListener(myclick);
+		check_new_app.setOnClickListener(myclick);
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -49,6 +53,12 @@ public class SettingActivity extends BaseActivity {
 			// 关闭客显
 			case R.id.cashier_setting_btn_close:
 				JBLEDInterface.closeLed();
+				break;
+			//检测软件更新
+			case R.id.check_new_app:
+			{
+				CheckVersionManager.checkVersion(mActivity, true);
+			}
 				break;
 			default:
 				break;

@@ -626,4 +626,13 @@ public class ConnectManager {
 	}
 	/***************** 地区接口 end ********************/
 
+	
+	/*****************获取APP信息 LILIN  Start********************/
+	
+	public void getAppUpdateInfo(AjaxCallBack<String> ajaxCallBack) {
+		AjaxParams params = new AjaxParams();
+		finalHttp.configCharset("UTF-8");
+		finalHttp.get(U.CASH_STRING_APP_UPDATE, params, ajaxCallBack);
+	}
+	/*****************获取APP信息 LILIN  End ********************/
 }

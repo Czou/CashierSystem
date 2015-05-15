@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="spinner_array">
+        
+        <item>服务中心</item>
+        <item>配送中心</item>
+        <item>招商中心</item>
+        
+    </string-array>
+
+</resources>

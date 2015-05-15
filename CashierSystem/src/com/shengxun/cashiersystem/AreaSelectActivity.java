@@ -3,18 +3,6 @@ package com.shengxun.cashiersystem;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
-
-import com.shengxun.adapter.AreaAdapte;
-import com.shengxun.adapter.OpcenterAdapte;
-import com.shengxun.constant.C;
-import com.shengxun.entity.AreaInfo;
-import com.shengxun.entity.OpcenterInfo;
-import com.shengxun.util.ConnectManager;
-import com.zvezda.android.utils.AppManager;
-import com.zvezda.android.utils.BaseUtils;
-import com.zvezda.android.utils.JSONParser;
-import com.zvezda.android.utils.LG;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +12,19 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.shengxun.adapter.AreaAdapte;
+import com.shengxun.adapter.OpcenterAdapte;
+import com.shengxun.adapter.OpcenterTypeAdapter;
+import com.shengxun.constant.C;
+import com.shengxun.entity.AreaInfo;
+import com.shengxun.entity.OpcenterInfo;
+import com.shengxun.entity.OpcenterTypeInfo;
+import com.shengxun.util.ConnectManager;
+import com.zvezda.android.utils.AppManager;
+import com.zvezda.android.utils.BaseUtils;
+import com.zvezda.android.utils.JSONParser;
+import com.zvezda.android.utils.LG;
+
 /**
  * 选择地区运营中心
  * 
@@ -32,9 +33,10 @@ import android.widget.Spinner;
  */
 public class AreaSelectActivity extends BaseActivity {
 
-	Spinner sp_province, sp_city, sp_town, sp_opcenter;
+	Spinner sp_province, sp_city, sp_town, sp_opcenter, sp_type;
 	/**
 	 * spinner标记，用来区分当前改变的spinner，1:province,2:city,3:town,4:opcenter
+	 * 
 	 */
 	int areaFlag = 1;
 	/**
@@ -46,13 +48,30 @@ public class AreaSelectActivity extends BaseActivity {
 	 */
 	ArrayList<OpcenterInfo> opcenterList;
 	/**
+	 * 运营中心类型list
+	 */
+	ArrayList<OpcenterTypeInfo> typeList;
+	/**
 	 * 当前省，市，县，招商中心以及父id
 	 */
-	String province, city, town, opcenter, parent_id = "";
+	String province, city, town, opcenter, parent_id = "", type = "fw_center";
 	/**
 	 * 返回，确定按钮
 	 */
-	Button btn_back,btn_ok;
+	Button btn_back, btn_ok, btn_del;
+	/**
+	 * 运营中心类型adapter
+	 */
+	OpcenterTypeAdapter ota;
+
+	/**
+	 * 当前选择运营中心
+	 */
+	OpcenterInfo opcenterInfo;
+	/**
+	 * isFirst:是否是第一次进入,第一次进入
+	 */
+	boolean isFirstIn = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +82,7 @@ public class AreaSelectActivity extends BaseActivity {
 
 		initWidget();
 		initAreaData();
+		
 	}
 
 	/**
@@ -75,15 +95,38 @@ public class AreaSelectActivity extends BaseActivity {
 		sp_city = (Spinner) findViewById(R.id.area_select_city);
 		sp_town = (Spinner) findViewById(R.id.area_select_town);
 		sp_opcenter = (Spinner) findViewById(R.id.area_select_opcenter);
+		sp_type = (Spinner) findViewById(R.id.area_select_opcenter_type);
 		btn_back = (Button) findViewById(R.id.cashier_area_select_back);
 		btn_ok = (Button) findViewById(R.id.cashier_area_select_ok);
+		btn_del = (Button) findViewById(R.id.cashier_area_select_del);
 
 		sp_province.setOnItemSelectedListener(myitemclick);
 		sp_city.setOnItemSelectedListener(myitemclick);
 		sp_town.setOnItemSelectedListener(myitemclick);
 		sp_opcenter.setOnItemSelectedListener(myitemclick);
+		sp_type.setOnItemSelectedListener(myitemclick);
 		btn_back.setOnClickListener(myclick);
 		btn_ok.setOnClickListener(myclick);
+		btn_del.setOnClickListener(myclick);
+	}
+
+	/**
+	 * 初始化运营中心类型数据
+	 * 
+	 * @auth shouwei
+	 */
+	private void initOpTypeData() {
+		type = "fw_center";
+		typeList = new ArrayList<OpcenterTypeInfo>();
+		OpcenterTypeInfo oti = new OpcenterTypeInfo("fw_center", "服务中心");
+		typeList.add(oti);
+		oti = new OpcenterTypeInfo("zs_center", "招商中心");
+		typeList.add(oti);
+		oti = new OpcenterTypeInfo("ps_center", "配送中心");
+		typeList.add(oti);
+		ota = new OpcenterTypeAdapter(mActivity, typeList);
+		sp_type.setAdapter(ota);
+		
 	}
 
 	/**
@@ -92,6 +135,7 @@ public class AreaSelectActivity extends BaseActivity {
 	 * @auth shouwei
 	 */
 	private void initAreaData() {
+
 		provinceList = new ArrayList<AreaInfo>();
 		areaFlag = 1;
 		ConnectManager.getInstance()
@@ -127,6 +171,46 @@ public class AreaSelectActivity extends BaseActivity {
 					(ArrayList<OpcenterInfo>) list);
 			sp_opcenter.setAdapter(opcenterAdapter);
 		}
+		
+	}
+
+	/**
+	 * 获取当前地区运营中心
+	 * 
+	 * @auth shouwei
+	 */
+	private void getOpcenter() {
+		LG.i(getClass(), "province===>" + province);
+		LG.i(getClass(), "city===>" + city);
+		LG.i(getClass(), "town===>" + town);
+		LG.i(getClass(), "type===>" + type);
+		ConnectManager.getInstance().getOpcenterResult("", "", "fw_center",
+				province, city, town, "", "", new AjaxCallBack<String>() {
+					@SuppressWarnings("unchecked")
+					public void onSuccess(String t) {
+						super.onSuccess(t);
+						LG.i(getClass(), "opcenter =---->" + t);
+						if (JSONParser.getStringFromJsonString("status", t)
+								.equals("1")) {
+							String data = JSONParser.getStringFromJsonString(
+									"data", t);
+							String opcenter = JSONParser
+									.getStringFromJsonString("opcenter_list",
+											data);
+							opcenterList = (ArrayList<OpcenterInfo>) JSONParser
+									.JSON2Array(opcenter, OpcenterInfo.class);
+							if (BaseUtils.IsNotEmpty(opcenterList)) {
+								refreshAreaData(opcenterList, areaFlag);
+								if (opcenterList.size() == 0) {
+									C.showShort("当前地区无运营中心", mActivity);
+								}
+							}
+						} else {
+							C.showShort(JSONParser.getStringFromJsonString(
+									"error_desc", t), mActivity);
+						}
+					};
+				});
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -137,6 +221,15 @@ public class AreaSelectActivity extends BaseActivity {
 				AppManager.getAppManager().finishActivity(mActivity);
 				break;
 			case R.id.cashier_area_select_ok:
+				if (BaseUtils.IsNotEmpty(sp_opcenter.getSelectedItem())) {
+					GatheringActivity.setOpcenter(opcenterInfo, type);
+				}
+				AppManager.getAppManager().finishActivity(mActivity);
+				break;
+			case R.id.cashier_area_select_del:
+				opcenterInfo = null;
+				type = "";
+				GatheringActivity.setOpcenter(opcenterInfo, type);
 				AppManager.getAppManager().finishActivity(mActivity);
 				break;
 			default:
@@ -150,10 +243,6 @@ public class AreaSelectActivity extends BaseActivity {
 		@Override
 		public void onItemSelected(AdapterView<?> av, View view, int position,
 				long id) {
-			LG.i(getClass(), "arg0= =>" + av.getId());
-			LG.i(getClass(), "arg1= =>" + view.getId());
-			LG.i(getClass(), "arg2= =>" + position);
-			LG.i(getClass(), "arg3= =>" + id);
 			switch (av.getId()) {
 			case R.id.area_select_province:
 				areaFlag = 2;
@@ -167,39 +256,26 @@ public class AreaSelectActivity extends BaseActivity {
 						cityList.get(position).aid, areacallback);
 				city = cityList.get(position).name;
 				break;
-			case R.id.area_select_town:
+			case R.id.area_select_opcenter_type:
+				type = typeList.get(position).getType();
 				areaFlag = 4;
+				//因为sp_type是在其他spinner之前进行赋值的，
+				//所以一走入AreaSelectActivity时会出现运营中心一闪而过的画面
+				//所以第一次进入时不应该让其搜索运营中心
+				getOpcenter();
+				break;
+			case R.id.area_select_town:
 				town = townList.get(position).name;
-				ConnectManager.getInstance().getOpcenterResult("", "",
-						"fw_center", province, city, town, "", "",
-						new AjaxCallBack<String>() {
-							@SuppressWarnings("unchecked")
-							public void onSuccess(String t) {
-								super.onSuccess(t);
-								LG.i(getClass(), "opcenter =---->" + t);
-								if (JSONParser.getStringFromJsonString(
-										"status", t).equals("1")) {
-									String data = JSONParser
-											.getStringFromJsonString("data", t);
-									String opcenter = JSONParser
-											.getStringFromJsonString(
-													"opcenter_list", data);
-									opcenterList = (ArrayList<OpcenterInfo>) JSONParser
-											.JSON2Array(opcenter,
-													OpcenterInfo.class);
-									if (BaseUtils.IsNotEmpty(opcenterList)
-											&& opcenterList.size() > 0) {
-										refreshAreaData(opcenterList, areaFlag);
-									} else {
-										C.showShort("当前地区无取货店", mActivity);
-									}
-								} else {
-									C.showShort(JSONParser
-											.getStringFromJsonString(
-													"error_desc", t), mActivity);
-								}
-							};
-						});
+				// 每次更换地区都重新获取一次运营中心列表
+				areaFlag = 4;
+				initOpTypeData();
+				//getOpcenter();
+				break;
+			case R.id.area_select_opcenter:
+				if (BaseUtils.IsNotEmpty(opcenterList)
+						&& opcenterList.size() != 0) {
+					opcenterInfo = opcenterList.get(position);
+				}
 				break;
 			default:
 				break;

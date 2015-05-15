@@ -4,99 +4,103 @@
     <string name="app_name">收银系统</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-     <string name="viewContentDescript"></string>
+    <string name="viewContentDescript"></string>
     <!-- 收银系统的登录界面 -->
-	<string name="user_name">用户名：</string>
-	<string name="user_password">密　码：</string>
-	<string name="user_name_hint">请输入您的账号</string>
-	<string name="user_password_hint">请输入您的密码</string>
-	<string name="user_login">登录</string>
-	
-	<string name="user_reset">重置</string>
-	
-	<string name="cashier_system_title">健康安全网名优特产收银系统</string>
-	<string name="cashier_system_contact">圣勋技术中心\n联系电话：023-67716071</string>
-	<string name="cashier_system_contact_tech">技术中心：023-67713860</string>
-	<string name="cashier_system_help">Esc 退出</string>
-	<string name="cashier_system_btn_back">返回</string>
-	<string name="cashier_system_btn_ok">确定</string>
-	<string name="cashier_system_btn_del">删除</string>
-	<string name="cashier_system_btn_open">打开</string>
-	<string name="cashier_system_btn_close">关闭</string>
-	<string name="cashier_system_btn_pickup_ok">提货</string>
-	<string name="cashier_system_btn_return_ok">确认退货</string>
-	<string name="cashier_system_btn_search_order">查单</string>
-	
-	<string name="exit">退出</string>
-	<string name="setting">设置</string>
-	
-	<string name="cashier_system_gathering_title">收款</string>
-	<string name="cashier_system_gathering_order_cancel">取消订单</string>
-	<string name="cashier_system_title_area_select">选择收货店</string>
-	
-	<!-- 收银系统的商品描述栏目 -->
-	<string name="cashier_system_column_sort">序</string>
-	<string name="cashier_system_column_cargo_number">货号</string>
-	<string name="cashier_system_column_code">条码</string>
-	<string name="cashier_system_column_name">品名规格</string>
-	<string name="cashier_system_column_count">数量:</string>
-	<string name="cashier_system_column_old_price">原价:</string>
-	<string name="cashier_system_column_now_price">单价:</string>
-	<string name="cashier_system_column_money">金额</string>
-	<string name="cashier_system_column_clerk">营业员</string>
-	<string name="cashier_system_column_total_money">总额</string>
-	<string name="cashier_system_column_total_money_withcolon">总额:</string>
-	<string name="cashier_system_column_cash">现金</string>
-	<string name="cashier_system_column_change">找零</string>
-	<string name="cashier_system_column_card_number">卡号</string>
-	<string name="cashier_system_column_swing_card">刷卡</string>
-	<string name="cashier_system_column_select_opcenter">浏览</string>
-	<string name="cashier_system_column_order_number">订单号:</string>
-	<string name="cashier_system_column_return_money">退款金额:</string>
-	
-	<string name="cashier_system_business">商品:</string>
-	<string name="cashier_system_business_hint">支持扫描条码和输入条码</string>
-	<!-- 收银系统的机器和操作信息 -->
-	<string name="cashier_system_machine_number">机号:</string>
-	<string name="cashier_system_machine_status">状态:</string>
-	<string name="cashier_system_machine_order_total">上单合计:</string>
-	<string name="cashier_system_machine_order_receive">上单实收:</string>
-	<string name="cashier_system_machine_order_return_balance">上单找零:</string>
-	<string name="cashier_system_machine_user">收银员:</string>
-	<string name="cashier_system_machine_showcustom">客显:</string>
+    <string name="user_name">用户名：</string>
+    <string name="user_password">密　码：</string>
+    <string name="user_name_hint">请输入您的账号</string>
+    <string name="user_password_hint">请输入您的密码</string>
+    <string name="user_login">登录</string>
+    <string name="user_reset">重置</string>
+    <string name="cashier_system_title">健康安全网名优特产收银系统</string>
+    <string name="cashier_system_contact">圣勋技术中心\n联系电话：023-67716071</string>
+    <string name="cashier_system_contact_tech">技术中心：023-67713860</string>
+    <string name="cashier_system_help">Esc 退出</string>
+    <string name="cashier_system_btn_back">返回</string>
+    <string name="cashier_system_btn_ok">确定</string>
+    <string name="cashier_system_btn_del">删除</string>
+    <string name="cashier_system_btn_open">打开</string>
+    <string name="cashier_system_btn_close">关闭</string>
+    <string name="cashier_system_btn_pickup_ok">提货</string>
+    <string name="cashier_system_btn_return_ok">确认退货</string>
+    <string name="cashier_system_btn_search_order">查单</string>
+    <string name="exit">退出</string>
+    <string name="setting">设置</string>
+    <string name="cashier_system_gathering_title">收款</string>
+    <string name="cashier_system_gathering_order_cancel">取消订单</string>
+    <string name="cashier_system_title_area_select">选择收货店</string>
 
-	<string name="cashier_system_receive_payments">收款</string>
-	<string name="cashier_system_open_cashbox">打开钱箱</string>
-	<string name="cashier_system_close_cashbox">关闭钱箱</string>
-	<string name="cashier_system_get_good">提货</string>
-	<string name="cashier_system_return_good">退货</string>
-	<string name="cashier_system_setting">设置</string>
-	
-    
-	<!-- 提示语 -->
-	<string name="cashier_system_alert_no_login">请输入账号密码！</string>
-	<string name="cashier_system_alert_login_fail">登录失败！</string>
-	<string name="cashier_system_alert_no_product">还没有选购任何商品噢！</string>
-	<string name="cashier_system_alert_no_have_product">商品不存在或者已下架！</string>
-	<string name="cashier_system_alert_no_return_product">还没有任何商品可退换噢！</string>
-	<string name="cashier_system_alert_login_no_permissions">你的账号已被封禁，请联系管理员！</string>
-	<string name="cashier_system_alert_gathering_order_error">订单信息错误!</string>
-	<string name="cashier_system_alert_gathering_card_null">卡号不能为空！</string>
-	<string name="cashier_system_alert_gathering_create_order_success">订单创建成功！</string>
-	<string name="cashier_system_alert_gathering_create_order_fail">订单创建失败！</string>
-	<string name="cashier_system_alert_gathering_order_cancel_fail">取消订单失败！</string>
-	<string name="cashier_system_alert_gathering_order_cancel_success">取消订单成功！</string>
-	<string name="cashier_system_alert_gathering_order_pay_success">订单付款成功！</string>
-	<string name="cashier_system_alert_gathering_order_pay_fail">订单付款失败！</string>
-	<string name="cashier_system_alert_order_detail_del_success">删除成功！</string>
-	<string name="cashier_system_alert_order_detail_modify_success">修改成功！</string>
-	<string name="cashier_system_alert_no_order_number">提货订单号或卡号不能为空</string>
-	
-	<!-- hint提示语 -->
-	<string name="cashier_system_hint_no_order_number">请输入提货订单号</string>
-	<string name="cashier_system_hint_no_return_order_number">请输入需要退货的订单号</string>
-	<string name="cashier_system_hint_no_pickup_card_no">请输入提货人卡号</string>
-	<string name="cashier_system_hint_no_return_card_no">请输入退货人卡号</string>
-	<string name="cashier_system_hint_no_opcenter">请选择收货店地址</string>
-	<string name="cashier_system_hint_no_card_no">请刷卡或输入卡号</string>
+    <!-- 收银系统的商品描述栏目 -->
+    <string name="cashier_system_column_sort">序</string>
+    <string name="cashier_system_column_cargo_number">货号</string>
+    <string name="cashier_system_column_code">条码</string>
+    <string name="cashier_system_column_name">品名规格</string>
+    <string name="cashier_system_column_count">数量:</string>
+    <string name="cashier_system_column_old_price">原价:</string>
+    <string name="cashier_system_column_now_price">单价:</string>
+    <string name="cashier_system_column_money">金额</string>
+    <string name="cashier_system_column_clerk">营业员</string>
+    <string name="cashier_system_column_total_money">总额</string>
+    <string name="cashier_system_column_total_money_withcolon">总额:</string>
+    <string name="cashier_system_column_cash">现金</string>
+    <string name="cashier_system_column_change">找零</string>
+    <string name="cashier_system_column_card_number">卡号</string>
+    <string name="cashier_system_column_swing_card">刷卡</string>
+    <string name="cashier_system_column_select_opcenter">浏览</string>
+    <string name="cashier_system_column_order_number">订单号:</string>
+    <string name="cashier_system_column_return_money">退款金额:</string>
+    <string name="cashier_system_business">商品:</string>
+    <string name="cashier_system_business_hint">支持扫描条码和输入条码</string>
+    <!-- 收银系统的机器和操作信息 -->
+    <string name="cashier_system_machine_number">机号:</string>
+    <string name="cashier_system_machine_status">状态:</string>
+    <string name="cashier_system_machine_order_total">上单合计:</string>
+    <string name="cashier_system_machine_order_receive">上单实收:</string>
+    <string name="cashier_system_machine_order_return_balance">上单找零:</string>
+    <string name="cashier_system_machine_user">收银员:</string>
+    <string name="cashier_system_machine_showcustom">客显:</string>
+    <string name="cashier_system_receive_payments">收款</string>
+    <string name="cashier_system_open_cashbox">打开钱箱</string>
+    <string name="cashier_system_close_cashbox">关闭钱箱</string>
+    <string name="cashier_system_get_good">提货</string>
+    <string name="cashier_system_return_good">退货</string>
+    <string name="cashier_system_setting">设置</string>
+
+    <!-- 提示语 -->
+    <string name="cashier_system_alert_no_login">请输入账号密码！</string>
+    <string name="cashier_system_alert_login_fail">登录失败！</string>
+    <string name="cashier_system_alert_no_product">还没有选购任何商品噢！</string>
+    <string name="cashier_system_alert_no_have_product">商品不存在或者已下架！</string>
+    <string name="cashier_system_alert_no_return_product">还没有任何商品可退换噢！</string>
+    <string name="cashier_system_alert_login_no_permissions">你的账号已被封禁，请联系管理员！</string>
+    <string name="cashier_system_alert_gathering_order_error">订单信息错误!</string>
+    <string name="cashier_system_alert_gathering_card_null">卡号不能为空！</string>
+    <string name="cashier_system_alert_gathering_create_order_success">订单创建成功！</string>
+    <string name="cashier_system_alert_gathering_create_order_fail">订单创建失败！</string>
+    <string name="cashier_system_alert_gathering_order_cancel_fail">取消订单失败！</string>
+    <string name="cashier_system_alert_gathering_order_cancel_success">取消订单成功！</string>
+    <string name="cashier_system_alert_gathering_order_pay_success">订单付款成功！</string>
+    <string name="cashier_system_alert_gathering_order_pay_fail">订单付款失败！</string>
+    <string name="cashier_system_alert_order_detail_del_success">删除成功！</string>
+    <string name="cashier_system_alert_order_detail_modify_success">修改成功！</string>
+    <string name="cashier_system_alert_no_order_number">提货订单号或卡号不能为空</string>
+
+    <!-- hint提示语 -->
+    <string name="cashier_system_hint_no_order_number">请输入提货订单号</string>
+    <string name="cashier_system_hint_no_return_order_number">请输入需要退货的订单号</string>
+    <string name="cashier_system_hint_no_pickup_card_no">请输入提货人卡号</string>
+    <string name="cashier_system_hint_no_return_card_no">请输入退货人卡号</string>
+    <string name="cashier_system_hint_no_opcenter">请选择收货店地址</string>
+    <string name="cashier_system_hint_no_card_no">请刷卡或输入卡号</string>
+
+    <!-- 软件更新 -->
+    <string name="clickToUpdate">点击更新软件版本</string>
+    <string name="loading">加载中...</string>
+    <string name="noDataShow">无数据显示</string>
+    <string name="checkVersion">检测新版本中...</string>
+    <string name="noFindNewVersion">未发现新版本</string>
+    <string name="downloadFail">下载失败</string>
+    <string name="downloading">下载中：…</string>
+    <string name="ok">确定</string>
+    <string name="cancle">取消</string>
 </resources>
