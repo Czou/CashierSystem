@@ -137,20 +137,20 @@ public final class R {
         public static final int area_select_opcenter_type=0x7f090011;
         public static final int area_select_province=0x7f09000e;
         public static final int area_select_town=0x7f090010;
-        public static final int cancleView=0x7f09006f;
+        public static final int cancleView=0x7f090070;
         public static final int cashier_area_select_back=0x7f09000d;
         public static final int cashier_area_select_del=0x7f090014;
         public static final int cashier_area_select_ok=0x7f090013;
         public static final int cashier_gathering_back=0x7f090021;
         public static final int cashier_gathering_btn_order_cancel=0x7f090022;
-        public static final int cashier_gathering_btn_select_opcenter=0x7f09002b;
-        public static final int cashier_gathering_btn_swing_card=0x7f090029;
-        public static final int cashier_gathering_card_no=0x7f090028;
+        public static final int cashier_gathering_btn_select_area=0x7f090029;
+        public static final int cashier_gathering_btn_swing_card=0x7f09002b;
+        public static final int cashier_gathering_card_no=0x7f09002a;
         public static final int cashier_gathering_cash=0x7f090026;
         public static final int cashier_gathering_center=0x7f090023;
         public static final int cashier_gathering_center_board=0x7f090024;
         public static final int cashier_gathering_change=0x7f090027;
-        public static final int cashier_gathering_opcenter=0x7f09002a;
+        public static final int cashier_gathering_opcenter=0x7f090028;
         public static final int cashier_gathering_total_money=0x7f090025;
         public static final int cashier_goods_detail_add=0x7f09001c;
         public static final int cashier_goods_detail_back=0x7f090015;
@@ -212,8 +212,8 @@ public final class R {
         public static final int cashier_system_receive_payments=0x7f090008;
         public static final int cashier_system_return_good=0x7f09000b;
         public static final int check_new_app=0x7f090065;
-        public static final int dialogInfo=0x7f09006c;
-        public static final int footLayout=0x7f09006d;
+        public static final int dialogInfo=0x7f090067;
+        public static final int footLayout=0x7f09006e;
         public static final int gathering_area_1=0x7f09002c;
         public static final int gathering_area_2=0x7f09002d;
         public static final int gathering_area_3=0x7f09002e;
@@ -236,14 +236,15 @@ public final class R {
         public static final int gathering_btn_ok=0x7f090040;
         public static final int gathering_btn_spot=0x7f09003e;
         public static final int gathering_top=0x7f09000c;
-        public static final int login_layout_v_center=0x7f090066;
-        public static final int myProgressDialog=0x7f09006b;
-        public static final int okView=0x7f09006e;
-        public static final int tipView=0x7f090070;
-        public static final int user_login=0x7f090069;
-        public static final int user_name=0x7f090067;
-        public static final int user_password=0x7f090068;
-        public static final int user_reset=0x7f09006a;
+        public static final int login_layout_v_center=0x7f090069;
+        public static final int myProgressDialog=0x7f090066;
+        public static final int okView=0x7f09006f;
+        public static final int progressView=0x7f090068;
+        public static final int tipView=0x7f090071;
+        public static final int user_login=0x7f09006c;
+        public static final int user_name=0x7f09006a;
+        public static final int user_password=0x7f09006b;
+        public static final int user_reset=0x7f09006d;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -257,9 +258,10 @@ public final class R {
         public static final int cashier_pickup_goods_list_item=0x7f030008;
         public static final int cashier_return_goods_list_item=0x7f030009;
         public static final int cashier_setting_view=0x7f03000a;
-        public static final int login_view=0x7f03000b;
-        public static final int pragress_dialog_layout=0x7f03000c;
-        public static final int tip_update_version_layout=0x7f03000d;
+        public static final int download_pragress_dialog_layout=0x7f03000b;
+        public static final int login_view=0x7f03000c;
+        public static final int pragress_dialog_layout=0x7f03000d;
+        public static final int tip_update_version_layout=0x7f03000e;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;

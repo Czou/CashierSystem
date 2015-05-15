@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -71,6 +71,13 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation" >
         </activity>
+         <service
+            android:name="com.shengxun.service.BackgroundService"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.shengxun.service.BackgroundService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -1,6 +1,11 @@
 package com.shengxun.cashiersystem;
 
 import net.tsz.afinal.http.AjaxCallBack;
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,17 +14,20 @@ import android.widget.TextView;
 
 import com.shengxun.constant.C;
 import com.shengxun.entity.LoginInfo;
+import com.shengxun.service.BackgroundService;
 import com.shengxun.util.AndroidAdjustResizeUtil;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
+import com.zvezda.android.utils.LG;
 
 /**
  * 模块描述：收银系统登录界面
  * 2015-4-14 下午12:21:52
  * Write by LILIN
  */
+@SuppressLint("HandlerLeak")
 public class LoginActivity extends BaseActivity{
 
 	private EditText user_name=null;
@@ -27,6 +35,8 @@ public class LoginActivity extends BaseActivity{
 	
 	private TextView user_login=null;
 	private TextView user_reset=null;
+	
+	private long startTime;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,6 +53,11 @@ public class LoginActivity extends BaseActivity{
 		user_name.setText("T00010088");
 		user_password.setText("532614");
 		
+		startTime = System.currentTimeMillis();
+		//启动服务更新
+		C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
+		registerBroad();
+		BackgroundService.openService(mActivity);
 	}
 	private OnClickListener onClickListener=new OnClickListener(){
 
@@ -75,6 +90,7 @@ public class LoginActivity extends BaseActivity{
 			}
 		}
 		};
+		//登录回调
 		AjaxCallBack<String> loginAjaxCallBack=new AjaxCallBack<String>() {
 
 			@Override
@@ -107,4 +123,44 @@ public class LoginActivity extends BaseActivity{
 			}
 			
 		};
+		
+		
+		
+		DataBackMessage dbm = null;//广播
+		/**
+		 * 注册广播
+		 */
+		private void registerBroad(){
+			IntentFilter intentFilter = new IntentFilter(BackgroundService.ACTION_DATA_STATUS);
+			dbm = new DataBackMessage();
+			registerReceiver(dbm, intentFilter);
+		}
+		private void unRegisterBroad(){
+			if(null != dbm)
+				unregisterReceiver(dbm);
+		}
+		/**
+		 * 接受广播里数据写入成功没
+		 *
+		 */
+		private class DataBackMessage extends BroadcastReceiver{
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				int code = intent.getIntExtra(BackgroundService.KEY_CODE, 0);
+				long consumeTime = System.currentTimeMillis()-startTime;
+				if(1 == code){
+					LG.e(getClass(), "数据库更新时间  总共=====> "+consumeTime);
+					unRegisterBroad();
+					BackgroundService.closeService();
+					C.closeProgressDialog();
+				}else if(0 == code){
+					LG.e(getClass(), "数据库更新失败  总共=====> "+consumeTime);
+					unRegisterBroad();
+					BackgroundService.closeService();
+					C.closeProgressDialog();
+				}
+			}
+			
+		}
 }

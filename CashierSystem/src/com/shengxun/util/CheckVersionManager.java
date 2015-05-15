@@ -77,7 +77,7 @@ public class CheckVersionManager {
 	                	Intent intent = new Intent(mContext,TipUpdateVersionAtivity.class);
 	                	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	                	intent.putExtra("function",appVersion.version_content);
-	                	intent.putExtra("must_update", appVersion.must_update);
+	                	//intent.putExtra("must_update", appVersion.must_update);
 	                	intent.putExtra("download_url", appVersion.down_url);
 	                	mContext.startActivity(intent);
 	                }

@@ -81,7 +81,7 @@ public class U
 	/**
 	 * 14.  退货订单退款接口
 	 */
-	public static final String CASH_STRING_ORDERFORM_REFUND_MONEY = CASHIER_SYSTEM_URL+"sy_refund_order/refund_money";
+	public static final String CASH_STRING_ORDERFORM_REFUND_MONEY = CASHIER_SYSTEM_URL+"sy_refund_order/refund_pay";
 	/**
 	 * 15.  退货订单(收银店)详情接口
 	 */
@@ -112,8 +112,8 @@ public class U
 	public static final String CASH_STRING_AREA = CASHIER_SYSTEM_URL+"sy_area/area_list";
 	
 	/**
-	 * 22.软件更新
+	 * 22.软件更新http://tcadmind.051jk.com/gateway/app/get_app_version
 	 */
-	public static final String CASH_STRING_APP_UPDATE=CASHIER_SYSTEM_URL+"app_gateway/app/latest_version";
+	public static final String CASH_STRING_APP_UPDATE=CASHIER_SYSTEM_URL+"app/get_app_version";
 	
 }

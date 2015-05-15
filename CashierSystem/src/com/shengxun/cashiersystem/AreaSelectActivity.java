@@ -1,5 +1,6 @@
 package com.shengxun.cashiersystem;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
@@ -12,6 +13,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.j256.ormlite.dao.Dao;
 import com.shengxun.adapter.AreaAdapte;
 import com.shengxun.adapter.OpcenterAdapte;
 import com.shengxun.adapter.OpcenterTypeAdapter;
@@ -24,6 +26,7 @@ import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
+import com.zvezda.database.utils.ORMOpearationDao;
 
 /**
  * 选择地区运营中心
@@ -34,11 +37,6 @@ import com.zvezda.android.utils.LG;
 public class AreaSelectActivity extends BaseActivity {
 
 	Spinner sp_province, sp_city, sp_town, sp_opcenter, sp_type;
-	/**
-	 * spinner标记，用来区分当前改变的spinner，1:province,2:city,3:town,4:opcenter
-	 * 
-	 */
-	int areaFlag = 1;
 	/**
 	 * 省，市，县的数据list
 	 */
@@ -68,10 +66,11 @@ public class AreaSelectActivity extends BaseActivity {
 	 * 当前选择运营中心
 	 */
 	OpcenterInfo opcenterInfo;
+	
 	/**
-	 * isFirst:是否是第一次进入,第一次进入
+	 * 数据操作Dao
 	 */
-	boolean isFirstIn = true;
+	Dao<AreaInfo,Integer> areaDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +79,11 @@ public class AreaSelectActivity extends BaseActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.area_select_view);
 
+		if(ormOpearationDao!=null){
+			ormOpearationDao = new ORMOpearationDao(getApplicationContext());
+		}
+		areaDao = ormOpearationDao.getDao(AreaInfo.class);
+		
 		initWidget();
 		initAreaData();
 		
@@ -135,11 +139,18 @@ public class AreaSelectActivity extends BaseActivity {
 	 * @auth shouwei
 	 */
 	private void initAreaData() {
-
 		provinceList = new ArrayList<AreaInfo>();
-		areaFlag = 1;
-		ConnectManager.getInstance()
-				.getAreaResult("2", parent_id, areacallback);
+		try {
+			provinceList = (ArrayList<AreaInfo>) areaDao.queryBuilder().where().eq("level", "2").query();
+			if(provinceList!=null&&provinceList.size()>0){
+				refreshAreaData(provinceList, 1);
+			}else{
+				C.showShort("获取地理信息失败", mActivity);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -150,22 +161,22 @@ public class AreaSelectActivity extends BaseActivity {
 	 * @auth shouwei
 	 */
 	private void refreshAreaData(ArrayList<?> list, int flag) {
-		if (areaFlag == 1) {
+		if (flag == 1) {
 			@SuppressWarnings("unchecked")
 			AreaAdapte areaAdapter = new AreaAdapte(mActivity,
 					(ArrayList<AreaInfo>) list);
 			sp_province.setAdapter(areaAdapter);
-		} else if (areaFlag == 2) {
+		} else if (flag == 2) {
 			@SuppressWarnings("unchecked")
 			AreaAdapte areaAdapter = new AreaAdapte(mActivity,
 					(ArrayList<AreaInfo>) list);
 			sp_city.setAdapter(areaAdapter);
-		} else if (areaFlag == 3) {
+		} else if (flag == 3) {
 			@SuppressWarnings("unchecked")
 			AreaAdapte areaAdapter = new AreaAdapte(mActivity,
 					(ArrayList<AreaInfo>) list);
 			sp_town.setAdapter(areaAdapter);
-		} else if (areaFlag == 4) {
+		} else if (flag == 4) {
 			@SuppressWarnings("unchecked")
 			OpcenterAdapte opcenterAdapter = new OpcenterAdapte(mActivity,
 					(ArrayList<OpcenterInfo>) list);
@@ -180,11 +191,7 @@ public class AreaSelectActivity extends BaseActivity {
 	 * @auth shouwei
 	 */
 	private void getOpcenter() {
-		LG.i(getClass(), "province===>" + province);
-		LG.i(getClass(), "city===>" + city);
-		LG.i(getClass(), "town===>" + town);
-		LG.i(getClass(), "type===>" + type);
-		ConnectManager.getInstance().getOpcenterResult("", "", "fw_center",
+		ConnectManager.getInstance().getOpcenterResult("", "", type,
 				province, city, town, "", "", new AjaxCallBack<String>() {
 					@SuppressWarnings("unchecked")
 					public void onSuccess(String t) {
@@ -200,7 +207,7 @@ public class AreaSelectActivity extends BaseActivity {
 							opcenterList = (ArrayList<OpcenterInfo>) JSONParser
 									.JSON2Array(opcenter, OpcenterInfo.class);
 							if (BaseUtils.IsNotEmpty(opcenterList)) {
-								refreshAreaData(opcenterList, areaFlag);
+								refreshAreaData(opcenterList, 4);
 								if (opcenterList.size() == 0) {
 									C.showShort("当前地区无运营中心", mActivity);
 								}
@@ -245,35 +252,50 @@ public class AreaSelectActivity extends BaseActivity {
 				long id) {
 			switch (av.getId()) {
 			case R.id.area_select_province:
-				areaFlag = 2;
-				ConnectManager.getInstance().getAreaResult("3",
-						provinceList.get(position).aid, areacallback);
-				province = provinceList.get(position).name;
+				try {
+					cityList = (ArrayList<AreaInfo>) areaDao.queryBuilder().where().eq("level", "3").and().eq("pid", provinceList.get(position).aid).query();
+					if(cityList!=null&&cityList.size()>0){
+						//初始化sp_city的列表信息
+						refreshAreaData(cityList, 2);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				province = provinceList.get(position).aid;
 				break;
 			case R.id.area_select_city:
-				areaFlag = 3;
-				ConnectManager.getInstance().getAreaResult("4",
-						cityList.get(position).aid, areacallback);
-				city = cityList.get(position).name;
+				try {
+					townList = (ArrayList<AreaInfo>) areaDao.queryBuilder().where().eq("level", "4").and().eq("pid", cityList.get(position).aid).query();
+					if(townList!=null&&townList.size()>0){
+						//初始化sp_town的列表信息
+						refreshAreaData(townList, 3);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				city = cityList.get(position).aid;
 				break;
 			case R.id.area_select_opcenter_type:
 				type = typeList.get(position).getType();
-				areaFlag = 4;
+
 				//因为sp_type是在其他spinner之前进行赋值的，
 				//所以一走入AreaSelectActivity时会出现运营中心一闪而过的画面
 				//所以第一次进入时不应该让其搜索运营中心
+
+				//获取 运营中心数据
+
 				getOpcenter();
 				break;
 			case R.id.area_select_town:
-				town = townList.get(position).name;
+				town = townList.get(position).aid;
 				// 每次更换地区都重新获取一次运营中心列表
-				areaFlag = 4;
 				initOpTypeData();
 				//getOpcenter();
+				initOpTypeData();
 				break;
 			case R.id.area_select_opcenter:
 				if (BaseUtils.IsNotEmpty(opcenterList)
-						&& opcenterList.size() != 0) {
+						&& opcenterList.size() > 0) {
 					opcenterInfo = opcenterList.get(position);
 				}
 				break;
@@ -281,51 +303,50 @@ public class AreaSelectActivity extends BaseActivity {
 				break;
 			}
 		}
-
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
 		}
 	};
 
-	AjaxCallBack<String> areacallback = new AjaxCallBack<String>() {
-		@SuppressWarnings("unchecked")
-		public void onSuccess(String t) {
-			super.onSuccess(t);
-			LG.i(getClass(), "area -- >" + t);
-			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
-				String data = JSONParser.getStringFromJsonString("data", t);
-				String area = JSONParser.getStringFromJsonString("area_list",
-						data);
-				switch (areaFlag) {
-				case 1:
-					provinceList = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
-							area, AreaInfo.class);
-					refreshAreaData(provinceList, areaFlag);
-					break;
-				case 2:
-					cityList = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
-							area, AreaInfo.class);
-					refreshAreaData(cityList, areaFlag);
-					break;
-				case 3:
-					townList = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
-							area, AreaInfo.class);
-					refreshAreaData(townList, areaFlag);
-					break;
-				default:
-					break;
-				}
-
-			} else {
-				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
-						mActivity);
-			}
-		};
-
-		public void onFailure(Throwable t, int errorNo, String strMsg) {
-			super.onFailure(t, errorNo, strMsg);
-			C.showShort("获取地区失败", mActivity);
-		};
-	};
+//	AjaxCallBack<String> areacallback = new AjaxCallBack<String>() {
+//		@SuppressWarnings("unchecked")
+//		public void onSuccess(String t) {
+//			super.onSuccess(t);
+//			LG.i(getClass(), "area -- >" + t);
+//			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
+//				String data = JSONParser.getStringFromJsonString("data", t);
+//				String area = JSONParser.getStringFromJsonString("area_list",
+//						data);
+//				switch (areaFlag) {
+//				case 1:
+//					provinceList = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
+//							area, AreaInfo.class);
+//					refreshAreaData(provinceList, areaFlag);
+//					break;
+//				case 2:
+//					cityList = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
+//							area, AreaInfo.class);
+//					refreshAreaData(cityList, areaFlag);
+//					break;
+//				case 3:
+//					townList = (ArrayList<AreaInfo>) JSONParser.JSON2Array(
+//							area, AreaInfo.class);
+//					refreshAreaData(townList, areaFlag);
+//					break;
+//				default:
+//					break;
+//				}
+//
+//			} else {
+//				C.showShort(JSONParser.getStringFromJsonString("error_dec", t),
+//						mActivity);
+//			}
+//		};
+//
+//		public void onFailure(Throwable t, int errorNo, String strMsg) {
+//			super.onFailure(t, errorNo, strMsg);
+//			C.showShort("获取地区失败", mActivity);
+//		};
+//	};
 
 }

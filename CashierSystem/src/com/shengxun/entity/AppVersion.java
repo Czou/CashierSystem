@@ -27,6 +27,6 @@ public	class AppVersion{
 	/**
 	 * 必须更新否
 	 */
-	public String must_update="";
+	//public String must_update="";
 	
 }

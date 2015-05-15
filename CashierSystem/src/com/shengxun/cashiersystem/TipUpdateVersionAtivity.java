@@ -1,6 +1,8 @@
 package com.shengxun.cashiersystem;
 import java.io.File;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
@@ -14,11 +16,12 @@ import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.shengxun.constant.C;
 import com.shengxun.util.CacheM;
-import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.http.utils.HttpConst;
 import com.zvezda.http.utils.RequestFileRunnable;
@@ -50,7 +53,7 @@ public class TipUpdateVersionAtivity extends BaseActivity
 	/**
 	 * 是否必须更新
 	 */
-	private String must_update="0";
+	//private String must_update="0";
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -62,7 +65,7 @@ public class TipUpdateVersionAtivity extends BaseActivity
 		TextView cancleView = (TextView)findViewById(R.id.cancleView);
 		cancleView.setOnClickListener(onClickListener);
 		downloadUrl = getIntent().getStringExtra("download_url");
-		must_update = getIntent().getStringExtra("must_update");
+		//must_update = getIntent().getStringExtra("must_update");
 		tipView = (TextView)findViewById(R.id.tipView);
 		tipView.setText(Html.fromHtml(getIntent().getStringExtra("function")));
 		tipView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -82,11 +85,12 @@ public class TipUpdateVersionAtivity extends BaseActivity
 				doDownload(downloadUrl);
 				break;
 			case R.id.cancleView:
-				if(must_update.equals("0")){
+				
+				//if(must_update.equals("0")){
 					finish();
-				}else{
-					AppManager.getAppManager().AppExit(mActivity);
-				}
+//				}else{
+//					AppManager.getAppManager().AppExit(mActivity);
+//				}
 				break;
 				default:
 					break;
@@ -112,7 +116,7 @@ public class TipUpdateVersionAtivity extends BaseActivity
 		}
 		else
 		{
-			C.openProgressDialog(this, onKeyListener, R.string.downloading);
+			openProgressDialog(this, onKeyListener, R.string.downloading);
 			requestFileRunnable = new RequestFileRunnable(requestHttpListener, url, apkPath);
 			new Thread(requestFileRunnable).start();
 			
@@ -140,53 +144,53 @@ public class TipUpdateVersionAtivity extends BaseActivity
 	/**
 	 * 等待框
 	 */
-//	private AlertDialog customProgressDialog = null;
-//	/**
-//	 * 打开等待框
-//	 * @param context
-//	 * @param onKeyListener
-//	 * @param object
-//	 */
-//	private void openProgressDialog(Context context, OnKeyListener onKeyListener, Object object)
-//	{
-//		if (customProgressDialog != null && customProgressDialog.isShowing())
-//		{
-//			return;
-//		}
-//		customProgressDialog = new AlertDialog.Builder(context).create();
-//		customProgressDialog.setCancelable(false);
-//		customProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		customProgressDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//		customProgressDialog.show();
-//		customProgressDialog.getWindow().setContentView(R.layout.download_pragress_dialog_layout);
-//		customProgressDialog.setCancelable(true);
-//		if (onKeyListener != null)
-//		{
-//			customProgressDialog.setOnKeyListener(onKeyListener);
-//		}
-//		final TextView infoView = (TextView) customProgressDialog.findViewById(R.id.dialogInfo);
-//		if (object instanceof Integer)
-//		{
-//			infoView.setText((Integer) object);
-//		} 
-//		else if (object instanceof String)
-//		{
-//			infoView.setText((String) object);
-//		}
-//		progressView = (TextView)customProgressDialog.findViewById(R.id.progressView);
-//	}
-//
-//	/**
-//	 * 关闭等待框
-//	 */
-//	private void closeProgressDialog()
-//	{
-//		if (customProgressDialog != null)
-//		{
-//			customProgressDialog.cancel();
-//			customProgressDialog = null;
-//		}
-//	}
+	private AlertDialog customProgressDialog = null;
+	/**
+	 * 打开等待框
+	 * @param context
+	 * @param onKeyListener
+	 * @param object
+	 */
+	private void openProgressDialog(Context context, OnKeyListener onKeyListener, Object object)
+	{
+		if (customProgressDialog != null && customProgressDialog.isShowing())
+		{
+			return;
+		}
+		customProgressDialog = new AlertDialog.Builder(context).create();
+		customProgressDialog.setCancelable(false);
+		customProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		customProgressDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		customProgressDialog.show();
+		customProgressDialog.getWindow().setContentView(R.layout.download_pragress_dialog_layout);
+		customProgressDialog.setCancelable(true);
+		if (onKeyListener != null)
+		{
+			customProgressDialog.setOnKeyListener(onKeyListener);
+		}
+		final TextView infoView = (TextView) customProgressDialog.findViewById(R.id.dialogInfo);
+		if (object instanceof Integer)
+		{
+			infoView.setText((Integer) object);
+		} 
+		else if (object instanceof String)
+		{
+			infoView.setText((String) object);
+		}
+		progressView = (TextView)customProgressDialog.findViewById(R.id.progressView);
+	}
+
+	/**
+	 * 关闭等待框
+	 */
+	private void closeProgressDialog()
+	{
+		if (customProgressDialog != null)
+		{
+			customProgressDialog.cancel();
+			customProgressDialog = null;
+		}
+	}
 	/**
 	 * 数据请求监听
 	 */
@@ -228,13 +232,13 @@ public class TipUpdateVersionAtivity extends BaseActivity
 				progressView.setText((int)(progress*100)+"%");
 				break;
 			case HttpConst.ACTION_SUCCESS:
-				C.closeProgressDialog();
+				closeProgressDialog();
 				String apkPath =  bundle.getString(HttpConst.FILE_PATH);
 				installAPK(apkPath);
 				finish();
 				break;
 			case HttpConst.ACTION_FAIL:
-				C.closeProgressDialog();
+				closeProgressDialog();
 				C.showShort(resources.getString(R.string.downloadFail) ,mActivity);
 				break;
 				default:

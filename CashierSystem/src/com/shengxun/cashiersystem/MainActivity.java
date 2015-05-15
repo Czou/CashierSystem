@@ -260,16 +260,7 @@ public class MainActivity extends BaseActivity {
 				break;
 			// 退货
 			case R.id.cashier_system_return_good: {
-
 				goActivity(GoodsReturnActivity.class);
-				if (dataList != null && dataList.size() > 0) {
-				} else {
-					C.showShort(
-							resources
-									.getString(R.string.cashier_system_alert_no_return_product),
-							mActivity);
-				}
-
 			}
 				break;
 			// 设置

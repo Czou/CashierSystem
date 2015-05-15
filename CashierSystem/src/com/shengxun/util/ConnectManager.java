@@ -172,14 +172,15 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		if (BaseUtils.IsNotEmpty(delivery_rs_code)) {
-			params.put("delivery_rs_code", delivery_rs_code);
-		}
-		if (BaseUtils.IsNotEmpty(delivery_rs_code_id)) {
-			params.put("cashier_card_no_id", delivery_rs_code_id);
-		}
+		
 		params.put("consume_card_no", consume_card_no);
 		params.put("cashier_card_no", cashier_card_no);
+		if(BaseUtils.IsNotEmpty(delivery_rs_code)){
+			params.put("delivery_rs_code", delivery_rs_code);
+		}
+		if(BaseUtils.IsNotEmpty(delivery_rs_code_id)){
+			params.put("delivery_rs_code_id", delivery_rs_code_id);
+		}
 		if (products != null && products.size() > 0) {
 			for (int i = 0; i < products.size(); i++) {
 				params.put("product_info[" + products.get(i).op_id + "]",
@@ -397,7 +398,7 @@ public class ConnectManager {
 
 		if (product_info != null && product_info.size() > 0) {
 			for (int i = 0; i < product_info.size(); i++) {
-				params.put("product_info[" + product_info.get(i).op_id + "]",
+				params.put("product_info[" + product_info.get(i).cop_id + "]",
 						product_info.get(i).buy_number + "");
 			}
 		}

@@ -92,6 +92,8 @@ public class GoodsPickupActivity extends BaseActivity {
 				if (BaseUtils.IsNotEmpty(card_no)) {
 					// 验证订单号非空
 					if (BaseUtils.IsNotEmpty(order_no)) {
+						product_list.clear();
+						show_money.setText("总额:" +"");
 						// 查询该取货店订单是否存在
 						ConnectManager.getInstance().getOrderFormDeliveryDetailResult(
 								order_no, ordercheck);
@@ -176,11 +178,12 @@ public class GoodsPickupActivity extends BaseActivity {
 						OrderInfo.class);
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
-				refreshGoodsData(product_list);
+				
 			} else {
 				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),
 						mActivity);
 			}
+			refreshGoodsData(product_list);
 		};
 	};
 }

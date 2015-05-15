@@ -95,6 +95,8 @@ public class GoodsReturnActivity extends BaseActivity {
 		if (BaseUtils.IsNotEmpty(card_no)) {
 			// 验证订单号非空
 			if (BaseUtils.IsNotEmpty(order_no)) {
+				return_money.setText("退款金额:" +"");
+				product_list.clear();
 				// 查询该订单是否存在
 				ConnectManager.getInstance().getOrderFormDetailResult(order_no,
 						searchorder);
@@ -114,13 +116,13 @@ public class GoodsReturnActivity extends BaseActivity {
 	private void createRefundOrder() {
 		cashier_card_no = applicationCS.cashier_card_no;
 		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
-			if (BaseUtils.IsNotEmpty(refund_product_list)&&refund_product_list.size() >0) {
+			if (BaseUtils.IsNotEmpty(refund_product_list) && refund_product_list.size() > 0) {
 				// 创建退货订单
 				ConnectManager.getInstance().getOrderFormRefundResult(order_no,
 						refund_product_list, cashier_card_no, pay_way, card_no,
 						createReturnOrder);
 			} else {
-				C.showShort("退货信息失效或无数据", mActivity);
+				C.showShort("退货信息失效或无数据",mActivity);
 			}
 		} else {
 			C.showShort("收银员卡号失效", mActivity);
@@ -237,15 +239,16 @@ public class GoodsReturnActivity extends BaseActivity {
 				isPayed = (OrderInfo) JSONParser.JSON2Object(order_detail,
 						OrderInfo.class);
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(product_detail, ProductInfo.class);
-				checkOrderStatus(isPayed.co_status);
+				//checkOrderStatus(isPayed.co_status);
 			} else {
 				C.showShort(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
 			}
+			refreshGoodsData(product_list);
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("订单错误f", mActivity);
+			C.showShort("订单错误", mActivity);
 		};
 	};
 	/**
@@ -255,12 +258,12 @@ public class GoodsReturnActivity extends BaseActivity {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "T=======>" + t);
-			if (JSONParser.getStringFromJsonString("status", t).equals("q")) {
+			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				refund_order_no = JSONParser.getStringFromJsonString(
 						"refund_order_id", data);
 				// 创建退货订单成功
-				return_ok.setEnabled(true);
+				C.showShort("创建退货订单成功"+refund_order_no, mActivity);
 				// 退货订单退款
 				ConnectManager.getInstance().getReturnOrderFormResult(refund_order_no, refundordercallback);
 			} else {
@@ -280,6 +283,7 @@ public class GoodsReturnActivity extends BaseActivity {
 	AjaxCallBack<String> refundordercallback = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.e(getClass(), "t===>"+t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(

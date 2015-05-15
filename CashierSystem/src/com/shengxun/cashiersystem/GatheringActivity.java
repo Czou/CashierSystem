@@ -31,6 +31,7 @@ import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
+import com.zvezda.android.utils.LG;
 import com.zvezda.android.utils.TimeConversion;
 
 /**
@@ -156,7 +157,7 @@ public class GatheringActivity extends BaseActivity {
 		btn_ok = (TextView) findViewById(R.id.gathering_btn_ok);
 		swing_card = (TextView) findViewById(R.id.cashier_gathering_btn_swing_card);
 		order_cancel = (Button) findViewById(R.id.cashier_gathering_btn_order_cancel);
-		btn_select_opcenter = (TextView) findViewById(R.id.cashier_gathering_btn_select_opcenter);
+		btn_select_opcenter = (TextView) findViewById(R.id.cashier_gathering_btn_select_area);
 
 		gathering_cash.setOnFocusChangeListener(myfocuschange);
 		gathering_card_no.setOnFocusChangeListener(myfocuschange);
@@ -305,7 +306,7 @@ public class GatheringActivity extends BaseActivity {
 					C.showShort(resources.getString(R.string.cashier_system_alert_gathering_order_error),mActivity);
 				}
 				break;
-			case R.id.cashier_gathering_btn_select_opcenter:
+			case R.id.cashier_gathering_btn_select_area:
 				goActivity(AreaSelectActivity.class);
 				break;
 			default:
@@ -321,6 +322,7 @@ public class GatheringActivity extends BaseActivity {
 	 */
 	private void createOrder() {
 		card_no = gathering_card_no.getText().toString().trim();
+		LG.i(getClass(), "before create order====>card_no:"+card_no+",delivery_rs_code:"+delivery_rs_code+",delivery_rs_code_id:"+delivery_rs_code_id);
 		if (BaseUtils.IsNotEmpty(card_no)) {
 			if (applicationCS != null) {
 				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
@@ -382,7 +384,7 @@ public class GatheringActivity extends BaseActivity {
 			index = gathering_cash.getSelectionStart();
 			// 光标当前位置不在第一位并且金额不为空
 			if (index > 0 && BaseUtils.IsNotEmpty(cash)) {
-				// 判断删除的是否是小数点
+				//判断删除的是否是小数点
 				if (cash.substring(index - 1, index).equals(".")) {
 					hasSpot = false;
 				}
@@ -527,6 +529,7 @@ public class GatheringActivity extends BaseActivity {
 		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "create order ====>"+t);
 			if (BaseUtils.IsNotEmpty(t) && JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				order_id = JSONParser.getStringFromJsonString("order_id", data);

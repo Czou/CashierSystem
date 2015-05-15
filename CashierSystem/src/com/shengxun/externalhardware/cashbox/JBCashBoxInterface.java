@@ -25,16 +25,17 @@ public class JBCashBoxInterface {
 	}
 	
 	private static Runnable openBox = new Runnable() {
+		@SuppressWarnings("static-access")
 		public void run() {
+			System.err.println("open box");
+			GpioControl.activate(GpioControl.qx_o, true);
 			try {
-				System.err.println("open box");
-				GpioControl.activate(GpioControl.qx_o, true);
-				Thread.currentThread().sleep(500);
-				GpioControl.activate(GpioControl.qx_o, false);
-				System.err.println("close box");
+				Thread.currentThread().sleep(400);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			GpioControl.activate(GpioControl.qx_o, false);
+			System.err.println("close box");
 		}
 	};
 }
