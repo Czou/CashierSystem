@@ -623,7 +623,6 @@ public class ConnectManager {
 		}
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_AREA, params, ajaxCallBack);
-
 	}
 	/***************** 地区接口 end ********************/
 
