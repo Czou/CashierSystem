@@ -57,5 +57,4 @@ public class BaseActivity extends FragmentActivity{
 		intent.putExtra("DATA", obj);
 		startActivity(intent);
 	}
-	
 }

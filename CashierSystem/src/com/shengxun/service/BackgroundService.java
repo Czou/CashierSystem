@@ -128,8 +128,9 @@ public class BackgroundService extends Service
 				try {
 				Dao<AreaInfo, Integer> areaDao = ormOpearationDao.getDao(AreaInfo.class);
 				//只写
+				areaDao.executeRawNoArgs("DELETE FROM areaInfoTable");//删除所有数据
 				for (AreaInfo ai : areas) {
-					areaDao.createOrUpdate(ai);
+					areaDao.create(ai);
 				}
 				updateThread.interrupt();
 				} catch (SQLException e) {
