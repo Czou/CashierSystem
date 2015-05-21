@@ -34,8 +34,8 @@ public class C
 	 */
 	public final static String SOB_CODE="jk_mytc";
 	public final static String SOB_PASSWORD="shengxun";
-	public final static String MACHINE_CODE="00:E2:F0:13:43:53";
-	public final static String VERIFY_CODE=MD5Util.GetMD5Code(""+SOB_CODE+"#"+SOB_PASSWORD+"#"+MACHINE_CODE+"");
+	public  static String MACHINE_CODE="00:E2:F0:13:43:53";
+	public  static String VERIFY_CODE=MD5Util.GetMD5Code(""+SOB_CODE+"#"+SOB_PASSWORD+"#"+MACHINE_CODE+"");
 	
 	
 	

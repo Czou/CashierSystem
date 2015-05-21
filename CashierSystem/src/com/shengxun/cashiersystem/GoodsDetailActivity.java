@@ -1,5 +1,6 @@
 package com.shengxun.cashiersystem;
 
+import net.tsz.afinal.FinalBitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shengxun.constant.C;
@@ -36,6 +38,11 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * 显示数量
 	 */
 	private EditText show_count;
+	
+	/**
+	 * 商品图片
+	 */
+	private ImageView cashier_goods_detail_iv;
 	/**
 	 * 商品数量
 	 */
@@ -51,7 +58,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cahsier_goods_detail_view);
@@ -63,6 +69,7 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * 初始化控件 sw
 	 */
 	private void initWidget() {
+		cashier_goods_detail_iv = (ImageView) findViewById(R.id.cashier_goods_detail_iv);
 		goods_detail_back = (TextView) findViewById(R.id.cashier_goods_detail_back);
 		goods_detail_del = (Button) findViewById(R.id.cashier_goods_detail_del);
 		goods_detail_ok = (Button) findViewById(R.id.cashier_goods_detail_ok);
@@ -98,6 +105,9 @@ public class GoodsDetailActivity extends BaseActivity {
 		old_price.setText(product.op_market_price + "");
 		new_price.setText(product.op_market_price + "");
 		new_price_d = product.op_market_price;
+		if(BaseUtils.IsNotEmpty(product.img_url)){
+			FinalBitmap.create(mActivity).display(cashier_goods_detail_iv, ""+product.img_url);
+		}
 		calTotalPrice();
 	}
 

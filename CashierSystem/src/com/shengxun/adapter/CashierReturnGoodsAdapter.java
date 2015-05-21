@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shengxun.cashiersystem.CheckBoxChangeListener;
@@ -25,6 +24,10 @@ import com.zvezda.android.utils.LG;
 public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
 	OrderInfo order;
+	
+	/**
+	 * 产品实际可退货数量
+	 */
 	List<Integer> product_number;
 
 	public CashierReturnGoodsAdapter(Activity mActivity,
@@ -50,7 +53,7 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		// 保存初始商品列表数量,
 		product_number = new ArrayList<Integer>();
 		for (int i = 0; i < dataList.size(); i++) {
-			product_number.add(dataList.get(i).cop_number);
+			product_number.add(dataList.get(i).refund_number);
 		}
 		LG.i(getClass(), "size ====>" + product_number.size());
 	}
@@ -72,6 +75,9 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				R.id.cashier_return_item_showcount);
 		TextView cashier_goods_price = ViewHolder.get(convertView,
 				R.id.cashier_return_item_goods_single_price);
+		TextView cashier_return_item_is_return_true = ViewHolder.get(convertView,
+				R.id.cashier_return_item_is_return_true);
+		
 		Button add = ViewHolder.get(convertView, R.id.cashier_return_item_add);
 		Button reduce = ViewHolder.get(convertView,
 				R.id.cashier_return_item_reduce);
@@ -84,8 +90,9 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				.setOnCheckedChangeListener(new MyCheckChange(position));
 
 		cashier_goods_name.setText(entity.qp_name + "");
-		cashier_goods_number.setText(entity.cop_number + "");
+		cashier_goods_number.setText(entity.refund_number + "");
 		cashier_goods_price.setText(entity.cop_price + "");
+		cashier_return_item_is_return_true.setText(entity.cop_number + "");
 		// 订单状态
 		if (order != null) {
 			switch (order.co_status) {
@@ -93,7 +100,11 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				cashier_is_return.setText("未付款");
 				break;
 			case 2:
-				cashier_is_return.setText("已付款");
+				if(entity.refund_number>0){
+					cashier_is_return.setText("已付款");
+				}else{
+					cashier_is_return.setText("已取消");
+				}
 				break;
 			case 3:
 				cashier_is_return.setText("已取消");
@@ -121,22 +132,22 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.cashier_return_item_add:
-				if (dataList.get(position).cop_number < product_number
+				if (dataList.get(position).refund_number < product_number
 						.get(position)) {
-					dataList.get(position).cop_number += 1;
-					et.setText(dataList.get(position).cop_number + "");
+					dataList.get(position).refund_number += 1;
+					et.setText(dataList.get(position).refund_number + "");
 					listener.setCheckedPosition(dataList);
 				} else {
-					C.showDialogAlert("退货数量不能大于订单最大数量", mActivity);
+					C.showDialogAlert("退货数量不能大于订单最大退货数量!", mActivity);
 				}
 				break;
 			case R.id.cashier_return_item_reduce:
-				if (dataList.get(position).cop_number > 0) {
-					dataList.get(position).cop_number -= 1;
-					et.setText(dataList.get(position).cop_number + "");
+				if (dataList.get(position).refund_number > 0) {
+					dataList.get(position).refund_number -= 1;
+					et.setText(dataList.get(position).refund_number + "");
 					listener.setCheckedPosition(dataList);
 				} else {
-					C.showDialogAlert("退货数量不能小于0", mActivity);
+					C.showDialogAlert("退货数量不能小于0!", mActivity);
 				}
 				break;
 			default:

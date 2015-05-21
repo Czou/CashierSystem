@@ -37,6 +37,8 @@ public class LoginActivity extends BaseActivity{
 	private TextView user_reset=null;
 	
 	private long startTime;
+	
+	public static boolean isLoadingData=true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,15 +52,18 @@ public class LoginActivity extends BaseActivity{
 		user_login.setOnClickListener(onClickListener);
 		
 		//测试使用账号
-		user_name.setText("T00010088");
-		user_password.setText("532614");
-		
-		startTime = System.currentTimeMillis();
-		//启动服务更新
-		C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
-		registerBroad();
-		BackgroundService.openService(mActivity);
+//		user_name.setText("T00010088");
+//		user_password.setText("532614");
+		if(isLoadingData){
+			startTime = System.currentTimeMillis();
+			//启动服务更新
+			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
+			registerBroad();
+			BackgroundService.openService(mActivity);
+		}
 	}
+	
+	
 	private OnClickListener onClickListener=new OnClickListener(){
 
 		@Override
@@ -67,7 +72,6 @@ public class LoginActivity extends BaseActivity{
 				//确认登录
 			case R.id.user_login:
 				{
-					C.openProgressDialog(mActivity, null, "正在登录，请耐心等待...");
 					String str_user_name=user_name.getText().toString();
 					String str_user_password=user_password.getText().toString();
 					if(BaseUtils.IsNotEmpty(str_user_name)
@@ -75,6 +79,7 @@ public class LoginActivity extends BaseActivity{
 						applicationCS.cashier_card_no=str_user_name;
 						String login_code=C.getDesStr(str_user_name+"#"+str_user_password, C.DES_KEY);
 						ConnectManager.getInstance().getLoginResult(login_code, loginAjaxCallBack);
+						C.openProgressDialog(mActivity, null, "正在登录，请耐心等待...");
 							
 					}else{
 						C.showDialogAlert(""+resources.getString(R.string.cashier_system_alert_no_login), mActivity);

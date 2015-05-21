@@ -551,6 +551,7 @@ public class GatheringActivity extends BaseActivity {
 				C.showDialogAlert(resources.getString(R.string.cashier_system_alert_gathering_create_order_success),mActivity);
 				// 创建订单成功，取消订单按钮可见
 				order_cancel.setVisibility(View.VISIBLE);
+				BaseUtils.closeSoftKeyBoard(mActivity);
 			} else {
 				C.showDialogAlert(JSONParser.getStringFromJsonString("error_desc", t),mActivity);
 			}

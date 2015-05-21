@@ -126,6 +126,7 @@ public class GoodsPickupActivity extends BaseActivity {
 					} else {
 						C.showDialogAlert("请输入订单号", mActivity);
 					}
+					BaseUtils.closeSoftKeyBoard(mActivity);
 				} else {
 					C.showDialogAlert("请刷卡", mActivity);
 				}

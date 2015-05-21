@@ -281,7 +281,7 @@ public class MainActivity extends BaseActivity {
 				break;
 			// 查单
 			case R.id.cashier_system_search_order: {
-				
+				goActivity(SearchOrderActivity.class);
 			}
 				break;
 			// 设置
@@ -291,6 +291,7 @@ public class MainActivity extends BaseActivity {
 				break;
 			// 退出
 			case R.id.cashier_system_machine_exit: {
+				LoginActivity.isLoadingData=false;
 				goActivity(LoginActivity.class);
 				applicationCS.loginInfo = null;
 				AppManager.getAppManager().finishActivity(mActivity);

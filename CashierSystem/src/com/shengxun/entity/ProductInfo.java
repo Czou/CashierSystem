@@ -57,6 +57,11 @@ public class ProductInfo implements Serializable {
 	 */
 	@DatabaseField
 	public String op_bar_code;
+	/**
+	 * 图片地址
+	 */
+	@DatabaseField
+	public String img_url;
 
 	/**
 	 * 订单产品编号

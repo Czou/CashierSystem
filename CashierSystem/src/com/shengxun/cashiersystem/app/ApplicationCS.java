@@ -6,9 +6,12 @@ import net.tsz.afinal.http.AjaxCallBack;
 import android.app.Application;
 
 import com.j256.ormlite.dao.Dao;
+import com.shengxun.constant.C;
 import com.shengxun.entity.LoginInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ConnectManager;
+import com.shengxun.util.DeviceID;
+import com.shengxun.util.MD5Util;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
@@ -43,6 +46,10 @@ public class ApplicationCS extends Application {
 	public void onCreate() {
 		super.onCreate();
 		ormOpearationDao = new ORMOpearationDao(getApplicationContext());
+		//修改机器码
+		C.MACHINE_CODE=DeviceID.getDeviceID(this);
+		C.VERIFY_CODE=MD5Util.GetMD5Code(""+C.SOB_CODE+"#"+C.SOB_PASSWORD+"#"+C.MACHINE_CODE+"");
+		LG.e(getClass(), ""+DeviceID.getDeviceID(this));
 		LG.i(ApplicationCS.class, "收银系统启动------>1:获取联网最新产品信息");
 		ConnectManager.getInstance().getProductList(ajaxCallBack);
 	}

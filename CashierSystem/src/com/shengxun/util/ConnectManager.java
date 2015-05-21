@@ -1,8 +1,6 @@
 package com.shengxun.util;
 
-import java.io.ObjectOutputStream.PutField;
 import java.util.ArrayList;
-import java.util.List;
 
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -12,7 +10,6 @@ import com.shengxun.constant.C;
 import com.shengxun.constant.U;
 import com.shengxun.entity.ProductInfo;
 import com.zvezda.android.utils.BaseUtils;
-import com.zvezda.android.utils.LG;
 
 /**
  * 连接服务器的连接管理
@@ -399,7 +396,7 @@ public class ConnectManager {
 		if (product_info != null && product_info.size() > 0) {
 			for (int i = 0; i < product_info.size(); i++) {
 				params.put("product_info[" + product_info.get(i).cop_id + "]",
-						product_info.get(i).cop_number + "");
+						product_info.get(i).refund_number + "");
 			}
 		}
 		finalHttp.configCharset("utf-8");

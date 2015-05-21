@@ -52,6 +52,7 @@
             android:padding="20dp" >
 
             <ImageView
+                android:contentDescription="@string/viewContentDescript"
                 android:id="@+id/cashier_goods_detail_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
