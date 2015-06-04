@@ -22,7 +22,7 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="landscape"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,36 +44,44 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
             android:name=".GatheringActivity"
             android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".GoodsDetailActivity"
             android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
             android:name=".SettingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".GoodsReturnActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.shengxun.cashiersystem.GoodsPickupActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.shengxun.cashiersystem.TestActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.shengxun.cashiersystem.AreaSelectActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.CustomDialog"
             >
@@ -82,7 +90,7 @@
             android:name="com.shengxun.cashiersystem.TipUpdateVersionAtivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation" >
+            android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
          <service
             android:name="com.shengxun.service.BackgroundService"
@@ -91,6 +99,13 @@
                 <action android:name="com.shengxun.service.BackgroundService" />
             </intent-filter>
         </service>
+        <activity
+            android:name="com.shengxun.cashiersystem.SearchOrderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            >
+        </activity>
+
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * 
  * @author sw
  */
-@DatabaseTable(tableName = "productInfoTable")
+@DatabaseTable(tableName = "productInfosTable")
 public class ProductInfo implements Serializable {
 
 	/**
@@ -33,15 +33,45 @@ public class ProductInfo implements Serializable {
 	@DatabaseField
 	public double op_market_price;
 	/**
+	 * 促销价
+	 */
+	@DatabaseField
+	public double op_promote_market_price;
+	/**
+	 * 促销数量
+	 */
+	@DatabaseField
+	public int op_promote_number;
+	/**
+	 * 促销开始时间
+	 */
+	@DatabaseField
+	public String op_promote_start_date;
+	/**
+	 * 促销结束时间
+	 */
+	@DatabaseField
+	public String op_promote_end_date;
+	/**
+	 * 是否促销
+	 */
+	@DatabaseField
+	public int op_is_promote;
+	/**
 	 * 库存数量
 	 */
 	@DatabaseField
 	public int op_number;
 	/**
-	 * 状态 1：正常 2：下架
+	 * 状态 1：正常 2：下架 产品状态 1上架销售 0下架，不需进入收银系统，已经进入的需要删除
 	 */
 	@DatabaseField
 	public int op_status;
+	/**
+	 * 是否展示品  1不需要进入收银系统，已经进入的需要删除
+	 */
+	@DatabaseField
+	public int op_is_for_show;
 	/**
 	 * 产品名称
 	 */
@@ -93,24 +123,4 @@ public class ProductInfo implements Serializable {
 	public double crop_plat_sell_price;
 	// 商品项是否被选中，在退货时使用到
 	public boolean isChecked = false;
-	@Override
-	public String toString() {
-		return "ProductInfo [op_id=" + op_id + ", zqp_id=" + zqp_id
-				+ ", op_market_price=" + op_market_price + ", op_number="
-				+ op_number + ", op_status=" + op_status + ", qp_name="
-				+ qp_name + ", qy_id=" + qy_id + ", op_bar_code=" + op_bar_code
-				+ ", cop_id=" + cop_id + ", qp_id=" + qp_id + ", buy_number="
-				+ buy_number + ", co_id=" + co_id + ", cop_price=" + cop_price
-				+ ", cop_number=" + cop_number + ", cop_refund_number="
-				+ cop_refund_number + ", cop_plat_buy_price="
-				+ cop_plat_buy_price + ", cop_plat_sell_price="
-				+ cop_plat_sell_price + ", cro_id=" + cro_id + ", crop_id="
-				+ crop_id + ", refund_number=" + refund_number
-				+ ", crop_price=" + crop_price + ", crop_number=" + crop_number
-				+ ", crop_plat_buy_price=" + crop_plat_buy_price
-				+ ", crop_plat_sell_price=" + crop_plat_sell_price
-				+ ", isChecked=" + isChecked + "]";
-	}
-
-
 }

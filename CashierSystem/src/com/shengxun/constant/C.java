@@ -30,6 +30,10 @@ public class C
 	 */
 	public static final boolean isDebug=false;
 	/**
+	 * 数据库名字
+	 */
+	public final static String DATABASE_NAME="cashsystem_data.sqlite";
+	/**
 	 * 每次请求必须的参数
 	 */
 	public final static String SOB_CODE="jk_mytc";

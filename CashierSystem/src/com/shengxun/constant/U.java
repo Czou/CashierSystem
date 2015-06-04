@@ -20,7 +20,7 @@ public class U
 	/**
 	 * 根据测试和发布换地址
 	 */
-	private static final String CASHIER_SYSTEM_URL = CASHIER_SYSTEM_DOMAIN;
+	private static final String CASHIER_SYSTEM_URL = CASHIER_SYSTEM_DOMAIN_TSET;
 	/*********************************收银系统_V1.0接口地址--start************************************/
 	/**
 	 * 1.收银登录接口
@@ -115,5 +115,11 @@ public class U
 	 * 22.软件更新http://tcadmind.051jk.com/gateway/app/get_app_version
 	 */
 	public static final String CASH_STRING_APP_UPDATE=CASHIER_SYSTEM_URL+"app/get_app_version";
+	
+	/**
+	 * 23.产品同步回调接口
+	 */
+	public static final String CASH_STRING_PRODUCT_SYN=CASHIER_SYSTEM_URL+"sy_product/product_syn_callback";
+	
 	
 }

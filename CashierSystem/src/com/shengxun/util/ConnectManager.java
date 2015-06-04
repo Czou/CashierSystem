@@ -58,13 +58,12 @@ public class ConnectManager {
 
 	/***************** 产品列表接口 LILIN Start ********************/
 
+
 	/**
-	 * @param login_code
-	 *            des_crypt(cardno#password) des加密秘钥051jks~~ des加密向量 array(0x35,
-	 *            0x41, 0x43, 0x38, 0x35, 0x30, 0x35, 0x32)
+	 * @param last_syn_time 上次同步增量更新的时间
 	 * @param ajaxCallBack
 	 */
-	public void getProductList(AjaxCallBack<String> ajaxCallBack) {
+	public void getProductList(String last_syn_time,AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
 		params.put("sob_code", C.SOB_CODE);
@@ -72,6 +71,12 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
+		if(BaseUtils.IsNotEmpty(last_syn_time)){
+			params.put("syn_changed", "true");
+			params.put("last_syn_time", last_syn_time);
+		}else{
+			params.put("syn_changed", "false");
+		}
 		finalHttp.configCharset("UTF-8");
 		finalHttp.get(U.CASHIER_SYSTEM_PRODUCT_LIST, params, ajaxCallBack);
 	}
@@ -178,11 +183,16 @@ public class ConnectManager {
 		if(BaseUtils.IsNotEmpty(delivery_rs_code_id)){
 			params.put("delivery_rs_code_id", delivery_rs_code_id);
 		}
+		
 		if (products != null && products.size() > 0) {
 			for (int i = 0; i < products.size(); i++) {
 				params.put("product_info[" + products.get(i).op_id + "]",
 						products.get(i).buy_number + "");
+				if(products.get(i).op_is_promote==1){
+					params.put("promote_products","product_info[" + products.get(i).op_id + "]=1");
+				}
 			}
+			
 		}
 
 		params.put("pay_way", pay_way);
@@ -632,4 +642,20 @@ public class ConnectManager {
 		finalHttp.get(U.CASH_STRING_APP_UPDATE, params, ajaxCallBack);
 	}
 	/*****************获取APP信息 LILIN  End ********************/
+	
+	/*****************产品同步回调接口 LILIN  Start********************/
+	
+	public void productSynCallback(String product_ids,AjaxCallBack<String> ajaxCallBack) {
+		AjaxParams params = new AjaxParams();
+		// 每次请求必须得验证码
+		params.put("sob_code", C.SOB_CODE);
+		params.put("sob_password", C.SOB_PASSWORD);
+		params.put("machine_code", C.MACHINE_CODE);
+		params.put("verify_code", C.VERIFY_CODE);
+		
+		params.put("product_ids", product_ids);
+		finalHttp.configCharset("UTF-8");
+		finalHttp.get(U.CASH_STRING_PRODUCT_SYN, params, ajaxCallBack);
+	}
+	/*****************产品同步回调接口  LILIN  End ********************/
 }

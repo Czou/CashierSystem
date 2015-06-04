@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.shengxun.cashiersystem.app.ApplicationCS;
+import com.shengxun.constant.C;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.LG;
 import com.zvezda.database.utils.ORMOpearationDao;
@@ -42,7 +43,7 @@ public class BaseActivity extends FragmentActivity{
 		mActivity = this;
 		resources=mActivity.getResources();
 		applicationCS=(ApplicationCS) mActivity.getApplication();
-		ormOpearationDao=new ORMOpearationDao(mActivity);
+		ormOpearationDao=new ORMOpearationDao(mActivity,C.DATABASE_NAME);
 		LG.i(getClass(),"当前所在Activity------------>"+mActivity.getClass().getName());
 		//将该Activity添加到栈，方便管理
 		AppManager.getAppManager().addActivity(mActivity);

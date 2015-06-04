@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shengxun.cashiersystem.R;
+import com.shengxun.customview.LDialog;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
 import com.zvezda.android.utils.BaseUtils;
@@ -45,11 +46,24 @@ public class CashierGoodsListAdapter extends ABaseAdapter<ProductInfo>{
 		cashier_system_column_sort.setText(""+position);
 		cashier_system_column_code.setText(""+entity.op_bar_code);
 		cashier_system_column_cargo_number.setText(""+entity.op_number);
-		cashier_system_column_name.setText(""+entity.qp_name);
+		
 		cashier_system_column_count.setText(""+entity.buy_number);
 		cashier_system_column_old_price.setText(""+entity.op_market_price);
-		cashier_system_column_now_price.setText(""+entity.op_market_price);
-		cashier_system_column_money.setText(""+(entity.op_market_price*entity.buy_number));
+		
+		//如果是促销的商品
+		if(entity.op_is_promote==1&&entity.op_promote_number>0){
+			if(entity.buy_number>entity.op_promote_number){
+				LDialog.openMessageDialog(""+resources.getString(R.string.cashier_system_promote_alert), false, mActivity);
+			}else{
+				cashier_system_column_name.setText(resources.getString(R.string.cashier_system_promote)+""+entity.qp_name);
+				cashier_system_column_now_price.setText(""+entity.op_promote_market_price);
+				cashier_system_column_money.setText(""+(entity.op_promote_market_price*entity.buy_number));
+			}
+		}else{
+			cashier_system_column_name.setText(""+entity.qp_name);
+			cashier_system_column_now_price.setText(""+entity.op_market_price);
+			cashier_system_column_money.setText(""+(entity.op_market_price*entity.buy_number));
+		}
 		if(applicationCS.loginInfo!=null&&applicationCS.loginInfo.cashier_info!=null){
 			cashier_system_column_clerk.setText(""+applicationCS.loginInfo.cashier_info.me_id);
 		}

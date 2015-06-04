@@ -52,8 +52,8 @@ public class LoginActivity extends BaseActivity{
 		user_login.setOnClickListener(onClickListener);
 		
 		//测试使用账号
-//		user_name.setText("T00010088");
-//		user_password.setText("532614");
+		user_name.setText("T00010088");
+		user_password.setText("532614");
 		if(isLoadingData){
 			startTime = System.currentTimeMillis();
 			//启动服务更新

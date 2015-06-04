@@ -25,9 +25,10 @@
             android:id="@+id/cashier_goods_pickup_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@null"
+            android:drawableLeft="@drawable/back"
             android:text="@string/cashier_system_btn_back"
             android:textColor="@android:color/white"
             android:textSize="@dimen/fontSize_28" />

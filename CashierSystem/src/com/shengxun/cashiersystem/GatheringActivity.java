@@ -208,8 +208,14 @@ public class GatheringActivity extends BaseActivity {
 		}
 		// 计算总额
 		for (int i = 0; i < goodsList.size(); i++) {
-			totalMoney += (goodsList.get(i).buy_number)
-					* (goodsList.get(i).op_market_price);
+			if(goodsList.get(i).op_is_promote==1){
+				totalMoney += (goodsList.get(i).buy_number)
+						* (goodsList.get(i).op_promote_market_price);
+			}else{
+				totalMoney += (goodsList.get(i).buy_number)
+						* (goodsList.get(i).op_market_price);
+			}
+			
 		}
 		gathering_total_money.setText(totalMoney + "");
 		//显示收费金额
@@ -431,26 +437,51 @@ public class GatheringActivity extends BaseActivity {
 		int count = 0;
 		for (int i = 0; i < productInfo.size(); i++) {
 			PrintTools_58mm.print(PrintTools_58mm.LF);
-			if(BaseUtils.IsNotEmpty(productInfo.get(i).qp_name)&&productInfo.get(i).qp_name.length()>7){
-				String name_prefix=productInfo.get(i).qp_name.substring(0, 7);
-				String name_suffix=productInfo.get(i).qp_name.substring(7, productInfo.get(i).qp_name.length())
+			ProductInfo entity=productInfo.get(i);
+			//如果是促销产品那么就打印促销产品前缀
+			if(entity.op_is_promote==1){
+				entity.qp_name=resources.getString(R.string.cashier_system_promote)+entity.qp_name;
+			}
+			if(BaseUtils.IsNotEmpty(entity.qp_name)&&entity.qp_name.length()>7){
+				String name_prefix=entity.qp_name.substring(0, 7);
+				String name_suffix=entity.qp_name.substring(7, entity.qp_name.length())
 						+ "     "
-						+ productInfo.get(i).op_market_price + "*"
-						+ productInfo.get(i).buy_number + "     "
-						+ productInfo.get(i).buy_number
-						* productInfo.get(i).op_market_price + "";
+						+ entity.op_market_price + "*"
+						+ entity.buy_number + "     "
+						+ entity.buy_number
+						* entity.op_market_price + "";
+				//如果是促销产品那么就打印促销价
+				if(entity.op_is_promote==1){
+					name_suffix=entity.qp_name.substring(7, entity.qp_name.length())
+							+ "     "
+							+ entity.op_promote_market_price + "*"
+							+ entity.buy_number + "     "
+							+ entity.buy_number
+							* entity.op_promote_market_price + "";
+				}
 				PrintTools_58mm.print_gbk(""+name_prefix);
 				PrintTools_58mm.print(PrintTools_58mm.LF);
 				PrintTools_58mm.print_gbk(""+name_suffix);
 			}else{
-				String s =productInfo.get(i).qp_name + "  "
-						+ productInfo.get(i).op_market_price + "*"
-						+ productInfo.get(i).buy_number + "  "
-						+ productInfo.get(i).buy_number
-						* productInfo.get(i).op_market_price + "";
+				String s =entity.qp_name + "  "
+						+ entity.op_market_price + "*"
+						+ entity.buy_number + "  "
+						+ entity.buy_number
+						* entity.op_market_price + "";
+				//如果是促销产品那么就打印促销价
+				if(entity.op_is_promote==1){
+					   s =entity.qp_name + "  "
+							+ entity.op_promote_market_price + "*"
+							+ entity.buy_number + "  "
+							+ entity.buy_number
+							* entity.op_promote_market_price + "";
+					
+				}
 				PrintTools_58mm.print_gbk(""+s);
+				
+				
 			}
-			count += productInfo.get(i).buy_number;
+			count += entity.buy_number;
 		}
 
 		PrintTools_58mm.print(PrintTools_58mm.LF);

@@ -50,7 +50,18 @@ public class OrderInfo {
 	public double cro_money;
 	public String cro_ctime;
 	public int cro_status;
-	
+	@Override
+	public String toString() {
+		return "OrderInfo [co_id=" + co_id + ", co_trade_no=" + co_trade_no
+				+ ", me_id=" + me_id + ", cashier_me_id=" + cashier_me_id
+				+ ", co_pay_way=" + co_pay_way + ", co_money=" + co_money
+				+ ", co_ctime=" + co_ctime + ", mc_id=" + mc_id
+				+ ", co_status=" + co_status + ", cro_id=" + cro_id
+				+ ", cro_trade_no=" + cro_trade_no + ", sell_cashier_me_id="
+				+ sell_cashier_me_id + ", cro_pay_way=" + cro_pay_way
+				+ ", cro_money=" + cro_money + ", cro_ctime=" + cro_ctime
+				+ ", cro_status=" + cro_status + "]";
+	}
 	
 	
 	

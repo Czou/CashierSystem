@@ -78,10 +78,6 @@ public class AreaSelectActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.area_select_view);
-
-		if(ormOpearationDao!=null){
-			ormOpearationDao = new ORMOpearationDao(getApplicationContext());
-		}
 		areaDao = ormOpearationDao.getDao(AreaInfo.class);
 		
 		initWidget();

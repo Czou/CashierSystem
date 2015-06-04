@@ -11,6 +11,7 @@ import android.os.IBinder;
 
 import com.j256.ormlite.dao.Dao;
 import com.shengxun.cashiersystem.app.ApplicationCS;
+import com.shengxun.constant.C;
 import com.shengxun.entity.AreaInfo;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.BaseUtils;
@@ -49,7 +50,7 @@ public class BackgroundService extends Service
 		//避免重复打开
 		if(bs == null){
 			BackgroundService.context = context;
-			ormOpearationDao=new ORMOpearationDao(context);
+			ormOpearationDao=new ORMOpearationDao(context,C.DATABASE_NAME);
 			Intent it = new Intent();
 			//显示意图
 			it.setClass(context, BackgroundService.class);
@@ -126,6 +127,7 @@ public class BackgroundService extends Service
 			@Override
 			public void run() {
 				try {
+				
 				Dao<AreaInfo, Integer> areaDao = ormOpearationDao.getDao(AreaInfo.class);
 				//只写
 				areaDao.executeRawNoArgs("DELETE FROM areaInfoTable");//删除所有数据

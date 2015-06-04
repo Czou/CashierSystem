@@ -3,7 +3,6 @@ package com.shengxun.cashiersystem;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -99,10 +98,11 @@ public class GoodsReturnActivity extends BaseActivity {
 				ConnectManager.getInstance().getOrderFormDetailResult(order_no,
 						searchorder);
 			} else {
-				C.showDialogAlert("请输入订单号", mActivity);
+				C.showDialogAlert("请输入订单号!", mActivity);
 			}
+			BaseUtils.closeSoftKeyBoard(mActivity);
 		} else {
-			C.showDialogAlert("请刷卡", mActivity);
+			C.showDialogAlert("请刷卡!", mActivity);
 		}
 	}
 
@@ -122,13 +122,13 @@ public class GoodsReturnActivity extends BaseActivity {
 							order_no, refund_product_list, cashier_card_no,
 							pay_way, card_no, createReturnOrder);
 				} else {
-					C.showDialogAlert("未选择退货商品或信息失效", mActivity);
+					C.showDialogAlert("未选择退货商品或信息失效!", mActivity);
 				}
 			}else{
-				C.showDialogAlert("请先查单", mActivity);
+				C.showDialogAlert("请先查单!", mActivity);
 			}
 		} else {
-			C.showDialogAlert("收银员卡号失效", mActivity);
+			C.showDialogAlert("收银员卡号失效!", mActivity);
 		}
 	}
 
@@ -148,30 +148,6 @@ public class GoodsReturnActivity extends BaseActivity {
 		lv.setAdapter(crga);
 
 	}
-
-	// /**
-	// * 检查订单状态
-	// *
-	// * @param status
-	// * @auth shouwei
-	// */
-	// private void checkOrderStatus(int status) {
-	// // 未付款状态
-	// if (status == 1) {
-	// AlertDialog d = new AlertDialog.Builder(mActivity).create();
-	// d.setTitle("订单尚未付款，无需退款");
-	// d.show();
-	// // 已付款状态
-	// } else if (status == 2) {
-	// // 已退货状态
-	// } else if (status == 3) {
-	// AlertDialog d = new AlertDialog.Builder(mActivity).create();
-	// d.setTitle("订单已退货，无需重复退货");
-	// d.show();
-	// }
-	// // 刷新商品列表
-	// refreshGoodsData(product_list);
-	// }
 
 	OnClickListener myclick = new OnClickListener() {
 		@Override
@@ -256,6 +232,8 @@ public class GoodsReturnActivity extends BaseActivity {
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			C.showDialogAlert("订单错误", mActivity);
+			refreshGoodsData(product_list);
+
 		};
 	};
 	/**
@@ -335,7 +313,7 @@ public class GoodsReturnActivity extends BaseActivity {
 			order_money = 0;
 			// 计算当前选中项的总额
 			for (int i = 0; i < refund_product_list.size(); i++) {
-				order_money += refund_product_list.get(i).cop_number
+				order_money += refund_product_list.get(i).refund_number
 						* refund_product_list.get(i).cop_price;
 			}
 			return_money.setText("退款金额:" + order_money);
