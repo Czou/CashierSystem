@@ -56,7 +56,7 @@ public class ProductInfo implements Serializable {
 	 * 是否促销
 	 */
 	@DatabaseField
-	public int op_is_promote;
+	public int op_is_promote=0;
 	/**
 	 * 库存数量
 	 */

@@ -441,6 +441,8 @@ public class GatheringActivity extends BaseActivity {
 			//如果是促销产品那么就打印促销产品前缀
 			if(entity.op_is_promote==1){
 				entity.qp_name=resources.getString(R.string.cashier_system_promote)+entity.qp_name;
+			}else{
+				entity.qp_name=entity.qp_name;
 			}
 			if(BaseUtils.IsNotEmpty(entity.qp_name)&&entity.qp_name.length()>7){
 				String name_prefix=entity.qp_name.substring(0, 7);
@@ -475,6 +477,8 @@ public class GatheringActivity extends BaseActivity {
 							+ entity.buy_number + "  "
 							+ entity.buy_number
 							* entity.op_promote_market_price + "";
+					
+				}else{
 					
 				}
 				PrintTools_58mm.print_gbk(""+s);

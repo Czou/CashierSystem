@@ -26,7 +26,6 @@ import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
-import com.zvezda.database.utils.ORMOpearationDao;
 
 /**
  * 选择地区运营中心
@@ -74,7 +73,6 @@ public class AreaSelectActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.area_select_view);
