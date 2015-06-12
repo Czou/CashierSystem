@@ -1,5 +1,7 @@
 package com.shengxun.cashiersystem;
 
+import java.math.BigDecimal;
+
 import net.tsz.afinal.FinalBitmap;
 import android.os.Bundle;
 import android.text.Editable;
@@ -117,7 +119,12 @@ public class GoodsDetailActivity extends BaseActivity {
 	 * @auth sw
 	 */
 	private void calTotalPrice() {
+		
 		total_price_d = new_price_d * goods_count;
+		// 保留一位小数
+		BigDecimal bd = new BigDecimal(total_price_d);
+		total_price_d = bd.setScale(2, BigDecimal.ROUND_HALF_UP)
+				.doubleValue();
 		total_price.setText(total_price_d + "");
 		// 更改实体的数据
 		product.buy_number = goods_count;
@@ -154,8 +161,8 @@ public class GoodsDetailActivity extends BaseActivity {
 				break;
 			// 点击增加数量
 			case R.id.cashier_goods_detail_add:
-				if (goods_count < 99) {
-					goods_count++;
+				if (goods_count < 99999) {
+					++goods_count;
 				}
 				show_count.setText(goods_count + "");
 				show_count.setSelection(show_count.getText().toString().trim()
@@ -192,11 +199,11 @@ public class GoodsDetailActivity extends BaseActivity {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			// 最多允许输入99
-			if (s.toString().length() > 2) {
-				show_count.setText("99");
+			// 最多允许输入 99999
+			if (s.toString().length() > 5) {
+				show_count.setText("99999");
 				show_count.setSelection(show_count.length());
-				goods_count = 99;
+				goods_count = 99999;
 			} else {
 				if (BaseUtils.IsNotEmpty(s)) {
 					goods_count = Integer.parseInt(s.toString().trim());
