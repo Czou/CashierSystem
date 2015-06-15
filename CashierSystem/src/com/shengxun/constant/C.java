@@ -30,6 +30,10 @@ public class C
 	 */
 	public static final boolean isDebug=false;
 	/**
+	 * 最大的购买产品数量
+	 */
+	public static final int MAX_PRODUCES=99999;
+	/**
 	 * 数据库名字
 	 */
 	public final static String DATABASE_NAME="cashsystem_data.sqlite";

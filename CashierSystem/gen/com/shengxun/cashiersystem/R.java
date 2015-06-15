@@ -275,23 +275,24 @@ public final class R {
         public static final int user_reset=0x7f090084;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int area_select_view=0x7f030001;
-        public static final int cahsier_goods_detail_view=0x7f030002;
-        public static final int cashier_area_item_view=0x7f030003;
-        public static final int cashier_gathering_view=0x7f030004;
-        public static final int cashier_goods_info_view=0x7f030005;
-        public static final int cashier_goods_pickup_view=0x7f030006;
-        public static final int cashier_goods_return_view=0x7f030007;
-        public static final int cashier_pickup_goods_list_item=0x7f030008;
-        public static final int cashier_return_goods_list_item=0x7f030009;
-        public static final int cashier_search_order_view=0x7f03000a;
-        public static final int cashier_setting_view=0x7f03000b;
-        public static final int dialog_layout=0x7f03000c;
-        public static final int download_pragress_dialog_layout=0x7f03000d;
-        public static final int login_view=0x7f03000e;
-        public static final int pragress_dialog_layout=0x7f03000f;
-        public static final int tip_update_version_layout=0x7f030010;
+        public static final int aaaaaa=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int area_select_view=0x7f030002;
+        public static final int cahsier_goods_detail_view=0x7f030003;
+        public static final int cashier_area_item_view=0x7f030004;
+        public static final int cashier_gathering_view=0x7f030005;
+        public static final int cashier_goods_info_view=0x7f030006;
+        public static final int cashier_goods_pickup_view=0x7f030007;
+        public static final int cashier_goods_return_view=0x7f030008;
+        public static final int cashier_pickup_goods_list_item=0x7f030009;
+        public static final int cashier_return_goods_list_item=0x7f03000a;
+        public static final int cashier_search_order_view=0x7f03000b;
+        public static final int cashier_setting_view=0x7f03000c;
+        public static final int dialog_layout=0x7f03000d;
+        public static final int download_pragress_dialog_layout=0x7f03000e;
+        public static final int login_view=0x7f03000f;
+        public static final int pragress_dialog_layout=0x7f030010;
+        public static final int tip_update_version_layout=0x7f030011;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;

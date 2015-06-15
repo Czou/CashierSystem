@@ -52,9 +52,10 @@ public class ApplicationCS extends Application {
 		super.onCreate();
 		ormOpearationDao = new ORMOpearationDao(getApplicationContext(),C.DATABASE_NAME);
 		//修改机器码
-		C.MACHINE_CODE=DeviceID.getDeviceID(this);
+		C.MACHINE_CODE="35703a430a4e23ce54:e4:bd:8b:cf:ff";//DeviceID.getDeviceID(this);//"35703a430a4e23ce54:e4:bd:8b:cf:ff";
 		C.VERIFY_CODE=MD5Util.GetMD5Code(""+C.SOB_CODE+"#"+C.SOB_PASSWORD+"#"+C.MACHINE_CODE+"");
-		LG.e(getClass(), ""+DeviceID.getDeviceID(this));
+		
+		LG.e(ApplicationCS.class, "========"+DeviceID.getDeviceID(this));
 		LG.i(ApplicationCS.class, "收银系统启动------>1:获取联网最新产品信息");
 		sp=new DataSP(this, "CashierSystem");
 		ConnectManager.getInstance().getProductList(sp.getSValue(LAST_SYN_TIME, ""),productAjaxCallBack);
@@ -66,6 +67,7 @@ public class ApplicationCS extends Application {
 		@Override
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "========== onSuccess ========= >"+t);
 			try {
 				if (BaseUtils.IsNotEmpty(t)&& JSONParser.getStringFromJsonString("status", t).equals("1")) {
 					String data = JSONParser.getStringFromJsonString("data", t);
@@ -76,7 +78,7 @@ public class ApplicationCS extends Application {
 					if (products != null && products.size() > 0) {
 						Dao<ProductInfo, Integer> productsDao = ormOpearationDao.getDao(ProductInfo.class);
 						//第一次更新数据，全部更新
-						if(BaseUtils.IsNotEmpty(sp.getSValue(LAST_SYN_TIME, ""))){
+						if(!BaseUtils.IsNotEmpty(sp.getSValue(LAST_SYN_TIME, ""))){
 							LG.i(ApplicationCS.class, "收银系统启动------>2：数据全部更新");
 
 							productsDao.executeRawNoArgs("DELETE FROM productInfosTable");//删除所有数据

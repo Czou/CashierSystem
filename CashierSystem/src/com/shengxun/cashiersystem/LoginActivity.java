@@ -112,7 +112,6 @@ public class LoginActivity extends BaseActivity{
 							AppManager.getAppManager().finishActivity(mActivity);
 						}else{
 							C.showDialogAlert(""+resources.getString(R.string.cashier_system_alert_login_no_permissions), mActivity);
-
 						}
 					}
 					
@@ -128,7 +127,6 @@ public class LoginActivity extends BaseActivity{
 				C.showDialogAlert(""+resources.getString(R.string.cashier_system_alert_login_fail), mActivity);
 				C.closeProgressDialog();
 			}
-			
 		};
 		
 		
