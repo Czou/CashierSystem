@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shengxun.cashiersystem.R;
+import com.shengxun.cashiersystem.SettingActivity.UpdatePsdListener;
 import com.shengxun.customview.LDialog;
 import com.shengxun.util.MD5Util;
 import com.zvezda.algorithm.utils.AlgorithmUtils;
@@ -45,8 +46,26 @@ public class C
 	public  static String MACHINE_CODE="00:E2:F0:13:43:53";
 	public  static String VERIFY_CODE=MD5Util.GetMD5Code(""+SOB_CODE+"#"+SOB_PASSWORD+"#"+MACHINE_CODE+"");
 	
+	/**
+	 * 当前解锁密码
+	 * 
+	 */
+	public static String CURRENT_LOCK_PSD = null;
+	/**
+	 * sharedPrefence文件名
+	 */
+	public final static String SHARED_PREFENCE_NAME = "CashierSystem";
+	/**
+	 * 锁屏密码
+	 */
+	public static final String LOCK_PSD = "lock_psd";
+	// 最大锁屏保护时间(多长时间不操作屏幕则进入锁屏)
+	public static final int MAX_LOCKDOWN_SECOND = 300;
 	
-	
+	/**
+	 * 屏幕保护最大时间(秒)
+	 */
+	public static final long SCREEN_SHUT_MAXMILL=300l;
 	/**
 	 * 加密密钥
 	 */
@@ -93,12 +112,24 @@ public class C
 	}
 	
 	/**
-	 * 对话框提示
+	 * 对话框提示(不带输入框)
 	 * @param msg
 	 * @param mActivity
 	 */
 	public static void showDialogAlert(String msg,Activity mActivity){
-		LDialog.openMessageDialog("", msg, false, mActivity);
+		LDialog.openMessageDialog("", msg, false,false,null,null, mActivity,null);
+	}
+	/**
+	 * 带输入框的提示框
+	 * @param title 标题
+	 * @param hasEt 是否有输入框
+	 * @param ethint 输入框hint
+	 * @param donetext 完成按钮文字
+	 * @param mActivity 上下文
+	 * @auth shouwei
+	 */
+	public static void showDialogAlert(String title,boolean hasEt,String ethint,String donetext,Activity mActivity,UpdatePsdListener callback){
+		LDialog.openMessageDialog(title,null, true,hasEt, ethint, donetext, mActivity,callback);
 	}
 	/**
 	 * 等待框

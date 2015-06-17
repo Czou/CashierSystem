@@ -28,7 +28,7 @@ import com.zvezda.android.utils.LG;
  * @author sw
  * @date 2015-5-4
  */
-public class GoodsPickupActivity extends BaseActivity {
+public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 
 	private EditText et_order_no, et_card_no;
 	private Button ok, exit, swing_card, check_order;

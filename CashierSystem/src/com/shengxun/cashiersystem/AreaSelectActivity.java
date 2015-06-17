@@ -33,7 +33,7 @@ import com.zvezda.android.utils.LG;
  * @author sw
  * @date 2015-5-8
  */
-public class AreaSelectActivity extends BaseActivity {
+public class AreaSelectActivity extends MyTimeLockBaseActivity {
 
 	Spinner sp_province, sp_city, sp_town, sp_opcenter, sp_type;
 	/**

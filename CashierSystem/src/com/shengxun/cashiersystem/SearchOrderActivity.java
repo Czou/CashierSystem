@@ -25,7 +25,7 @@ import com.zvezda.android.utils.JSONParser;
  * @author sw
  * @date 2015-5-15
  */
-public class SearchOrderActivity extends BaseActivity {
+public class SearchOrderActivity extends MyTimeLockBaseActivity {
 
 	EditText et_card_no;
 	Button btn_search,btn_back;

@@ -31,7 +31,7 @@ import com.zvezda.http.utils.RequestHttpListener;
  * 2014-9-20 下午4:21:15
  * Write by LILIN
  */
-public class TipUpdateVersionAtivity extends BaseActivity
+public class TipUpdateVersionAtivity extends MyTimeLockBaseActivity
 {
 	/**
 	 * 下载的APP路径

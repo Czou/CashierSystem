@@ -6,10 +6,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +33,9 @@ import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
 import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.shengxun.externalhardware.print.util.JBPrintInterface;
+import com.shengxun.service.AdminReceiver;
+import com.shengxun.service.MyScreenService;
+import com.shengxun.util.LockScreenUtil;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
@@ -37,13 +45,15 @@ import com.zvezda.android.utils.TimeConversion;
  * 模块描述：收银系统主页 2015-4-20 下午3:29:28 Write by LILIN
  */
 @SuppressLint("HandlerLeak")
-public class MainActivity extends BaseActivity {
+public class MainActivity extends MyTimeLockBaseActivity {
 
 	public static MainActivity instance = null;
 	// 设置
 	private ImageView cashier_system_machine_setting = null;
 	// 退出
 	private ImageView cashier_system_machine_exit = null;
+	//锁屏
+	private ImageView cashier_system_machine_lock = null;
 	// 机器是否联网
 	private TextView cashier_system_machine_status = null;
 	// 确定输入的条形码
@@ -58,7 +68,7 @@ public class MainActivity extends BaseActivity {
 	private TextView cashier_system_get_good = null;
 	// 退货
 	private TextView cashier_system_return_good = null;
-	// 退货
+	// 搜索订单
 	private TextView cashier_system_search_order = null;
 	//中心
 	private TextView cashier_system_center_name=null;
@@ -77,17 +87,29 @@ public class MainActivity extends BaseActivity {
 	 */
 	private Dao<ProductInfo, Integer> productsDao = null;
 	
+	ComponentName componentName;
+	DevicePolicyManager policyManager;
+	
 	public boolean isOpenPrint=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		instance = this;
+		
+		//启动屏幕监听服务
+//		Intent screenService = new Intent();
+//		screenService.setClass(mActivity, MyScreenService.class);
+//		mActivity.startService(screenService);
+		
 		productsDao = ormOpearationDao.getDao(ProductInfo.class);
+		
+		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+		componentName = new ComponentName(this, AdminReceiver.class);
+		
 		initWidget();
 		initExternalHardware();
 		new Handler().postDelayed(new Runnable() {
-			
 			@Override
 			public void run() {
 				if(isOpenPrint==false){
@@ -115,7 +137,8 @@ public class MainActivity extends BaseActivity {
 	private void initWidget() {
 		cashier_system_machine_setting = (ImageView) this.findViewById(R.id.cashier_system_machine_setting);
 		cashier_system_machine_exit = (ImageView) this.findViewById(R.id.cashier_system_machine_exit);
-
+		cashier_system_machine_lock = (ImageView) this.findViewById(R.id.cashier_system_machine_lock);
+		
 		cashier_system_clerk = (TextView) this.findViewById(R.id.cashier_system_clerk);
 		cashier_system_btn_ok = (TextView) this.findViewById(R.id.cashier_system_btn_ok);
 		cashier_system_receive_payments = (TextView) this.findViewById(R.id.cashier_system_receive_payments);
@@ -140,6 +163,7 @@ public class MainActivity extends BaseActivity {
 		cashier_listview = (ListView) this.findViewById(R.id.cashier_listview);
 		cashier_system_machine_setting.setOnClickListener(onClickListener);
 		cashier_system_machine_exit.setOnClickListener(onClickListener);
+		cashier_system_machine_lock.setOnClickListener(onClickListener);
 		cashier_system_btn_ok.setOnClickListener(onClickListener);
 		cashier_system_receive_payments.setOnClickListener(onClickListener);
 		cashier_system_open_cashbox.setOnClickListener(onClickListener);
@@ -297,6 +321,11 @@ public class MainActivity extends BaseActivity {
 				AppManager.getAppManager().finishActivity(mActivity);
 			}
 				break;
+			case R.id.cashier_system_machine_lock:{
+//				LockScreenUtil.getInstance(mActivity).mylock();
+				goLockActivity();
+			}
+				break;
 			// 确定条形码
 			case R.id.cashier_system_btn_ok: {
 				checkedThisGoodCode();
@@ -309,7 +338,7 @@ public class MainActivity extends BaseActivity {
 
 	/**
 	 * @param entity
-	 *            删除该商品
+	 * 删除该商品
 	 */
 	public void deleteGoods(ProductInfo entity) {
 		for (int i = 0; i < dataList.size(); i++) {
@@ -363,7 +392,8 @@ public class MainActivity extends BaseActivity {
 		JBLEDInterface.closeLed();
 		JBPrintInterface.closePrinter();
 		JBCashBoxInterface.closeCashBox();
+		//关闭计时器
+		mLock.closeTimer();
 	}
-
 	
 }

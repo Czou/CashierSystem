@@ -26,7 +26,7 @@ import com.zvezda.android.utils.LG;
  * @author sw
  * @date 2015-4-24
  */
-public class GoodsDetailActivity extends BaseActivity {
+public class GoodsDetailActivity extends MyTimeLockBaseActivity{
 	/**
 	 * 返回按钮
 	 */

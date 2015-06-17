@@ -115,4 +115,9 @@
     <string name="exitApp">确定不在留恋这了吗?</string>
     <string name="ok">确定</string>
     <string name="cancle">取消</string>
+    <!-- 锁屏界面 -->
+    <string name="lock_btn_unlock">解锁</string>
+    <string name="lock_btn_hint">请输入解锁密码</string>
+    <string name="lock_update_lock_psd_hint">修改锁屏密码</string>
+    <string name="lock_update_lock_psd_btn">点击可修改锁屏密码</string>
 </resources>

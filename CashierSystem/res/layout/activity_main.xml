@@ -35,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
             <LinearLayout 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -58,10 +59,22 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:gravity="center"
+            android:text="123"
             android:textColor="@color/white"
             android:textSize="@dimen/fontSize_22" />
             </LinearLayout>
 		
+            <ImageView
+                android:id="@+id/cashier_system_machine_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:contentDescription="@string/viewContentDescript"
+                android:src="@drawable/password"
+                 />
+            
             <ImageView
                 android:id="@+id/cashier_system_machine_setting"
                 android:layout_width="wrap_content"

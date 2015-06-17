@@ -108,6 +108,10 @@ public class LoginActivity extends BaseActivity{
 					if(applicationCS.loginInfo!=null&&applicationCS.loginInfo.cashier_info!=null){
 						if(applicationCS.loginInfo.cashier_info.c_status==1){
 							applicationCS.mc_id=applicationCS.loginInfo.mc_id;
+							
+							//写入锁屏密码
+							C.CURRENT_LOCK_PSD = user_password.getText().toString().trim();
+							
 							goActivity(MainActivity.class);
 							AppManager.getAppManager().finishActivity(mActivity);
 						}else{

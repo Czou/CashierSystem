@@ -28,7 +28,7 @@ import com.zvezda.android.utils.LG;
  * @author sw
  * @date 2015-5-4
  */
-public class GoodsReturnActivity extends BaseActivity {
+public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 
 	// 订单号输入框,卡号
 	EditText et_order_no, et_card_no;

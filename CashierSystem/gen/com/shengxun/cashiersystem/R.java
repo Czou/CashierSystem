@@ -9,98 +9,98 @@ package com.shengxun.cashiersystem;
 
 public final class R {
     public static final class array {
-        public static final int spinner_array=0x7f080000;
+        public static final int spinner_array=0x7f090000;
     }
     public static final class attr {
     }
     public static final class color {
         /**  黑色 
          */
-        public static final int black=0x7f040005;
+        public static final int black=0x7f050005;
         /**  蓝色 
          */
-        public static final int blue=0x7f040003;
+        public static final int blue=0x7f050003;
         /**  缓冲颜色 
          */
-        public static final int cacheColor=0x7f04000c;
-        public static final int choose_eara_item_normal_color=0x7f040010;
-        public static final int choose_eara_item_press_color=0x7f04000f;
+        public static final int cacheColor=0x7f05000c;
+        public static final int choose_eara_item_normal_color=0x7f050010;
+        public static final int choose_eara_item_press_color=0x7f05000f;
         /**  青色 
          */
-        public static final int cyan=0x7f040007;
+        public static final int cyan=0x7f050007;
         /**  淡灰色 
          */
-        public static final int gainsboro=0x7f040008;
+        public static final int gainsboro=0x7f050008;
         /**  绿色 
          */
-        public static final int green=0x7f040002;
-        public static final int no_color=0x7f040012;
+        public static final int green=0x7f050002;
+        public static final int no_color=0x7f050012;
         /**  橙色 
          */
-        public static final int orange=0x7f040004;
-        public static final int popup_main_background=0x7f04000e;
+        public static final int orange=0x7f050004;
+        public static final int popup_main_background=0x7f05000e;
         /**  紫色 
          */
-        public static final int purple=0x7f04000a;
+        public static final int purple=0x7f05000a;
         /**  红色 
          */
-        public static final int red=0x7f040000;
-        public static final int red_color=0x7f040013;
+        public static final int red=0x7f050000;
+        public static final int red_color=0x7f050013;
         /**  贝壳色 
          */
-        public static final int seashell=0x7f040009;
+        public static final int seashell=0x7f050009;
         /**  透明色 
          */
-        public static final int transparent=0x7f04000b;
+        public static final int transparent=0x7f05000b;
         /**  半透明颜色 
          */
-        public static final int transparent_bg=0x7f04000d;
+        public static final int transparent_bg=0x7f05000d;
         /**  白色 
          */
-        public static final int white=0x7f040006;
-        public static final int white_f5=0x7f040011;
+        public static final int white=0x7f050006;
+        public static final int white_f5=0x7f050011;
         /**  黄色 
          */
-        public static final int yellow=0x7f040001;
+        public static final int yellow=0x7f050001;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
          */
-        public static final int activity_horizontal_margin=0x7f050000;
-        public static final int activity_vertical_margin=0x7f050001;
+        public static final int activity_horizontal_margin=0x7f060000;
+        public static final int activity_vertical_margin=0x7f060001;
         /**  商品编号录入框 
          */
-        public static final int business_code_input_width=0x7f050017;
-        public static final int cashier_system_column_title=0x7f050005;
-        public static final int cashier_system_edit_height=0x7f050003;
-        public static final int cashier_system_title_height=0x7f050004;
-        public static final int fontSize_11=0x7f05000b;
-        public static final int fontSize_12=0x7f05000c;
-        public static final int fontSize_13=0x7f05000d;
-        public static final int fontSize_15=0x7f05000e;
-        public static final int fontSize_16=0x7f05000f;
-        public static final int fontSize_18=0x7f050010;
-        public static final int fontSize_20=0x7f050011;
-        public static final int fontSize_22=0x7f050012;
-        public static final int fontSize_28=0x7f050013;
-        public static final int fontSize_36=0x7f050014;
-        public static final int fontSize_48=0x7f050015;
+        public static final int business_code_input_width=0x7f060017;
+        public static final int cashier_system_column_title=0x7f060005;
+        public static final int cashier_system_edit_height=0x7f060003;
+        public static final int cashier_system_title_height=0x7f060004;
+        public static final int fontSize_11=0x7f06000b;
+        public static final int fontSize_12=0x7f06000c;
+        public static final int fontSize_13=0x7f06000d;
+        public static final int fontSize_15=0x7f06000e;
+        public static final int fontSize_16=0x7f06000f;
+        public static final int fontSize_18=0x7f060010;
+        public static final int fontSize_20=0x7f060011;
+        public static final int fontSize_22=0x7f060012;
+        public static final int fontSize_28=0x7f060013;
+        public static final int fontSize_36=0x7f060014;
+        public static final int fontSize_48=0x7f060015;
         /**  快捷键提示宽度 
          */
-        public static final int help_fast_key_width=0x7f050016;
-        public static final int input_text_height=0x7f050006;
-        public static final int input_text_width=0x7f050007;
+        public static final int help_fast_key_width=0x7f060016;
+        public static final int input_text_height=0x7f060006;
+        public static final int input_text_width=0x7f060007;
         /**  布局padding 
          */
-        public static final int layout_padding=0x7f050009;
-        public static final int layout_padding2=0x7f05000a;
+        public static final int layout_padding=0x7f060009;
+        public static final int layout_padding2=0x7f06000a;
         /**  Default screen margins, per the Android Design guidelines. 
  分割线高度 
          */
-        public static final int split_line_height=0x7f050002;
+        public static final int split_line_height=0x7f060002;
         /**  文字padding 
          */
-        public static final int text_padding=0x7f050008;
+        public static final int text_padding=0x7f060008;
     }
     public static final class drawable {
         public static final int back=0x7f020000;
@@ -138,276 +138,288 @@ public final class R {
         public static final int user=0x7f020020;
     }
     public static final class id {
-        public static final int area_item_tv=0x7f090022;
-        public static final int area_select_city=0x7f090011;
-        public static final int area_select_opcenter=0x7f090014;
-        public static final int area_select_opcenter_type=0x7f090013;
-        public static final int area_select_province=0x7f090010;
-        public static final int area_select_town=0x7f090012;
-        public static final int cancleView=0x7f09007c;
-        public static final int cashier_area_select_back=0x7f09000f;
-        public static final int cashier_area_select_del=0x7f090016;
-        public static final int cashier_area_select_ok=0x7f090015;
-        public static final int cashier_gathering_back=0x7f090023;
-        public static final int cashier_gathering_btn_order_cancel=0x7f090024;
-        public static final int cashier_gathering_btn_select_area=0x7f09002b;
-        public static final int cashier_gathering_btn_swing_card=0x7f09002d;
-        public static final int cashier_gathering_card_no=0x7f09002c;
-        public static final int cashier_gathering_cash=0x7f090028;
-        public static final int cashier_gathering_center=0x7f090025;
-        public static final int cashier_gathering_center_board=0x7f090026;
-        public static final int cashier_gathering_change=0x7f090029;
-        public static final int cashier_gathering_opcenter=0x7f09002a;
-        public static final int cashier_gathering_total_money=0x7f090027;
-        public static final int cashier_goods_detail_add=0x7f09001e;
-        public static final int cashier_goods_detail_back=0x7f090017;
-        public static final int cashier_goods_detail_del=0x7f090020;
-        public static final int cashier_goods_detail_iv=0x7f090019;
-        public static final int cashier_goods_detail_new_price=0x7f09001b;
-        public static final int cashier_goods_detail_ok=0x7f090021;
-        public static final int cashier_goods_detail_old_price=0x7f09001a;
-        public static final int cashier_goods_detail_reduce=0x7f09001c;
-        public static final int cashier_goods_detail_showcount=0x7f09001d;
-        public static final int cashier_goods_detail_title=0x7f090018;
-        public static final int cashier_goods_detail_total_price=0x7f09001f;
-        public static final int cashier_goods_pickup_card_no=0x7f09004d;
-        public static final int cashier_goods_pickup_checkorder=0x7f090050;
-        public static final int cashier_goods_pickup_exit=0x7f09004c;
-        public static final int cashier_goods_pickup_lv=0x7f090055;
-        public static final int cashier_goods_pickup_money=0x7f090056;
-        public static final int cashier_goods_pickup_ok=0x7f090057;
-        public static final int cashier_goods_pickup_order_no=0x7f09004f;
-        public static final int cashier_goods_pickup_swing_card=0x7f09004e;
-        public static final int cashier_goods_return_back=0x7f090058;
-        public static final int cashier_goods_return_card_no=0x7f090059;
-        public static final int cashier_goods_return_lv=0x7f090061;
-        public static final int cashier_goods_return_money=0x7f090062;
-        public static final int cashier_goods_return_ok=0x7f090063;
-        public static final int cashier_goods_return_order_no=0x7f09005b;
-        public static final int cashier_goods_return_search_order=0x7f09005c;
-        public static final int cashier_goods_return_swing_card=0x7f09005a;
-        public static final int cashier_listview=0x7f090008;
-        public static final int cashier_pickup_item_goods_count=0x7f090066;
-        public static final int cashier_pickup_item_goods_name=0x7f090064;
-        public static final int cashier_pickup_item_goods_single_price=0x7f090067;
-        public static final int cashier_pickup_item_goods_status=0x7f090065;
-        public static final int cashier_pickup_show_count=0x7f090053;
-        public static final int cashier_pickup_show_name=0x7f090051;
-        public static final int cashier_pickup_show_single_price=0x7f090054;
-        public static final int cashier_pickup_show_status=0x7f090052;
-        public static final int cashier_return_item_add=0x7f09006e;
-        public static final int cashier_return_item_goods_cb=0x7f09006f;
-        public static final int cashier_return_item_goods_name=0x7f090068;
-        public static final int cashier_return_item_goods_single_price=0x7f090069;
-        public static final int cashier_return_item_is_return=0x7f09006a;
-        public static final int cashier_return_item_is_return_true=0x7f09006b;
-        public static final int cashier_return_item_reduce=0x7f09006c;
-        public static final int cashier_return_item_showcount=0x7f09006d;
-        public static final int cashier_return_show_count=0x7f090060;
-        public static final int cashier_return_show_name=0x7f09005d;
-        public static final int cashier_return_show_single_price=0x7f09005e;
-        public static final int cashier_return_show_status=0x7f09005f;
-        public static final int cashier_search_order_btnback=0x7f090070;
-        public static final int cashier_search_order_btnsearch=0x7f090072;
-        public static final int cashier_search_order_lv=0x7f090073;
-        public static final int cashier_search_order_no=0x7f090071;
-        public static final int cashier_setting_back=0x7f090074;
-        public static final int cashier_setting_btn_close=0x7f090076;
-        public static final int cashier_setting_btn_open=0x7f090075;
-        public static final int cashier_system_btn_ok=0x7f090007;
-        public static final int cashier_system_business=0x7f090006;
-        public static final int cashier_system_center_name=0x7f090005;
-        public static final int cashier_system_clerk=0x7f090001;
-        public static final int cashier_system_column_cargo_number=0x7f090044;
-        public static final int cashier_system_column_clerk=0x7f09004b;
-        public static final int cashier_system_column_code=0x7f090045;
-        public static final int cashier_system_column_count=0x7f090047;
-        public static final int cashier_system_column_money=0x7f09004a;
-        public static final int cashier_system_column_name=0x7f090046;
-        public static final int cashier_system_column_now_price=0x7f090049;
-        public static final int cashier_system_column_old_price=0x7f090048;
-        public static final int cashier_system_column_sort=0x7f090043;
-        public static final int cashier_system_get_good=0x7f09000b;
-        public static final int cashier_system_machine_exit=0x7f090004;
-        public static final int cashier_system_machine_setting=0x7f090003;
-        public static final int cashier_system_machine_status=0x7f090000;
-        public static final int cashier_system_machine_time=0x7f090002;
-        public static final int cashier_system_open_cashbox=0x7f09000a;
-        public static final int cashier_system_receive_payments=0x7f090009;
-        public static final int cashier_system_return_good=0x7f09000c;
-        public static final int cashier_system_search_order=0x7f09000d;
-        public static final int check_new_app=0x7f090077;
-        public static final int click_to_update_all_product=0x7f090078;
-        public static final int dailog_content=0x7f09007a;
-        public static final int dailog_title=0x7f090079;
-        public static final int dialogInfo=0x7f09007e;
-        public static final int footLayout=0x7f090085;
-        public static final int gathering_area_1=0x7f09002e;
-        public static final int gathering_area_2=0x7f09002f;
-        public static final int gathering_area_3=0x7f090030;
-        public static final int gathering_btn_0=0x7f09003e;
-        public static final int gathering_btn_00=0x7f09003f;
-        public static final int gathering_btn_1=0x7f090031;
-        public static final int gathering_btn_100=0x7f090039;
-        public static final int gathering_btn_2=0x7f090032;
-        public static final int gathering_btn_200=0x7f09003d;
-        public static final int gathering_btn_3=0x7f090033;
-        public static final int gathering_btn_300=0x7f090041;
-        public static final int gathering_btn_4=0x7f090036;
-        public static final int gathering_btn_5=0x7f090037;
-        public static final int gathering_btn_50=0x7f090034;
-        public static final int gathering_btn_6=0x7f090038;
-        public static final int gathering_btn_7=0x7f09003a;
-        public static final int gathering_btn_8=0x7f09003b;
-        public static final int gathering_btn_9=0x7f09003c;
-        public static final int gathering_btn_backup=0x7f090035;
-        public static final int gathering_btn_ok=0x7f090042;
-        public static final int gathering_btn_spot=0x7f090040;
-        public static final int gathering_top=0x7f09000e;
-        public static final int login_layout_v_center=0x7f090080;
-        public static final int myProgressDialog=0x7f09007d;
-        public static final int okView=0x7f09007b;
-        public static final int progressView=0x7f09007f;
-        public static final int tipView=0x7f090086;
-        public static final int user_login=0x7f090083;
-        public static final int user_name=0x7f090081;
-        public static final int user_password=0x7f090082;
-        public static final int user_reset=0x7f090084;
+        public static final int area_item_tv=0x7f0a0023;
+        public static final int area_select_city=0x7f0a0012;
+        public static final int area_select_opcenter=0x7f0a0015;
+        public static final int area_select_opcenter_type=0x7f0a0014;
+        public static final int area_select_province=0x7f0a0011;
+        public static final int area_select_town=0x7f0a0013;
+        public static final int cancleView=0x7f0a007f;
+        public static final int cashier_area_select_back=0x7f0a0010;
+        public static final int cashier_area_select_del=0x7f0a0017;
+        public static final int cashier_area_select_ok=0x7f0a0016;
+        public static final int cashier_gathering_back=0x7f0a0024;
+        public static final int cashier_gathering_btn_order_cancel=0x7f0a0025;
+        public static final int cashier_gathering_btn_select_area=0x7f0a002c;
+        public static final int cashier_gathering_btn_swing_card=0x7f0a002e;
+        public static final int cashier_gathering_card_no=0x7f0a002d;
+        public static final int cashier_gathering_cash=0x7f0a0029;
+        public static final int cashier_gathering_center=0x7f0a0026;
+        public static final int cashier_gathering_center_board=0x7f0a0027;
+        public static final int cashier_gathering_change=0x7f0a002a;
+        public static final int cashier_gathering_opcenter=0x7f0a002b;
+        public static final int cashier_gathering_total_money=0x7f0a0028;
+        public static final int cashier_goods_detail_add=0x7f0a001f;
+        public static final int cashier_goods_detail_back=0x7f0a0018;
+        public static final int cashier_goods_detail_del=0x7f0a0021;
+        public static final int cashier_goods_detail_iv=0x7f0a001a;
+        public static final int cashier_goods_detail_new_price=0x7f0a001c;
+        public static final int cashier_goods_detail_ok=0x7f0a0022;
+        public static final int cashier_goods_detail_old_price=0x7f0a001b;
+        public static final int cashier_goods_detail_reduce=0x7f0a001d;
+        public static final int cashier_goods_detail_showcount=0x7f0a001e;
+        public static final int cashier_goods_detail_title=0x7f0a0019;
+        public static final int cashier_goods_detail_total_price=0x7f0a0020;
+        public static final int cashier_goods_pickup_card_no=0x7f0a004e;
+        public static final int cashier_goods_pickup_checkorder=0x7f0a0051;
+        public static final int cashier_goods_pickup_exit=0x7f0a004d;
+        public static final int cashier_goods_pickup_lv=0x7f0a0056;
+        public static final int cashier_goods_pickup_money=0x7f0a0057;
+        public static final int cashier_goods_pickup_ok=0x7f0a0058;
+        public static final int cashier_goods_pickup_order_no=0x7f0a0050;
+        public static final int cashier_goods_pickup_swing_card=0x7f0a004f;
+        public static final int cashier_goods_return_back=0x7f0a0059;
+        public static final int cashier_goods_return_card_no=0x7f0a005a;
+        public static final int cashier_goods_return_lv=0x7f0a0062;
+        public static final int cashier_goods_return_money=0x7f0a0063;
+        public static final int cashier_goods_return_ok=0x7f0a0064;
+        public static final int cashier_goods_return_order_no=0x7f0a005c;
+        public static final int cashier_goods_return_search_order=0x7f0a005d;
+        public static final int cashier_goods_return_swing_card=0x7f0a005b;
+        public static final int cashier_listview=0x7f0a0009;
+        public static final int cashier_pickup_item_goods_count=0x7f0a0067;
+        public static final int cashier_pickup_item_goods_name=0x7f0a0065;
+        public static final int cashier_pickup_item_goods_single_price=0x7f0a0068;
+        public static final int cashier_pickup_item_goods_status=0x7f0a0066;
+        public static final int cashier_pickup_show_count=0x7f0a0054;
+        public static final int cashier_pickup_show_name=0x7f0a0052;
+        public static final int cashier_pickup_show_single_price=0x7f0a0055;
+        public static final int cashier_pickup_show_status=0x7f0a0053;
+        public static final int cashier_return_item_add=0x7f0a006f;
+        public static final int cashier_return_item_goods_cb=0x7f0a0070;
+        public static final int cashier_return_item_goods_name=0x7f0a0069;
+        public static final int cashier_return_item_goods_single_price=0x7f0a006a;
+        public static final int cashier_return_item_is_return=0x7f0a006b;
+        public static final int cashier_return_item_is_return_true=0x7f0a006c;
+        public static final int cashier_return_item_reduce=0x7f0a006d;
+        public static final int cashier_return_item_showcount=0x7f0a006e;
+        public static final int cashier_return_show_count=0x7f0a0061;
+        public static final int cashier_return_show_name=0x7f0a005e;
+        public static final int cashier_return_show_single_price=0x7f0a005f;
+        public static final int cashier_return_show_status=0x7f0a0060;
+        public static final int cashier_search_order_btnback=0x7f0a0071;
+        public static final int cashier_search_order_btnsearch=0x7f0a0073;
+        public static final int cashier_search_order_lv=0x7f0a0074;
+        public static final int cashier_search_order_no=0x7f0a0072;
+        public static final int cashier_setting_back=0x7f0a0075;
+        public static final int cashier_setting_btn_close=0x7f0a0077;
+        public static final int cashier_setting_btn_open=0x7f0a0076;
+        public static final int cashier_system_btn_ok=0x7f0a0008;
+        public static final int cashier_system_business=0x7f0a0007;
+        public static final int cashier_system_center_name=0x7f0a0006;
+        public static final int cashier_system_clerk=0x7f0a0001;
+        public static final int cashier_system_column_cargo_number=0x7f0a0045;
+        public static final int cashier_system_column_clerk=0x7f0a004c;
+        public static final int cashier_system_column_code=0x7f0a0046;
+        public static final int cashier_system_column_count=0x7f0a0048;
+        public static final int cashier_system_column_money=0x7f0a004b;
+        public static final int cashier_system_column_name=0x7f0a0047;
+        public static final int cashier_system_column_now_price=0x7f0a004a;
+        public static final int cashier_system_column_old_price=0x7f0a0049;
+        public static final int cashier_system_column_sort=0x7f0a0044;
+        public static final int cashier_system_get_good=0x7f0a000c;
+        public static final int cashier_system_machine_exit=0x7f0a0005;
+        public static final int cashier_system_machine_lock=0x7f0a0003;
+        public static final int cashier_system_machine_setting=0x7f0a0004;
+        public static final int cashier_system_machine_status=0x7f0a0000;
+        public static final int cashier_system_machine_time=0x7f0a0002;
+        public static final int cashier_system_open_cashbox=0x7f0a000b;
+        public static final int cashier_system_receive_payments=0x7f0a000a;
+        public static final int cashier_system_return_good=0x7f0a000d;
+        public static final int cashier_system_search_order=0x7f0a000e;
+        public static final int check_new_app=0x7f0a0078;
+        public static final int click_to_update_all_product=0x7f0a0079;
+        public static final int click_to_update_lock_psd=0x7f0a007a;
+        public static final int dailog_content=0x7f0a007c;
+        public static final int dailog_edittext=0x7f0a007d;
+        public static final int dailog_title=0x7f0a007b;
+        public static final int dialogInfo=0x7f0a0081;
+        public static final int footLayout=0x7f0a008b;
+        public static final int gathering_area_1=0x7f0a002f;
+        public static final int gathering_area_2=0x7f0a0030;
+        public static final int gathering_area_3=0x7f0a0031;
+        public static final int gathering_btn_0=0x7f0a003f;
+        public static final int gathering_btn_00=0x7f0a0040;
+        public static final int gathering_btn_1=0x7f0a0032;
+        public static final int gathering_btn_100=0x7f0a003a;
+        public static final int gathering_btn_2=0x7f0a0033;
+        public static final int gathering_btn_200=0x7f0a003e;
+        public static final int gathering_btn_3=0x7f0a0034;
+        public static final int gathering_btn_300=0x7f0a0042;
+        public static final int gathering_btn_4=0x7f0a0037;
+        public static final int gathering_btn_5=0x7f0a0038;
+        public static final int gathering_btn_50=0x7f0a0035;
+        public static final int gathering_btn_6=0x7f0a0039;
+        public static final int gathering_btn_7=0x7f0a003b;
+        public static final int gathering_btn_8=0x7f0a003c;
+        public static final int gathering_btn_9=0x7f0a003d;
+        public static final int gathering_btn_backup=0x7f0a0036;
+        public static final int gathering_btn_ok=0x7f0a0043;
+        public static final int gathering_btn_spot=0x7f0a0041;
+        public static final int gathering_top=0x7f0a000f;
+        public static final int lock_activity_reset=0x7f0a0086;
+        public static final int lock_activity_unlock=0x7f0a0085;
+        public static final int lock_activity_unlock_psd=0x7f0a0084;
+        public static final int login_layout_v_center=0x7f0a0083;
+        public static final int myProgressDialog=0x7f0a0080;
+        public static final int okView=0x7f0a007e;
+        public static final int progressView=0x7f0a0082;
+        public static final int tipView=0x7f0a008c;
+        public static final int user_login=0x7f0a0089;
+        public static final int user_name=0x7f0a0087;
+        public static final int user_password=0x7f0a0088;
+        public static final int user_reset=0x7f0a008a;
     }
     public static final class layout {
-        public static final int aaaaaa=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int area_select_view=0x7f030002;
-        public static final int cahsier_goods_detail_view=0x7f030003;
-        public static final int cashier_area_item_view=0x7f030004;
-        public static final int cashier_gathering_view=0x7f030005;
-        public static final int cashier_goods_info_view=0x7f030006;
-        public static final int cashier_goods_pickup_view=0x7f030007;
-        public static final int cashier_goods_return_view=0x7f030008;
-        public static final int cashier_pickup_goods_list_item=0x7f030009;
-        public static final int cashier_return_goods_list_item=0x7f03000a;
-        public static final int cashier_search_order_view=0x7f03000b;
-        public static final int cashier_setting_view=0x7f03000c;
-        public static final int dialog_layout=0x7f03000d;
-        public static final int download_pragress_dialog_layout=0x7f03000e;
+        public static final int activity_main=0x7f030000;
+        public static final int area_select_view=0x7f030001;
+        public static final int cahsier_goods_detail_view=0x7f030002;
+        public static final int cashier_area_item_view=0x7f030003;
+        public static final int cashier_gathering_view=0x7f030004;
+        public static final int cashier_goods_info_view=0x7f030005;
+        public static final int cashier_goods_pickup_view=0x7f030006;
+        public static final int cashier_goods_return_view=0x7f030007;
+        public static final int cashier_pickup_goods_list_item=0x7f030008;
+        public static final int cashier_return_goods_list_item=0x7f030009;
+        public static final int cashier_search_order_view=0x7f03000a;
+        public static final int cashier_setting_view=0x7f03000b;
+        public static final int dialog_layout=0x7f03000c;
+        public static final int download_pragress_dialog_layout=0x7f03000d;
+        public static final int lock_activity=0x7f03000e;
         public static final int login_view=0x7f03000f;
         public static final int pragress_dialog_layout=0x7f030010;
         public static final int tip_update_version_layout=0x7f030011;
     }
     public static final class string {
-        public static final int action_settings=0x7f060001;
-        public static final int app_name=0x7f060000;
-        public static final int cancle=0x7f060062;
-        public static final int cashier_system_alert_gathering_card_null=0x7f060046;
-        public static final int cashier_system_alert_gathering_create_order_fail=0x7f060048;
-        public static final int cashier_system_alert_gathering_create_order_success=0x7f060047;
-        public static final int cashier_system_alert_gathering_order_cancel_fail=0x7f060049;
-        public static final int cashier_system_alert_gathering_order_cancel_success=0x7f06004a;
-        public static final int cashier_system_alert_gathering_order_error=0x7f060045;
-        public static final int cashier_system_alert_gathering_order_pay_fail=0x7f06004c;
-        public static final int cashier_system_alert_gathering_order_pay_success=0x7f06004b;
-        public static final int cashier_system_alert_login_fail=0x7f060040;
-        public static final int cashier_system_alert_login_no_permissions=0x7f060044;
-        public static final int cashier_system_alert_no_have_product=0x7f060042;
+        public static final int action_settings=0x7f070001;
+        public static final int app_name=0x7f070000;
+        public static final int cancle=0x7f070062;
+        public static final int cashier_system_alert_gathering_card_null=0x7f070046;
+        public static final int cashier_system_alert_gathering_create_order_fail=0x7f070048;
+        public static final int cashier_system_alert_gathering_create_order_success=0x7f070047;
+        public static final int cashier_system_alert_gathering_order_cancel_fail=0x7f070049;
+        public static final int cashier_system_alert_gathering_order_cancel_success=0x7f07004a;
+        public static final int cashier_system_alert_gathering_order_error=0x7f070045;
+        public static final int cashier_system_alert_gathering_order_pay_fail=0x7f07004c;
+        public static final int cashier_system_alert_gathering_order_pay_success=0x7f07004b;
+        public static final int cashier_system_alert_login_fail=0x7f070040;
+        public static final int cashier_system_alert_login_no_permissions=0x7f070044;
+        public static final int cashier_system_alert_no_have_product=0x7f070042;
         /**  提示语 
          */
-        public static final int cashier_system_alert_no_login=0x7f06003f;
-        public static final int cashier_system_alert_no_order_number=0x7f06004f;
-        public static final int cashier_system_alert_no_product=0x7f060041;
-        public static final int cashier_system_alert_no_return_product=0x7f060043;
-        public static final int cashier_system_alert_order_detail_del_success=0x7f06004d;
-        public static final int cashier_system_alert_order_detail_modify_success=0x7f06004e;
-        public static final int cashier_system_btn_back=0x7f06000e;
-        public static final int cashier_system_btn_close=0x7f060012;
-        public static final int cashier_system_btn_del=0x7f060010;
-        public static final int cashier_system_btn_ok=0x7f06000f;
-        public static final int cashier_system_btn_open=0x7f060011;
-        public static final int cashier_system_btn_pickup_ok=0x7f060013;
-        public static final int cashier_system_btn_return_ok=0x7f060014;
-        public static final int cashier_system_btn_search_order=0x7f060015;
-        public static final int cashier_system_business=0x7f06002d;
-        public static final int cashier_system_business_hint=0x7f06002e;
-        public static final int cashier_system_close_cashbox=0x7f06003a;
-        public static final int cashier_system_column_card_number=0x7f060028;
-        public static final int cashier_system_column_cargo_number=0x7f06001c;
-        public static final int cashier_system_column_cash=0x7f060026;
-        public static final int cashier_system_column_change=0x7f060027;
-        public static final int cashier_system_column_clerk=0x7f060023;
-        public static final int cashier_system_column_code=0x7f06001d;
-        public static final int cashier_system_column_count=0x7f06001f;
-        public static final int cashier_system_column_money=0x7f060022;
-        public static final int cashier_system_column_name=0x7f06001e;
-        public static final int cashier_system_column_now_price=0x7f060021;
-        public static final int cashier_system_column_old_price=0x7f060020;
-        public static final int cashier_system_column_order_number=0x7f06002b;
-        public static final int cashier_system_column_return_money=0x7f06002c;
-        public static final int cashier_system_column_select_opcenter=0x7f06002a;
+        public static final int cashier_system_alert_no_login=0x7f07003f;
+        public static final int cashier_system_alert_no_order_number=0x7f07004f;
+        public static final int cashier_system_alert_no_product=0x7f070041;
+        public static final int cashier_system_alert_no_return_product=0x7f070043;
+        public static final int cashier_system_alert_order_detail_del_success=0x7f07004d;
+        public static final int cashier_system_alert_order_detail_modify_success=0x7f07004e;
+        public static final int cashier_system_btn_back=0x7f07000e;
+        public static final int cashier_system_btn_close=0x7f070012;
+        public static final int cashier_system_btn_del=0x7f070010;
+        public static final int cashier_system_btn_ok=0x7f07000f;
+        public static final int cashier_system_btn_open=0x7f070011;
+        public static final int cashier_system_btn_pickup_ok=0x7f070013;
+        public static final int cashier_system_btn_return_ok=0x7f070014;
+        public static final int cashier_system_btn_search_order=0x7f070015;
+        public static final int cashier_system_business=0x7f07002d;
+        public static final int cashier_system_business_hint=0x7f07002e;
+        public static final int cashier_system_close_cashbox=0x7f07003a;
+        public static final int cashier_system_column_card_number=0x7f070028;
+        public static final int cashier_system_column_cargo_number=0x7f07001c;
+        public static final int cashier_system_column_cash=0x7f070026;
+        public static final int cashier_system_column_change=0x7f070027;
+        public static final int cashier_system_column_clerk=0x7f070023;
+        public static final int cashier_system_column_code=0x7f07001d;
+        public static final int cashier_system_column_count=0x7f07001f;
+        public static final int cashier_system_column_money=0x7f070022;
+        public static final int cashier_system_column_name=0x7f07001e;
+        public static final int cashier_system_column_now_price=0x7f070021;
+        public static final int cashier_system_column_old_price=0x7f070020;
+        public static final int cashier_system_column_order_number=0x7f07002b;
+        public static final int cashier_system_column_return_money=0x7f07002c;
+        public static final int cashier_system_column_select_opcenter=0x7f07002a;
         /**  收银系统的商品描述栏目 
          */
-        public static final int cashier_system_column_sort=0x7f06001b;
-        public static final int cashier_system_column_swing_card=0x7f060029;
-        public static final int cashier_system_column_total_money=0x7f060024;
-        public static final int cashier_system_column_total_money_withcolon=0x7f060025;
-        public static final int cashier_system_contact=0x7f06000b;
-        public static final int cashier_system_contact_tech=0x7f06000c;
-        public static final int cashier_system_gathering_order_cancel=0x7f060019;
-        public static final int cashier_system_gathering_title=0x7f060018;
-        public static final int cashier_system_get_good=0x7f06003b;
-        public static final int cashier_system_help=0x7f06000d;
-        public static final int cashier_system_hint_input_order_no=0x7f060051;
-        public static final int cashier_system_hint_no_card_no=0x7f060056;
-        public static final int cashier_system_hint_no_opcenter=0x7f060055;
+        public static final int cashier_system_column_sort=0x7f07001b;
+        public static final int cashier_system_column_swing_card=0x7f070029;
+        public static final int cashier_system_column_total_money=0x7f070024;
+        public static final int cashier_system_column_total_money_withcolon=0x7f070025;
+        public static final int cashier_system_contact=0x7f07000b;
+        public static final int cashier_system_contact_tech=0x7f07000c;
+        public static final int cashier_system_gathering_order_cancel=0x7f070019;
+        public static final int cashier_system_gathering_title=0x7f070018;
+        public static final int cashier_system_get_good=0x7f07003b;
+        public static final int cashier_system_help=0x7f07000d;
+        public static final int cashier_system_hint_input_order_no=0x7f070051;
+        public static final int cashier_system_hint_no_card_no=0x7f070056;
+        public static final int cashier_system_hint_no_opcenter=0x7f070055;
         /**  hint提示语 
          */
-        public static final int cashier_system_hint_no_order_number=0x7f060050;
-        public static final int cashier_system_hint_no_pickup_card_no=0x7f060053;
-        public static final int cashier_system_hint_no_return_card_no=0x7f060054;
-        public static final int cashier_system_hint_no_return_order_number=0x7f060052;
+        public static final int cashier_system_hint_no_order_number=0x7f070050;
+        public static final int cashier_system_hint_no_pickup_card_no=0x7f070053;
+        public static final int cashier_system_hint_no_return_card_no=0x7f070054;
+        public static final int cashier_system_hint_no_return_order_number=0x7f070052;
         /**  收银系统的机器和操作信息 
          */
-        public static final int cashier_system_machine_number=0x7f060031;
-        public static final int cashier_system_machine_order_receive=0x7f060034;
-        public static final int cashier_system_machine_order_return_balance=0x7f060035;
-        public static final int cashier_system_machine_order_total=0x7f060033;
-        public static final int cashier_system_machine_showcustom=0x7f060037;
-        public static final int cashier_system_machine_status=0x7f060032;
-        public static final int cashier_system_machine_user=0x7f060036;
-        public static final int cashier_system_open_cashbox=0x7f060039;
-        public static final int cashier_system_promote=0x7f06002f;
-        public static final int cashier_system_promote_alert=0x7f060030;
-        public static final int cashier_system_receive_payments=0x7f060038;
-        public static final int cashier_system_return_good=0x7f06003c;
-        public static final int cashier_system_search_order=0x7f06003d;
-        public static final int cashier_system_setting=0x7f06003e;
-        public static final int cashier_system_title=0x7f06000a;
-        public static final int cashier_system_title_area_select=0x7f06001a;
-        public static final int checkVersion=0x7f06005d;
-        public static final int clickToUpdate=0x7f060058;
+        public static final int cashier_system_machine_number=0x7f070031;
+        public static final int cashier_system_machine_order_receive=0x7f070034;
+        public static final int cashier_system_machine_order_return_balance=0x7f070035;
+        public static final int cashier_system_machine_order_total=0x7f070033;
+        public static final int cashier_system_machine_showcustom=0x7f070037;
+        public static final int cashier_system_machine_status=0x7f070032;
+        public static final int cashier_system_machine_user=0x7f070036;
+        public static final int cashier_system_open_cashbox=0x7f070039;
+        public static final int cashier_system_promote=0x7f07002f;
+        public static final int cashier_system_promote_alert=0x7f070030;
+        public static final int cashier_system_receive_payments=0x7f070038;
+        public static final int cashier_system_return_good=0x7f07003c;
+        public static final int cashier_system_search_order=0x7f07003d;
+        public static final int cashier_system_setting=0x7f07003e;
+        public static final int cashier_system_title=0x7f07000a;
+        public static final int cashier_system_title_area_select=0x7f07001a;
+        public static final int checkVersion=0x7f07005d;
+        public static final int clickToUpdate=0x7f070058;
         /**  软件更新 
          */
-        public static final int clickToUpdate_hint=0x7f060057;
-        public static final int click_to_update_all_product=0x7f06005a;
-        public static final int click_to_update_all_product_hint=0x7f060059;
-        public static final int downloadFail=0x7f06005f;
-        public static final int downloading=0x7f060060;
-        public static final int exit=0x7f060016;
-        public static final int exitApp=0x7f060064;
-        public static final int hello_world=0x7f060002;
-        public static final int loading=0x7f06005b;
-        public static final int noDataShow=0x7f06005c;
-        public static final int noFindNewVersion=0x7f06005e;
-        public static final int ok=0x7f060061;
-        public static final int setting=0x7f060017;
-        public static final int user_login=0x7f060008;
+        public static final int clickToUpdate_hint=0x7f070057;
+        public static final int click_to_update_all_product=0x7f07005a;
+        public static final int click_to_update_all_product_hint=0x7f070059;
+        public static final int downloadFail=0x7f07005f;
+        public static final int downloading=0x7f070060;
+        public static final int exit=0x7f070016;
+        public static final int exitApp=0x7f070064;
+        public static final int hello_world=0x7f070002;
+        public static final int loading=0x7f07005b;
+        public static final int lock_btn_hint=0x7f070066;
+        /**  锁屏界面 
+         */
+        public static final int lock_btn_unlock=0x7f070065;
+        public static final int lock_update_lock_psd_btn=0x7f070068;
+        public static final int lock_update_lock_psd_hint=0x7f070067;
+        public static final int noDataShow=0x7f07005c;
+        public static final int noFindNewVersion=0x7f07005e;
+        public static final int ok=0x7f070061;
+        public static final int setting=0x7f070017;
+        public static final int user_login=0x7f070008;
         /**  收银系统的登录界面 
          */
-        public static final int user_name=0x7f060004;
-        public static final int user_name_hint=0x7f060006;
-        public static final int user_password=0x7f060005;
-        public static final int user_password_hint=0x7f060007;
-        public static final int user_reset=0x7f060009;
-        public static final int viewContentDescript=0x7f060003;
-        public static final int warm_prompt=0x7f060063;
+        public static final int user_name=0x7f070004;
+        public static final int user_name_hint=0x7f070006;
+        public static final int user_password=0x7f070005;
+        public static final int user_password_hint=0x7f070007;
+        public static final int user_reset=0x7f070009;
+        public static final int viewContentDescript=0x7f070003;
+        public static final int warm_prompt=0x7f070063;
     }
     public static final class style {
         /** 
@@ -437,36 +449,39 @@ public final class R {
 
         
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
+        public static final int AppTheme=0x7f080001;
         /**  自定义dialog 
          */
-        public static final int Theme_CustomDialog=0x7f070008;
+        public static final int Theme_CustomDialog=0x7f080008;
         /**  水平黑色分割线 1dp 
          */
-        public static final int blackHDividerLine1DP=0x7f070002;
+        public static final int blackHDividerLine1DP=0x7f080002;
         /**  垂直黑色分割线 1dp 
          */
-        public static final int blackVDividerLine1DP=0x7f070003;
+        public static final int blackVDividerLine1DP=0x7f080003;
         /**  自定义spinner 
          */
-        public static final int customSpinner=0x7f070009;
+        public static final int customSpinner=0x7f080009;
         /**  水平白色分割线1dp 
          */
-        public static final int whiteHDividerLine1DP=0x7f070005;
+        public static final int whiteHDividerLine1DP=0x7f080005;
         /**  水平白色分割线2dp 
          */
-        public static final int whiteHDividerLine2DP=0x7f070004;
+        public static final int whiteHDividerLine2DP=0x7f080004;
         /**  垂直白色分割线1dp 
          */
-        public static final int whiteVDividerLin1DP=0x7f070007;
+        public static final int whiteVDividerLin1DP=0x7f080007;
         /**  垂直白色分割线2dp 
          */
-        public static final int whiteVDividerLine2DP=0x7f070006;
+        public static final int whiteVDividerLine2DP=0x7f080006;
+    }
+    public static final class xml {
+        public static final int lock_screen=0x7f040000;
     }
 }

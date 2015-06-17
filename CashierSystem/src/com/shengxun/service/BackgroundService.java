@@ -58,6 +58,7 @@ public class BackgroundService extends Service
 //			it.setAction(SACTION);
 			it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startService(it);
+			
 		}
 	}
 	/**

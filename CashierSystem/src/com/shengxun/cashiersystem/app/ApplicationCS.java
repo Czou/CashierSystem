@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.app.Application;
+import android.content.Intent;
 
 import com.j256.ormlite.dao.Dao;
 import com.shengxun.constant.C;
 import com.shengxun.entity.LoginInfo;
 import com.shengxun.entity.ProductInfo;
+import com.shengxun.service.MyScreenService;
 import com.shengxun.util.ConnectManager;
 import com.shengxun.util.DeviceID;
 import com.shengxun.util.MD5Util;
@@ -46,6 +48,7 @@ public class ApplicationCS extends Application {
 	 * 产品数据上次的同步时间
 	 */
 	public static final String LAST_SYN_TIME="last_syn_time";
+	
 	public DataSP sp=null;
 	@Override
 	public void onCreate() {
@@ -57,7 +60,10 @@ public class ApplicationCS extends Application {
 		
 		LG.e(ApplicationCS.class, "========"+DeviceID.getDeviceID(this));
 		LG.i(ApplicationCS.class, "收银系统启动------>1:获取联网最新产品信息");
-		sp=new DataSP(this, "CashierSystem");
+		sp=new DataSP(this, C.SHARED_PREFENCE_NAME);
+//		//初始化锁屏密码,默认888888
+//		C.CURRENT_LOCK_PSD=sp.getSValue(C.LOCK_PSD, "888888");
+		
 		ConnectManager.getInstance().getProductList(sp.getSValue(LAST_SYN_TIME, ""),productAjaxCallBack);
 	}
 
@@ -67,7 +73,7 @@ public class ApplicationCS extends Application {
 		@Override
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "========== onSuccess ========= >"+t);
+			LG.i(getClass(), "更新商品------->"+t);
 			try {
 				if (BaseUtils.IsNotEmpty(t)&& JSONParser.getStringFromJsonString("status", t).equals("1")) {
 					String data = JSONParser.getStringFromJsonString("data", t);

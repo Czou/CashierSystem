@@ -7,11 +7,14 @@ import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.LG;
+import com.zvezda.data.utils.DataSP;
 import com.zvezda.database.utils.ORMOpearationDao;
 /**
  * 基础Activity
@@ -35,6 +38,8 @@ public class BaseActivity extends FragmentActivity{
 	 * ORM数据库操作封装
 	 */
 	protected ORMOpearationDao ormOpearationDao=null;
+	
+	protected DataSP sp=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

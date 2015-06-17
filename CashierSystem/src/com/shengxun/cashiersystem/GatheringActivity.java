@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -40,7 +41,7 @@ import com.zvezda.android.utils.TimeConversion;
  * @author sw
  * @date 2015-4-24
  */
-public class GatheringActivity extends BaseActivity {
+public class GatheringActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 总额，现金，找零输入框
 	 */
@@ -119,6 +120,7 @@ public class GatheringActivity extends BaseActivity {
 	/**
 	 * 初始化view sw
 	 */
+	@SuppressLint("NewApi")
 	private void initWidget() {
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
