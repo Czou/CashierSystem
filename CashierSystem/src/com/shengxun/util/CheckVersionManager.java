@@ -57,7 +57,7 @@ public class CheckVersionManager {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			C.closeProgressDialog();
-			LG.e(getClass(),t+"");
+			LG.e(getClass(),"版本更新－－－－－>"+t);
 			try{
 			if(BaseUtils.IsNotEmpty(t)&&JSONParser.getStringFromJsonString("status", t).equals("1")){
 				String data=JSONParser.getStringFromJsonString("data", t);

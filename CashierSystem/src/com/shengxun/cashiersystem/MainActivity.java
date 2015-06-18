@@ -6,15 +6,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,9 +28,6 @@ import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
 import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.shengxun.externalhardware.print.util.JBPrintInterface;
-import com.shengxun.service.AdminReceiver;
-import com.shengxun.service.MyScreenService;
-import com.shengxun.util.LockScreenUtil;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
@@ -87,8 +79,8 @@ public class MainActivity extends MyTimeLockBaseActivity {
 	 */
 	private Dao<ProductInfo, Integer> productsDao = null;
 	
-	ComponentName componentName;
-	DevicePolicyManager policyManager;
+//	ComponentName componentName;
+//	DevicePolicyManager policyManager;
 	
 	public boolean isOpenPrint=false;
 	@Override
@@ -101,11 +93,10 @@ public class MainActivity extends MyTimeLockBaseActivity {
 //		Intent screenService = new Intent();
 //		screenService.setClass(mActivity, MyScreenService.class);
 //		mActivity.startService(screenService);
+//		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+//		componentName = new ComponentName(this, AdminReceiver.class);
 		
 		productsDao = ormOpearationDao.getDao(ProductInfo.class);
-		
-		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-		componentName = new ComponentName(this, AdminReceiver.class);
 		
 		initWidget();
 		initExternalHardware();
@@ -181,6 +172,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 				//产品条码存在且状态正常为上架商品中的销售品
 				ArrayList<ProductInfo> productInfos = (ArrayList<ProductInfo>) productsDao.queryBuilder().where().eq("op_bar_code", op_bar_code).and().eq("op_status", "1").and().eq("op_is_for_show", "0").query();
 				// 查询到数据且唯一
+				LG.i(getClass(), "productInfos size = >"+productInfos.size()+"");
 				if (productInfos != null && productInfos.size() == 1) {
 					LG.e(getClass(), "productInfos.get(0).qp_name"+ productInfos.get(0).qp_name);
 					refreshData(productInfos.get(0));
@@ -250,12 +242,12 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		for (int i = 0; i < dataList.size(); i++) {
 			// 每个商品的总价相加
 			totalPayment += dataList.get(i).buy_number*dataList.get(i).op_market_price;
-
+			
 		}
 		// 刷新付款总金额
 		cashier_system_receive_payments.setText(resources.getString(R.string.cashier_system_receive_payments)
 				+ "￥"
-				+ totalPayment + "");
+				+ BaseUtils.formatDouble(totalPayment) + "");
 	}
 
 	Handler myHandler = new Handler() {

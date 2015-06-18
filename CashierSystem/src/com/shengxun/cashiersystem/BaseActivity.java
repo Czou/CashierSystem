@@ -50,6 +50,7 @@ public class BaseActivity extends FragmentActivity{
 		applicationCS=(ApplicationCS) mActivity.getApplication();
 		ormOpearationDao=new ORMOpearationDao(mActivity,C.DATABASE_NAME);
 		LG.i(getClass(),"当前所在Activity------------>"+mActivity.getClass().getName());
+		sp = new DataSP(mActivity, C.SHARED_PREFENCE_NAME);
 		//将该Activity添加到栈，方便管理
 		AppManager.getAppManager().addActivity(mActivity);
 	}

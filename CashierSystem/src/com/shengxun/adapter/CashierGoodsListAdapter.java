@@ -57,12 +57,12 @@ public class CashierGoodsListAdapter extends ABaseAdapter<ProductInfo>{
 			}else{
 				cashier_system_column_name.setText(resources.getString(R.string.cashier_system_promote)+""+entity.qp_name);
 				cashier_system_column_now_price.setText(""+entity.op_promote_market_price);
-				cashier_system_column_money.setText(""+(entity.op_promote_market_price*entity.buy_number));
+				cashier_system_column_money.setText(BaseUtils.formatDouble((entity.op_promote_market_price*entity.buy_number)));
 			}
 		}else{
 			cashier_system_column_name.setText(""+entity.qp_name);
 			cashier_system_column_now_price.setText(""+entity.op_market_price);
-			cashier_system_column_money.setText(""+(entity.op_market_price*entity.buy_number));
+			cashier_system_column_money.setText(BaseUtils.formatDouble((entity.op_market_price*entity.buy_number)));
 		}
 		if(applicationCS.loginInfo!=null&&applicationCS.loginInfo.cashier_info!=null){
 			cashier_system_column_clerk.setText(""+applicationCS.loginInfo.cashier_info.me_id);

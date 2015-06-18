@@ -28,7 +28,6 @@ public class MyTimeLockBaseActivity extends BaseActivity{
 	
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		LG.i(getClass(), "===========dispatchTouchEvent==========");
 		//屏幕发生操作，则重新计时
 		mLock.setCurrentTimeCount(0);
 		return super.dispatchTouchEvent(ev);

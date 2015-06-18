@@ -114,7 +114,7 @@ public class U
 	/**
 	 * 22.软件更新http://tcadmind.051jk.com/gateway/app/get_app_version
 	 */
-	public static final String CASH_STRING_APP_UPDATE=CASHIER_SYSTEM_URL+"app/get_app_version";
+	public static final String CASH_STRING_APP_UPDATE=CASHIER_SYSTEM_URL+"app/get_app_version";//CASHIER_SYSTEM_DOMAIN+"app/get_app_version";
 	
 	/**
 	 * 23.产品同步回调接口

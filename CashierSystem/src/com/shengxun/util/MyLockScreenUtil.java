@@ -41,7 +41,6 @@ public class MyLockScreenUtil {
 
 	private MyLockScreenUtil() {
 		timer = new Timer();
-
 		openTimer();
 	}
 

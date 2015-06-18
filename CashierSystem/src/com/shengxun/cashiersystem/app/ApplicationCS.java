@@ -55,7 +55,7 @@ public class ApplicationCS extends Application {
 		super.onCreate();
 		ormOpearationDao = new ORMOpearationDao(getApplicationContext(),C.DATABASE_NAME);
 		//修改机器码
-		C.MACHINE_CODE="35703a430a4e23ce54:e4:bd:8b:cf:ff";//DeviceID.getDeviceID(this);//"35703a430a4e23ce54:e4:bd:8b:cf:ff";
+		C.MACHINE_CODE="35703a430a4e23ce54:e4:bd:8b:cf:ff";//DeviceID.getDeviceID(this);
 		C.VERIFY_CODE=MD5Util.GetMD5Code(""+C.SOB_CODE+"#"+C.SOB_PASSWORD+"#"+C.MACHINE_CODE+"");
 		
 		LG.e(ApplicationCS.class, "========"+DeviceID.getDeviceID(this));
@@ -78,7 +78,7 @@ public class ApplicationCS extends Application {
 				if (BaseUtils.IsNotEmpty(t)&& JSONParser.getStringFromJsonString("status", t).equals("1")) {
 					String data = JSONParser.getStringFromJsonString("data", t);
 					String product_list = JSONParser.getStringFromJsonString("product_list", data);
-					String last_syn_time = JSONParser.getStringFromJsonString("last_syn_time", data);
+					String last_syn_time = JSONParser.getStringFromJsonString("syn_time", data);
 					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser.JSON2Array(product_list, ProductInfo.class);
 					//如果增量数据不为空的话
 					if (products != null && products.size() > 0) {
@@ -104,6 +104,7 @@ public class ApplicationCS extends Application {
 								@Override
 								public void onSuccess(String t) {
 									super.onSuccess(t);
+									LG.i(getClass(), "产品同步回调---->"+t);
 									if (BaseUtils.IsNotEmpty(t)&&
 										JSONParser.getStringFromJsonString("status", t).equals("1")) {
 										String data = JSONParser.getStringFromJsonString("data", t);
@@ -116,6 +117,7 @@ public class ApplicationCS extends Application {
 							ConnectManager.getInstance().productSynCallback(product_ids, ajaxCallBack);
 						}
 						sp.setValue(LAST_SYN_TIME, last_syn_time);
+						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >"+last_syn_time);
 					}
 				}
 			} catch (Exception e) {

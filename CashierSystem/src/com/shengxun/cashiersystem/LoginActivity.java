@@ -17,6 +17,7 @@ import com.shengxun.entity.LoginInfo;
 import com.shengxun.service.BackgroundService;
 import com.shengxun.util.AndroidAdjustResizeUtil;
 import com.shengxun.util.ConnectManager;
+import com.shengxun.util.MD5Util;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
@@ -110,7 +111,9 @@ public class LoginActivity extends BaseActivity{
 							applicationCS.mc_id=applicationCS.loginInfo.mc_id;
 							
 							//写入锁屏密码
-							C.CURRENT_LOCK_PSD = user_password.getText().toString().trim();
+							String lockPsd = user_password.getText().toString().trim();
+							C.CURRENT_LOCK_PSD = lockPsd;
+							sp.setValue(C.SHARED_LOCK_PSD, lockPsd);
 							
 							goActivity(MainActivity.class);
 							AppManager.getAppManager().finishActivity(mActivity);

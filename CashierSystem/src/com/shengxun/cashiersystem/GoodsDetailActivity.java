@@ -1,8 +1,11 @@
 package com.shengxun.cashiersystem;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 import net.tsz.afinal.FinalBitmap;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,7 +29,7 @@ import com.zvezda.android.utils.LG;
  * @author sw
  * @date 2015-4-24
  */
-public class GoodsDetailActivity extends MyTimeLockBaseActivity{
+public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 返回按钮
 	 */
@@ -40,7 +43,7 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity{
 	 * 显示数量
 	 */
 	private EditText show_count;
-	
+
 	/**
 	 * 商品图片
 	 */
@@ -107,8 +110,9 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity{
 		old_price.setText(product.op_market_price + "");
 		new_price.setText(product.op_market_price + "");
 		new_price_d = product.op_market_price;
-		if(BaseUtils.IsNotEmpty(product.img_url)){
-			FinalBitmap.create(mActivity).display(cashier_goods_detail_iv, ""+product.img_url);
+		if (BaseUtils.IsNotEmpty(product.img_url)) {
+			FinalBitmap.create(mActivity).display(cashier_goods_detail_iv,
+					"" + product.img_url);
 		}
 		calTotalPrice();
 	}
@@ -118,13 +122,16 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity{
 	 * 
 	 * @auth sw
 	 */
+	@SuppressLint("NewApi")
 	private void calTotalPrice() {
-		
+		total_price_d = 0;
 		total_price_d = new_price_d * goods_count;
-		// 保留一位小数
-		BigDecimal bd = new BigDecimal(total_price_d);
-		total_price_d = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		total_price.setText(total_price_d + "");
+
+		//格式化数值，保留两位小数并四舍五入
+		DecimalFormat format = new DecimalFormat("#,##0.00");
+		format.setRoundingMode(RoundingMode.HALF_UP);
+		total_price.setText(BaseUtils.formatDouble(total_price_d));
+		
 		// 更改实体的数据
 		product.buy_number = goods_count;
 	}
@@ -147,7 +154,9 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity{
 					MainActivity.instance.deleteGoods(product);
 					AppManager.getAppManager().finishActivity(mActivity);
 					C.showShort(
-							resources.getString(R.string.cashier_system_alert_order_detail_modify_success),mActivity);
+							resources
+									.getString(R.string.cashier_system_alert_order_detail_modify_success),
+							mActivity);
 				}
 				break;
 			// 点击确定按钮
@@ -155,7 +164,10 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity{
 				if (MainActivity.instance != null) {
 					MainActivity.instance.updateGoods(product);
 					AppManager.getAppManager().finishActivity(mActivity);
-					C.showShort(resources.getString(R.string.cashier_system_alert_order_detail_modify_success),mActivity);
+					C.showShort(
+							resources
+									.getString(R.string.cashier_system_alert_order_detail_modify_success),
+							mActivity);
 				}
 				break;
 			// 点击增加数量
@@ -200,7 +212,7 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity{
 		public void afterTextChanged(Editable s) {
 			// 最多允许输入 C.MAX_PRODUCES
 			if (s.toString().length() > 5) {
-				show_count.setText(""+C.MAX_PRODUCES);
+				show_count.setText("" + C.MAX_PRODUCES);
 				show_count.setSelection(show_count.length());
 				goods_count = C.MAX_PRODUCES;
 			} else {

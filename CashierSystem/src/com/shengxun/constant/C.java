@@ -58,7 +58,7 @@ public class C
 	/**
 	 * 锁屏密码
 	 */
-	public static final String LOCK_PSD = "lock_psd";
+	public static final String SHARED_LOCK_PSD = "lock_psd";
 	// 最大锁屏保护时间(多长时间不操作屏幕则进入锁屏)
 	public static final int MAX_LOCKDOWN_SECOND = 300;
 	

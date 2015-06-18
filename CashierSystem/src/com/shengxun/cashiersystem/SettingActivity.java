@@ -90,9 +90,9 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				CheckVersionManager.checkVersion(mActivity, true);
 			}
 				break;
-			// 检测软件更新
+			// 更新数据
 			case R.id.click_to_update_all_product: {
-				// 启动服务更新
+				// 更新所有数据
 				C.openProgressDialog(mActivity, null, "正在同步所有产品数据信息，请耐心等待...");
 				ConnectManager.getInstance().getProductList("",
 						productAjaxCallBack);
@@ -159,7 +159,7 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 								C.CURRENT_LOCK_PSD = psd;
 								DataSP sp = new DataSP(mActivity,
 										C.SHARED_PREFENCE_NAME);
-								sp.setValue(C.LOCK_PSD, psd);
+								sp.setValue(C.SHARED_LOCK_PSD, psd);
 								dialog.dismiss();
 							} else {
 								C.showDialogAlert("两次输入不一致", mActivity);
@@ -178,6 +178,7 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 		@Override
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "所有数据----->"+t);
 			try {
 				if (BaseUtils.IsNotEmpty(t)
 						&& JSONParser.getStringFromJsonString("status", t)

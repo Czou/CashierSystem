@@ -2,6 +2,7 @@ package com.shengxun.cashiersystem;
 
 import com.shengxun.constant.C;
 import com.shengxun.util.AndroidAdjustResizeUtil;
+import com.shengxun.util.MD5Util;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
@@ -55,9 +56,10 @@ public class LockActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void unlock() {
 		String psd = unlock_psd.getText().toString().trim();
-		LG.i(getClass(), "=================psd ============"+psd+"===C.CURRENT_PSD"+C.CURRENT_LOCK_PSD);
 		if (BaseUtils.IsNotEmpty(psd)) {
 			if (!BaseUtils.IsNotEmpty(C.CURRENT_LOCK_PSD)) {
+				//当当前锁屏密码丢失的时候，则从sharedpreference中获得
+				C.CURRENT_LOCK_PSD = sp.getSValue(C.SHARED_LOCK_PSD,"");
 			}
 			// 匹配密码
 			if (psd.equals(C.CURRENT_LOCK_PSD)) {
@@ -75,11 +77,6 @@ public class LockActivity extends BaseActivity implements OnClickListener {
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_HOME){
-			C.showLong("按下HOME键", mActivity);
-		}else if(keyCode == KeyEvent.KEYCODE_BACK){
-			C.showLong("按下BACK键", mActivity);
-		}
 		return false;
 	}
 
