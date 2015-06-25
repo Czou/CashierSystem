@@ -20,7 +20,11 @@ import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
 import com.zvezda.android.utils.LG;
-
+/**
+ * 退化商品列表构造器
+ * @author sw
+ * @date 2015-6-19
+ */
 public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
 	OrderInfo order;

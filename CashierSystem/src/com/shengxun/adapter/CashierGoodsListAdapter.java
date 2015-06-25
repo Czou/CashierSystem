@@ -38,7 +38,8 @@ public class CashierGoodsListAdapter extends ABaseAdapter<ProductInfo>{
 		TextView cashier_system_column_cargo_number = ViewHolder.get(convertView, R.id.cashier_system_column_cargo_number);
 		TextView cashier_system_column_code = ViewHolder.get(convertView, R.id.cashier_system_column_code);
 		TextView cashier_system_column_name = ViewHolder.get(convertView, R.id.cashier_system_column_name);
-		EditText cashier_system_column_count = ViewHolder.get(convertView, R.id.cashier_system_column_count);
+		//EditText cashier_system_column_count = ViewHolder.get(convertView, R.id.cashier_system_column_count);
+		TextView cashier_system_column_count = ViewHolder.get(convertView, R.id.cashier_system_column_count);
 		TextView cashier_system_column_old_price = ViewHolder.get(convertView, R.id.cashier_system_column_old_price);
 		TextView cashier_system_column_now_price = ViewHolder.get(convertView, R.id.cashier_system_column_now_price);
 		TextView cashier_system_column_money = ViewHolder.get(convertView, R.id.cashier_system_column_money);
@@ -67,7 +68,7 @@ public class CashierGoodsListAdapter extends ABaseAdapter<ProductInfo>{
 		if(applicationCS.loginInfo!=null&&applicationCS.loginInfo.cashier_info!=null){
 			cashier_system_column_clerk.setText(""+applicationCS.loginInfo.cashier_info.me_id);
 		}
-		cashier_system_column_count.addTextChangedListener(new MyTextWatcher(position,cashier_system_column_money));
+		//cashier_system_column_count.addTextChangedListener(new MyTextWatcher(position,cashier_system_column_money));
 		return convertView;
 	}
 	private class MyTextWatcher implements TextWatcher{

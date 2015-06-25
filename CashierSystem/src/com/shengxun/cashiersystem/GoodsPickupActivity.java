@@ -149,7 +149,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
 					C.showDialogAlert("订单提货成功", mActivity);
-					AppManager.getAppManager().finishActivity(mActivity);
+					//AppManager.getAppManager().finishActivity(mActivity);
 				} else {
 					C.showDialogAlert("订单提货失败", mActivity);
 				}
@@ -194,7 +194,6 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 						OrderInfo.class);
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
-
 			} else {
 				C.showDialogAlert(
 						JSONParser.getStringFromJsonString("error_desc", t),

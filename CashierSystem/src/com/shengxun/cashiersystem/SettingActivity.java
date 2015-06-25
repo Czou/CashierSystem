@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.app.AlertDialog;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,6 +47,8 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 
 	private TextView click_to_update_lock_psd;
 
+	private TextView version;
+
 	String update_lock_psd_first_time = null;
 
 	@Override
@@ -61,12 +67,36 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 		check_new_app = (TextView) findViewById(R.id.check_new_app);
 		click_to_update_all_product = (TextView) findViewById(R.id.click_to_update_all_product);
 		click_to_update_lock_psd = (TextView) findViewById(R.id.click_to_update_lock_psd);
+		version = (TextView) findViewById(R.id.cashier_system_version);
+		version.setText(getResources().getString(
+				R.string.cashier_system_current_version)
+				+ getPackInfo());
 		btn_open.setOnClickListener(myclick);
 		btn_close.setOnClickListener(myclick);
 		btn_back.setOnClickListener(myclick);
 		check_new_app.setOnClickListener(myclick);
 		click_to_update_all_product.setOnClickListener(myclick);
 		click_to_update_lock_psd.setOnClickListener(myclick);
+
+	}
+
+	/**
+	 * 获得当前版本号
+	 * 
+	 * @return
+	 * @auth shouwei
+	 */
+	private String getPackInfo() {
+		String version = "";
+		try {
+			PackageManager mPackManager = this.getPackageManager();
+			PackageInfo packInfo = mPackManager.getPackageInfo(
+					mActivity.getPackageName(), 0);
+			version = packInfo.versionName;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return version;
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -98,9 +128,9 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 						productAjaxCallBack);
 			}
 				break;
-			//更改锁屏密码
+			// 更改锁屏密码
 			case R.id.click_to_update_lock_psd: {
-//				updateLockPsd(1);
+				// updateLockPsd(1);
 				C.showDialogAlert("暂时不可用", mActivity);
 			}
 				break;
@@ -178,37 +208,20 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 		@Override
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "所有数据----->"+t);
-			try {
-				if (BaseUtils.IsNotEmpty(t)
-						&& JSONParser.getStringFromJsonString("status", t)
-								.equals("1")) {
-					String data = JSONParser.getStringFromJsonString("data", t);
-					String product_list = JSONParser.getStringFromJsonString(
-							"product_list", data);
-					String last_syn_time = JSONParser.getStringFromJsonString(
-							"last_syn_time", data);
-					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
-							.JSON2Array(product_list, ProductInfo.class);
-					if (products != null && products.size() > 0) {
-						ormOpearationDao.deleteThisTable(ProductInfo.class);// 删除当前表
-						Dao<ProductInfo, Integer> productsDao = ormOpearationDao
-								.getDao(ProductInfo.class);
-						LG.i(ApplicationCS.class, "收银系统手动产品信息数据全部更新");
-						// productsDao.executeRawNoArgs("DELETE FROM productInfosTable");//删除所有数据
-						for (ProductInfo entity : products) {
-							productsDao.create(entity);
-						}
-						applicationCS.sp.setValue(ApplicationCS.LAST_SYN_TIME,
-								last_syn_time);
-						LDialog.openMessageDialog("产品信息数据全部更新成功!", false,
-								mActivity);
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			LG.i(getClass(), "所有数据----->" + t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
+				String data = JSONParser.getStringFromJsonString("data", t);
+				String product_list = JSONParser.getStringFromJsonString(
+						"product_list", data);
+				String last_syn_time = JSONParser.getStringFromJsonString(
+						"last_syn_time", data);
+				ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
+						.JSON2Array(product_list, ProductInfo.class);
+				updateAllData(products, last_syn_time);
 			}
-			C.closeProgressDialog();
+			
 		}
 
 		@Override
@@ -220,6 +233,48 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 
 	};
 
+	private void updateAllData(final ArrayList<ProductInfo> products,
+			final String last_syn_time) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					if (products != null && products.size() > 0) {
+						//ormOpearationDao.deleteThisTable(ProductInfo.class);// 删除当前表
+						Dao<ProductInfo, Integer> productsDao = ormOpearationDao.getDao(ProductInfo.class);
+						LG.i(ApplicationCS.class, "收银系统手动产品信息数据全部更新");
+						if(productsDao==null){
+							productsDao = ormOpearationDao.getDao(ProductInfo.class);
+						}
+						productsDao.executeRawNoArgs("DELETE FROM productInfosTable");//删除所有数据
+						for (ProductInfo entity : products) {
+							productsDao.create(entity);
+						}
+						applicationCS.sp.setValue(ApplicationCS.LAST_SYN_TIME,
+								last_syn_time);
+						handler.sendEmptyMessage(1);
+					}
+				} catch (Exception e) {
+					handler.sendEmptyMessage(0);
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+	
+	Handler handler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			if(msg.what==1){
+				C.closeProgressDialog();
+				LDialog.openMessageDialog("产品信息数据全部更新成功!", false,
+				mActivity);
+			}else if(msg.what==0){
+				C.closeProgressDialog();
+				LDialog.openMessageDialog("产品信息数据全部更新失败!", false,
+				mActivity);
+			}
+		};
+	};
 	/**
 	 * 修改密码回调监听
 	 * 
@@ -228,5 +283,11 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 	 */
 	public interface UpdatePsdListener {
 		public void callBack(String psd, AlertDialog dialog);
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ormOpearationDao.closeDataHelper();
 	}
 }

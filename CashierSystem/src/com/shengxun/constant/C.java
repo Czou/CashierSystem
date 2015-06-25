@@ -56,6 +56,10 @@ public class C
 	 */
 	public final static String SHARED_PREFENCE_NAME = "CashierSystem";
 	/**
+	 * 
+	 */
+	public final static String SHARED_VERSION = "version";
+	/**
 	 * 锁屏密码
 	 */
 	public static final String SHARED_LOCK_PSD = "lock_psd";
@@ -167,7 +171,6 @@ public class C
 			infoView.setText((String) object);
 		}
 	}
-
 	/**
 	 * 关闭等待框
 	 */

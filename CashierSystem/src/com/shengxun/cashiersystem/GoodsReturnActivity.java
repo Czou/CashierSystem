@@ -248,7 +248,8 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 				refund_order_no = JSONParser.getStringFromJsonString(
 						"refund_order_id", data);
 				// 创建退货订单成功
-				C.showDialogAlert("创建退货订单成功" + refund_order_no, mActivity);
+				//C.showDialogAlert("创建退货订单成功" + refund_order_no, mActivity);
+				C.showShort("创建退化订单成功", mActivity);
 				// 退货订单退款
 				ConnectManager.getInstance().getReturnOrderFormResult(
 						refund_order_no, refundordercallback);
@@ -256,7 +257,7 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 				C.showDialogAlert(
 						JSONParser.getStringFromJsonString("error_desc", t),
 						mActivity);
-			}
+			} 
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
@@ -268,7 +269,7 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 退款回调
 	 */
-	AjaxCallBack<String> refundordercallback = new AjaxCallBack<String>() {
+	AjaxCallBack<String> refundordercallback = new AjaxCallBack<String>() {  
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "t===>" + t);

@@ -301,7 +301,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 			case R.id.gathering_btn_ok:
 				if (BaseUtils.IsNotEmpty(order_id)) {
 					// 如未付款则不予执行订单付款接口
-					if (change < 0) {
+					if (change < 0.0) {
 						C.showDialogAlert("还未付款", mActivity);
 						break;
 					}
@@ -343,10 +343,13 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 
 	/**
 	 * 创建订单
-	 * 
 	 * @auth shouwei
 	 */
 	private void createOrder() {
+		if(change<0.0){
+			C.showDialogAlert("请先付款", mActivity);
+			return;
+		}
 		card_no = gathering_card_no.getText().toString().trim();
 		LG.i(getClass(), "before create order====>card_no:" + card_no
 				+ ",delivery_rs_code:" + delivery_rs_code
@@ -368,7 +371,6 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 
 	/**
 	 * 在指定位置插入字符
-	 * 
 	 * @param str
 	 * @param index
 	 * @auth sw
@@ -398,7 +400,6 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 
 	/**
 	 * 删除当前光标所处位置字符
-	 * 
 	 * @auth sw
 	 */
 	private void delStringFromEditText() {

@@ -1,5 +1,7 @@
 package com.shengxun.cashiersystem;
 
+import java.util.ArrayList;
+
 import net.tsz.afinal.http.AjaxCallBack;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -11,9 +13,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
 import com.shengxun.entity.LoginInfo;
+import com.shengxun.entity.ProductInfo;
 import com.shengxun.service.BackgroundService;
 import com.shengxun.util.AndroidAdjustResizeUtil;
 import com.shengxun.util.ConnectManager;
@@ -36,6 +41,7 @@ public class LoginActivity extends BaseActivity{
 	
 	private TextView user_login=null;
 	private TextView user_reset=null;
+	public String SYN_RESULT;
 	
 	private long startTime;
 	
@@ -55,10 +61,11 @@ public class LoginActivity extends BaseActivity{
 		//测试使用账号
 		user_name.setText("T00010088");
 		user_password.setText("532614");
+		
 		if(isLoadingData){
 			startTime = System.currentTimeMillis();
-			//启动服务更新
 			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
+			//启动服务更新
 			registerBroad();
 			BackgroundService.openService(mActivity);
 		}

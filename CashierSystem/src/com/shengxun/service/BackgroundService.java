@@ -20,7 +20,7 @@ import com.zvezda.android.utils.LG;
 import com.zvezda.database.utils.ORMOpearationDao;
 /**
  * 模块描述：
- * 后台服务，启动检测有无更新的版本
+ * 后台服务，写入区域地理信息，启动检测有无更新的版本
  * 2015-5-18 下午2:46:49
  * Write by LILIN
  */
@@ -124,16 +124,14 @@ public class BackgroundService extends Service
 	
 	public void updateData(final ArrayList<AreaInfo> areas){
 		updateThread=new Thread(new Runnable() {
-			
 			@Override
 			public void run() {
 				try {
-				
 				Dao<AreaInfo, Integer> areaDao = ormOpearationDao.getDao(AreaInfo.class);
 				//只写
-				areaDao.executeRawNoArgs("DELETE FROM areaInfoTable");//删除所有数据
+//				areaDao.executeRawNoArgs("DELETE FROM areaInfoTable");//删除所有数据
 				for (AreaInfo ai : areas) {
-					areaDao.create(ai);
+					areaDao.createIfNotExists(ai);
 				}
 				updateThread.interrupt();
 				} catch (SQLException e) {

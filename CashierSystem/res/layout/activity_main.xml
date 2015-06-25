@@ -72,7 +72,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:contentDescription="@string/viewContentDescript"
-                android:src="@drawable/password"
+                android:src="@drawable/lock"
                  />
             
             <ImageView

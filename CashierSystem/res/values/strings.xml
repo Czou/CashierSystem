@@ -53,6 +53,7 @@
     <string name="cashier_system_business_hint">支持扫描条码和输入条码</string>
     <string name="cashier_system_promote">【促销】</string>
     <string name="cashier_system_promote_alert">您购买的商品数量超过了剩余的促销商品总量!</string>
+    <string name="cashier_system_current_version">当前版本：</string>
     <!-- 收银系统的机器和操作信息 -->
     <string name="cashier_system_machine_number">机号:</string>
     <string name="cashier_system_machine_status">状态:</string>

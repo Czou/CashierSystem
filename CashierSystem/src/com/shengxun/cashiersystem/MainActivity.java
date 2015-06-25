@@ -23,11 +23,13 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.j256.ormlite.dao.Dao;
 import com.shengxun.adapter.CashierGoodsListAdapter;
+import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
 import com.shengxun.externalhardware.led.JBLEDInterface;
 import com.shengxun.externalhardware.print.util.JBPrintInterface;
+import com.shengxun.util.CheckVersionManager;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.LG;
@@ -96,8 +98,14 @@ public class MainActivity extends MyTimeLockBaseActivity {
 //		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 //		componentName = new ComponentName(this, AdminReceiver.class);
 		
-		productsDao = ormOpearationDao.getDao(ProductInfo.class);
-		
+		productsDao =ormOpearationDao.getDao(ProductInfo.class);
+		//检查版本更新
+		new Handler().postDelayed(new Runnable(){
+			@Override
+			public void run() {
+				CheckVersionManager.checkVersion(mActivity, true);
+			}
+		}, 1000);
 		initWidget();
 		initExternalHardware();
 		new Handler().postDelayed(new Runnable() {
@@ -386,6 +394,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		JBCashBoxInterface.closeCashBox();
 		//关闭计时器
 		mLock.closeTimer();
+		ormOpearationDao.closeDataHelper();
 	}
 	
 }

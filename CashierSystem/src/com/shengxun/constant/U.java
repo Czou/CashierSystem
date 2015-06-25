@@ -9,11 +9,12 @@ public class U
 	/**********************************域名地址********************************************/
 	/**
 	 * 测试接口地址http://tcadmin360.051jk.com/gateway
+	 * http://tcadmin361.051jk.com/gateway/
 	 * 
 	 */
-	private static final String CASHIER_SYSTEM_DOMAIN_TSET="http://tcadmin360.051jk.com/gateway/";
+	private static final String CASHIER_SYSTEM_DOMAIN_TSET="http://tcadmin361.051jk.com/gateway/";
 	/**
-	 * 正式发布接口地址 http://tcadmin.051jk.com/gateway
+	 * 正式发布接口地址 http://tcadmin.051 jk.com/gateway
 	 */
 	private static final String CASHIER_SYSTEM_DOMAIN="http://tcadmin.051jk.com/gateway/";
 	

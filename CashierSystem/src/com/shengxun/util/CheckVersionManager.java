@@ -15,13 +15,13 @@ import com.shengxun.entity.AppVersion;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
 import com.zvezda.android.utils.LG;
+import com.zvezda.data.utils.DataSP;
 /**
  * 模块描述：软件版本更新管理
  * 2014-10-15 下午5:35:24
  * Write by LILIN
  */
 public class CheckVersionManager {
-	
 	/**
 	 * 上下文
 	 */
@@ -35,6 +35,7 @@ public class CheckVersionManager {
 	 * @param mContext   上下文
 	 * @param isLoading  是否需要加装对话框
 	 */
+	static DataSP sp;
 	public static void checkVersion(Context mContext,boolean isLoading) {
 		CheckVersionManager.mContext=mContext;
 		CheckVersionManager.isLoading=isLoading;
@@ -72,6 +73,7 @@ public class CheckVersionManager {
 	                int versionCode = packInfo.versionCode;
 	                //服务器版本
 	                int updateVersionCode = Integer.parseInt(appVersion.version_num);
+	                LG.i(getClass(), "versionName:"+appVersion.version);
 	                if(versionCode < updateVersionCode)//有版本更新
 	                {
 	                	Intent intent = new Intent(mContext,TipUpdateVersionAtivity.class);
