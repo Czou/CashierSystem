@@ -67,7 +67,7 @@ public class BackgroundService extends Service
 	public static void closeService(){
 		if(bs != null){
 			if(BackgroundService.context == null)
-				BackgroundService.context = bs.getApplicationContext();
+			BackgroundService.context = bs.getApplicationContext();
 			Intent it = new Intent();
 			it.setClass(BackgroundService.context, BackgroundService.class);
 //			it.setAction(SACTION);
@@ -166,15 +166,12 @@ public class BackgroundService extends Service
 				sendBroad(0);
 			}
 		}
-
 		@Override
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			sendBroad(0);
+			ormOpearationDao.closeDataHelper();
 		}
 
 	};
-	
-	
-	
 }
