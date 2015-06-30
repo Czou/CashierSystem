@@ -98,11 +98,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 //		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 //		componentName = new ComponentName(this, AdminReceiver.class);
 		
-		if(ApplicationCS.productDao!=null){
-			productsDao = LoginActivity.productDao;
-		}else{
-			productsDao =ormOpearationDao.getDao(ProductInfo.class);
-		}
+		productsDao =ormOpearationDao.getDao(ProductInfo.class);
 		//检查版本更新
 		new Handler().postDelayed(new Runnable(){
 			@Override

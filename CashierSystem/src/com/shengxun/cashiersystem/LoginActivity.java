@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -65,17 +66,16 @@ public class LoginActivity extends BaseActivity {
 		user_name.setText("T00010088");
 		user_password.setText("532614");
 
-		productDao = ormOpearationDao.getDao(ProductInfo.class);
 
-		// 增量更新接口
-		C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
-		ConnectManager.getInstance().getProductList(
-				sp.getSValue(ApplicationCS.LAST_SYN_TIME, ""),
-				productAjaxCallBack);
+//		// 增量更新接口
+//		C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
+//		ConnectManager.getInstance().getProductList(
+//				sp.getSValue(ApplicationCS.LAST_SYN_TIME, ""),
+//				productAjaxCallBack);
 
 		if (isLoadingData) {
 			startTime = System.currentTimeMillis();
-			// C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
+			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
 			// 启动服务更新
 			registerBroad();
 			BackgroundService.openService(mActivity);
@@ -205,38 +205,114 @@ public class LoginActivity extends BaseActivity {
 				LG.e(getClass(), "数据库更新时间  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				// C.closeProgressDialog();
+				 C.closeProgressDialog();
 			} else if (0 == code) {
 				LG.e(getClass(), "数据库更新失败  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				// C.closeProgressDialog();
+				 C.closeProgressDialog();
 			}
 		}
 
 	}
 
-	private AjaxCallBack<String> productAjaxCallBack = new AjaxCallBack<String>() {
-		@SuppressWarnings("unchecked")
-		@Override
-		public void onSuccess(String t) {
-			super.onSuccess(t);
-			LG.i(getClass(), "更新商品------->" + t);
-			try {
-				if (BaseUtils.IsNotEmpty(t)
-						&& JSONParser.getStringFromJsonString("status", t)
-								.equals("1")) {
-					String data = JSONParser.getStringFromJsonString("data", t);
-					String product_list = JSONParser.getStringFromJsonString(
-							"product_list", data);
-					String last_syn_time = JSONParser.getStringFromJsonString(
-							"syn_time", data);
-					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
-							.JSON2Array(product_list, ProductInfo.class);
-					// 如果增量数据不为空的话
+//	private AjaxCallBack<String> productAjaxCallBack = new AjaxCallBack<String>() {
+//		@SuppressWarnings("unchecked")
+//		@Override
+//		public void onSuccess(String t) {
+//			super.onSuccess(t);
+//			LG.i(getClass(), "更新商品------->" + t);
+//			try {
+//				if (BaseUtils.IsNotEmpty(t)
+//						&& JSONParser.getStringFromJsonString("status", t)
+//								.equals("1")) {
+//					String data = JSONParser.getStringFromJsonString("data", t);
+//					String product_list = JSONParser.getStringFromJsonString(
+//							"product_list", data);
+//					String last_syn_time = JSONParser.getStringFromJsonString(
+//							"syn_time", data);
+//					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
+//							.JSON2Array(product_list, ProductInfo.class);
+//					updateProductDatabase(products, last_syn_time);
+//					//如果增量数据不为空的话
+//					if (products != null && products.size() > 0) {
+//
+//						//productDao = ormOpearationDao.getDao(ProductInfo.class);
+//						// 第一次更新数据，全部更新
+//						if (!BaseUtils.IsNotEmpty(sp.getSValue(
+//								ApplicationCS.LAST_SYN_TIME, ""))) {
+//							LG.i(ApplicationCS.class, "收银系统启动------>2：数据全部更新");
+//							productDao
+//									.executeRawNoArgs("DELETE FROM productInfosTable");// 删除所有数据
+//							for (ProductInfo entity : products) {
+//								productDao.create(entity);
+//							}
+//							handler.sendEmptyMessage(1);
+//						} else {
+//							LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据");
+//							String product_ids = "";
+//							for (ProductInfo entity : products) {
+//								productDao.createOrUpdate(entity);
+//								product_ids += entity.op_id + ",";
+//							}
+//							LG.i(ApplicationCS.class,
+//									"收银系统启动------>2：增量更新数据结束调用回调");
+//							AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
+//								@Override
+//								public void onSuccess(String t) {
+//									super.onSuccess(t);
+//									LG.i(getClass(), "产品同步回调---->" + t);
+//									if (BaseUtils.IsNotEmpty(t)
+//											&& JSONParser
+//													.getStringFromJsonString(
+//															"status", t)
+//													.equals("1")) {
+//										String data = JSONParser
+//												.getStringFromJsonString(
+//														"data", t);
+//										SYN_RESULT = JSONParser
+//												.getStringFromJsonString(
+//														"result", data);
+//										LG.i(ApplicationCS.class,
+//												"收银系统启动------>2：增量更新数据结束调用回调result->"
+//														+ SYN_RESULT);
+//										if (SYN_RESULT.equals("ok")) {
+//											handler.sendEmptyMessage(1);
+//										} else {
+//											handler.sendEmptyMessage(0);
+//										}
+//									}
+//								}
+//							};
+//							ConnectManager.getInstance().productSynCallback(
+//									product_ids, ajaxCallBack);
+//						}
+//						sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
+//						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);
+//					}
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				handler.sendEmptyMessage(0);
+//			}
+//		}
+//
+//		@Override
+//		public void onFailure(Throwable t, int errorNo, String strMsg) {
+//			super.onFailure(t, errorNo, strMsg);
+//			handler.sendEmptyMessage(0);
+//		}
+//	};
+//	
+	//增量更新数据库
+	private void updateProductDatabase(final ArrayList<ProductInfo> products,final String last_syn_time){
+		new Thread(){
+			@Override
+			public void run() {
+				super.run();
+				try{
 					if (products != null && products.size() > 0) {
-
-						productDao = ormOpearationDao.getDao(ProductInfo.class);
+						//productDao = ormOpearationDao.getDao(ProductInfo.class);
 						// 第一次更新数据，全部更新
 						if (!BaseUtils.IsNotEmpty(sp.getSValue(
 								ApplicationCS.LAST_SYN_TIME, ""))) {
@@ -246,6 +322,7 @@ public class LoginActivity extends BaseActivity {
 							for (ProductInfo entity : products) {
 								productDao.create(entity);
 							}
+							handler.sendEmptyMessage(1);
 						} else {
 							LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据");
 							String product_ids = "";
@@ -253,55 +330,22 @@ public class LoginActivity extends BaseActivity {
 								productDao.createOrUpdate(entity);
 								product_ids += entity.op_id + ",";
 							}
-							LG.i(ApplicationCS.class,
-									"收银系统启动------>2：增量更新数据结束调用回调");
-							AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
-								@Override
-								public void onSuccess(String t) {
-									super.onSuccess(t);
-									LG.i(getClass(), "产品同步回调---->" + t);
-									if (BaseUtils.IsNotEmpty(t)
-											&& JSONParser
-													.getStringFromJsonString(
-															"status", t)
-													.equals("1")) {
-										String data = JSONParser
-												.getStringFromJsonString(
-														"data", t);
-										SYN_RESULT = JSONParser
-												.getStringFromJsonString(
-														"result", data);
-										LG.i(ApplicationCS.class,
-												"收银系统启动------>2：增量更新数据结束调用回调result->"
-														+ SYN_RESULT);
-										if (SYN_RESULT.equals("ok")) {
-											handler.sendEmptyMessage(1);
-										} else {
-											handler.sendEmptyMessage(0);
-										}
-									}
-								}
-							};
-							ConnectManager.getInstance().productSynCallback(
-									product_ids, ajaxCallBack);
+							Message msg = new Message();
+							msg.what = 2;
+							msg.obj = product_ids;
+							handler.sendMessage(msg);
 						}
 						sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
 						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);
 					}
+				}catch(Exception e){
+					e.printStackTrace();
+					handler.sendEmptyMessage(0);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				handler.sendEmptyMessage(0);
 			}
-		}
-
-		@Override
-		public void onFailure(Throwable t, int errorNo, String strMsg) {
-			super.onFailure(t, errorNo, strMsg);
-			handler.sendEmptyMessage(0);
-		}
-	};
-	
+		}.start();
+		
+	}
 
 	Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -311,13 +355,53 @@ public class LoginActivity extends BaseActivity {
 						getApplicationContext(),
 						"数据同步成功", Toast.LENGTH_LONG)
 						.show();
+				C.closeProgressDialog();
 			}
 			// 失败
 			else if (msg.what == 0) {
 				Toast.makeText(getApplicationContext(), "数据同步失败，可进入设置中手动更新",
 						Toast.LENGTH_LONG).show();
+				C.closeProgressDialog();
 			}
-			C.closeProgressDialog();
+			//调用同步信息接口
+			else if(msg.what==2){
+				LG.i(ApplicationCS.class,
+						"收银系统启动------>2：增量更新数据结束调用回调");
+				ConnectManager.getInstance().productSynCallback(
+						(String)msg.obj, ajaxCallBack);
+			}
+		};
+	};
+	
+	AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
+		@Override
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "产品同步回调---->" + t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser
+							.getStringFromJsonString(
+									"status", t)
+							.equals("1")) {
+				String data = JSONParser
+						.getStringFromJsonString(
+								"data", t);
+				SYN_RESULT = JSONParser
+						.getStringFromJsonString(
+								"result", data);
+				LG.i(ApplicationCS.class,
+						"收银系统启动------>2：增量更新数据结束调用回调result->"
+								+ SYN_RESULT);
+				if (SYN_RESULT.equals("ok")) {
+					handler.sendEmptyMessage(1);
+				} else {
+					handler.sendEmptyMessage(0);
+				}
+			}
+		}
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			handler.sendEmptyMessage(0);
 		};
 	};
 }

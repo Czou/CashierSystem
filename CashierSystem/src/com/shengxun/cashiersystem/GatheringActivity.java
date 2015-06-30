@@ -343,10 +343,11 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 
 	/**
 	 * 创建订单
+	 * 
 	 * @auth shouwei
 	 */
 	private void createOrder() {
-		if(change<0.0){
+		if (change < 0.0) {
 			C.showDialogAlert("请先付款", mActivity);
 			return;
 		}
@@ -371,6 +372,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 
 	/**
 	 * 在指定位置插入字符
+	 * 
 	 * @param str
 	 * @param index
 	 * @auth sw
@@ -400,6 +402,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 
 	/**
 	 * 删除当前光标所处位置字符
+	 * 
 	 * @auth sw
 	 */
 	private void delStringFromEditText() {
@@ -500,6 +503,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				PrintTools_58mm.print_gbk("" + name_prefix);
 				PrintTools_58mm.print(PrintTools_58mm.LF);
 				PrintTools_58mm.print_gbk("" + name_suffix);
+				
 			} else {
 				String s = entity.qp_name + "  " + entity.op_market_price + "*"
 						+ entity.buy_number + "  " + entity.buy_number
@@ -590,7 +594,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				// 如果cash是一个数字,则计算change
 				if (BaseUtils.isNumber(cash)) {
 					change = Double.parseDouble(cash) - totalMoney;
-					LG.e(getClass(), "找零======>"+change);
+					LG.e(getClass(), "找零======>" + change);
 					gathering_change.setText(BaseUtils.formatDouble(change));
 					change = Double.parseDouble(BaseUtils.formatDouble(change));
 				}
@@ -729,6 +733,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	 */
 	private void printPaymentInfo() {
 		// 开始打印
+		Log.i("savion", "开始打印--------------");
 		JBPrintInterface.convertPrinterControl();
 		JBCashBoxInterface.openCashBox();
 		printBillInfo();
