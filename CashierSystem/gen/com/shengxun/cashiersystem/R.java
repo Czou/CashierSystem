@@ -246,7 +246,7 @@ public final class R {
         public static final int dailog_edittext=0x7f0a007e;
         public static final int dailog_title=0x7f0a007c;
         public static final int dialogInfo=0x7f0a0082;
-        public static final int footLayout=0x7f0a008c;
+        public static final int footLayout=0x7f0a008d;
         public static final int gathering_area_1=0x7f0a002f;
         public static final int gathering_area_2=0x7f0a0030;
         public static final int gathering_area_3=0x7f0a0031;
@@ -273,10 +273,11 @@ public final class R {
         public static final int lock_activity_unlock=0x7f0a0086;
         public static final int lock_activity_unlock_psd=0x7f0a0085;
         public static final int login_layout_v_center=0x7f0a0084;
+        public static final int login_progress=0x7f0a008c;
         public static final int myProgressDialog=0x7f0a0081;
         public static final int okView=0x7f0a007f;
         public static final int progressView=0x7f0a0083;
-        public static final int tipView=0x7f0a008d;
+        public static final int tipView=0x7f0a008e;
         public static final int user_login=0x7f0a008a;
         public static final int user_name=0x7f0a0088;
         public static final int user_password=0x7f0a0089;

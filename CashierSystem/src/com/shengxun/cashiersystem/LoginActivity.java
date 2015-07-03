@@ -14,6 +14,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,9 @@ public class LoginActivity extends BaseActivity {
 
 	private TextView user_login = null;
 	private TextView user_reset = null;
+	//加载progress
+	private ProgressBar login_progress;
+	
 	public String SYN_RESULT;
 
 	private long startTime;
@@ -61,17 +65,12 @@ public class LoginActivity extends BaseActivity {
 		user_reset = (TextView) this.findViewById(R.id.user_reset);
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
+		
 
 		// 测试使用账号
 		user_name.setText("T00010088");
 		user_password.setText("532614");
 
-
-//		// 增量更新接口
-//		C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
-//		ConnectManager.getInstance().getProductList(
-//				sp.getSValue(ApplicationCS.LAST_SYN_TIME, ""),
-//				productAjaxCallBack);
 
 		if (isLoadingData) {
 			startTime = System.currentTimeMillis();

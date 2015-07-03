@@ -240,7 +240,7 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 			public void run() {
 				try {
 					if (products != null && products.size() > 0) {
-						//ormOpearationDao.deleteThisTable(ProductInfo.class);// 删除当前表
+//						ormOpearationDao.deleteThisTable(ProductInfo.class);// 删除当前表
 						Dao<ProductInfo, Integer> productsDao = ormOpearationDao.getDao(ProductInfo.class);
 						LG.i(ApplicationCS.class, "收银系统手动产品信息数据全部更新");
 						if(productsDao==null){

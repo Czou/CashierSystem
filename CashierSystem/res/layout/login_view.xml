@@ -148,5 +148,13 @@
             android:orientation="vertical" >
         </LinearLayout>
     </LinearLayout>
+    
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"
+        android:id="@+id/login_progress"
+        />
 
 </RelativeLayout>
