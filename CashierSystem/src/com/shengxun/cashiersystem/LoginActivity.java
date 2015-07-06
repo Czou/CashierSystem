@@ -43,8 +43,6 @@ public class LoginActivity extends BaseActivity {
 
 	private TextView user_login = null;
 	private TextView user_reset = null;
-	//加载progress
-	private ProgressBar login_progress;
 	
 	public String SYN_RESULT;
 
