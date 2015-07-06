@@ -167,6 +167,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:id="@+id/cashier_gathering_opcenter_layout"
                 android:layout_marginTop="13dp"
                 android:orientation="horizontal" >
 
@@ -210,6 +211,7 @@
                 android:layout_marginTop="13dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:id="@+id/cashier_gathering_swing_layout"
                 android:orientation="horizontal" >
 
                 <TextView

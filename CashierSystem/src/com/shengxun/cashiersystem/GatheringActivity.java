@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -42,10 +43,13 @@ import com.zvezda.android.utils.TimeConversion;
  * @date 2015-4-24
  */
 public class GatheringActivity extends MyTimeLockBaseActivity {
+	
+	static LinearLayout opcenter_layout,swing_layout;
 	/**
 	 * 总额，现金，找零输入框
 	 */
-	EditText gathering_total_money, gathering_cash, gathering_change,
+	EditText gathering_total_money;
+	EditText gathering_cash, gathering_change,
 			gathering_card_no;
 
 	private static EditText gathering_opcenter;
@@ -57,7 +61,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 保存产品总额
 	 */
-	private double totalMoney = 0, change = -1;
+	private static double totalMoney = 0, change = -1;
 	/**
 	 * 所有按钮
 	 */
@@ -83,7 +87,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	 */
 	private boolean hasSpot = false;
 	private static OpcenterInfo opcenter;
-
+	//标志位0代表正常进入,1代表从订单付款页面而来
 	/**
 	 * 设置运营中心信息read
 	 * 
@@ -124,11 +128,15 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	 */
 	@SuppressLint("NewApi")
 	private void initWidget() {
+		opcenter_layout = (LinearLayout) findViewById(R.id.cashier_gathering_opcenter_layout);
+		swing_layout = (LinearLayout) findViewById(R.id.cashier_gathering_swing_layout);
+		
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
 		gathering_opcenter = (EditText) findViewById(R.id.cashier_gathering_opcenter);
 		gathering_card_no = (EditText) findViewById(R.id.cashier_gathering_card_no);
+		
 		// 设置刷卡输入框的回车事件
 		gathering_card_no
 				.setOnEditorActionListener(new OnEditorActionListener() {
@@ -738,4 +746,14 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		JBCashBoxInterface.openCashBox();
 		printBillInfo();
 	};
+	
+	/**
+	 * 从订单付款界面进入收款界面需要手动设置订单号并隐藏刷卡与取货店选择
+	 * @auth shouwei
+	 */
+	public static void setOrder(String order){
+		order_id = order;
+		opcenter_layout.setVisibility(View.GONE);
+		swing_layout.setVisibility(View.GONE);
+	}
 }

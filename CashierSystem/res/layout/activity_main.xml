@@ -350,6 +350,19 @@
                 android:text="@string/cashier_system_return_good"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize_20" />
+            
+            <TextView
+                android:id="@+id/cashier_system_order_pay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="2"
+                android:background="@drawable/purple_coner_bg"
+                android:gravity="center"
+                android:text="@string/cashier_system_order_pay"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_20" />
+            
             <TextView
                 android:id="@+id/cashier_system_search_order"
                 android:layout_width="0dp"

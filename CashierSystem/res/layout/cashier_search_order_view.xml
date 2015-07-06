@@ -40,7 +40,6 @@
         android:layout_weight="1"
         android:orientation="vertical" >
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,10 +85,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:orientation="vertical" >
 
-         <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -163,6 +162,36 @@
             android:layout_height="wrap_content"
             android:background="#ecf0f1" />
     </LinearLayout>
+     <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:padding="15dp" >
 
+            <TextView
+                android:id="@+id/cashier_search_order_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/cashier_system_column_total_money_withcolon"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fontSize_28" />
+
+            <Button
+                android:id="@+id/cashier_search_order_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/red_button_corner_bg"
+                android:enabled="true"
+                android:visibility="gone"
+                android:padding="15dp"
+                android:text="@string/cashier_system_order_pay"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_28" />
+        </RelativeLayout>
 
 </LinearLayout>

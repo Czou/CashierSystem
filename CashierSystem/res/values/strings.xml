@@ -67,6 +67,7 @@
     <string name="cashier_system_close_cashbox">关闭钱箱</string>
     <string name="cashier_system_get_good">提货</string>
     <string name="cashier_system_return_good">退货</string>
+    <string name="cashier_system_order_pay">订单付款</string>
     <string name="cashier_system_search_order">查询订单</string>
     <string name="cashier_system_setting">设置</string>
 
@@ -113,8 +114,6 @@
     <string name="cancle">取消</string>
     <string name="warm_prompt">温馨提示</string>
     <string name="exitApp">确定不在留恋这了吗?</string>
-    <string name="ok">确定</string>
-    <string name="cancle">取消</string>
     <!-- 锁屏界面 -->
     <string name="lock_btn_unlock">解锁</string>
     <string name="lock_btn_hint">请输入解锁密码</string>
