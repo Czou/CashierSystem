@@ -39,7 +39,7 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 	// 收银员卡号,订单号，总额
 	String card_no, cashier_card_no, order_no, refund_order_no;
 	// 退款金额文本框
-	TextView return_money;
+	TextView show_return_money;
 	ListView lv;
 	// 商品列表adapter
 	CashierReturnGoodsAdapter crga;
@@ -73,7 +73,7 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 		back = (Button) findViewById(R.id.cashier_goods_return_back);
 		search_order = (Button) findViewById(R.id.cashier_goods_return_search_order);
 		swing_card = (Button) findViewById(R.id.cashier_goods_return_swing_card);
-		return_money = (TextView) findViewById(R.id.cashier_goods_return_money);
+		show_return_money = (TextView) findViewById(R.id.cashier_goods_return_showmoney);
 		lv = (ListView) findViewById(R.id.cashier_goods_return_lv);
 
 		return_ok.setOnClickListener(myclick);
@@ -92,7 +92,7 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 		if (BaseUtils.IsNotEmpty(card_no)) {
 			// 验证订单号非空
 			if (BaseUtils.IsNotEmpty(order_no)) {
-				return_money.setText("退款金额:" + "");
+				show_return_money.setText("");
 				product_list.clear();
 				// 查询该订单是否存在
 				ConnectManager.getInstance().getOrderFormDetailResult(order_no,
@@ -317,7 +317,7 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 				order_money += refund_product_list.get(i).refund_number
 						* refund_product_list.get(i).cop_price;
 			}
-			return_money.setText("退款金额:" + order_money);
+			show_return_money.setText(""+order_money);
 		}
 	};
 

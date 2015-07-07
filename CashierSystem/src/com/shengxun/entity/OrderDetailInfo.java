@@ -1,5 +1,6 @@
 package com.shengxun.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,8 +9,9 @@ import java.util.List;
  * @author sw
  * @date 2015-5-4
  */
-public class OrderDetailInfo {
-
+public class OrderDetailInfo implements Serializable{
+	
+	private static final long serialVersionUID = -1L;
 	OrderInfo order_info;
 	List<ProductInfo> product_info;
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import net.tsz.afinal.http.AjaxCallBack;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -24,6 +25,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.shengxun.constant.C;
 import com.shengxun.entity.OpcenterInfo;
+import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
 import com.shengxun.externalhardware.led.JBLEDInterface;
@@ -44,7 +46,7 @@ import com.zvezda.android.utils.TimeConversion;
  */
 public class GatheringActivity extends MyTimeLockBaseActivity {
 	
-	static LinearLayout opcenter_layout,swing_layout;
+	LinearLayout opcenter_layout,swing_layout;
 	/**
 	 * 总额，现金，找零输入框
 	 */
@@ -61,7 +63,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 保存产品总额
 	 */
-	private static double totalMoney = 0, change = -1;
+	private double totalMoney = 0, change = -1;
 	/**
 	 * 所有按钮
 	 */
@@ -220,8 +222,10 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		if (goodsList == null || goodsList.size() == 0) {
 			return;
 		}
+		Log.i("savion", "goods list =======>"+goodsList.size());
 		// 计算总额
 		for (int i = 0; i < goodsList.size(); i++) {
+			Log.i("savion","goolist +"+i+" "+goodsList.get(i));
 			if (goodsList.get(i).op_is_promote == 1) {
 				totalMoney += (goodsList.get(i).buy_number)
 						* (goodsList.get(i).op_promote_market_price);
@@ -668,7 +672,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 							resources
 									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
 							mActivity);
-					AppManager.getAppManager().finishActivity(mActivity);
+					//AppManager.getAppManager().finishActivity(mActivity);
 				} else {
 					C.showDialogAlert(
 							resources
@@ -747,13 +751,4 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		printBillInfo();
 	};
 	
-	/**
-	 * 从订单付款界面进入收款界面需要手动设置订单号并隐藏刷卡与取货店选择
-	 * @auth shouwei
-	 */
-	public static void setOrder(String order){
-		order_id = order;
-		opcenter_layout.setVisibility(View.GONE);
-		swing_layout.setVisibility(View.GONE);
-	}
 }

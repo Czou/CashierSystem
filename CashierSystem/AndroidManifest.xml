@@ -113,6 +113,12 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>
+         <activity
+            android:name="com.shengxun.cashiersystem.GatheringForSearchOrderActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+        </activity>
 
         <service
             android:name="com.shengxun.service.MyScreenService"

@@ -1,12 +1,18 @@
 package com.shengxun.entity;
 
+import java.io.Serializable;
+
 /**
  * 订单信息实体类
  * @author sw
  * @date 2015-4-23
  */
-public class OrderInfo {
+public class OrderInfo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1323226;
 	/**
 	 * 订单号
 	 */

@@ -3,6 +3,7 @@ package com.shengxun.cashiersystem;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shengxun.adapter.CashierPickupGoodsAdapter;
+import com.shengxun.cashiersystem.SettingActivity.UpdatePsdListener;
 import com.shengxun.constant.C;
+import com.shengxun.entity.OrderDetailInfo;
 import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
@@ -37,7 +40,7 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 
 	EditText et_card_no;
 	TextView show_money;
-	Button btn_search,btn_back,btn_pay;
+	Button btn_search,btn_back,btn_pay,btn_cancel;
 	//查询显示listview
 	ListView lv;
 	//订单号与付款总额
@@ -50,6 +53,9 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 	OrderInfo orderInfo = new OrderInfo();
 	//适配器
 	CashierPickupGoodsAdapter goodsAdapter;
+	//消费人卡号
+	String consume_card_no;
+	AlertDialog mDialog;
 
 
 	@Override
@@ -72,12 +78,14 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 		et_card_no = (EditText) findViewById(R.id.cashier_search_order_no);
 		btn_search = (Button) findViewById(R.id.cashier_search_order_btnsearch);
 		btn_pay = (Button) findViewById(R.id.cashier_search_order_ok);
-		show_money = (TextView) findViewById(R.id.cashier_search_order_money);
+		btn_cancel = (Button) findViewById(R.id.cashier_search_order_cancelorder);
+		show_money = (TextView) findViewById(R.id.cashier_search_showmoney);
 		lv = (ListView) findViewById(R.id.cashier_search_order_lv);
 
 		btn_back.setOnClickListener(myclick);
 		btn_search.setOnClickListener(myclick);
 		btn_pay.setOnClickListener(myclick);
+		btn_cancel.setOnClickListener(myclick);
 		product_list = new ArrayList<ProductInfo>();
 	}
 
@@ -91,17 +99,20 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 		if(BaseUtils.IsNotEmpty(orderInfo)){
 			//订单状态为未付状态,则设置付款按钮的可见与否
 			if(orderInfo.co_status==1){
-				btn_pay.setVisibility(View.INVISIBLE);
+				btn_pay.setVisibility(View.VISIBLE);
+				btn_cancel.setVisibility(View.VISIBLE);
 			}else{
 				btn_pay.setVisibility(View.GONE);
+				btn_cancel.setVisibility(View.GONE);
 			}
-			show_money.setText(getResources().getString(R.string.cashier_system_column_total_money_withcolon)+orderInfo.co_money);
+			show_money.setText(""+orderInfo.co_money);
 			// 显示收费金额
 			JBLEDInterface.convertLedControl();
 			JBLEDInterface.ledDisplay(orderInfo.co_money + "");
 		}else{
-			show_money.setText(getResources().getString(R.string.cashier_system_column_total_money_withcolon)+"0");
+			show_money.setText("0");
 			btn_pay.setVisibility(View.GONE);
+			btn_cancel.setVisibility(View.GONE);
 		}
 		
 		goodsAdapter = new CashierPickupGoodsAdapter(mActivity,product_list);
@@ -162,8 +173,20 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 				checkIfInputNull(et_card_no);
 				break;
 			case R.id.cashier_search_order_ok:
-				goActivity(GatheringActivity.class,product_list);
-				GatheringActivity.setOrder(str_order_no);
+				goActivity(GatheringForSearchOrderActivity.class,new OrderDetailInfo(orderInfo, product_list));
+				orderInfo = null;
+				product_list.clear();
+				refreshData();
+				break;
+			case R.id.cashier_search_order_cancelorder:
+				C.showDialogAlert("输入消费人卡号", true, "请输入消费人卡号", "完成",mActivity, new UpdatePsdListener() {
+					@Override
+					public void callBack(String psd, AlertDialog dialog) {
+						consume_card_no = psd;
+						dialog.dismiss();
+						ConnectManager.getInstance().getOrderFormCanaelResult(str_order_no,applicationCS.cashier_card_no , consume_card_no, ajaxcancelorder);
+					}
+				});
 				break;
 			default:
 				break;
@@ -178,6 +201,7 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			LG.i(getClass(), "订单查询回调--->"+t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				String product = JSONParser.getStringFromJsonString("product_list", data);
@@ -186,7 +210,7 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 				orderInfo = (OrderInfo) JSONParser.JSON2Object(order, OrderInfo.class);
 			} else {
 				String error_msg = JSONParser.getStringFromJsonString("error_desc", t);
-				C.showLong(error_msg, mActivity);
+				C.showDialogAlert(error_msg, mActivity);
 				product_list.clear();
 				orderInfo = null;
 			}
@@ -194,11 +218,51 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 		};
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
-			C.showShort("查询订单失败", mActivity);
+			C.showDialogAlert("查询订单失败", mActivity);
 			product_list.clear();
 			orderInfo = null;
 			refreshData();
 		};
 	};
+
+	/**
+	 * 取消订单接口
+	 */
+	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
+				String data = JSONParser.getStringFromJsonString("data", t);
+				if (JSONParser.getStringFromJsonString("result", data).equals(
+						"ok")) {
+					C.showDialogAlert(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
+							mActivity);
+				} else {
+					C.showDialogAlert(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+							mActivity);
+				}
+			} else {
+				C.showDialogAlert(
+						JSONParser.getStringFromJsonString("error_desc", t),
+						mActivity);
+			}
+
+		};
+
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			C.showDialogAlert(
+					resources
+							.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+					mActivity);
+		};
+	};
+
 
 }

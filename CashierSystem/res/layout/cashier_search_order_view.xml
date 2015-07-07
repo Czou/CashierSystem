@@ -162,36 +162,64 @@
             android:layout_height="wrap_content"
             android:background="#ecf0f1" />
     </LinearLayout>
-     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:padding="15dp" >
 
-            <TextView
-                android:id="@+id/cashier_search_order_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/cashier_system_column_total_money_withcolon"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fontSize_28" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <TextView
+            android:id="@+id/cashier_search_order_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/cashier_system_column_total_money_withcolon"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fontSize_28" />
+        <TextView
+            android:id="@+id/cashier_search_showmoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red_color"
+            android:textSize="@dimen/fontSize_48"
+            android:layout_toRightOf="@id/cashier_search_order_money"
+            android:layout_centerVertical="true"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/cashier_search_order_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
                 android:background="@drawable/red_button_corner_bg"
                 android:enabled="true"
-                android:visibility="gone"
                 android:padding="15dp"
                 android:text="@string/cashier_system_order_pay"
                 android:textColor="@color/white"
-                android:textSize="@dimen/fontSize_28" />
-        </RelativeLayout>
+                android:textSize="@dimen/fontSize_28"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cashier_search_order_cancelorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/green_coner_bg"
+                android:enabled="true"
+                android:padding="15dp"
+                android:text="@string/cashier_system_gathering_order_cancel"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_28"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

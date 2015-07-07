@@ -12,7 +12,7 @@ public class U
 	 * http://tcadmin361.051jk.com/gateway/
 	 * 
 	 */
-	private static final String CASHIER_SYSTEM_DOMAIN_TSET="http://tcadmin361.051jk.com/gateway/";
+	private static final String CASHIER_SYSTEM_DOMAIN_TSET="http://tcadmin360.051jk.com/gateway/";
 	/**
 	 * 正式发布接口地址 http://tcadmin.051 jk.com/gateway
 	 */

@@ -196,7 +196,6 @@
 
             <TextView style="@style/blackVDividerLine1DP" />
             <TextView
-                android:id="@+id/cashier_return_show_count"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -207,11 +206,9 @@
                 android:text="可退数量"
                 android:textColor="@color/black"
                 android:textSize="@dimen/fontSize_20" />
-
             <TextView style="@style/blackVDividerLine1DP" />
 
             <TextView
-                android:id="@+id/cashier_return_show_count"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -249,6 +246,15 @@
             android:textColor="@color/black"
             android:textSize="@dimen/fontSize_28" />
 
+        <TextView
+            android:id="@+id/cashier_goods_return_showmoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/cashier_goods_return_money"
+            android:textColor="@color/red_color"
+            android:textSize="@dimen/fontSize_48" />
+        
         <Button
             android:id="@+id/cashier_goods_return_ok"
             android:layout_width="wrap_content"

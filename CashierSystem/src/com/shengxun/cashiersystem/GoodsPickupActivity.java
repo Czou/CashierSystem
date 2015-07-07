@@ -62,7 +62,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 		swing_card = (Button) findViewById(R.id.cashier_goods_pickup_swing_card);
 		check_order = (Button) findViewById(R.id.cashier_goods_pickup_checkorder);
 		lv = (ListView) findViewById(R.id.cashier_goods_pickup_lv);
-		show_money = (TextView) findViewById(R.id.cashier_goods_pickup_money);
+		show_money = (TextView) findViewById(R.id.cashier_goods_pickup_showmoney);
 
 		ok.setOnClickListener(myclick);
 		check_order.setOnClickListener(myclick);
@@ -84,7 +84,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 		for (int i = 0; i < list.size(); i++) {
 			total_money += list.get(i).cop_number * list.get(i).cop_price;
 		}
-		show_money.setText("总额:" + total_money);
+		show_money.setText(total_money+"");
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -118,7 +118,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 					// 验证订单号非空
 					if (BaseUtils.IsNotEmpty(order_no)) {
 						product_list.clear();
-						show_money.setText("总额:" + "");
+						show_money.setText("");
 						// 查询该取货店订单是否存在
 						ConnectManager.getInstance()
 								.getOrderFormDeliveryDetailResult(order_no,
