@@ -280,7 +280,7 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 						break;
 					}
 					ConnectManager.getInstance().getPayOrderFormResult(
-							order_id, ajaxPayorder);
+							order_id, applicationCS.cashier_card_no,ajaxPayorder);
 				} else {
 					C.showDialogAlert(
 							resources

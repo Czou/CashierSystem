@@ -72,8 +72,8 @@ public class ApplicationCS extends Application {
 		LG.i(ApplicationCS.class, "收银系统启动------>1:获取联网最新产品信息");
 		sp = new DataSP(this, C.SHARED_PREFENCE_NAME);
 
-		ConnectManager.getInstance().getProductList(
-				sp.getSValue(LAST_SYN_TIME, ""), productAjaxCallBack);
+//		ConnectManager.getInstance().getProductList(
+//				sp.getSValue(LAST_SYN_TIME, ""), productAjaxCallBack);
 	}
 
 	private AjaxCallBack<String> productAjaxCallBack = new AjaxCallBack<String>() {

@@ -33,7 +33,7 @@ public class BaseActivity extends FragmentActivity{
 	/**
 	 * 应用
 	 */
-	protected ApplicationCS applicationCS;
+	protected  ApplicationCS applicationCS;
 	/**
 	 * ORM数据库操作封装
 	 */

@@ -1,5 +1,6 @@
 package com.shengxun.cashiersystem;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
@@ -21,12 +22,16 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
+import com.shengxun.entity.AreaInfo;
+import com.shengxun.entity.Entity1;
+import com.shengxun.entity.Entity2;
 import com.shengxun.entity.LoginInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.service.BackgroundService;
 import com.shengxun.util.AndroidAdjustResizeUtil;
 import com.shengxun.util.ConnectManager;
 import com.shengxun.util.MD5Util;
+import com.shengxun.util.ORMLiteDao;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
@@ -38,12 +43,14 @@ import com.zvezda.android.utils.LG;
 @SuppressLint("HandlerLeak")
 public class LoginActivity extends BaseActivity {
 
+	ProgressBar pb;
+
 	private EditText user_name = null;
 	private EditText user_password = null;
 
 	private TextView user_login = null;
 	private TextView user_reset = null;
-	
+
 	public String SYN_RESULT;
 
 	private long startTime;
@@ -61,14 +68,13 @@ public class LoginActivity extends BaseActivity {
 		user_password = (EditText) this.findViewById(R.id.user_password);
 		user_login = (TextView) this.findViewById(R.id.user_login);
 		user_reset = (TextView) this.findViewById(R.id.user_reset);
+		pb = (ProgressBar) findViewById(R.id.login_progress);
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
-		
 
 		// 测试使用账号
 		user_name.setText("T00010088");
 		user_password.setText("532614");
-
 
 		if (isLoadingData) {
 			startTime = System.currentTimeMillis();
@@ -77,6 +83,8 @@ public class LoginActivity extends BaseActivity {
 			registerBroad();
 			BackgroundService.openService(mActivity);
 		}
+		productDao = ormOpearationDao.getDao(ProductInfo.class);
+		ConnectManager.getInstance().getProductList(sp.getSValue(applicationCS.LAST_SYN_TIME, ""), productAjaxCallBack);
 	}
 
 	private OnClickListener onClickListener = new OnClickListener() {
@@ -202,120 +210,66 @@ public class LoginActivity extends BaseActivity {
 				LG.e(getClass(), "数据库更新时间  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				 C.closeProgressDialog();
+				//C.closeProgressDialog();
 			} else if (0 == code) {
 				LG.e(getClass(), "数据库更新失败  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				 C.closeProgressDialog();
+				//C.closeProgressDialog();
 			}
 		}
 
 	}
 
-//	private AjaxCallBack<String> productAjaxCallBack = new AjaxCallBack<String>() {
-//		@SuppressWarnings("unchecked")
-//		@Override
-//		public void onSuccess(String t) {
-//			super.onSuccess(t);
-//			LG.i(getClass(), "更新商品------->" + t);
-//			try {
-//				if (BaseUtils.IsNotEmpty(t)
-//						&& JSONParser.getStringFromJsonString("status", t)
-//								.equals("1")) {
-//					String data = JSONParser.getStringFromJsonString("data", t);
-//					String product_list = JSONParser.getStringFromJsonString(
-//							"product_list", data);
-//					String last_syn_time = JSONParser.getStringFromJsonString(
-//							"syn_time", data);
-//					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
-//							.JSON2Array(product_list, ProductInfo.class);
-//					updateProductDatabase(products, last_syn_time);
-//					//如果增量数据不为空的话
-//					if (products != null && products.size() > 0) {
-//
-//						//productDao = ormOpearationDao.getDao(ProductInfo.class);
-//						// 第一次更新数据，全部更新
-//						if (!BaseUtils.IsNotEmpty(sp.getSValue(
-//								ApplicationCS.LAST_SYN_TIME, ""))) {
-//							LG.i(ApplicationCS.class, "收银系统启动------>2：数据全部更新");
-//							productDao
-//									.executeRawNoArgs("DELETE FROM productInfosTable");// 删除所有数据
-//							for (ProductInfo entity : products) {
-//								productDao.create(entity);
-//							}
-//							handler.sendEmptyMessage(1);
-//						} else {
-//							LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据");
-//							String product_ids = "";
-//							for (ProductInfo entity : products) {
-//								productDao.createOrUpdate(entity);
-//								product_ids += entity.op_id + ",";
-//							}
-//							LG.i(ApplicationCS.class,
-//									"收银系统启动------>2：增量更新数据结束调用回调");
-//							AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
-//								@Override
-//								public void onSuccess(String t) {
-//									super.onSuccess(t);
-//									LG.i(getClass(), "产品同步回调---->" + t);
-//									if (BaseUtils.IsNotEmpty(t)
-//											&& JSONParser
-//													.getStringFromJsonString(
-//															"status", t)
-//													.equals("1")) {
-//										String data = JSONParser
-//												.getStringFromJsonString(
-//														"data", t);
-//										SYN_RESULT = JSONParser
-//												.getStringFromJsonString(
-//														"result", data);
-//										LG.i(ApplicationCS.class,
-//												"收银系统启动------>2：增量更新数据结束调用回调result->"
-//														+ SYN_RESULT);
-//										if (SYN_RESULT.equals("ok")) {
-//											handler.sendEmptyMessage(1);
-//										} else {
-//											handler.sendEmptyMessage(0);
-//										}
-//									}
-//								}
-//							};
-//							ConnectManager.getInstance().productSynCallback(
-//									product_ids, ajaxCallBack);
-//						}
-//						sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
-//						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);
-//					}
-//				}
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				handler.sendEmptyMessage(0);
-//			}
-//		}
-//
-//		@Override
-//		public void onFailure(Throwable t, int errorNo, String strMsg) {
-//			super.onFailure(t, errorNo, strMsg);
-//			handler.sendEmptyMessage(0);
-//		}
-//	};
-//	
-	//增量更新数据库
-	private void updateProductDatabase(final ArrayList<ProductInfo> products,final String last_syn_time){
-		new Thread(){
+	private AjaxCallBack<String> productAjaxCallBack = new AjaxCallBack<String>() {
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onSuccess(String t) {
+			super.onSuccess(t);
+			LG.i(getClass(), "更新商品------->" + t);
+			try {
+				if (BaseUtils.IsNotEmpty(t)
+						&& JSONParser.getStringFromJsonString("status", t)
+								.equals("1")) {
+					String data = JSONParser.getStringFromJsonString("data", t);
+					String product_list = JSONParser.getStringFromJsonString(
+							"product_list", data);
+					String last_syn_time = JSONParser.getStringFromJsonString(
+							"syn_time", data);
+					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
+							.JSON2Array(product_list, ProductInfo.class);
+					updateProductDatabase(products, last_syn_time);
+				}else{
+					handler.sendEmptyMessage(0);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				handler.sendEmptyMessage(0);
+			}
+		}
+		public void onFailure(Throwable t, int errorNo, String strMsg) {
+			super.onFailure(t, errorNo, strMsg);
+			handler.sendEmptyMessage(0);
+		};
+	};
+
+	// 增量更新数据库
+	private void updateProductDatabase(final ArrayList<ProductInfo> products,
+			final String last_syn_time) {
+		new Thread() {
 			@Override
 			public void run() {
 				super.run();
-				try{
+				try {
 					if (products != null && products.size() > 0) {
-						//productDao = ormOpearationDao.getDao(ProductInfo.class);
+						// productDao =
+						// ormOpearationDao.getDao(ProductInfo.class);
 						// 第一次更新数据，全部更新
 						if (!BaseUtils.IsNotEmpty(sp.getSValue(
 								ApplicationCS.LAST_SYN_TIME, ""))) {
 							LG.i(ApplicationCS.class, "收银系统启动------>2：数据全部更新");
 							productDao
-									.executeRawNoArgs("DELETE FROM productInfosTable");// 删除所有数据
+									.executeRawNoArgs("delete from productInfosTable");// 删除所有数据
 							for (ProductInfo entity : products) {
 								productDao.create(entity);
 							}
@@ -335,23 +289,21 @@ public class LoginActivity extends BaseActivity {
 						sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
 						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);
 					}
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 					handler.sendEmptyMessage(0);
 				}
 			}
 		}.start();
-		
+
 	}
 
 	Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			// 成功
 			if (msg.what == 1) {
-				Toast.makeText(
-						getApplicationContext(),
-						"数据同步成功", Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(getApplicationContext(), "数据同步成功",
+						Toast.LENGTH_LONG).show();
 				C.closeProgressDialog();
 			}
 			// 失败
@@ -360,35 +312,27 @@ public class LoginActivity extends BaseActivity {
 						Toast.LENGTH_LONG).show();
 				C.closeProgressDialog();
 			}
-			//调用同步信息接口
-			else if(msg.what==2){
-				LG.i(ApplicationCS.class,
-						"收银系统启动------>2：增量更新数据结束调用回调");
+			// 调用同步信息接口
+			else if (msg.what == 2) {
+				LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据结束调用回调");
 				ConnectManager.getInstance().productSynCallback(
-						(String)msg.obj, ajaxCallBack);
+						(String) msg.obj, ajaxCallBack);
 			}
 		};
 	};
-	
+
 	AjaxCallBack<String> ajaxCallBack = new AjaxCallBack<String>() {
 		@Override
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "产品同步回调---->" + t);
 			if (BaseUtils.IsNotEmpty(t)
-					&& JSONParser
-							.getStringFromJsonString(
-									"status", t)
-							.equals("1")) {
-				String data = JSONParser
-						.getStringFromJsonString(
-								"data", t);
-				SYN_RESULT = JSONParser
-						.getStringFromJsonString(
-								"result", data);
-				LG.i(ApplicationCS.class,
-						"收银系统启动------>2：增量更新数据结束调用回调result->"
-								+ SYN_RESULT);
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
+				String data = JSONParser.getStringFromJsonString("data", t);
+				SYN_RESULT = JSONParser.getStringFromJsonString("result", data);
+				LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据结束调用回调result->"
+						+ SYN_RESULT);
 				if (SYN_RESULT.equals("ok")) {
 					handler.sendEmptyMessage(1);
 				} else {
@@ -396,6 +340,7 @@ public class LoginActivity extends BaseActivity {
 				}
 			}
 		}
+
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			handler.sendEmptyMessage(0);

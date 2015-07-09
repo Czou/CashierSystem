@@ -208,7 +208,7 @@ public class ConnectManager {
 	 * @param order_id
 	 * @param ajaxCallBack
 	 */
-	public void getPayOrderFormResult(String order_id,
+	public void getPayOrderFormResult(String order_id,String cashier_card_id,
 			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
@@ -218,6 +218,7 @@ public class ConnectManager {
 		params.put("verify_code", C.VERIFY_CODE);
 
 		params.put("order_id", order_id);
+		params.put("cashier_card_no", cashier_card_id);
 
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_PAY_ORDERFORM, params, ajaxCallBack);
