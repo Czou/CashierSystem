@@ -156,42 +156,11 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 		swing_card.setOnClickListener(myclick);
 
 	}
-
-//	/**
-//	 * 初始化控件显示数据
-//	 * 
-//	 * @auth sw
-//	 */
-//	@SuppressWarnings("unchecked")
-//	private void initWidgetData() {
-//		// 获得传递商品信息列表
-//		goodsList = (ArrayList<ProductInfo>) getIntent().getSerializableExtra(
-//				"DATA");
-//		if (goodsList == null || goodsList.size() == 0) {
-//			return;
-//		}
-//		Log.i("savion", "goods list =======>" + goodsList.size());
-//		// 计算总额
-//		for (int i = 0; i < goodsList.size(); i++) {
-//			Log.i("savion", "goolist +" + i + " " + goodsList.get(i));
-//			if (goodsList.get(i).op_is_promote == 1) {
-//				totalMoney += (goodsList.get(i).buy_number)
-//						* (goodsList.get(i).op_promote_market_price);
-//			} else {
-//				totalMoney += (goodsList.get(i).buy_number)
-//						* (goodsList.get(i).op_market_price);
-//			}
-//		}
-//		String formatMoney = BaseUtils.formatDouble(totalMoney);
-//		totalMoney = Double.parseDouble(formatMoney);
-//		LG.e(getClass(), "total money == >" + totalMoney);
-//		gathering_total_money.setText(formatMoney + "");
-//		// 显示收费金额
-//		JBLEDInterface.convertLedControl();
-//		JBLEDInterface.ledDisplay(totalMoney + "");
-//
-//	}
 	
+	/**
+	 * 初始化数据
+	 * @auth shouwei
+	 */
 	private void initData(){
 		mOrderDetail = (OrderDetailInfo) getIntent().getSerializableExtra("DATA");
 		if(mOrderDetail.getOrder_info()!=null){

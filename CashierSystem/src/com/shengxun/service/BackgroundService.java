@@ -46,11 +46,16 @@ public class BackgroundService extends Service
 	 * 打开服务 并获取信息
 	 * @param context
 	 */
-	public static  void openService(Context context){
+	public static  void openService(Context context,ORMOpearationDao ormDao){
 		//避免重复打开
 		if(bs == null){
 			BackgroundService.context = context;
-			ormOpearationDao=new ORMOpearationDao(context,C.DATABASE_NAME);
+			//ormOpearationDao=new ORMOpearationDao(context,C.DATABASE_NAME);
+			if(ormDao!=null){
+				ormOpearationDao = ormDao;
+			}else{
+				ormOpearationDao = new ORMOpearationDao(context,C.DATABASE_NAME);
+			}
 			Intent it = new Intent();
 			//显示意图
 			it.setClass(context, BackgroundService.class);

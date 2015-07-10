@@ -41,21 +41,23 @@ import com.zvezda.android.utils.LG;
 @SuppressLint("HandlerLeak")
 public class LoginActivity extends BaseActivity {
 
-	ProgressBar pb;
-
 	private EditText user_name = null;
 	private EditText user_password = null;
-
 	private TextView user_login = null;
 	private TextView user_reset = null;
-
+	/**
+	 * 商品同步回调结果
+	 */
 	public String SYN_RESULT;
-
+	/**
+	 * 开始更新时间　
+	 */
 	private long startTime;
-
-	public static boolean isLoadingData = true;
-
+	/**
+	 * 商品数据库操作dao
+	 */
 	public static Dao<ProductInfo, Integer> productDao;
+	public static boolean isLoadingData = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,21 +68,21 @@ public class LoginActivity extends BaseActivity {
 		user_password = (EditText) this.findViewById(R.id.user_password);
 		user_login = (TextView) this.findViewById(R.id.user_login);
 		user_reset = (TextView) this.findViewById(R.id.user_reset);
-		pb = (ProgressBar) findViewById(R.id.login_progress);
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
 
-		// 测试使用账号
+		// 测试使用账号,发布时请注释
 		user_name.setText("T00010088");
 		user_password.setText("532614");
 
 		if (isLoadingData) {
 			startTime = System.currentTimeMillis();
 			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
-			// 启动服务更新
+			// 启动服务更新区域地址信息
 			registerBroad();
-			BackgroundService.openService(mActivity);
+			BackgroundService.openService(mActivity,ormOpearationDao);
 		}
+		//获取商品数据
 		productDao = ormOpearationDao.getDao(ProductInfo.class);
 		ConnectManager.getInstance().getProductList(sp.getSValue(applicationCS.LAST_SYN_TIME, ""), productAjaxCallBack);
 	}
@@ -300,13 +302,13 @@ public class LoginActivity extends BaseActivity {
 		public void handleMessage(android.os.Message msg) {
 			// 成功
 			if (msg.what == 1) {
-				Toast.makeText(getApplicationContext(), "数据同步成功",
+				Toast.makeText(getApplicationContext(), resources.getString(R.string.cashier_system_alert_syn_product_succeed),
 						Toast.LENGTH_LONG).show();
 				C.closeProgressDialog();
 			}
 			// 失败
 			else if (msg.what == 0) {
-				Toast.makeText(getApplicationContext(), "数据同步失败，可进入设置中手动更新",
+				Toast.makeText(getApplicationContext(), resources.getString(R.string.cashier_system_alert_syn_product_falied),
 						Toast.LENGTH_LONG).show();
 				C.closeProgressDialog();
 			}
