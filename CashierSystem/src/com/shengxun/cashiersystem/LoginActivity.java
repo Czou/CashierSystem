@@ -23,8 +23,6 @@ import com.j256.ormlite.dao.Dao;
 import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
 import com.shengxun.entity.AreaInfo;
-import com.shengxun.entity.Entity1;
-import com.shengxun.entity.Entity2;
 import com.shengxun.entity.LoginInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.service.BackgroundService;
