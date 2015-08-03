@@ -121,5 +121,7 @@
     <string name="lock_btn_hint">请输入解锁密码</string>
     <string name="lock_update_lock_psd_hint">修改锁屏密码</string>
     <string name="lock_update_lock_psd_btn">点击可修改锁屏密码</string>
-
+    <!-- 其他 -->
+    <string name="setting_test_print">测试打印小票</string>
+    <string name="setting_test_print_btn">点击可测试打印小票</string>
 </resources>

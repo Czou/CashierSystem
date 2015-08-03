@@ -192,7 +192,6 @@ public class ConnectManager {
 					params.put("promote_products","product_info[" + products.get(i).op_id + "]=1");
 				}
 			}
-			
 		}
 
 		params.put("pay_way", pay_way);

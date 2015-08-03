@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,7 +21,10 @@ import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
 import com.shengxun.customview.LDialog;
 import com.shengxun.entity.ProductInfo;
+import com.shengxun.externalhardware.cashbox.JBCashBoxInterface;
 import com.shengxun.externalhardware.led.JBLEDInterface;
+import com.shengxun.externalhardware.print.util.JBPrintInterface;
+import com.shengxun.externalhardware.print.util.PrintTools_58mm;
 import com.shengxun.util.CheckVersionManager;
 import com.shengxun.util.ConnectManager;
 import com.zvezda.android.utils.AppManager;
@@ -49,6 +53,8 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 
 	private TextView version;
 
+	private TextView btn_test_print;
+
 	String update_lock_psd_first_time = null;
 
 	@Override
@@ -63,6 +69,7 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 		btn_back = (Button) findViewById(R.id.cashier_setting_back);
 		btn_open = (Button) findViewById(R.id.cashier_setting_btn_open);
 		btn_close = (Button) findViewById(R.id.cashier_setting_btn_close);
+		btn_test_print = (TextView) findViewById(R.id.setting_test_print);
 
 		check_new_app = (TextView) findViewById(R.id.check_new_app);
 		click_to_update_all_product = (TextView) findViewById(R.id.click_to_update_all_product);
@@ -73,6 +80,7 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				+ getPackInfo());
 		btn_open.setOnClickListener(myclick);
 		btn_close.setOnClickListener(myclick);
+		btn_test_print.setOnClickListener(myclick);
 		btn_back.setOnClickListener(myclick);
 		check_new_app.setOnClickListener(myclick);
 		click_to_update_all_product.setOnClickListener(myclick);
@@ -134,11 +142,33 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				C.showDialogAlert("暂时不可用", mActivity);
 			}
 				break;
+			case R.id.setting_test_print:
+				testPrint();
+				break;
 			default:
 				break;
 			}
 		}
 	};
+	
+	/**
+	 * 测试打印收银信息
+	 */
+	private void testPrint(){
+			// 开始打印
+			Log.i("savion", "开始打印--------------");
+			JBPrintInterface.convertPrinterControl();
+			PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_CENTER);
+			PrintTools_58mm.writeEnterLine(5);
+			PrintTools_58mm.print_gbk(">>>>>>>>>>>");
+			PrintTools_58mm.writeEnterLine(1);
+			PrintTools_58mm.print_gbk("测试专用、他用无效");
+			PrintTools_58mm.writeEnterLine(1);
+			PrintTools_58mm.print_gbk(">>>>>>>>>>>");
+			PrintTools_58mm.writeEnterLine(5);
+			PrintTools_58mm.resetPrint();
+	}
+	
 
 	/**
 	 * 修改锁屏密码 index 代表执行的次数1：输入原密码，2：新密码，3：新密码确认

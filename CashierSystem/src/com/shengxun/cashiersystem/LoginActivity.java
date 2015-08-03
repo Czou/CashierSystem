@@ -1,6 +1,5 @@
 package com.shengxun.cashiersystem;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
@@ -15,21 +14,17 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
-import com.shengxun.entity.AreaInfo;
 import com.shengxun.entity.LoginInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.service.BackgroundService;
 import com.shengxun.util.AndroidAdjustResizeUtil;
 import com.shengxun.util.ConnectManager;
-import com.shengxun.util.MD5Util;
-import com.shengxun.util.ORMLiteDao;
 import com.zvezda.android.utils.AppManager;
 import com.zvezda.android.utils.BaseUtils;
 import com.zvezda.android.utils.JSONParser;
@@ -57,8 +52,18 @@ public class LoginActivity extends BaseActivity {
 	 * 商品数据库操作dao
 	 */
 	public static Dao<ProductInfo, Integer> productDao;
+	
+	//true为同步，false为不同步
 	public static boolean isLoadingData = true;
-
+	private static boolean isLoginIn = true;
+	/**
+	 * 提供给系统退出时使用，若是退出的则不会再进行数据同步
+	 * @param isLogin
+	 * @auth shouwei
+	 */
+	public static void setIsLoginIn(boolean isLogin){
+		isLoginIn = isLogin;
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,20 +76,20 @@ public class LoginActivity extends BaseActivity {
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
 
-		// 测试使用账号,发布时请注释
-		user_name.setText("T00010088");
-		user_password.setText("532614");
+//		// 测试使用账号,发布时请注释
+//		user_name.setText("T00010088");
+//		user_password.setText("532614");
 
-		if (isLoadingData) {
+		if (isLoginIn) {
 			startTime = System.currentTimeMillis();
 			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
 			// 启动服务更新区域地址信息
 			registerBroad();
 			BackgroundService.openService(mActivity,ormOpearationDao);
+			//获取商品数据
+			productDao = ormOpearationDao.getDao(ProductInfo.class);
+			ConnectManager.getInstance().getProductList(sp.getSValue(applicationCS.LAST_SYN_TIME, ""), productAjaxCallBack);
 		}
-		//获取商品数据
-		productDao = ormOpearationDao.getDao(ProductInfo.class);
-		ConnectManager.getInstance().getProductList(sp.getSValue(applicationCS.LAST_SYN_TIME, ""), productAjaxCallBack);
 	}
 
 	private OnClickListener onClickListener = new OnClickListener() {

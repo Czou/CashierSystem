@@ -21,7 +21,7 @@ public class U
 	/**
 	 * 根据测试和发布换地址
 	 */
-	private static final String CASHIER_SYSTEM_URL = CASHIER_SYSTEM_DOMAIN_TSET;
+	private static final String CASHIER_SYSTEM_URL = CASHIER_SYSTEM_DOMAIN;
 	/*********************************收银系统_V1.0接口地址--start************************************/
 	/**
 	 * 1.收银登录接口

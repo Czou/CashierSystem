@@ -207,7 +207,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 				cashier_system_clerk.setText(clerk_name);
 			}
 			if(applicationCS.loginInfo.cashier_info != null){
-				cashier_system_center_name.setText(""+applicationCS.loginInfo.cashier_info.rs_code_name);
+				cashier_system_center_name.setText(""+applicationCS.loginInfo.cashier_info.rs_code_name+"("+"机号:" + applicationCS.mc_id+")");
 			}
 		}
 		if (BaseUtils.isNetworkAvailable(mActivity)) {
@@ -317,6 +317,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 			case R.id.cashier_system_machine_exit: {
 				LoginActivity.isLoadingData=false;
 				goActivity(LoginActivity.class);
+				LoginActivity.setIsLoginIn(false);
 				applicationCS.loginInfo = null;
 				AppManager.getAppManager().finishActivity(mActivity);
 			}

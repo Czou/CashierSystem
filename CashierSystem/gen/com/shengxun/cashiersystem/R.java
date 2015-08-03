@@ -146,7 +146,7 @@ public final class R {
         public static final int area_select_opcenter_type=0x7f0a0014;
         public static final int area_select_province=0x7f0a0011;
         public static final int area_select_town=0x7f0a0013;
-        public static final int cancleView=0x7f0a0088;
+        public static final int cancleView=0x7f0a0089;
         public static final int cashier_area_select_back=0x7f0a0010;
         public static final int cashier_area_select_del=0x7f0a0017;
         public static final int cashier_area_select_ok=0x7f0a0016;
@@ -251,11 +251,11 @@ public final class R {
         public static final int check_new_app=0x7f0a0081;
         public static final int click_to_update_all_product=0x7f0a0082;
         public static final int click_to_update_lock_psd=0x7f0a0083;
-        public static final int dailog_content=0x7f0a0085;
-        public static final int dailog_edittext=0x7f0a0086;
-        public static final int dailog_title=0x7f0a0084;
-        public static final int dialogInfo=0x7f0a008a;
-        public static final int footLayout=0x7f0a0094;
+        public static final int dailog_content=0x7f0a0086;
+        public static final int dailog_edittext=0x7f0a0087;
+        public static final int dailog_title=0x7f0a0085;
+        public static final int dialogInfo=0x7f0a008b;
+        public static final int footLayout=0x7f0a0095;
         public static final int gathering_area_1=0x7f0a0031;
         public static final int gathering_area_2=0x7f0a0032;
         public static final int gathering_area_3=0x7f0a0033;
@@ -278,18 +278,19 @@ public final class R {
         public static final int gathering_btn_ok=0x7f0a0045;
         public static final int gathering_btn_spot=0x7f0a0043;
         public static final int gathering_top=0x7f0a000f;
-        public static final int lock_activity_reset=0x7f0a008f;
-        public static final int lock_activity_unlock=0x7f0a008e;
-        public static final int lock_activity_unlock_psd=0x7f0a008d;
-        public static final int login_layout_v_center=0x7f0a008c;
-        public static final int myProgressDialog=0x7f0a0089;
-        public static final int okView=0x7f0a0087;
-        public static final int progressView=0x7f0a008b;
-        public static final int tipView=0x7f0a0095;
-        public static final int user_login=0x7f0a0092;
-        public static final int user_name=0x7f0a0090;
-        public static final int user_password=0x7f0a0091;
-        public static final int user_reset=0x7f0a0093;
+        public static final int lock_activity_reset=0x7f0a0090;
+        public static final int lock_activity_unlock=0x7f0a008f;
+        public static final int lock_activity_unlock_psd=0x7f0a008e;
+        public static final int login_layout_v_center=0x7f0a008d;
+        public static final int myProgressDialog=0x7f0a008a;
+        public static final int okView=0x7f0a0088;
+        public static final int progressView=0x7f0a008c;
+        public static final int setting_test_print=0x7f0a0084;
+        public static final int tipView=0x7f0a0096;
+        public static final int user_login=0x7f0a0093;
+        public static final int user_name=0x7f0a0091;
+        public static final int user_password=0x7f0a0092;
+        public static final int user_reset=0x7f0a0094;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -425,6 +426,10 @@ public final class R {
         public static final int noFindNewVersion=0x7f070062;
         public static final int ok=0x7f070065;
         public static final int setting=0x7f070017;
+        /**  其他 
+         */
+        public static final int setting_test_print=0x7f07006d;
+        public static final int setting_test_print_btn=0x7f07006e;
         public static final int user_login=0x7f070008;
         /**  收银系统的登录界面 
          */
