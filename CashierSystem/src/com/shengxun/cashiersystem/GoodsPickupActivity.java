@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -148,8 +149,13 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
-					C.showDialogAlert("订单提货成功", mActivity);
-					//AppManager.getAppManager().finishActivity(mActivity);
+					C.showDialogAlert("订单提货成功,3秒后将自动关闭些窗口", mActivity);
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							AppManager.getAppManager().finishActivity(GoodsPickupActivity.this);
+						}
+					}, 3000);
 				} else {
 					C.showDialogAlert("订单提货失败", mActivity);
 				}

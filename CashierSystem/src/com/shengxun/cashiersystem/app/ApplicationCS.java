@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.tsz.afinal.http.AjaxCallBack;
 import android.app.Application;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -62,7 +63,8 @@ public class ApplicationCS extends Application {
 		ormOpearationDao = new ORMOpearationDao(getApplicationContext(),
 				C.DATABASE_NAME);
 		// 修改机器码
-		C.MACHINE_CODE =  DeviceID.getDeviceID(this);//"35703a430a4e23ce54:e4:bd:8b:cf:ff";// //
+		C.MACHINE_CODE =  "35703a430a4e23ce54:e4:bd:8b:cf:ff";// //DeviceID.getDeviceID(this);
+		Log.i("savion","mark == "+DeviceID.getDeviceID(this));
 		C.VERIFY_CODE = MD5Util.GetMD5Code("" + C.SOB_CODE + "#"
 				+ C.SOB_PASSWORD + "#" + C.MACHINE_CODE + "");
 

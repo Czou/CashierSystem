@@ -45,14 +45,13 @@ import com.zvezda.android.utils.TimeConversion;
  * @date 2015-4-24
  */
 public class GatheringActivity extends MyTimeLockBaseActivity {
-	
-	LinearLayout opcenter_layout,swing_layout;
+
+	LinearLayout opcenter_layout, swing_layout;
 	/**
 	 * 总额，现金，找零输入框
 	 */
 	EditText gathering_total_money;
-	EditText gathering_cash, gathering_change,
-			gathering_card_no;
+	EditText gathering_cash, gathering_change, gathering_card_no;
 
 	private static EditText gathering_opcenter;
 	/**
@@ -81,6 +80,10 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	 */
 	private ArrayList<ProductInfo> productInfo;
 	/**
+	 * 保存自有商品列表，用于打印(创建订单不会返回自有订单的信息)
+	 */
+	private ArrayList<ProductInfo> seller_productinfo;
+	/**
 	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金, 焦点位置，1为卡号输入框，2为现金输入框,默认1;
 	 */
 	private int pay_way = 1, FocusPosition = 1;
@@ -89,7 +92,8 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	 */
 	private boolean hasSpot = false;
 	private static OpcenterInfo opcenter;
-	//标志位0代表正常进入,1代表从订单付款页面而来
+
+	// 标志位0代表正常进入,1代表从订单付款页面而来
 	/**
 	 * 设置运营中心信息read
 	 * 
@@ -132,13 +136,13 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	private void initWidget() {
 		opcenter_layout = (LinearLayout) findViewById(R.id.cashier_gathering_opcenter_layout);
 		swing_layout = (LinearLayout) findViewById(R.id.cashier_gathering_swing_layout);
-		
+
 		gathering_back = (TextView) findViewById(R.id.cashier_gathering_back);
 		gathering_total_money = (EditText) findViewById(R.id.cashier_gathering_total_money);
 		gathering_cash = (EditText) findViewById(R.id.cashier_gathering_cash);
 		gathering_opcenter = (EditText) findViewById(R.id.cashier_gathering_opcenter);
 		gathering_card_no = (EditText) findViewById(R.id.cashier_gathering_card_no);
-		
+
 		// 设置刷卡输入框的回车事件
 		gathering_card_no
 				.setOnEditorActionListener(new OnEditorActionListener() {
@@ -222,10 +226,16 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		if (goodsList == null || goodsList.size() == 0) {
 			return;
 		}
-		Log.i("savion", "goods list =======>"+goodsList.size());
+		seller_productinfo = new ArrayList<ProductInfo>();
+		for (int i = 0; i < goodsList.size(); i++) {
+			if (!goodsList.get(i).isProductInSystem) {
+				seller_productinfo.add(goodsList.get(i));
+			}
+		}
+		Log.i("savion", "goods list =======>" + goodsList.size());
 		// 计算总额
 		for (int i = 0; i < goodsList.size(); i++) {
-			Log.i("savion","goolist +"+i+" "+goodsList.get(i));
+			Log.i("savion", "goolist +" + i + " " + goodsList.get(i));
 			if (goodsList.get(i).op_is_promote == 1) {
 				totalMoney += (goodsList.get(i).buy_number)
 						* (goodsList.get(i).op_promote_market_price);
@@ -318,7 +328,8 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 						break;
 					}
 					ConnectManager.getInstance().getPayOrderFormResult(
-							order_id,applicationCS.cashier_card_no, ajaxPayorder);
+							order_id, applicationCS.cashier_card_no,
+							ajaxPayorder);
 				} else {
 					C.showDialogAlert(
 							resources
@@ -345,6 +356,13 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				}
 				break;
 			case R.id.cashier_gathering_btn_select_area:
+				// 检索是否有非系统商品
+				for (int i = 0; i < goodsList.size(); i++) {
+					if (!goodsList.get(i).isProductInSystem) {
+						C.showDialogAlert("存在非系统商品，不可异地取货", mActivity);
+						return;
+					}
+				}
 				goActivity(AreaSelectActivity.class);
 				break;
 			default:
@@ -515,7 +533,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				PrintTools_58mm.print_gbk("" + name_prefix);
 				PrintTools_58mm.print(PrintTools_58mm.LF);
 				PrintTools_58mm.print_gbk("" + name_suffix);
-				
+
 			} else {
 				String s = entity.qp_name + "  " + entity.op_market_price + "*"
 						+ entity.buy_number + "  " + entity.buy_number
@@ -536,6 +554,38 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 			count += entity.buy_number;
 		}
 
+		if (seller_productinfo != null && seller_productinfo.size() > 0) {
+			for (int i = 0; i < seller_productinfo.size(); i++) {
+				PrintTools_58mm.print(PrintTools_58mm.LF);
+				ProductInfo entity = seller_productinfo.get(i);
+				// 如果是促销产品那么就打印促销产品前缀
+				entity.qp_name = "#"+entity.qp_name;
+				if (BaseUtils.IsNotEmpty(entity.qp_name)
+						&& entity.qp_name.length() > 7) {
+					String name_prefix = entity.qp_name.substring(0, 7);
+					String name_suffix = entity.qp_name.substring(7,
+							entity.qp_name.length())
+							+ "     "
+							+ entity.op_market_price
+							+ "*"
+							+ entity.buy_number
+							+ "     "
+							+ entity.buy_number
+							* entity.op_market_price + "";
+					PrintTools_58mm.print_gbk("" + name_prefix);
+					PrintTools_58mm.print(PrintTools_58mm.LF);
+					PrintTools_58mm.print_gbk("" + name_suffix);
+
+				} else {
+					String s = entity.qp_name + "  " + entity.op_market_price
+							+ "*" + entity.buy_number + "  "
+							+ entity.buy_number * entity.op_market_price + "";
+					PrintTools_58mm.print_gbk("" + s);
+
+				}
+				count += entity.buy_number;
+			}
+		}
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("件数:" + count);
 		PrintTools_58mm.print(PrintTools_58mm.LF);
@@ -554,6 +604,8 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		PrintTools_58mm.print_gbk("请当面清点所购商品和找零");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("保留收银小票以作退换货凭证");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("带 # 为非本系统商品，不支持退换货");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("更多服务请登陆tc.051jk.com查询");
 		PrintTools_58mm.writeEnterLine(2);
@@ -672,7 +724,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 							resources
 									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
 							mActivity);
-					//AppManager.getAppManager().finishActivity(mActivity);
+					// AppManager.getAppManager().finishActivity(mActivity);
 				} else {
 					C.showDialogAlert(
 							resources
@@ -702,7 +754,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	AjaxCallBack<String> ajaxPayorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(getClass(), "t===>"+t);
+			LG.i(getClass(), "t===>" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
@@ -751,5 +803,5 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		JBCashBoxInterface.openCashBox();
 		printBillInfo();
 	};
-	
+
 }

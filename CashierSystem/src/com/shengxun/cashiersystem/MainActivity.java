@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -185,7 +186,18 @@ public class MainActivity extends MyTimeLockBaseActivity {
 					LG.e(getClass(), "productInfos.get(0).qp_name"+ productInfos.get(0).qp_name);
 					refreshData(productInfos.get(0));
 				}else{
-					C.showDialogAlert(resources.getString(R.string.cashier_system_alert_no_have_product), mActivity);
+					//数据库没有的商家都为非合作商品,也可进行扫码付款2
+					//C.showDialogAlert(resources.getString(R.string.cashier_system_alert_no_have_product), mActivity);
+					ProductInfo mProduct = new ProductInfo();
+					//条码
+					String code = cashier_system_business.getText().toString().trim();
+					mProduct.op_bar_code = code;
+					mProduct.op_market_price=0.0;
+					mProduct.op_promote_market_price = 0.0;
+					mProduct.qp_name = code;
+					mProduct.isProductInSystem = false;
+					refreshData(mProduct);
+					goActivity(GoodsDetailActivity.class, mProduct);
 				}
 				cashier_system_business.setText("");
 			} catch (SQLException e) {
@@ -360,6 +372,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		for (int i = 0; i < dataList.size(); i++) {
 			if (dataList.get(i).op_bar_code.equals(entity.op_bar_code)) {
 				dataList.get(i).buy_number = entity.buy_number;
+				dataList.get(i).op_market_price = entity.op_market_price;
 				cashierGoodsListAdapter.notifyDataSetChanged();
 				refreshNowTotal();
 				break;
@@ -383,6 +396,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int postion,
 				long arg3) {
+			Log.i("savion","buy number" +dataList.get(postion));
 			goActivity(GoodsDetailActivity.class, dataList.get(postion));
 		}
 	};

@@ -9,6 +9,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -33,8 +35,12 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 返回按钮
 	 */
-	private TextView goods_detail_back, old_price, new_price, total_price,
+	private TextView goods_detail_back, old_price, total_price,
 			title;
+	/**
+	 * 商品单价
+	 */
+	private EditText new_price;
 	/**
 	 * 删除,确定,增加数量，减少数量按钮
 	 */
@@ -82,18 +88,20 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 		goods_reduce = (Button) findViewById(R.id.cashier_goods_detail_reduce);
 		show_count = (EditText) findViewById(R.id.cashier_goods_detail_showcount);
 		old_price = (TextView) findViewById(R.id.cashier_goods_detail_old_price);
-		new_price = (TextView) findViewById(R.id.cashier_goods_detail_new_price);
+		new_price = (EditText) findViewById(R.id.cashier_goods_detail_new_price);
 		total_price = (TextView) findViewById(R.id.cashier_goods_detail_total_price);
 		title = (TextView) findViewById(R.id.cashier_goods_detail_title);
+		new_price.addTextChangedListener(mWatcher);
 		goods_detail_back.setOnClickListener(myclick);
 		goods_detail_del.setOnClickListener(myclick);
 		goods_detail_ok.setOnClickListener(myclick);
 		goods_add.setOnClickListener(myclick);
 		goods_reduce.setOnClickListener(myclick);
-		show_count.addTextChangedListener(mytextchange);
 
 		product = (ProductInfo) getIntent().getSerializableExtra("DATA");
-		LG.i(getClass(), "product--------->" + product);
+		if(!product.isProductInSystem){
+			show_count.addTextChangedListener(mytextchange);
+		}
 		refreshData();
 	}
 
@@ -101,14 +109,26 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 	 * 更新显示数据
 	 */
 	private void refreshData() {
+		Log.i("savion","buy number11=="+product.buy_number);
+		goods_count = product.buy_number;
+		// 此商品不是在系统中
+		if (!product.isProductInSystem) {
+			new_price.setEnabled(true);
+			new_price.setFocusable(true);
+			new_price.setHint("请输入非合作商品价格");
+			new_price.setText("");
+			old_price.setText("");
+		} else {
+			new_price.setEnabled(false);
+			old_price.setText(product.op_market_price + "");
+			new_price.setText(product.op_market_price + "");
+		}
+		Log.i("savion","buy number22=="+product.buy_number);
 		title.setText(product.qp_name);
 		show_count.setText(product.buy_number + "");
 		// 设置edittext的光标位置
 		show_count
 				.setSelection(show_count.getText().toString().trim().length());
-		goods_count = product.buy_number;
-		old_price.setText(product.op_market_price + "");
-		new_price.setText(product.op_market_price + "");
 		new_price_d = product.op_market_price;
 		if (BaseUtils.IsNotEmpty(product.img_url)) {
 			FinalBitmap.create(mActivity).display(cashier_goods_detail_iv,
@@ -127,14 +147,44 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 		total_price_d = 0;
 		total_price_d = new_price_d * goods_count;
 
-		//格式化数值，保留两位小数并四舍五入
+		// 格式化数值，保留两位小数并四舍五入
 		DecimalFormat format = new DecimalFormat("#,##0.00");
 		format.setRoundingMode(RoundingMode.HALF_UP);
 		total_price.setText(BaseUtils.formatDouble(total_price_d));
-		
+
 		// 更改实体的数据
 		product.buy_number = goods_count;
+		product.op_market_price = new_price_d;
 	}
+
+	TextWatcher mWatcher = new TextWatcher() {
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			LG.i(getClass(), "TEXTWATCH === " + s);
+			if (BaseUtils.IsNotEmpty(s.toString().trim())) {
+				if (BaseUtils.isNumber(s.toString().trim())) {
+					old_price.setText(s.toString().trim());
+					new_price_d = Double.parseDouble(s.toString().trim());
+					calTotalPrice();
+				} else {
+					C.showDialogAlert("请输入正确的商品单价", mActivity);
+					new_price.setText("");
+					old_price.setText("");
+					total_price_d = 0.0;
+				}
+			}
+		}
+	};
 
 	/**
 	 * 点击事件
@@ -146,7 +196,18 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 			switch (v.getId()) {
 			// 点击了返回按钮
 			case R.id.cashier_goods_detail_back:
-				AppManager.getAppManager().finishActivity(mActivity);
+				if (product != null) {
+					// 若是非系统商品则需要输入金额
+					if (!product.isProductInSystem) {
+						if (total_price_d == 0) {
+							C.showDialogAlert("请输入商品单价再按确定键修改商品返回", mActivity);
+						} else {
+							C.showDialogAlert("请按确定键修改商品或删除商品", mActivity);
+						}
+					} else {
+						AppManager.getAppManager().finishActivity(mActivity);
+					}
+				}
 				break;
 			// 点击删除按钮,取消订单
 			case R.id.cashier_goods_detail_del:
@@ -161,6 +222,10 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 				break;
 			// 点击确定按钮
 			case R.id.cashier_goods_detail_ok:
+				if (total_price_d == 0) {
+					C.showDialogAlert("请输入商品单价", mActivity);
+					return;
+				}
 				if (MainActivity.instance != null) {
 					MainActivity.instance.updateGoods(product);
 					AppManager.getAppManager().finishActivity(mActivity);
@@ -225,5 +290,23 @@ public class GoodsDetailActivity extends MyTimeLockBaseActivity {
 			calTotalPrice();
 		}
 	};
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (product != null) {
+				if (!product.isProductInSystem) {
+					if (total_price_d == 0) {
+						C.showDialogAlert("请输入商品单价再按确定键修改商品返回", mActivity);
+					} else {
+						C.showDialogAlert("请按确定键修改商品或删除商品返回", mActivity);
+					}
+					return false;
+				}
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 
 }

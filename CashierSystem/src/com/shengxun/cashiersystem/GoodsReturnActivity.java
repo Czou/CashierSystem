@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -112,6 +114,9 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 	 * @auth shouwei
 	 */
 	private void createRefundOrder() {
+		for(int i = 0;i<product_list.size();i++){
+			Log.i("savion","refound order == >"+product_list);
+		}
 		cashier_card_no = applicationCS.cashier_card_no;
 		if (BaseUtils.IsNotEmpty(cashier_card_no)) {
 			if (product_list != null && product_list.size() > 0) {
@@ -220,7 +225,11 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 						OrderInfo.class);
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
-				// checkOrderStatus(isPayed.co_status);
+				for(int i = 0;i<product_list.size();i++){
+					if(product_list.get(i).cop_is_seller==1){
+						product_list.remove(i);
+					}
+				}
 			} else {
 				C.showDialogAlert(
 						JSONParser.getStringFromJsonString("error_desc", t),
@@ -248,8 +257,6 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 				refund_order_no = JSONParser.getStringFromJsonString(
 						"refund_order_id", data);
 				// 创建退货订单成功
-				//C.showDialogAlert("创建退货订单成功" + refund_order_no, mActivity);
-				C.showShort("创建退化订单成功", mActivity);
 				// 退货订单退款
 				ConnectManager.getInstance().getReturnOrderFormResult(
 						refund_order_no, refundordercallback);
@@ -277,8 +284,13 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
-					C.showDialogAlert("退款成功", mActivity);
-					AppManager.getAppManager().finishActivity(mActivity);
+					C.showDialogAlert("退款成功,3秒后将自动关闭此窗口", mActivity);
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							AppManager.getAppManager().finishActivity(GoodsReturnActivity.this);
+						}
+					}, 3000);
 				} else {
 					C.showDialogAlert("退款失败", mActivity);
 				}

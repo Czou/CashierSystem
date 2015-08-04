@@ -58,12 +58,13 @@ public class ConnectManager {
 
 	/***************** 产品列表接口 LILIN Start ********************/
 
-
 	/**
-	 * @param last_syn_time 上次同步增量更新的时间
+	 * @param last_syn_time
+	 *            上次同步增量更新的时间
 	 * @param ajaxCallBack
 	 */
-	public void getProductList(String last_syn_time,AjaxCallBack<String> ajaxCallBack) {
+	public void getProductList(String last_syn_time,
+			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
 		params.put("sob_code", C.SOB_CODE);
@@ -71,10 +72,10 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		if(BaseUtils.IsNotEmpty(last_syn_time)){
+		if (BaseUtils.IsNotEmpty(last_syn_time)) {
 			params.put("syn_changed", "true");
 			params.put("last_syn_time", last_syn_time);
-		}else{
+		} else {
 			params.put("syn_changed", "false");
 		}
 		finalHttp.configCharset("UTF-8");
@@ -165,8 +166,9 @@ public class ConnectManager {
 	 */
 	public void getCreateOrderFormResult(String consume_card_no,
 			String cashier_card_no, ArrayList<ProductInfo> products,
-			String delivery_rs_code, String delivery_rs_code_id,
-			String pay_way, String pay_money, AjaxCallBack<String> ajaxCallback) {
+			String delivery_rs_code,
+			String delivery_rs_code_id, String pay_way, String pay_money,
+			AjaxCallBack<String> ajaxCallback) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
 		params.put("sob_code", C.SOB_CODE);
@@ -174,22 +176,30 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		
 		params.put("consume_card_no", consume_card_no);
 		params.put("cashier_card_no", cashier_card_no);
-		if(BaseUtils.IsNotEmpty(delivery_rs_code)){
+		if (BaseUtils.IsNotEmpty(delivery_rs_code)) {
 			params.put("delivery_rs_code", delivery_rs_code);
 		}
-		if(BaseUtils.IsNotEmpty(delivery_rs_code_id)){
+		if (BaseUtils.IsNotEmpty(delivery_rs_code_id)) {
 			params.put("delivery_rs_code_id", delivery_rs_code_id);
 		}
-		
+
 		if (products != null && products.size() > 0) {
 			for (int i = 0; i < products.size(); i++) {
-				params.put("product_info[" + products.get(i).op_id + "]",
-						products.get(i).buy_number + "");
-				if(products.get(i).op_is_promote==1){
-					params.put("promote_products","product_info[" + products.get(i).op_id + "]=1");
+				// 非系统商品进入
+				if (!products.get(i).isProductInSystem) {
+					params.put("seller_product[" + products.get(i).op_bar_code
+							+ "]", products.get(i).buy_number + "");
+					params.put("seller_product_price[" + products.get(i).op_bar_code
+							+ "]", products.get(i).op_market_price+"");
+				} else {
+					params.put("product_info[" + products.get(i).op_id + "]",
+							products.get(i).buy_number + "");
+					if (products.get(i).op_is_promote == 1) {
+						params.put("promote_products", "product_info["
+								+ products.get(i).op_id + "]=1");
+					}
 				}
 			}
 		}
@@ -207,7 +217,7 @@ public class ConnectManager {
 	 * @param order_id
 	 * @param ajaxCallBack
 	 */
-	public void getPayOrderFormResult(String order_id,String cashier_card_id,
+	public void getPayOrderFormResult(String order_id, String cashier_card_id,
 			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
@@ -578,28 +588,28 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		if(BaseUtils.IsNotEmpty(opcenter_type)){
+		if (BaseUtils.IsNotEmpty(opcenter_type)) {
 			params.put("opcenter_type", opcenter_type);
 		}
-		if(BaseUtils.IsNotEmpty(number)){
+		if (BaseUtils.IsNotEmpty(number)) {
 			params.put("number", number);
 		}
-		if(BaseUtils.IsNotEmpty(offset)){
+		if (BaseUtils.IsNotEmpty(offset)) {
 			params.put("offset", offset);
 		}
-		if(BaseUtils.IsNotEmpty(search_province)){
+		if (BaseUtils.IsNotEmpty(search_province)) {
 			params.put("search_province", search_province);
 		}
-		if(BaseUtils.IsNotEmpty(search_city)){
+		if (BaseUtils.IsNotEmpty(search_city)) {
 			params.put("search_city", search_city);
 		}
-		if(BaseUtils.IsNotEmpty(search_town)){
+		if (BaseUtils.IsNotEmpty(search_town)) {
 			params.put("search_town", search_town);
 		}
-		if(BaseUtils.IsNotEmpty(search_name)){
+		if (BaseUtils.IsNotEmpty(search_name)) {
 			params.put("search_name", search_name);
 		}
-		if(BaseUtils.IsNotEmpty(search_address)){
+		if (BaseUtils.IsNotEmpty(search_address)) {
 			params.put("search_address", search_address);
 		}
 		finalHttp.configCharset("utf-8");
@@ -622,40 +632,42 @@ public class ConnectManager {
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
 
-		if(BaseUtils.IsNotEmpty(search_level)){
+		if (BaseUtils.IsNotEmpty(search_level)) {
 			params.put("search_level", search_level);
 		}
-		if(BaseUtils.IsNotEmpty(parent_aid)){
+		if (BaseUtils.IsNotEmpty(parent_aid)) {
 			params.put("parent_aid", parent_aid);
 		}
 		finalHttp.configCharset("utf-8");
 		finalHttp.get(U.CASH_STRING_AREA, params, ajaxCallBack);
 	}
+
 	/***************** 地区接口 end ********************/
 
-	
-	/*****************获取APP信息 LILIN  Start********************/
-	
+	/***************** 获取APP信息 LILIN Start ********************/
+
 	public void getAppUpdateInfo(AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		finalHttp.configCharset("UTF-8");
 		finalHttp.get(U.CASH_STRING_APP_UPDATE, params, ajaxCallBack);
 	}
-	/*****************获取APP信息 LILIN  End ********************/
-	
-	/*****************产品同步回调接口 LILIN  Start********************/
-	
-	public void productSynCallback(String product_ids,AjaxCallBack<String> ajaxCallBack) {
+
+	/***************** 获取APP信息 LILIN End ********************/
+
+	/***************** 产品同步回调接口 LILIN Start ********************/
+
+	public void productSynCallback(String product_ids,
+			AjaxCallBack<String> ajaxCallBack) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
 		params.put("sob_code", C.SOB_CODE);
 		params.put("sob_password", C.SOB_PASSWORD);
 		params.put("machine_code", C.MACHINE_CODE);
 		params.put("verify_code", C.VERIFY_CODE);
-		
+
 		params.put("product_ids", product_ids);
 		finalHttp.configCharset("UTF-8");
 		finalHttp.get(U.CASH_STRING_PRODUCT_SYN, params, ajaxCallBack);
 	}
-	/*****************产品同步回调接口  LILIN  End ********************/
+	/***************** 产品同步回调接口 LILIN End ********************/
 }

@@ -77,8 +77,8 @@ public class LoginActivity extends BaseActivity {
 		user_login.setOnClickListener(onClickListener);
 
 //		// 测试使用账号,发布时请注释
-//		user_name.setText("T00010088");
-//		user_password.setText("532614");
+		user_name.setText("T00010088");
+		user_password.setText("532614");
 
 		if (isLoginIn) {
 			startTime = System.currentTimeMillis();
@@ -109,7 +109,6 @@ public class LoginActivity extends BaseActivity {
 					ConnectManager.getInstance().getLoginResult(login_code,
 							loginAjaxCallBack);
 					C.openProgressDialog(mActivity, null, "正在登录，请耐心等待...");
-
 				} else {
 					C.showDialogAlert(
 							""

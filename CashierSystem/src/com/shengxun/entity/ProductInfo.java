@@ -121,6 +121,34 @@ public class ProductInfo implements Serializable {
 	public int crop_number;
 	public double crop_plat_buy_price;
 	public double crop_plat_sell_price;
+	public int cop_is_seller;
 	// 商品项是否被选中，在退货时使用到
 	public boolean isChecked = false;
+	//商品是否在系统中，非系统的商品也能被付款
+	public boolean isProductInSystem=  true;
+	@Override
+	public String toString() {
+		return "ProductInfo [op_id=" + op_id + ", zqp_id=" + zqp_id
+				+ ", op_market_price=" + op_market_price
+				+ ", op_promote_market_price=" + op_promote_market_price
+				+ ", op_promote_number=" + op_promote_number
+				+ ", op_promote_start_date=" + op_promote_start_date
+				+ ", op_promote_end_date=" + op_promote_end_date
+				+ ", op_is_promote=" + op_is_promote + ", op_number="
+				+ op_number + ", op_status=" + op_status + ", op_is_for_show="
+				+ op_is_for_show + ", qp_name=" + qp_name + ", qy_id=" + qy_id
+				+ ", op_bar_code=" + op_bar_code + ", img_url=" + img_url
+				+ ", cop_id=" + cop_id + ", qp_id=" + qp_id + ", buy_number="
+				+ buy_number + ", co_id=" + co_id + ", cop_price=" + cop_price
+				+ ", cop_number=" + cop_number + ", cop_refund_number="
+				+ cop_refund_number + ", cop_plat_buy_price="
+				+ cop_plat_buy_price + ", cop_plat_sell_price="
+				+ cop_plat_sell_price + ", cro_id=" + cro_id + ", crop_id="
+				+ crop_id + ", refund_number=" + refund_number
+				+ ", crop_price=" + crop_price + ", crop_number=" + crop_number
+				+ ", crop_plat_buy_price=" + crop_plat_buy_price
+				+ ", crop_plat_sell_price=" + crop_plat_sell_price
+				+ ", cop_is_seller=" + cop_is_seller + ", isChecked="
+				+ isChecked + ", isProductInSystem=" + isProductInSystem + "]";
+	}
 }

@@ -207,6 +207,11 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 				String product = JSONParser.getStringFromJsonString("product_list", data);
 				String order = JSONParser.getStringFromJsonString("order_detail", data);
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(product, ProductInfo.class);
+				for (int i = 0; i < product_list.size(); i++) {
+					if(product_list.get(i).cop_is_seller==1){
+						product_list.remove(i);
+					}
+				}
 				orderInfo = (OrderInfo) JSONParser.JSON2Object(order, OrderInfo.class);
 			} else {
 				String error_msg = JSONParser.getStringFromJsonString("error_desc", t);
