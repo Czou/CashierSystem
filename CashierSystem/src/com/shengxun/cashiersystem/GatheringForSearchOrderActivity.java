@@ -49,7 +49,7 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 保存现金数据
 	 */
-	private static String cash = "", card_no = "", order_id;
+	private String cash = "", card_no = "", order_id;
 	/**
 	 * 保存产品总额
 	 */

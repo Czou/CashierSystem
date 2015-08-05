@@ -57,8 +57,8 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 保存现金数据
 	 */
-	private static String cash = "", card_no = "", order_id,
-			delivery_rs_code = "", delivery_rs_code_id = "";
+	private  String cash = "", card_no = "", order_id;
+	private static String delivery_rs_code = "", delivery_rs_code_id = "";
 	/**
 	 * 保存产品总额
 	 */
@@ -96,7 +96,6 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	// 标志位0代表正常进入,1代表从订单付款页面而来
 	/**
 	 * 设置运营中心信息read
-	 * 
 	 * @param op
 	 * @auth shouwei
 	 */
@@ -226,12 +225,12 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		if (goodsList == null || goodsList.size() == 0) {
 			return;
 		}
-		seller_productinfo = new ArrayList<ProductInfo>();
-		for (int i = 0; i < goodsList.size(); i++) {
-			if (!goodsList.get(i).isProductInSystem) {
-				seller_productinfo.add(goodsList.get(i));
-			}
-		}
+//		seller_productinfo = new ArrayList<ProductInfo>();
+//		for (int i = 0; i < goodsList.size(); i++) {
+//			if (!goodsList.get(i).isProductInSystem) {
+//				seller_productinfo.add(goodsList.get(i));
+//			}
+//		}
 		Log.i("savion", "goods list =======>" + goodsList.size());
 		// 计算总额
 		for (int i = 0; i < goodsList.size(); i++) {
@@ -263,7 +262,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.cashier_gathering_back:
-				AppManager.getAppManager().finishActivity(mActivity);
+				finishGathering();
 				break;
 			case R.id.gathering_btn_0:
 				addStringToEditText(btn_0.getText().toString().trim());
@@ -495,9 +494,15 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("商品名称" + "      " + "单价*数量" + "    " + "金额");
 		int count = 0;
+		// 是否是自有商品
+		String str = "";
 		for (int i = 0; i < productInfo.size(); i++) {
 			PrintTools_58mm.print(PrintTools_58mm.LF);
 			ProductInfo entity = productInfo.get(i);
+			if (productInfo.get(i).cop_is_seller == 1) {
+				str = "#";
+				entity.qp_name = str + entity.qp_name;
+			}
 			// 如果是促销产品那么就打印促销产品前缀
 			if (entity.op_is_promote == 1) {
 				entity.qp_name = resources
@@ -553,39 +558,38 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 			}
 			count += entity.buy_number;
 		}
-
-		if (seller_productinfo != null && seller_productinfo.size() > 0) {
-			for (int i = 0; i < seller_productinfo.size(); i++) {
-				PrintTools_58mm.print(PrintTools_58mm.LF);
-				ProductInfo entity = seller_productinfo.get(i);
-				// 如果是促销产品那么就打印促销产品前缀
-				entity.qp_name = "#"+entity.qp_name;
-				if (BaseUtils.IsNotEmpty(entity.qp_name)
-						&& entity.qp_name.length() > 7) {
-					String name_prefix = entity.qp_name.substring(0, 7);
-					String name_suffix = entity.qp_name.substring(7,
-							entity.qp_name.length())
-							+ "     "
-							+ entity.op_market_price
-							+ "*"
-							+ entity.buy_number
-							+ "     "
-							+ entity.buy_number
-							* entity.op_market_price + "";
-					PrintTools_58mm.print_gbk("" + name_prefix);
-					PrintTools_58mm.print(PrintTools_58mm.LF);
-					PrintTools_58mm.print_gbk("" + name_suffix);
-
-				} else {
-					String s = entity.qp_name + "  " + entity.op_market_price
-							+ "*" + entity.buy_number + "  "
-							+ entity.buy_number * entity.op_market_price + "";
-					PrintTools_58mm.print_gbk("" + s);
-
-				}
-				count += entity.buy_number;
-			}
-		}
+		//
+		// if (seller_productinfo != null && seller_productinfo.size() > 0) {
+		// for (int i = 0; i < seller_productinfo.size(); i++) {
+		// PrintTools_58mm.print(PrintTools_58mm.LF);
+		// ProductInfo entity = seller_productinfo.get(i);
+		// // 如果是促销产品那么就打印促销产品前缀
+		// entity.qp_name = "#"+entity.qp_name;
+		// if (BaseUtils.IsNotEmpty(entity.qp_name)
+		// && entity.qp_name.length() > 7) {
+		// String name_prefix = entity.qp_name.substring(0, 7);
+		// String name_suffix = entity.qp_name.substring(7,
+		// entity.qp_name.length())
+		// + "     "
+		// + entity.op_market_price
+		// + "*"
+		// + entity.buy_number
+		// + "     "
+		// + entity.buy_number
+		// * entity.op_market_price + "";
+		// PrintTools_58mm.print_gbk("" + name_prefix);
+		// PrintTools_58mm.print(PrintTools_58mm.LF);
+		// PrintTools_58mm.print_gbk("" + name_suffix);
+		// } else {
+		// String s = entity.qp_name + "  " + entity.op_market_price
+		// + "*" + entity.buy_number + "  "
+		// + entity.buy_number * entity.op_market_price + "";
+		// PrintTools_58mm.print_gbk("" + s);
+		//
+		// }
+		// count += entity.buy_number;
+		// }
+		// }
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("件数:" + count);
 		PrintTools_58mm.print(PrintTools_58mm.LF);
@@ -605,7 +609,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("保留收银小票以作退换货凭证");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
-		PrintTools_58mm.print_gbk("带 # 为非本系统商品，不支持退换货");
+		PrintTools_58mm.print_gbk("带#为非本系统商品，不支持退换货");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("更多服务请登陆tc.051jk.com查询");
 		PrintTools_58mm.writeEnterLine(2);
@@ -724,7 +728,10 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 							resources
 									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
 							mActivity);
-					// AppManager.getAppManager().finishActivity(mActivity);
+					if (MainActivity.instance != null) {
+						MainActivity.instance.clearGoods();
+					}
+					finishGathering();
 				} else {
 					C.showDialogAlert(
 							resources
@@ -770,7 +777,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 					if (MainActivity.instance != null) {
 						MainActivity.instance.clearGoods();
 					}
-					AppManager.getAppManager().finishActivity(mActivity);
+					finishGathering();
 				} else {
 					C.showDialogAlert(
 							resources
@@ -803,5 +810,11 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		JBCashBoxInterface.openCashBox();
 		printBillInfo();
 	};
+	private void finishGathering(){
+		opcenter = null;
+		delivery_rs_code="";
+		delivery_rs_code_id="";
+		AppManager.getAppManager().finishActivity(GatheringActivity.this);
+	}
 
 }

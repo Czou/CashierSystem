@@ -121,6 +121,7 @@ public class ProductInfo implements Serializable {
 	public int crop_number;
 	public double crop_plat_buy_price;
 	public double crop_plat_sell_price;
+	//是否是自有商品
 	public int cop_is_seller;
 	// 商品项是否被选中，在退货时使用到
 	public boolean isChecked = false;
