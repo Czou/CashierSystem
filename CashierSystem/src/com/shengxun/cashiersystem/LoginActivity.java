@@ -96,6 +96,7 @@ public class LoginActivity extends BaseActivity {
 						sp.getSValue(applicationCS.LAST_SYN_TIME, ""),
 						productAjaxCallBack);
 			} else {
+				C.closeProgressDialog();
 				C.showDialogAlert("当前网络不可用", mActivity);
 			}
 		}
