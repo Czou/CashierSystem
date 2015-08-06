@@ -10,4 +10,6 @@
     <color name="no_color">#00000000</color>
 	
     <color name="red_color">#FF503F</color>
+    <!-- 半透明颜色 -->
+    <color name="transparent_background">#50000000</color>
 </resources>

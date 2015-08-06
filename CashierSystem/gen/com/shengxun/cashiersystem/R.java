@@ -54,6 +54,9 @@ public final class R {
         public static final int transparent=0x7f05000b;
         /**  半透明颜色 
          */
+        public static final int transparent_background=0x7f050014;
+        /**  半透明颜色 
+         */
         public static final int transparent_bg=0x7f05000d;
         /**  白色 
          */
@@ -315,7 +318,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f070001;
         public static final int app_name=0x7f070000;
-        public static final int cancle=0x7f070066;
+        public static final int cancle=0x7f070067;
         public static final int cashier_system_alert_gathering_card_null=0x7f070048;
         public static final int cashier_system_alert_gathering_create_order_fail=0x7f07004a;
         public static final int cashier_system_alert_gathering_create_order_success=0x7f070049;
@@ -410,26 +413,27 @@ public final class R {
         public static final int clickToUpdate_hint=0x7f07005b;
         public static final int click_to_update_all_product=0x7f07005e;
         public static final int click_to_update_all_product_hint=0x7f07005d;
-        public static final int downloadFail=0x7f070063;
-        public static final int downloading=0x7f070064;
+        public static final int downloadFail=0x7f070064;
+        public static final int downloading=0x7f070065;
         public static final int exit=0x7f070016;
-        public static final int exitApp=0x7f070068;
+        public static final int exitApp=0x7f070069;
         public static final int hello_world=0x7f070002;
         public static final int loading=0x7f07005f;
-        public static final int lock_btn_hint=0x7f07006a;
+        public static final int lock_btn_hint=0x7f07006b;
         /**  锁屏界面 
          */
-        public static final int lock_btn_unlock=0x7f070069;
-        public static final int lock_update_lock_psd_btn=0x7f07006c;
-        public static final int lock_update_lock_psd_hint=0x7f07006b;
+        public static final int lock_btn_unlock=0x7f07006a;
+        public static final int lock_update_lock_psd_btn=0x7f07006d;
+        public static final int lock_update_lock_psd_hint=0x7f07006c;
         public static final int noDataShow=0x7f070060;
-        public static final int noFindNewVersion=0x7f070062;
-        public static final int ok=0x7f070065;
+        public static final int noFindNewVersion=0x7f070063;
+        public static final int ok=0x7f070066;
         public static final int setting=0x7f070017;
         /**  其他 
          */
-        public static final int setting_test_print=0x7f07006d;
-        public static final int setting_test_print_btn=0x7f07006e;
+        public static final int setting_test_print=0x7f07006e;
+        public static final int setting_test_print_btn=0x7f07006f;
+        public static final int soft_update_title=0x7f070062;
         public static final int user_login=0x7f070008;
         /**  收银系统的登录界面 
          */
@@ -439,7 +443,7 @@ public final class R {
         public static final int user_password_hint=0x7f070007;
         public static final int user_reset=0x7f070009;
         public static final int viewContentDescript=0x7f070003;
-        public static final int warm_prompt=0x7f070067;
+        public static final int warm_prompt=0x7f070068;
     }
     public static final class style {
         /** 
@@ -459,11 +463,15 @@ public final class R {
 
 
 
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
 
 
 

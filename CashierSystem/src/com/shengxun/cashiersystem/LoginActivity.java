@@ -52,18 +52,21 @@ public class LoginActivity extends BaseActivity {
 	 * 商品数据库操作dao
 	 */
 	public static Dao<ProductInfo, Integer> productDao;
-	
-	//true为同步，false为不同步
+
+	// true为同步，false为不同步
 	public static boolean isLoadingData = true;
 	private static boolean isLoginIn = true;
+
 	/**
 	 * 提供给系统退出时使用，若是退出的则不会再进行数据同步
+	 * 
 	 * @param isLogin
 	 * @auth shouwei
 	 */
-	public static void setIsLoginIn(boolean isLogin){
+	public static void setIsLoginIn(boolean isLogin) {
 		isLoginIn = isLogin;
 	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -76,7 +79,7 @@ public class LoginActivity extends BaseActivity {
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
 
-//		// 测试使用账号,发布时请注释
+		// // 测试使用账号,发布时请注释
 		user_name.setText("T00010088");
 		user_password.setText("532614");
 
@@ -85,10 +88,16 @@ public class LoginActivity extends BaseActivity {
 			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
 			// 启动服务更新区域地址信息
 			registerBroad();
-			BackgroundService.openService(mActivity,ormOpearationDao);
-			//获取商品数据
+			BackgroundService.openService(mActivity, ormOpearationDao);
+			// 获取商品数据
 			productDao = ormOpearationDao.getDao(ProductInfo.class);
-			ConnectManager.getInstance().getProductList(sp.getSValue(applicationCS.LAST_SYN_TIME, ""), productAjaxCallBack);
+			if (BaseUtils.isNetworkAvailable(mActivity)) {
+				ConnectManager.getInstance().getProductList(
+						sp.getSValue(applicationCS.LAST_SYN_TIME, ""),
+						productAjaxCallBack);
+			} else {
+				C.showDialogAlert("当前网络不可用", mActivity);
+			}
 		}
 	}
 
@@ -106,9 +115,14 @@ public class LoginActivity extends BaseActivity {
 					applicationCS.cashier_card_no = str_user_name;
 					String login_code = C.getDesStr(str_user_name + "#"
 							+ str_user_password, C.DES_KEY);
-					ConnectManager.getInstance().getLoginResult(login_code,
-							loginAjaxCallBack);
-					C.openProgressDialog(mActivity, null, "正在登录，请耐心等待...");
+					if (BaseUtils.isNetworkAvailable(mActivity)) {
+						C.openProgressDialog(mActivity, null, "正在登录，请耐心等待...");
+						ConnectManager.getInstance().getLoginResult(login_code,
+								loginAjaxCallBack);
+					} else {
+						C.showDialogAlert("当前网络不可用", mActivity);
+						C.closeProgressDialog();
+					}
 				} else {
 					C.showDialogAlert(
 							""
@@ -162,11 +176,17 @@ public class LoginActivity extends BaseActivity {
 				}
 
 			} else {
-				C.showDialogAlert(
-						""
-								+ resources
-										.getString(R.string.cashier_system_alert_login_fail),
-						mActivity);
+				String error_msg = JSONParser.getStringFromJsonString(
+						"error_desc", t);
+				if (BaseUtils.IsNotEmpty(error_msg)) {
+					C.showDialogAlert(error_msg, mActivity);
+				} else {
+					C.showDialogAlert(
+							""
+									+ resources
+											.getString(R.string.cashier_system_alert_login_fail),
+							mActivity);
+				}
 			}
 			C.closeProgressDialog();
 		}
@@ -214,12 +234,12 @@ public class LoginActivity extends BaseActivity {
 				LG.e(getClass(), "数据库更新时间  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				//C.closeProgressDialog();
+				// C.closeProgressDialog();
 			} else if (0 == code) {
 				LG.e(getClass(), "数据库更新失败  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				//C.closeProgressDialog();
+				// C.closeProgressDialog();
 			}
 		}
 
@@ -243,7 +263,7 @@ public class LoginActivity extends BaseActivity {
 					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
 							.JSON2Array(product_list, ProductInfo.class);
 					updateProductDatabase(products, last_syn_time);
-				}else{
+				} else {
 					handler.sendEmptyMessage(0);
 				}
 			} catch (Exception e) {
@@ -251,6 +271,7 @@ public class LoginActivity extends BaseActivity {
 				handler.sendEmptyMessage(0);
 			}
 		}
+
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
 			handler.sendEmptyMessage(0);
@@ -306,13 +327,19 @@ public class LoginActivity extends BaseActivity {
 		public void handleMessage(android.os.Message msg) {
 			// 成功
 			if (msg.what == 1) {
-				Toast.makeText(getApplicationContext(), resources.getString(R.string.cashier_system_alert_syn_product_succeed),
+				Toast.makeText(
+						getApplicationContext(),
+						resources
+								.getString(R.string.cashier_system_alert_syn_product_succeed),
 						Toast.LENGTH_LONG).show();
 				C.closeProgressDialog();
 			}
 			// 失败
 			else if (msg.what == 0) {
-				Toast.makeText(getApplicationContext(), resources.getString(R.string.cashier_system_alert_syn_product_falied),
+				Toast.makeText(
+						getApplicationContext(),
+						resources
+								.getString(R.string.cashier_system_alert_syn_product_falied),
 						Toast.LENGTH_LONG).show();
 				C.closeProgressDialog();
 			}

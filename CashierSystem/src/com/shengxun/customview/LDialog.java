@@ -20,7 +20,7 @@ public class LDialog {
 	{
 		final UpdatePsdListener mCallback = callback;
 		final AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create();
-		alertDialog.setCancelable(true);
+		alertDialog.setCancelable(false);
 		alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		alertDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		alertDialog.show();

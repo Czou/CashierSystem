@@ -109,9 +109,10 @@
     <string name="loading">加载中...</string>
     <string name="noDataShow">无数据显示</string>
     <string name="checkVersion">检测新版本中...</string>
+    <string name="soft_update_title">软件更新</string>
     <string name="noFindNewVersion">未发现新版本</string>
     <string name="downloadFail">下载失败</string>
-    <string name="downloading">下载中：…</string>
+    <string name="downloading">下载中:</string>
     <string name="ok">确定</string>
     <string name="cancle">取消</string>
     <string name="warm_prompt">温馨提示</string>

@@ -4,71 +4,86 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="horizontal" >
-    
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        />
-    
-    <RelativeLayout 
+        android:layout_weight="1" />
+
+    <RelativeLayout
         android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="120dip"
-        android:layout_marginLeft="20dip"
-        android:layout_marginRight="20dip"
+        android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/exit_dialog_back">
-        <LinearLayout 
+        android:layout_weight="2"
+        android:background="@color/white" >
+
+        <LinearLayout
             android:id="@+id/footLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:padding="2px"
-            android:orientation="horizontal">
-            <Button 
+            android:orientation="horizontal"
+            android:padding="2px" >
+
+            <Button
                 android:id="@+id/okView"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_ok_style"
                 android:text="@string/ok"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/exit_button_bg"
-                android:layout_marginRight="1px"
-                android:layout_weight="1"/>
-            <Button 
+                android:textSize="16sp" />
+
+            <Button
+                android:layout_margin="5dp"
                 android:id="@+id/cancleView"
-                android:text="@string/cancle"
-                android:textColor="@color/white"
-                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/exit_button_bg"
-                android:layout_marginLeft="1px"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/btn_cancle_style"
+                android:text="@string/cancle"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            
         </LinearLayout>
-        <LinearLayout 
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/footLayout"
-            android:orientation="horizontal">
-            <ScrollView 
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/soft_update_title"
+                android:textColor="@color/black"
+                android:padding="5dp"
+                android:textSize="@dimen/fontSize_28" />
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="6dip">
-                <TextView 
-	                android:id="@+id/tipView"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:gravity="center"
-		            android:textColor="@color/black"
-		            android:textSize="17sp"/>
+                android:padding="6dip" >
+
+                <TextView
+                    android:id="@+id/tipView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
             </ScrollView>
         </LinearLayout>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
+
 </LinearLayout>

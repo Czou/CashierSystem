@@ -65,9 +65,9 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 	 * 保存创建订单返回的商品列表用以打印
 	 */
 	private ArrayList<ProductInfo> productInfos;
-	
+
 	private OrderInfo mOrderInfo;
-	
+
 	private OrderDetailInfo mOrderDetail;
 	/**
 	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金, 焦点位置，1为卡号输入框，2为现金输入框,默认1;
@@ -87,7 +87,7 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 		setContentView(R.layout.cashier_gathering_view);
 
 		initWidget();
-		//initWidgetData();
+		// initWidgetData();
 		initData();
 	}
 
@@ -156,22 +156,25 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 		swing_card.setOnClickListener(myclick);
 
 	}
-	
+
 	/**
 	 * 初始化数据
+	 * 
 	 * @auth shouwei
 	 */
-	private void initData(){
-		mOrderDetail = (OrderDetailInfo) getIntent().getSerializableExtra("DATA");
-		if(mOrderDetail.getOrder_info()!=null){
+	private void initData() {
+		mOrderDetail = (OrderDetailInfo) getIntent().getSerializableExtra(
+				"DATA");
+		if (mOrderDetail.getOrder_info() != null) {
 			mOrderInfo = mOrderDetail.getOrder_info();
 			order_id = mOrderInfo.co_id;
 			pay_way = mOrderInfo.co_pay_way;
 			totalMoney = mOrderInfo.co_money;
-			gathering_total_money.setText(totalMoney+"");
+			gathering_total_money.setText(totalMoney + "");
 		}
-		if(mOrderDetail.getProduct_info()!=null){
-			productInfos = (ArrayList<ProductInfo>) mOrderDetail.getProduct_info();
+		if (mOrderDetail.getProduct_info() != null) {
+			productInfos = (ArrayList<ProductInfo>) mOrderDetail
+					.getProduct_info();
 		}
 	}
 
@@ -248,8 +251,14 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 						C.showDialogAlert("还未付款", mActivity);
 						break;
 					}
-					ConnectManager.getInstance().getPayOrderFormResult(
-							order_id, applicationCS.cashier_card_no,ajaxPayorder);
+					if (BaseUtils.isNetworkAvailable(mActivity)) {
+						C.openProgressDialog(mActivity, null, "正在支付...");
+						ConnectManager.getInstance().getPayOrderFormResult(
+								order_id, applicationCS.cashier_card_no,
+								ajaxPayorder);
+					} else {
+						C.showDialogAlert("当前网络不可用", mActivity);
+					}
 				} else {
 					C.showDialogAlert(
 							resources
@@ -314,18 +323,17 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 		PrintTools_58mm.print_gbk("名优特产运营中心");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print(PrintTools_58mm.FS_FONT_ALIGN);
-//		if (BaseUtils.IsNotEmpty(delivery_rs_code_id) && opcenter != null) {
-//			PrintTools_58mm.print_gbk("【名优特产●"
-//					+ applicationCS.loginInfo.cashier_info.rs_code_name
-//					+ "】提货小票");
-//			PrintTools_58mm.print(PrintTools_58mm.LF);
-//			PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_LEFT);
-//			PrintTools_58mm.print_gbk("提货地址：" + opcenter.name + " "
-//					+ opcenter.address);
-//		} else {
+		// if (BaseUtils.IsNotEmpty(delivery_rs_code_id) && opcenter != null) {
+		// PrintTools_58mm.print_gbk("【名优特产●"
+		// + applicationCS.loginInfo.cashier_info.rs_code_name
+		// + "】提货小票");
+		// PrintTools_58mm.print(PrintTools_58mm.LF);
+		// PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_LEFT);
+		// PrintTools_58mm.print_gbk("提货地址：" + opcenter.name + " "
+		// + opcenter.address);
+		// } else {
 		PrintTools_58mm.print_gbk("【名优特产●"
-					+ applicationCS.loginInfo.cashier_info.rs_code_name
-					+ "】销售小票");
+				+ applicationCS.loginInfo.cashier_info.rs_code_name + "】销售小票");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_LEFT);
 		PrintTools_58mm.print_gbk("机号:" + applicationCS.mc_id + "    收银员:"
@@ -355,21 +363,19 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 						+ entity.cop_price
 						+ "*"
 						+ entity.cop_number
-						+ "     "
-						+ entity.cop_number
-						* entity.cop_price + "";
+						+ "     " + entity.cop_number * entity.cop_price + "";
 				// 如果是促销产品那么就打印促销价(暂无)
-//				if (entity.op_is_promote == 1) {
-//					name_suffix = entity.qp_name.substring(7,
-//							entity.qp_name.length())
-//							+ "     "
-//							+ entity.op_promote_market_price
-//							+ "*"
-//							+ entity.buy_number
-//							+ "     "
-//							+ entity.buy_number
-//							* entity.op_promote_market_price + "";
-//				}
+				// if (entity.op_is_promote == 1) {
+				// name_suffix = entity.qp_name.substring(7,
+				// entity.qp_name.length())
+				// + "     "
+				// + entity.op_promote_market_price
+				// + "*"
+				// + entity.buy_number
+				// + "     "
+				// + entity.buy_number
+				// * entity.op_promote_market_price + "";
+				// }
 				PrintTools_58mm.print_gbk("" + name_prefix);
 				PrintTools_58mm.print(PrintTools_58mm.LF);
 				PrintTools_58mm.print_gbk("" + name_suffix);
@@ -379,15 +385,15 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 						+ entity.cop_number + "  " + entity.cop_number
 						* entity.cop_price + "";
 				// 如果是促销产品那么就打印促销价
-//				if (entity.op_is_promote == 1) {
-//					s = entity.qp_name + "  " + entity.op_promote_market_price
-//							+ "*" + entity.buy_number + "  "
-//							+ entity.cop_number
-//							* entity.op_promote_market_price + "";
-//
-//				} else {
-//
-//				}
+				// if (entity.op_is_promote == 1) {
+				// s = entity.qp_name + "  " + entity.op_promote_market_price
+				// + "*" + entity.buy_number + "  "
+				// + entity.cop_number
+				// * entity.op_promote_market_price + "";
+				//
+				// } else {
+				//
+				// }
 				PrintTools_58mm.print_gbk("" + s);
 
 			}
@@ -458,6 +464,7 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 	AjaxCallBack<String> ajaxPayorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			C.closeProgressDialog();
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
@@ -480,15 +487,26 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 									.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
 							mActivity);
 				}
+			} else if (JSONParser.getStringFromJsonString("status", t).equals(
+					"0")) {
+				String error = JSONParser.getStringFromJsonString("error_desc",
+						t);
+				if (BaseUtils.IsNotEmpty(error)) {
+					C.showDialogAlert(error, mActivity);
+				} else {
+					C.showDialogAlert(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
+							mActivity);
+				}
 			} else {
-				C.showDialogAlert(
-						JSONParser.getStringFromJsonString("error_desc", t),
-						mActivity);
+				C.showDialogAlert("付款返回信息错误", mActivity);
 			}
 		}
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
+			C.closeProgressDialog();
 			C.showDialogAlert(
 					resources
 							.getString(R.string.cashier_system_alert_gathering_order_pay_fail),

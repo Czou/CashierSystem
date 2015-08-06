@@ -130,10 +130,14 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				break;
 			// 更新数据
 			case R.id.click_to_update_all_product: {
+				if(BaseUtils.isNetworkAvailable(mActivity)){
 				// 更新所有数据
 				C.openProgressDialog(mActivity, null, "正在同步所有产品数据信息，请耐心等待...");
 				ConnectManager.getInstance().getProductList("",
 						productAjaxCallBack);
+				}else{
+					C.showDialogAlert("当前网络不可用", mActivity);
+				}
 			}
 				break;
 			// 更改锁屏密码
@@ -250,6 +254,13 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
 						.JSON2Array(product_list, ProductInfo.class);
 				updateAllData(products, last_syn_time);
+			}else{
+				String msg = JSONParser.getStringFromJsonString("error_desc", t);
+				if(BaseUtils.IsNotEmpty(msg)){
+					C.showDialogAlert(msg, mActivity);
+				}else{
+					C.showDialogAlert("产品信息数据全部更新失败,请稍后再试!", mActivity);
+				}
 			}
 			
 		}

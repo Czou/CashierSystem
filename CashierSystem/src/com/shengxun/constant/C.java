@@ -152,7 +152,7 @@ public class C
 			return;
 		}
 		customProgressDialog = new AlertDialog.Builder(context).create();
-		customProgressDialog.setCancelable(true);
+		customProgressDialog.setCancelable(false);
 		customProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		customProgressDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		customProgressDialog.show();

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.alibaba.fastjson.JSON;
 import com.shengxun.constant.C;
 import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.entity.OrderInfo;
@@ -57,7 +58,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 保存现金数据
 	 */
-	private  String cash = "", card_no = "", order_id;
+	private String cash = "", card_no = "", order_id;
 	private static String delivery_rs_code = "", delivery_rs_code_id = "";
 	/**
 	 * 保存产品总额
@@ -96,6 +97,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	// 标志位0代表正常进入,1代表从订单付款页面而来
 	/**
 	 * 设置运营中心信息read
+	 * 
 	 * @param op
 	 * @auth shouwei
 	 */
@@ -225,12 +227,12 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		if (goodsList == null || goodsList.size() == 0) {
 			return;
 		}
-//		seller_productinfo = new ArrayList<ProductInfo>();
-//		for (int i = 0; i < goodsList.size(); i++) {
-//			if (!goodsList.get(i).isProductInSystem) {
-//				seller_productinfo.add(goodsList.get(i));
-//			}
-//		}
+		// seller_productinfo = new ArrayList<ProductInfo>();
+		// for (int i = 0; i < goodsList.size(); i++) {
+		// if (!goodsList.get(i).isProductInSystem) {
+		// seller_productinfo.add(goodsList.get(i));
+		// }
+		// }
 		Log.i("savion", "goods list =======>" + goodsList.size());
 		// 计算总额
 		for (int i = 0; i < goodsList.size(); i++) {
@@ -326,9 +328,14 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 						C.showDialogAlert("还未付款", mActivity);
 						break;
 					}
-					ConnectManager.getInstance().getPayOrderFormResult(
-							order_id, applicationCS.cashier_card_no,
-							ajaxPayorder);
+					if (BaseUtils.isNetworkAvailable(mActivity)) {
+						C.openProgressDialog(mActivity, null, "正在支付...");
+						ConnectManager.getInstance().getPayOrderFormResult(
+								order_id, applicationCS.cashier_card_no,
+								ajaxPayorder);
+					} else {
+						C.showDialogAlert("当前网络不可用", mActivity);
+					}
 				} else {
 					C.showDialogAlert(
 							resources
@@ -344,9 +351,14 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 			case R.id.cashier_gathering_btn_order_cancel:
 				if (BaseUtils.IsNotEmpty(order_id)
 						&& BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
-					ConnectManager.getInstance().getOrderFormCanaelResult(
-							order_id, applicationCS.cashier_card_no, card_no,
-							ajaxcancelorder);
+					if (BaseUtils.isNetworkAvailable(mActivity)) {
+						C.openProgressDialog(mActivity, null, "正在取消订单...");
+						ConnectManager.getInstance().getOrderFormCanaelResult(
+								order_id, applicationCS.cashier_card_no,
+								card_no, ajaxcancelorder);
+					} else {
+						C.showDialogAlert("当前网络不可用", mActivity);
+					}
 				} else {
 					C.showDialogAlert(
 							resources
@@ -386,10 +398,15 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				+ ",delivery_rs_code_id:" + delivery_rs_code_id);
 		if (BaseUtils.IsNotEmpty(card_no)) {
 			if (applicationCS != null) {
-				ConnectManager.getInstance().getCreateOrderFormResult(card_no,
-						applicationCS.cashier_card_no, goodsList,
-						delivery_rs_code, delivery_rs_code_id, pay_way + "",
-						totalMoney + "", ajaxcreateorder);
+				if (BaseUtils.isNetworkAvailable(mActivity)) {
+					C.openProgressDialog(mActivity, null, "正在创建订单...");
+					ConnectManager.getInstance().getCreateOrderFormResult(
+							card_no, applicationCS.cashier_card_no, goodsList,
+							delivery_rs_code, delivery_rs_code_id,
+							pay_way + "", totalMoney + "", ajaxcreateorder);
+				} else {
+					C.showDialogAlert("当前网络不可用", mActivity);
+				}
 			}
 		} else {
 			C.showDialogAlert(
@@ -680,6 +697,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			C.closeProgressDialog();
 			LG.i(getClass(), "create order ====>" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
@@ -697,15 +715,26 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				// 创建订单成功，取消订单按钮可见
 				order_cancel.setVisibility(View.VISIBLE);
 				BaseUtils.closeSoftKeyBoard(mActivity);
+			} else if (JSONParser.getStringFromJsonString("status", t).equals(
+					"0")) {
+				String msg = JSONParser
+						.getStringFromJsonString("error_desc", t);
+				if (BaseUtils.IsNotEmpty(msg)) {
+					C.showDialogAlert(msg, mActivity);
+				} else {
+					C.showDialogAlert(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_create_order_fail),
+							mActivity);
+				}
 			} else {
-				C.showDialogAlert(
-						JSONParser.getStringFromJsonString("error_desc", t),
-						mActivity);
+				C.showDialogAlert("创建订单返回信息错误", mActivity);
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
+			C.closeProgressDialog();
 			C.showDialogAlert(
 					resources
 							.getString(R.string.cashier_system_alert_gathering_create_order_fail),
@@ -718,6 +747,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	AjaxCallBack<String> ajaxcancelorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			C.closeProgressDialog();
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {
@@ -738,16 +768,27 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 									.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
 							mActivity);
 				}
+			} else if (JSONParser.getStringFromJsonString("status", t).equals(
+					"0")) {
+				String msg = JSONParser
+						.getStringFromJsonString("error_desc", t);
+				if (BaseUtils.IsNotEmpty(msg)) {
+					C.showDialogAlert(msg, mActivity);
+				} else {
+					C.showDialogAlert(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+							mActivity);
+				}
 			} else {
-				C.showDialogAlert(
-						JSONParser.getStringFromJsonString("error_desc", t),
-						mActivity);
+				C.showDialogAlert("取消订单返回信息错误", mActivity);
 			}
 
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
+			C.closeProgressDialog();
 			C.showDialogAlert(
 					resources
 							.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
@@ -761,6 +802,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	AjaxCallBack<String> ajaxPayorder = new AjaxCallBack<String>() {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			C.closeProgressDialog();
 			LG.i(getClass(), "t===>" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
@@ -784,10 +826,20 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 									.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
 							mActivity);
 				}
+			} else if (JSONParser.getStringFromJsonString("status", t).equals(
+					"0")) {
+				String error = JSONParser.getStringFromJsonString("error_desc",
+						t);
+				if (BaseUtils.IsNotEmpty(error)) {
+					C.showDialogAlert(error, mActivity);
+				} else {
+					C.showDialogAlert(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
+							mActivity);
+				}
 			} else {
-				C.showDialogAlert(
-						JSONParser.getStringFromJsonString("error_desc", t),
-						mActivity);
+				C.showDialogAlert("付款返回信息错误", mActivity);
 			}
 		}
 
@@ -797,6 +849,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 					resources
 							.getString(R.string.cashier_system_alert_gathering_order_pay_fail),
 					mActivity);
+			C.closeProgressDialog();
 		};
 	};
 
@@ -810,10 +863,12 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 		JBCashBoxInterface.openCashBox();
 		printBillInfo();
 	};
-	private void finishGathering(){
+
+	private void finishGathering() {
 		opcenter = null;
-		delivery_rs_code="";
-		delivery_rs_code_id="";
+		delivery_rs_code = "";
+		delivery_rs_code_id = "";
+		C.closeProgressDialog();
 		AppManager.getAppManager().finishActivity(GatheringActivity.this);
 	}
 

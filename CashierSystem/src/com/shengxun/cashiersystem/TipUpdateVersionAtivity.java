@@ -58,6 +58,7 @@ public class TipUpdateVersionAtivity extends MyTimeLockBaseActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 		setContentView(R.layout.tip_update_version_layout);
 		TextView okView = (TextView)findViewById(R.id.okView);

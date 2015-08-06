@@ -70,7 +70,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 		exit.setOnClickListener(myclick);
 		swing_card.setOnClickListener(myclick);
 	}
-	
+
 	/**
 	 * 刷新商品列表信息
 	 * 
@@ -85,7 +85,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 		for (int i = 0; i < list.size(); i++) {
 			total_money += list.get(i).cop_number * list.get(i).cop_price;
 		}
-		show_money.setText(total_money+"");
+		show_money.setText(total_money + "");
 	}
 
 	OnClickListener myclick = new OnClickListener() {
@@ -96,10 +96,17 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 			case R.id.cashier_goods_pickup_ok:
 				if (BaseUtils.IsNotEmpty(applicationCS.cashier_card_no)) {
 					if (product_list != null && product_list.size() > 0) {
-						ConnectManager.getInstance().getOrderFormPickUpResult(
-								order_no, card_no,
-								applicationCS.cashier_card_no, ajaxCallBack);
-					}else{
+						if (BaseUtils.isNetworkAvailable(mActivity)) {
+							C.openProgressDialog(mActivity, null, "正在开始提货...");
+							ConnectManager.getInstance()
+									.getOrderFormPickUpResult(order_no,
+											card_no,
+											applicationCS.cashier_card_no,
+											ajaxCallBack);
+						} else {
+							C.showDialogAlert("当前网络不可用", mActivity);
+						}
+					} else {
 						C.showDialogAlert("请先查单", mActivity);
 					}
 				}
@@ -121,9 +128,14 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 						product_list.clear();
 						show_money.setText("");
 						// 查询该取货店订单是否存在
-						ConnectManager.getInstance()
-								.getOrderFormDeliveryDetailResult(order_no,
-										ordercheck);
+						if (BaseUtils.isNetworkAvailable(mActivity)) {
+							C.openProgressDialog(mActivity, null, "正在查单...");
+							ConnectManager.getInstance()
+									.getOrderFormDeliveryDetailResult(order_no,
+											ordercheck);
+						} else {
+							C.showDialogAlert("当前网络不可用", mActivity);
+						}
 					} else {
 						C.showDialogAlert("请输入订单号", mActivity);
 					}
@@ -145,6 +157,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			C.closeProgressDialog();
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
@@ -153,26 +166,30 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 					new Handler().postDelayed(new Runnable() {
 						@Override
 						public void run() {
-							AppManager.getAppManager().finishActivity(GoodsPickupActivity.this);
+							AppManager.getAppManager().finishActivity(
+									GoodsPickupActivity.this);
 						}
 					}, 3000);
 				} else {
 					C.showDialogAlert("订单提货失败", mActivity);
 				}
 			} else {
-				C.showDialogAlert(
-						JSONParser.getStringFromJsonString("error_desc", t),
-						mActivity);
+				String msg = JSONParser
+						.getStringFromJsonString("error_desc", t);
+				if (BaseUtils.IsNotEmpty(msg)) {
+					C.showDialogAlert(msg, mActivity);
+				} else {
+					C.showDialogAlert("订单提货失败", mActivity);
+				}
 			}
 		};
 
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
+			C.closeProgressDialog();
 			C.showDialogAlert("订单提货失败", mActivity);
 		};
 	};
-
-	
 
 	/**
 	 * 订单信息回调
@@ -180,6 +197,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 	AjaxCallBack<String> ordercheck = new AjaxCallBack<String>() {
 		public void onFailure(Throwable t, int errorNo, String strMsg) {
 			super.onFailure(t, errorNo, strMsg);
+			C.closeProgressDialog();
 			C.showDialogAlert("订单错误", mActivity);
 			refreshGoodsData(product_list);
 		};
@@ -187,6 +205,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 		@SuppressWarnings("unchecked")
 		public void onSuccess(String t) {
 			super.onSuccess(t);
+			C.closeProgressDialog();
 			LG.i(getClass(), "pick up t ====>" + t);
 			if (JSONParser.getStringFromJsonString("status", t).equals("1")) {
 				String data = JSONParser.getStringFromJsonString("data", t);
@@ -201,9 +220,13 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 				product_list = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
 			} else {
-				C.showDialogAlert(
-						JSONParser.getStringFromJsonString("error_desc", t),
-						mActivity);
+				String msg = JSONParser
+						.getStringFromJsonString("error_desc", t);
+				if (BaseUtils.IsNotEmpty(msg)) {
+					C.showDialogAlert(msg, mActivity);
+				} else {
+					C.showDialogAlert("查询订单失败", mActivity);
+				}
 			}
 			refreshGoodsData(product_list);
 		};
