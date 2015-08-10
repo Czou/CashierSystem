@@ -8,9 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -40,6 +43,7 @@ public class LoginActivity extends BaseActivity {
 	private EditText user_password = null;
 	private TextView user_login = null;
 	private TextView user_reset = null;
+	private String database_path;
 	/**
 	 * 商品同步回调结果
 	 */
@@ -52,7 +56,7 @@ public class LoginActivity extends BaseActivity {
 	 * 商品数据库操作dao
 	 */
 	public static Dao<ProductInfo, Integer> productDao;
-
+	SQLiteDatabase database;
 	// true为同步，false为不同步
 	public static boolean isLoadingData = true;
 	private static boolean isLoginIn = true;
@@ -82,7 +86,8 @@ public class LoginActivity extends BaseActivity {
 		// // 测试使用账号,发布时请注释
 		user_name.setText("T00010088");
 		user_password.setText("532614");
-
+		// 获取数据库地址
+		database_path = getDatabasePath(C.DATABASE_NAME).getAbsolutePath();
 		if (isLoginIn) {
 			startTime = System.currentTimeMillis();
 			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
@@ -91,6 +96,7 @@ public class LoginActivity extends BaseActivity {
 			BackgroundService.openService(mActivity, ormOpearationDao);
 			// 获取商品数据
 			productDao = ormOpearationDao.getDao(ProductInfo.class);
+
 			if (BaseUtils.isNetworkAvailable(mActivity)) {
 				ConnectManager.getInstance().getProductList(
 						sp.getSValue(applicationCS.LAST_SYN_TIME, ""),
@@ -294,23 +300,114 @@ public class LoginActivity extends BaseActivity {
 						if (!BaseUtils.IsNotEmpty(sp.getSValue(
 								ApplicationCS.LAST_SYN_TIME, ""))) {
 							LG.i(ApplicationCS.class, "收银系统启动------>2：数据全部更新");
-							productDao
-									.executeRawNoArgs("delete from productInfosTable");// 删除所有数据
-							for (ProductInfo entity : products) {
-								productDao.create(entity);
+							// productDao
+							// .executeRawNoArgs("delete from productInfosTable");//
+							// 删除所有数据
+							// for (ProductInfo entity : products) {
+							// productDao.create(entity);
+							// }
+							database = SQLiteDatabase.openOrCreateDatabase(
+									database_path, null);
+							try {
+								database.beginTransaction();
+								database.execSQL("delete from productInfosTable");
+								for (int i = 0; i < products.size(); i++) {
+									ProductInfo entity = products.get(i);
+									database.execSQL("insert into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
+											+ entity.op_id
+											+ ",'"
+											+ entity.zqp_id
+											+ "',"
+											+ entity.op_market_price
+											+ ","
+											+ entity.op_promote_market_price
+											+ ","
+											+ entity.op_promote_number
+											+ ",'"
+											+ entity.op_promote_start_date
+											+ "','"
+											+ entity.op_promote_end_date
+											+ "',"
+											+ entity.op_is_promote
+											+ ","
+											+ entity.op_number
+											+ ","
+											+ entity.op_status
+											+ ","
+											+ entity.op_is_for_show
+											+ ",'"
+											+ entity.qp_name
+											+ "',"
+											+ entity.qy_id
+											+ ",'"
+											+ entity.op_bar_code
+											+ "','"
+											+ entity.img_url + "')");
+								}
+								database.setTransactionSuccessful();
+								handler.sendEmptyMessage(1);
+							} catch (Exception e) {
+								// TODO: handle exception
+								handler.sendEmptyMessage(0);
+							} finally {
+								database.endTransaction();
 							}
-							handler.sendEmptyMessage(1);
 						} else {
 							LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据");
 							String product_ids = "";
-							for (ProductInfo entity : products) {
-								productDao.createOrUpdate(entity);
-								product_ids += entity.op_id + ",";
+							// for (ProductInfo entity : products) {
+							// productDao.createOrUpdate(entity);
+							// product_ids += entity.op_id + ",";
+							// }
+							database = SQLiteDatabase.openOrCreateDatabase(
+									database_path, null);
+							try {
+								database.beginTransaction();
+								 for (int i = 0; i < products.size(); i++) {
+									ProductInfo entity = products.get(i);
+									database.execSQL("replace into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
+											+ entity.op_id
+											+ ",'"
+											+ entity.zqp_id
+											+ "',"
+											+ entity.op_market_price
+											+ ","
+											+ entity.op_promote_market_price
+											+ ","
+											+ entity.op_promote_number
+											+ ",'"
+											+ entity.op_promote_start_date
+											+ "','"
+											+ entity.op_promote_end_date
+											+ "',"
+											+ entity.op_is_promote
+											+ ","
+											+ entity.op_number
+											+ ","
+											+ entity.op_status
+											+ ","
+											+ entity.op_is_for_show
+											+ ",'"
+											+ entity.qp_name
+											+ "',"
+											+ entity.qy_id
+											+ ",'"
+											+ entity.op_bar_code
+											+ "','"
+											+ entity.img_url + "')");
+								 }
+								database.setTransactionSuccessful();
+								Message msg = new Message();
+								msg.what = 2;
+								msg.obj = product_ids;
+								handler.sendMessage(msg);
+							} catch (Exception e) {
+								// TODO: handle exception
+								handler.sendEmptyMessage(0);
+
+							} finally {
+								database.endTransaction();
 							}
-							Message msg = new Message();
-							msg.what = 2;
-							msg.obj = product_ids;
-							handler.sendMessage(msg);
 						}
 						sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
 						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);

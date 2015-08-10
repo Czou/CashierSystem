@@ -176,7 +176,7 @@ public class C
 	 */
 	public static void closeProgressDialog()
 	{
-		if (customProgressDialog != null)
+		if (customProgressDialog != null&&customProgressDialog.isShowing())
 		{
 			customProgressDialog.cancel();
 			customProgressDialog = null;
