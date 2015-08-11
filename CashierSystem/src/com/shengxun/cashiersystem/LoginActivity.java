@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -60,6 +59,7 @@ public class LoginActivity extends BaseActivity {
 	// true为同步，false为不同步
 	public static boolean isLoadingData = true;
 	private static boolean isLoginIn = true;
+	private ArrayList<ProductInfo> ppp;
 
 	/**
 	 * 提供给系统退出时使用，若是退出的则不会再进行数据同步
@@ -82,7 +82,6 @@ public class LoginActivity extends BaseActivity {
 		user_reset = (TextView) this.findViewById(R.id.user_reset);
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
-
 		// // 测试使用账号,发布时请注释
 		user_name.setText("T00010088");
 		user_password.setText("532614");
@@ -292,8 +291,10 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void run() {
 				super.run();
-				try {
-					if (products != null && products.size() > 0) {
+				if (products != null && products.size() > 0) {
+					try {
+						database = SQLiteDatabase.openOrCreateDatabase(
+								database_path, null);
 						// productDao =
 						// ormOpearationDao.getDao(ProductInfo.class);
 						// 第一次更新数据，全部更新
@@ -306,52 +307,43 @@ public class LoginActivity extends BaseActivity {
 							// for (ProductInfo entity : products) {
 							// productDao.create(entity);
 							// }
-							database = SQLiteDatabase.openOrCreateDatabase(
-									database_path, null);
-							try {
-								database.beginTransaction();
-								database.execSQL("delete from productInfosTable");
-								for (int i = 0; i < products.size(); i++) {
-									ProductInfo entity = products.get(i);
-									database.execSQL("insert into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
-											+ entity.op_id
-											+ ",'"
-											+ entity.zqp_id
-											+ "',"
-											+ entity.op_market_price
-											+ ","
-											+ entity.op_promote_market_price
-											+ ","
-											+ entity.op_promote_number
-											+ ",'"
-											+ entity.op_promote_start_date
-											+ "','"
-											+ entity.op_promote_end_date
-											+ "',"
-											+ entity.op_is_promote
-											+ ","
-											+ entity.op_number
-											+ ","
-											+ entity.op_status
-											+ ","
-											+ entity.op_is_for_show
-											+ ",'"
-											+ entity.qp_name
-											+ "',"
-											+ entity.qy_id
-											+ ",'"
-											+ entity.op_bar_code
-											+ "','"
-											+ entity.img_url + "')");
-								}
-								database.setTransactionSuccessful();
-								handler.sendEmptyMessage(1);
-							} catch (Exception e) {
-								// TODO: handle exception
-								handler.sendEmptyMessage(0);
-							} finally {
-								database.endTransaction();
+							database.beginTransaction();
+							database.execSQL("delete from productInfosTable");
+							for (int i = 0; i < products.size(); i++) {
+								ProductInfo entity = products.get(i);
+								database.execSQL("insert into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
+										+ entity.op_id
+										+ ",'"
+										+ entity.zqp_id
+										+ "',"
+										+ entity.op_market_price
+										+ ","
+										+ entity.op_promote_market_price
+										+ ","
+										+ entity.op_promote_number
+										+ ",'"
+										+ entity.op_promote_start_date
+										+ "','"
+										+ entity.op_promote_end_date
+										+ "',"
+										+ entity.op_is_promote
+										+ ","
+										+ entity.op_number
+										+ ","
+										+ entity.op_status
+										+ ","
+										+ entity.op_is_for_show
+										+ ",'"
+										+ entity.qp_name
+										+ "',"
+										+ entity.qy_id
+										+ ",'"
+										+ entity.op_bar_code
+										+ "','"
+										+ entity.img_url + "')");
 							}
+							database.setTransactionSuccessful();
+							handler.sendEmptyMessage(1);
 						} else {
 							LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据");
 							String product_ids = "";
@@ -359,62 +351,58 @@ public class LoginActivity extends BaseActivity {
 							// productDao.createOrUpdate(entity);
 							// product_ids += entity.op_id + ",";
 							// }
-							database = SQLiteDatabase.openOrCreateDatabase(
-									database_path, null);
-							try {
-								database.beginTransaction();
-								 for (int i = 0; i < products.size(); i++) {
-									ProductInfo entity = products.get(i);
-									database.execSQL("replace into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
-											+ entity.op_id
-											+ ",'"
-											+ entity.zqp_id
-											+ "',"
-											+ entity.op_market_price
-											+ ","
-											+ entity.op_promote_market_price
-											+ ","
-											+ entity.op_promote_number
-											+ ",'"
-											+ entity.op_promote_start_date
-											+ "','"
-											+ entity.op_promote_end_date
-											+ "',"
-											+ entity.op_is_promote
-											+ ","
-											+ entity.op_number
-											+ ","
-											+ entity.op_status
-											+ ","
-											+ entity.op_is_for_show
-											+ ",'"
-											+ entity.qp_name
-											+ "',"
-											+ entity.qy_id
-											+ ",'"
-											+ entity.op_bar_code
-											+ "','"
-											+ entity.img_url + "')");
-								 }
-								database.setTransactionSuccessful();
-								Message msg = new Message();
-								msg.what = 2;
-								msg.obj = product_ids;
-								handler.sendMessage(msg);
-							} catch (Exception e) {
-								// TODO: handle exception
-								handler.sendEmptyMessage(0);
-
-							} finally {
-								database.endTransaction();
+							database.beginTransaction();
+							for (int i = 0; i < products.size(); i++) {
+								ProductInfo entity = products.get(i);
+								product_ids += entity.op_id + ",";
+								database.execSQL("replace into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
+										+ entity.op_id
+										+ ",'"
+										+ entity.zqp_id
+										+ "',"
+										+ entity.op_market_price
+										+ ","
+										+ entity.op_promote_market_price
+										+ ","
+										+ entity.op_promote_number
+										+ ",'"
+										+ entity.op_promote_start_date
+										+ "','"
+										+ entity.op_promote_end_date
+										+ "',"
+										+ entity.op_is_promote
+										+ ","
+										+ entity.op_number
+										+ ","
+										+ entity.op_status
+										+ ","
+										+ entity.op_is_for_show
+										+ ",'"
+										+ entity.qp_name
+										+ "',"
+										+ entity.qy_id
+										+ ",'"
+										+ entity.op_bar_code
+										+ "','"
+										+ entity.img_url + "')");
 							}
+							database.setTransactionSuccessful();
+							Message msg = new Message();
+							msg.what = 2;
+							msg.obj = product_ids;
+							handler.sendMessage(msg);
 						}
 						sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
 						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);
+					} catch (Exception e) {
+						// TODO: handle exception
+						handler.sendEmptyMessage(0);
+					} finally {
+						database.endTransaction();
+						database.close();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					handler.sendEmptyMessage(0);
+				} else {
+					handler.sendEmptyMessage(3);
 				}
 			}
 		}.start();
@@ -425,6 +413,8 @@ public class LoginActivity extends BaseActivity {
 		public void handleMessage(android.os.Message msg) {
 			// 成功
 			if (msg.what == 1) {
+				long loadTime = System.currentTimeMillis() - startTime;
+				LG.e(getClass(), "商品更新总时间：" + loadTime);
 				Toast.makeText(
 						getApplicationContext(),
 						resources
@@ -434,11 +424,10 @@ public class LoginActivity extends BaseActivity {
 			}
 			// 失败
 			else if (msg.what == 0) {
-				Toast.makeText(
-						getApplicationContext(),
+				C.showDialogAlert(
 						resources
 								.getString(R.string.cashier_system_alert_syn_product_falied),
-						Toast.LENGTH_LONG).show();
+						mActivity);
 				C.closeProgressDialog();
 			}
 			// 调用同步信息接口
@@ -446,6 +435,11 @@ public class LoginActivity extends BaseActivity {
 				LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据结束调用回调");
 				ConnectManager.getInstance().productSynCallback(
 						(String) msg.obj, ajaxCallBack);
+			} 
+			//数据为空时
+			else if (msg.what == 3) {
+				C.showDialogAlert("暂无商品", mActivity);
+				C.closeProgressDialog();
 			}
 		};
 	};

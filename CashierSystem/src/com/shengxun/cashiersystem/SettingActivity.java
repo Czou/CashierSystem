@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -56,6 +57,8 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 	private TextView btn_test_print;
 
 	String update_lock_psd_first_time = null;
+	
+	private SQLiteDatabase data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -281,23 +284,60 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 			public void run() {
 				try {
 					if (products != null && products.size() > 0) {
-//						ormOpearationDao.deleteThisTable(ProductInfo.class);// 删除当前表
-						Dao<ProductInfo, Integer> productsDao = ormOpearationDao.getDao(ProductInfo.class);
+						//Dao<ProductInfo, Integer> productsDao = ormOpearationDao.getDao(ProductInfo.class);
+						String path = getDatabasePath(C.DATABASE_NAME).getAbsolutePath();
 						LG.i(ApplicationCS.class, "收银系统手动产品信息数据全部更新");
-						if(productsDao==null){
-							productsDao = ormOpearationDao.getDao(ProductInfo.class);
-						}
-						productsDao.executeRawNoArgs("DELETE FROM productInfosTable");//删除所有数据
-						for (ProductInfo entity : products) {
-							productsDao.create(entity);
+//						productsDao.executeRawNoArgs("DELETE FROM productInfosTable");//删除所有数据
+//						for (ProductInfo entity : products) {
+//							productsDao.create(entity);
+//						}
+						data = SQLiteDatabase.openOrCreateDatabase(path, null);
+						data.beginTransaction();
+						data.execSQL("delete from productInfosTable");
+						for (int i = 0; i < products.size(); i++) {
+							ProductInfo entity = products.get(i);
+							data.execSQL("insert into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
+									+ entity.op_id
+									+ ",'"
+									+ entity.zqp_id
+									+ "',"
+									+ entity.op_market_price
+									+ ","
+									+ entity.op_promote_market_price
+									+ ","
+									+ entity.op_promote_number
+									+ ",'"
+									+ entity.op_promote_start_date
+									+ "','"
+									+ entity.op_promote_end_date
+									+ "',"
+									+ entity.op_is_promote
+									+ ","
+									+ entity.op_number
+									+ ","
+									+ entity.op_status
+									+ ","
+									+ entity.op_is_for_show
+									+ ",'"
+									+ entity.qp_name
+									+ "',"
+									+ entity.qy_id
+									+ ",'"
+									+ entity.op_bar_code
+									+ "','"
+									+ entity.img_url + "')");
 						}
 						applicationCS.sp.setValue(ApplicationCS.LAST_SYN_TIME,
 								last_syn_time);
+						data.setTransactionSuccessful();
 						handler.sendEmptyMessage(1);
 					}
 				} catch (Exception e) {
 					handler.sendEmptyMessage(0);
 					e.printStackTrace();
+				} finally{
+					data.endTransaction();
+					data.close();
 				}
 			}
 		}).start();

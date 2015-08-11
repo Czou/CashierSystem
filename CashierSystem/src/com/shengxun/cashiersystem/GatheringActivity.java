@@ -150,10 +150,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 					@Override
 					public boolean onEditorAction(TextView v, int actionId,
 							KeyEvent event) {
-						if (!isCreateOrder) {
-							isCreateOrder = true;
-							createOrder();
-						}
+						createOrder();
 						return true;
 					}
 				});

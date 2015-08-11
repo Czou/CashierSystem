@@ -90,7 +90,7 @@
     <string name="cashier_system_alert_order_detail_modify_success">修改成功！</string>
     <string name="cashier_system_alert_no_order_number">提货订单号或卡号不能为空</string>
     <string name="cashier_system_alert_syn_product_succeed">同步数据成功</string>
-    <string name="cashier_system_alert_syn_product_falied">同步数据失败,可进入系统手动更新</string>
+    <string name="cashier_system_alert_syn_product_falied">同步数据失败,可进入系统设置手动更新</string>
 
     <!-- hint提示语 -->
     <string name="cashier_system_hint_no_order_number">请输入提货订单号</string>

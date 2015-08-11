@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.j256.ormlite.android.AndroidDatabaseConnection;
 import com.j256.ormlite.dao.Dao;
 import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
@@ -133,14 +134,20 @@ public class BackgroundService extends Service
 			public void run() {
 				try {
 				Dao<AreaInfo, Integer> areaDao = ormOpearationDao.getDao(AreaInfo.class);
+				AndroidDatabaseConnection db = new AndroidDatabaseConnection(ormOpearationDao.openDataHelper().getReadableDatabase(),true);
+				db.setAutoCommit(false);
 				//只写
 //				areaDao.executeRawNoArgs("DELETE FROM areaInfoTable");//删除所有数据
 				for (AreaInfo ai : areas) {
 					areaDao.createIfNotExists(ai);
 				}
+				db.commit(null);
+				db.close();
 				updateThread.interrupt();
 				} catch (SQLException e) {
 					e.printStackTrace();
+					C.showLong("写入区域信息失败",context);
+				} finally{
 				}
 			}
 		});
