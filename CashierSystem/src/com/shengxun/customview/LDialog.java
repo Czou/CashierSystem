@@ -2,15 +2,20 @@ package com.shengxun.customview;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.shengxun.cashiersystem.R;
 import com.shengxun.cashiersystem.SettingActivity.UpdatePsdListener;
+import com.zvezda.android.utils.BaseUtils;
 public class LDialog {
 	/**
 	 * 普通Dialog
@@ -28,6 +33,16 @@ public class LDialog {
 		alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM); 
 		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		final EditText dailog_edittext = (EditText) alertDialog.findViewById(R.id.dailog_edittext);
+		dailog_edittext
+		.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				// createOrder();
+				Log.i("savion", "dailog_edittext_enter");
+				return true;
+			}
+		});
 		OnClickListener MyClick  = new OnClickListener() {
 			@Override
 			public void onClick(View v)
@@ -80,5 +95,48 @@ public class LDialog {
 	
 	public static void openMessageDialog(String content,boolean isHasCancel,final Activity mActivity){
 		openMessageDialog(null, content, isHasCancel,false,null,null, mActivity,null);
+	}
+	
+	public static void openYesOrNoDialog(String title,String content,DialogCallBack callback,Activity mActivity){
+		final AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create();
+		final DialogCallBack mCallback = callback;
+		alertDialog.setCancelable(false);
+		alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		alertDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		alertDialog.show();
+		alertDialog.getWindow().setContentView(R.layout.cashier_yesorno_dialog);
+		alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM); 
+		alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		TextView titleview = (TextView) alertDialog.findViewById(R.id.yesorno_title);
+		TextView contentView = (TextView) alertDialog.findViewById(R.id.yesorno_content);
+		Button ok = (Button) alertDialog.findViewById(R.id.yesorno_okView);
+		Button cancle = (Button) alertDialog.findViewById(R.id.yesorno_cancleView);
+		OnClickListener click = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.yesorno_okView:
+					alertDialog.dismiss();
+					if (mCallback!=null) {
+						mCallback.okCallBack();
+					}
+					break;
+				case R.id.yesorno_cancleView:
+					alertDialog.dismiss();
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		cancle.setOnClickListener(click);
+		ok.setOnClickListener(click);
+		if(BaseUtils.IsNotEmpty(title)){
+			titleview.setText(title+"");
+		}
+		contentView.setText(content+"");
+	}
+	public interface DialogCallBack{
+		public void okCallBack();
 	}
 }

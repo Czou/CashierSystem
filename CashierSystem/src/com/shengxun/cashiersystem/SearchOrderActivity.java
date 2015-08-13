@@ -230,7 +230,6 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 						product, ProductInfo.class);
 				for (int i = 0; i < product_list.size(); i++) {
 					if (product_list.get(i).cop_is_seller == 1) {
-						product_list.remove(i);
 					}
 				}
 				orderInfo = (OrderInfo) JSONParser.JSON2Object(order,
@@ -276,6 +275,7 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 							resources
 									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
 							mActivity);
+					checkIfInputNull(et_card_no);
 				} else {
 					C.showDialogAlert(
 							resources

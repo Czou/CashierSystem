@@ -1,5 +1,6 @@
 package com.shengxun.cashiersystem;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import net.tsz.afinal.http.AjaxCallBack;
@@ -13,13 +14,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.AndroidDatabaseConnection;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.support.DatabaseConnection;
 import com.shengxun.cashiersystem.app.ApplicationCS;
 import com.shengxun.constant.C;
 import com.shengxun.entity.LoginInfo;
@@ -82,6 +86,8 @@ public class LoginActivity extends BaseActivity {
 		user_reset = (TextView) this.findViewById(R.id.user_reset);
 		user_reset.setOnClickListener(onClickListener);
 		user_login.setOnClickListener(onClickListener);
+		
+		
 		// // 测试使用账号,发布时请注释
 		user_name.setText("T00010088");
 		user_password.setText("532614");
@@ -91,7 +97,7 @@ public class LoginActivity extends BaseActivity {
 			startTime = System.currentTimeMillis();
 			C.openProgressDialog(mActivity, null, "正在同步数据信息，请耐心等待...");
 			// 启动服务更新区域地址信息
-			registerBroad();
+			//registerBroad();
 			BackgroundService.openService(mActivity, ormOpearationDao);
 			// 获取商品数据
 			productDao = ormOpearationDao.getDao(ProductInfo.class);
@@ -240,12 +246,10 @@ public class LoginActivity extends BaseActivity {
 				LG.e(getClass(), "数据库更新时间  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				// C.closeProgressDialog();
 			} else if (0 == code) {
 				LG.e(getClass(), "数据库更新失败  总共=====> " + consumeTime);
 				unRegisterBroad();
 				BackgroundService.closeService();
-				// C.closeProgressDialog();
 			}
 		}
 
@@ -257,23 +261,29 @@ public class LoginActivity extends BaseActivity {
 		public void onSuccess(String t) {
 			super.onSuccess(t);
 			LG.i(getClass(), "更新商品------->" + t);
-			try {
-				if (BaseUtils.IsNotEmpty(t)
-						&& JSONParser.getStringFromJsonString("status", t)
-								.equals("1")) {
-					String data = JSONParser.getStringFromJsonString("data", t);
-					String product_list = JSONParser.getStringFromJsonString(
-							"product_list", data);
-					String last_syn_time = JSONParser.getStringFromJsonString(
-							"syn_time", data);
-					ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
-							.JSON2Array(product_list, ProductInfo.class);
+			if (BaseUtils.IsNotEmpty(t)
+					&& JSONParser.getStringFromJsonString("status", t).equals(
+							"1")) {
+				String data = JSONParser.getStringFromJsonString("data", t);
+				String product_list = JSONParser.getStringFromJsonString(
+						"product_list", data);
+				String last_syn_time = JSONParser.getStringFromJsonString(
+						"syn_time", data);
+				ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
+						.JSON2Array(product_list, ProductInfo.class);
+				if (products != null && products.size() > 0) {
 					updateProductDatabase(products, last_syn_time);
 				} else {
+					handler.sendEmptyMessage(3);
+				}
+			}else if(JSONParser.getStringFromJsonString("status", t).equals("0")){
+				String msg = JSONParser.getStringFromJsonString("error_desc", t);
+				if(BaseUtils.IsNotEmpty(msg)){
+					C.showDialogAlert(msg, mActivity);
+				}else{
 					handler.sendEmptyMessage(0);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			} else {
 				handler.sendEmptyMessage(0);
 			}
 		}
@@ -291,118 +301,123 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void run() {
 				super.run();
-				if (products != null && products.size() > 0) {
-					try {
-						database = SQLiteDatabase.openOrCreateDatabase(
-								database_path, null);
-						// productDao =
-						// ormOpearationDao.getDao(ProductInfo.class);
-						// 第一次更新数据，全部更新
-						if (!BaseUtils.IsNotEmpty(sp.getSValue(
-								ApplicationCS.LAST_SYN_TIME, ""))) {
-							LG.i(ApplicationCS.class, "收银系统启动------>2：数据全部更新");
-							// productDao
-							// .executeRawNoArgs("delete from productInfosTable");//
-							// 删除所有数据
-							// for (ProductInfo entity : products) {
-							// productDao.create(entity);
-							// }
-							database.beginTransaction();
-							database.execSQL("delete from productInfosTable");
-							for (int i = 0; i < products.size(); i++) {
-								ProductInfo entity = products.get(i);
-								database.execSQL("insert into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
-										+ entity.op_id
-										+ ",'"
-										+ entity.zqp_id
-										+ "',"
-										+ entity.op_market_price
-										+ ","
-										+ entity.op_promote_market_price
-										+ ","
-										+ entity.op_promote_number
-										+ ",'"
-										+ entity.op_promote_start_date
-										+ "','"
-										+ entity.op_promote_end_date
-										+ "',"
-										+ entity.op_is_promote
-										+ ","
-										+ entity.op_number
-										+ ","
-										+ entity.op_status
-										+ ","
-										+ entity.op_is_for_show
-										+ ",'"
-										+ entity.qp_name
-										+ "',"
-										+ entity.qy_id
-										+ ",'"
-										+ entity.op_bar_code
-										+ "','"
-										+ entity.img_url + "')");
-							}
-							database.setTransactionSuccessful();
-							handler.sendEmptyMessage(1);
-						} else {
-							LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据");
-							String product_ids = "";
-							// for (ProductInfo entity : products) {
-							// productDao.createOrUpdate(entity);
-							// product_ids += entity.op_id + ",";
-							// }
-							database.beginTransaction();
-							for (int i = 0; i < products.size(); i++) {
-								ProductInfo entity = products.get(i);
-								product_ids += entity.op_id + ",";
-								database.execSQL("replace into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
-										+ entity.op_id
-										+ ",'"
-										+ entity.zqp_id
-										+ "',"
-										+ entity.op_market_price
-										+ ","
-										+ entity.op_promote_market_price
-										+ ","
-										+ entity.op_promote_number
-										+ ",'"
-										+ entity.op_promote_start_date
-										+ "','"
-										+ entity.op_promote_end_date
-										+ "',"
-										+ entity.op_is_promote
-										+ ","
-										+ entity.op_number
-										+ ","
-										+ entity.op_status
-										+ ","
-										+ entity.op_is_for_show
-										+ ",'"
-										+ entity.qp_name
-										+ "',"
-										+ entity.qy_id
-										+ ",'"
-										+ entity.op_bar_code
-										+ "','"
-										+ entity.img_url + "')");
-							}
-							database.setTransactionSuccessful();
-							Message msg = new Message();
-							msg.what = 2;
-							msg.obj = product_ids;
-							handler.sendMessage(msg);
-						}
-						sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
-						LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);
-					} catch (Exception e) {
-						// TODO: handle exception
-						handler.sendEmptyMessage(0);
-					} finally {
-						database.endTransaction();
-						database.close();
+				try {
+//					database = SQLiteDatabase.openOrCreateDatabase(
+//							database_path, null);
+					// 第一次更新数据，全部更新
+					if (!BaseUtils.IsNotEmpty(sp.getSValue(
+							ApplicationCS.LAST_SYN_TIME, ""))) {
+						
+						AndroidDatabaseConnection db = new AndroidDatabaseConnection(
+								ormOpearationDao.openDataHelper()
+										.getReadableDatabase(), true);
+						db.setAutoCommit(false);
+						LG.i(ApplicationCS.class, "收银系统启动------>2：数据全部更新");
+						 productDao.executeRawNoArgs("delete from productInfosTable");//
+						 //删除所有数据
+						 for (ProductInfo entity : products) {
+							 productDao.create(entity);
+						 }
+						 db.commit(null);
+//						database.beginTransaction();
+//						database.execSQL("delete from productInfosTable");
+//						for (int i = 0; i < products.size(); i++) {
+//							ProductInfo entity = products.get(i);
+//							database.execSQL("insert into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
+//									+ entity.op_id
+//									+ ",'"
+//									+ entity.zqp_id
+//									+ "',"
+//									+ entity.op_market_price
+//									+ ","
+//									+ entity.op_promote_market_price
+//									+ ","
+//									+ entity.op_promote_number
+//									+ ",'"
+//									+ entity.op_promote_start_date
+//									+ "','"
+//									+ entity.op_promote_end_date
+//									+ "',"
+//									+ entity.op_is_promote
+//									+ ","
+//									+ entity.op_number
+//									+ ","
+//									+ entity.op_status
+//									+ ","
+//									+ entity.op_is_for_show
+//									+ ",'"
+//									+ entity.qp_name
+//									+ "',"
+//									+ entity.qy_id
+//									+ ",'"
+//									+ entity.op_bar_code
+//									+ "','"
+//									+ entity.img_url + "')");
+//						}
+//						database.setTransactionSuccessful();
+						handler.sendEmptyMessage(1);
+					} else {
+						LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据");
+						String product_ids = "";
+						AndroidDatabaseConnection db = new AndroidDatabaseConnection(
+								ormOpearationDao.openDataHelper()
+										.getReadableDatabase(), true);
+						db.setAutoCommit(false);
+						 for (ProductInfo entity : products) {
+							 productDao.createOrUpdate(entity);
+							 product_ids += entity.op_id + ",";
+						 }
+						 db.commit(null);
+						 
+//						database.beginTransaction();
+//						for (int i = 0; i < products.size(); i++) {
+//							ProductInfo entity = products.get(i);
+//							product_ids += entity.op_id + ",";
+//							database.execSQL("replace into productInfosTable (op_id,zqp_id,op_market_price,op_promote_market_price,op_promote_number,op_promote_start_date,op_promote_end_date,op_is_promote,op_number,op_status,op_is_for_show,qp_name,qy_id,op_bar_code,img_url) values ("
+//									+ entity.op_id
+//									+ ",'"
+//									+ entity.zqp_id
+//									+ "',"
+//									+ entity.op_market_price
+//									+ ","
+//									+ entity.op_promote_market_price
+//									+ ","
+//									+ entity.op_promote_number
+//									+ ",'"
+//									+ entity.op_promote_start_date
+//									+ "','"
+//									+ entity.op_promote_end_date
+//									+ "',"
+//									+ entity.op_is_promote
+//									+ ","
+//									+ entity.op_number
+//									+ ","
+//									+ entity.op_status
+//									+ ","
+//									+ entity.op_is_for_show
+//									+ ",'"
+//									+ entity.qp_name
+//									+ "',"
+//									+ entity.qy_id
+//									+ ",'"
+//									+ entity.op_bar_code
+//									+ "','"
+//									+ entity.img_url + "')");
+//						}
+//						database.setTransactionSuccessful();
+						Message msg = new Message();
+						msg.what = 2;
+						msg.obj = product_ids;
+						handler.sendMessage(msg);
 					}
-				} else {
-					handler.sendEmptyMessage(3);
+					sp.setValue(ApplicationCS.LAST_SYN_TIME, last_syn_time);
+					LG.i(getClass(), "最后更新时间 －－－－－－－－－－ >" + last_syn_time);
+				} catch (Exception e) {
+					// TODO: handle exception
+					handler.sendEmptyMessage(0);
+				} finally {
+					//database.endTransaction();
+					//database.close();
 				}
 			}
 		}.start();
@@ -435,8 +450,8 @@ public class LoginActivity extends BaseActivity {
 				LG.i(ApplicationCS.class, "收银系统启动------>2：增量更新数据结束调用回调");
 				ConnectManager.getInstance().productSynCallback(
 						(String) msg.obj, ajaxCallBack);
-			} 
-			//数据为空时
+			}
+			// 数据为空时
 			else if (msg.what == 3) {
 				C.showDialogAlert("暂无商品", mActivity);
 				C.closeProgressDialog();

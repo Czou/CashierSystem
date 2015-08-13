@@ -162,7 +162,7 @@ public class GoodsPickupActivity extends MyTimeLockBaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
-					C.showDialogAlert("订单提货成功,3秒后将自动关闭些窗口", mActivity);
+					C.showDialogAlert("订单提货成功,3秒后将自动关闭此窗口", mActivity);
 					new Handler().postDelayed(new Runnable() {
 						@Override
 						public void run() {

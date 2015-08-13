@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -20,15 +21,17 @@ import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
 import com.shengxun.util.ViewHolder;
 import com.zvezda.android.utils.LG;
+
 /**
  * 退化商品列表构造器
+ * 
  * @author sw
  * @date 2015-6-19
  */
 public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
 	OrderInfo order;
-	
+
 	/**
 	 * 产品实际可退货数量
 	 */
@@ -79,9 +82,11 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				R.id.cashier_return_item_showcount);
 		TextView cashier_goods_price = ViewHolder.get(convertView,
 				R.id.cashier_return_item_goods_single_price);
-		TextView cashier_return_item_is_return_true = ViewHolder.get(convertView,
-				R.id.cashier_return_item_is_return_true);
-		
+		TextView cashier_return_item_is_return_true = ViewHolder.get(
+				convertView, R.id.cashier_return_item_is_return_true);
+		TextView canot_return = ViewHolder.get(convertView,
+				R.id.cashier_return_item_canot_return);
+
 		Button add = ViewHolder.get(convertView, R.id.cashier_return_item_add);
 		Button reduce = ViewHolder.get(convertView,
 				R.id.cashier_return_item_reduce);
@@ -90,8 +95,15 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 
 		add.setOnClickListener(new MyClick(position, cashier_goods_number));
 		reduce.setOnClickListener(new MyClick(position, cashier_goods_number));
-		cashier_goods_cb
-				.setOnCheckedChangeListener(new MyCheckChange(position));
+		if (dataList.get(position).cop_is_seller == 1) {
+			cashier_goods_cb.setVisibility(View.GONE);
+			canot_return.setVisibility(View.VISIBLE);
+		} else {
+			cashier_goods_cb.setOnCheckedChangeListener(new MyCheckChange(
+					position));
+			cashier_goods_cb.setVisibility(View.VISIBLE);
+			canot_return.setVisibility(View.GONE);
+		}
 
 		cashier_goods_name.setText(entity.qp_name + "");
 		cashier_goods_number.setText(entity.refund_number + "");
@@ -104,9 +116,9 @@ public class CashierReturnGoodsAdapter extends ABaseAdapter<ProductInfo> {
 				cashier_is_return.setText("未付款");
 				break;
 			case 2:
-				if(entity.refund_number>0){
+				if (entity.refund_number > 0) {
 					cashier_is_return.setText("已付款");
-				}else{
+				} else {
 					cashier_is_return.setText("已取消");
 				}
 				break;

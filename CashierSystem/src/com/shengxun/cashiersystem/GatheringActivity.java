@@ -25,6 +25,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.alibaba.fastjson.JSON;
 import com.shengxun.constant.C;
+import com.shengxun.customview.LDialog.DialogCallBack;
 import com.shengxun.entity.OpcenterInfo;
 import com.shengxun.entity.OrderInfo;
 import com.shengxun.entity.ProductInfo;
@@ -87,7 +88,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 	/**
 	 * 付款方式,默认1(现金支付),2、信用卡，3、储蓄卡，4储值卡，目前只支持现金, 焦点位置，1为卡号输入框，2为现金输入框,默认1;
 	 */
-	private int pay_way = 1, FocusPosition = 1;
+	private int pay_way = 1, FocusPosition = 2;
 	/**
 	 * 记录是否已经有了小数点
 	 */
@@ -114,11 +115,6 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 			gathering_opcenter.setText("");
 		}
 	}
-
-	/**
-	 * 是否创建订单
-	 */
-	private boolean isCreateOrder = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -150,11 +146,12 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 					@Override
 					public boolean onEditorAction(TextView v, int actionId,
 							KeyEvent event) {
-						createOrder();
+						// createOrder();
+						Log.i("savion", "cash_no_enter");
 						return true;
 					}
 				});
-		// gathering_cash.setText("");
+		gathering_cash.setText("");
 		// 设置不显示输入法
 		gathering_cash.setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 		gathering_cash.setTextIsSelectable(true);
@@ -319,31 +316,13 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				break;
 			// 支付订单
 			case R.id.gathering_btn_ok:
-				if (BaseUtils.IsNotEmpty(order_id)) {
-					// 如未付款则不予执行订单付款接口
-					if (change < 0.0) {
-						C.showDialogAlert("还未付款", mActivity);
-						break;
-					}
-					if (BaseUtils.isNetworkAvailable(mActivity)) {
-						C.openProgressDialog(mActivity, null, "正在支付...");
-						ConnectManager.getInstance().getPayOrderFormResult(
-								order_id, applicationCS.cashier_card_no,
-								ajaxPayorder);
-					} else {
-						C.showDialogAlert("当前网络不可用", mActivity);
-					}
-				} else {
-					C.showDialogAlert(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_error),
-							mActivity);
-				}
+				createOrder();
+
 				break;
 			// 刷卡创建订单
-			case R.id.cashier_gathering_btn_swing_card:
-				createOrder();
-				break;
+			// case R.id.cashier_gathering_btn_swing_card:
+			// createOrder();
+			// break;
 			// 取消订单
 			case R.id.cashier_gathering_btn_order_cancel:
 				if (BaseUtils.IsNotEmpty(order_id)
@@ -411,6 +390,38 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 							.getString(R.string.cashier_system_alert_gathering_card_null),
 					mActivity);
 		}
+	}
+
+	/**
+	 * 确认是否支付
+	 * 
+	 * @auth shouwei
+	 */
+	private void payOrder() {
+		C.showDialogAlert(resources.getString(R.string.warm_prompt), "是否立即支付?",
+				new DialogCallBack() {
+					@Override
+					public void okCallBack() {
+						if (BaseUtils.IsNotEmpty(order_id)) {
+							// 如未付款则不予执行订单付款接口
+							if (change < 0.0) {
+								C.showDialogAlert("还未付款", mActivity);
+							}
+							if (BaseUtils.isNetworkAvailable(mActivity)) {
+								C.openProgressDialog(mActivity, null, "正在支付...");
+								ConnectManager.getInstance()
+										.getPayOrderFormResult(order_id,
+												applicationCS.cashier_card_no,
+												ajaxPayorder);
+							} else {
+								C.showDialogAlert("当前网络不可用", mActivity);
+							}
+						} else {
+							C.showDialogAlert("订单尚未创建", mActivity);
+						}
+					}
+				}, mActivity);
+
 	}
 
 	/**
@@ -705,10 +716,7 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 						"product_list", data);
 				productInfo = (ArrayList<ProductInfo>) JSONParser.JSON2Array(
 						product_detail, ProductInfo.class);
-				C.showDialogAlert(
-						resources
-								.getString(R.string.cashier_system_alert_gathering_create_order_success),
-						mActivity);
+				payOrder();
 				// 创建订单成功，取消订单按钮可见
 				order_cancel.setVisibility(View.VISIBLE);
 				BaseUtils.closeSoftKeyBoard(mActivity);
@@ -751,14 +759,16 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 				String data = JSONParser.getStringFromJsonString("data", t);
 				if (JSONParser.getStringFromJsonString("result", data).equals(
 						"ok")) {
-					C.showDialogAlert(
-							resources
-									.getString(R.string.cashier_system_alert_gathering_order_cancel_success),
-							mActivity);
-					if (MainActivity.instance != null) {
-						MainActivity.instance.clearGoods();
-					}
-					finishGathering();
+					C.showDialogAlert("取消订单成功,3秒后将自动关闭此窗口", mActivity);
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							if (MainActivity.instance != null) {
+								MainActivity.instance.clearGoods();
+							}
+							finishGathering();
+						}
+					}, 3000);
 				} else {
 					C.showDialogAlert(
 							resources

@@ -57,7 +57,7 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 	private TextView btn_test_print;
 
 	String update_lock_psd_first_time = null;
-	
+
 	private SQLiteDatabase data;
 
 	@Override
@@ -133,12 +133,13 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				break;
 			// 更新数据
 			case R.id.click_to_update_all_product: {
-				if(BaseUtils.isNetworkAvailable(mActivity)){
-				// 更新所有数据
-				C.openProgressDialog(mActivity, null, "正在同步所有产品数据信息，请耐心等待...");
-				ConnectManager.getInstance().getProductList("",
-						productAjaxCallBack);
-				}else{
+				if (BaseUtils.isNetworkAvailable(mActivity)) {
+					// 更新所有数据
+					C.openProgressDialog(mActivity, null,
+							"正在同步所有产品数据信息，请耐心等待...");
+					ConnectManager.getInstance().getProductList("",
+							productAjaxCallBack);
+				} else {
 					C.showDialogAlert("当前网络不可用", mActivity);
 				}
 			}
@@ -157,25 +158,24 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 			}
 		}
 	};
-	
+
 	/**
 	 * 测试打印收银信息
 	 */
-	private void testPrint(){
-			// 开始打印
-			Log.i("savion", "开始打印--------------");
-			JBPrintInterface.convertPrinterControl();
-			PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_CENTER);
-			PrintTools_58mm.writeEnterLine(5);
-			PrintTools_58mm.print_gbk(">>>>>>>>>>>");
-			PrintTools_58mm.writeEnterLine(1);
-			PrintTools_58mm.print_gbk("测试专用、他用无效");
-			PrintTools_58mm.writeEnterLine(1);
-			PrintTools_58mm.print_gbk(">>>>>>>>>>>");
-			PrintTools_58mm.writeEnterLine(5);
-			PrintTools_58mm.resetPrint();
+	private void testPrint() {
+		// 开始打印
+		Log.i("savion", "开始打印--------------");
+		JBPrintInterface.convertPrinterControl();
+		PrintTools_58mm.print(PrintTools_58mm.ESC_ALIGN_CENTER);
+		PrintTools_58mm.writeEnterLine(5);
+		PrintTools_58mm.print_gbk(">>>>>>>>>>>");
+		PrintTools_58mm.writeEnterLine(1);
+		PrintTools_58mm.print_gbk("测试专用、他用无效");
+		PrintTools_58mm.writeEnterLine(1);
+		PrintTools_58mm.print_gbk(">>>>>>>>>>>");
+		PrintTools_58mm.writeEnterLine(5);
+		PrintTools_58mm.resetPrint();
 	}
-	
 
 	/**
 	 * 修改锁屏密码 index 代表执行的次数1：输入原密码，2：新密码，3：新密码确认
@@ -257,15 +257,16 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				ArrayList<ProductInfo> products = (ArrayList<ProductInfo>) JSONParser
 						.JSON2Array(product_list, ProductInfo.class);
 				updateAllData(products, last_syn_time);
-			}else{
-				String msg = JSONParser.getStringFromJsonString("error_desc", t);
-				if(BaseUtils.IsNotEmpty(msg)){
+			} else {
+				String msg = JSONParser
+						.getStringFromJsonString("error_desc", t);
+				if (BaseUtils.IsNotEmpty(msg)) {
 					C.showDialogAlert(msg, mActivity);
-				}else{
+				} else {
 					C.showDialogAlert("产品信息数据全部更新失败,请稍后再试!", mActivity);
 				}
 			}
-			
+
 		}
 
 		@Override
@@ -284,13 +285,15 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 			public void run() {
 				try {
 					if (products != null && products.size() > 0) {
-						//Dao<ProductInfo, Integer> productsDao = ormOpearationDao.getDao(ProductInfo.class);
-						String path = getDatabasePath(C.DATABASE_NAME).getAbsolutePath();
+						// Dao<ProductInfo, Integer> productsDao =
+						// ormOpearationDao.getDao(ProductInfo.class);
+						String path = getDatabasePath(C.DATABASE_NAME)
+								.getAbsolutePath();
 						LG.i(ApplicationCS.class, "收银系统手动产品信息数据全部更新");
-//						productsDao.executeRawNoArgs("DELETE FROM productInfosTable");//删除所有数据
-//						for (ProductInfo entity : products) {
-//							productsDao.create(entity);
-//						}
+						// productsDao.executeRawNoArgs("DELETE FROM productInfosTable");//删除所有数据
+						// for (ProductInfo entity : products) {
+						// productsDao.create(entity);
+						// }
 						data = SQLiteDatabase.openOrCreateDatabase(path, null);
 						data.beginTransaction();
 						data.execSQL("delete from productInfosTable");
@@ -335,27 +338,26 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 				} catch (Exception e) {
 					handler.sendEmptyMessage(0);
 					e.printStackTrace();
-				} finally{
+				} finally {
 					data.endTransaction();
 					data.close();
 				}
 			}
 		}).start();
 	}
-	
-	Handler handler = new Handler(){
+
+	Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			if(msg.what==1){
+			if (msg.what == 1) {
 				C.closeProgressDialog();
-				LDialog.openMessageDialog("产品信息数据全部更新成功!", false,
-				mActivity);
-			}else if(msg.what==0){
+				LDialog.openMessageDialog("产品信息数据全部更新成功!", false, mActivity);
+			} else if (msg.what == 0) {
 				C.closeProgressDialog();
-				LDialog.openMessageDialog("产品信息数据全部更新失败!", false,
-				mActivity);
+				LDialog.openMessageDialog("产品信息数据全部更新失败!", false, mActivity);
 			}
 		};
 	};
+
 	/**
 	 * 修改密码回调监听
 	 * 
@@ -365,6 +367,7 @@ public class SettingActivity extends MyTimeLockBaseActivity {
 	public interface UpdatePsdListener {
 		public void callBack(String psd, AlertDialog dialog);
 	}
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

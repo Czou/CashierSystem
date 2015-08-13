@@ -245,6 +245,7 @@
                     android:clickable="true"
                     android:gravity="center"
                     android:padding="10dp"
+                    android:visibility="gone"
                     android:text="@string/cashier_system_column_swing_card"
                     android:textColor="@color/white"
                     android:textSize="@dimen/fontSize_22" />

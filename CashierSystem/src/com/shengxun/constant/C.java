@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.shengxun.cashiersystem.R;
 import com.shengxun.cashiersystem.SettingActivity.UpdatePsdListener;
 import com.shengxun.customview.LDialog;
+import com.shengxun.customview.LDialog.DialogCallBack;
 import com.shengxun.util.MD5Util;
 import com.zvezda.algorithm.utils.AlgorithmUtils;
 /**
@@ -122,6 +123,9 @@ public class C
 	 */
 	public static void showDialogAlert(String msg,Activity mActivity){
 		LDialog.openMessageDialog("", msg, false,false,null,null, mActivity,null);
+	}
+	public static void showDialogAlert(String title,String content,DialogCallBack callback,Activity activity){
+		LDialog.openYesOrNoDialog(title, content, callback, activity);
 	}
 	/**
 	 * 带输入框的提示框

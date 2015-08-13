@@ -99,7 +99,6 @@ public class MainActivity extends MyTimeLockBaseActivity {
 //		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 //		componentName = new ComponentName(this, AdminReceiver.class);
 		
-		productsDao =ormOpearationDao.getDao(ProductInfo.class);
 		//检查版本更新
 		new Handler().postDelayed(new Runnable(){
 			@Override
@@ -178,6 +177,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		String op_bar_code = cashier_system_business.getText().toString();
 		if (BaseUtils.IsNotEmpty(op_bar_code)) {
 			try {
+				productsDao =ormOpearationDao.getDao(ProductInfo.class);
 				//产品条码存在且状态正常为上架商品中的销售品
 				ArrayList<ProductInfo> productInfos = (ArrayList<ProductInfo>) productsDao.queryBuilder().where().eq("op_bar_code", op_bar_code).and().eq("op_status", "1").and().eq("op_is_for_show", "0").query();
 				// 查询到数据且唯一

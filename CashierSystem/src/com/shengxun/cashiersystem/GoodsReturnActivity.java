@@ -212,7 +212,6 @@ public class GoodsReturnActivity extends MyTimeLockBaseActivity {
 						product_detail, ProductInfo.class);
 				for (int i = 0; i < product_list.size(); i++) {
 					if (product_list.get(i).cop_is_seller == 1) {
-						product_list.remove(i);
 					}
 				}
 			} else {
