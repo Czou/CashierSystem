@@ -178,7 +178,7 @@ public class BackgroundService extends Service {
 		@Override
 		public void onSuccess(String t) {
 			super.onSuccess(t);
-			LG.i(ApplicationCS.class, "收银系统启动------>3：将最新的地理区域信息写入数据库" + t);
+			//LG.i(ApplicationCS.class, "收银系统启动------>3：将最新的地理区域信息写入数据库" + t);
 			if (BaseUtils.IsNotEmpty(t)
 					&& JSONParser.getStringFromJsonString("status", t).equals(
 							"1")) {

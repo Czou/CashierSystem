@@ -65,6 +65,8 @@ public class MainActivity extends MyTimeLockBaseActivity {
 	private TextView cashier_system_return_good = null;
 	// 搜索订单
 	private TextView cashier_system_search_order = null;
+	//上传小票
+	private TextView cashier_system_upload_ticket = null;
 	//中心
 	private TextView cashier_system_center_name=null;
 
@@ -91,13 +93,6 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		instance = this;
-		
-		//启动屏幕监听服务
-//		Intent screenService = new Intent();
-//		screenService.setClass(mActivity, MyScreenService.class);
-//		mActivity.startService(screenService);
-//		policyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-//		componentName = new ComponentName(this, AdminReceiver.class);
 		
 		//检查版本更新
 		new Handler().postDelayed(new Runnable(){
@@ -145,6 +140,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		cashier_system_get_good = (TextView) this.findViewById(R.id.cashier_system_get_good);
 		cashier_system_return_good = (TextView) this.findViewById(R.id.cashier_system_return_good);
 		cashier_system_search_order = (TextView) this.findViewById(R.id.cashier_system_search_order);
+		cashier_system_upload_ticket = (TextView) findViewById(R.id.cashier_system_upload_tichet);
 		cashier_system_machine_status = (TextView) this.findViewById(R.id.cashier_system_machine_status);
 		cashier_system_machine_time = (TextView) this.findViewById(R.id.cashier_system_machine_time);
 		cashier_system_center_name = (TextView) this.findViewById(R.id.cashier_system_center_name);
@@ -169,6 +165,7 @@ public class MainActivity extends MyTimeLockBaseActivity {
 		cashier_system_get_good.setOnClickListener(onClickListener);
 		cashier_system_return_good.setOnClickListener(onClickListener);
 		cashier_system_search_order.setOnClickListener(onClickListener);
+		cashier_system_upload_ticket.setOnClickListener(onClickListener);
 		cashier_listview.setOnItemClickListener(myItemClick);
 		initWidgetData();
 	}
@@ -319,6 +316,9 @@ public class MainActivity extends MyTimeLockBaseActivity {
 			case R.id.cashier_system_search_order: {
 				goActivity(SearchOrderActivity.class);
 			}
+				break;
+			//上传小票
+			case R.id.cashier_system_upload_tichet:
 				break;
 			// 设置
 			case R.id.cashier_system_machine_setting: {

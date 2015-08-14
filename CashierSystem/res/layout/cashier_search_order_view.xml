@@ -178,15 +178,15 @@
             android:text="@string/cashier_system_column_total_money_withcolon"
             android:textColor="@color/black"
             android:textSize="@dimen/fontSize_28" />
+
         <TextView
             android:id="@+id/cashier_search_showmoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/red_color"
-            android:textSize="@dimen/fontSize_48"
-            android:layout_toRightOf="@id/cashier_search_order_money"
             android:layout_centerVertical="true"
-            />
+            android:layout_toRightOf="@id/cashier_search_order_money"
+            android:textColor="@color/red_color"
+            android:textSize="@dimen/fontSize_48" />
 
         <LinearLayout
             android:layout_width="wrap_content"

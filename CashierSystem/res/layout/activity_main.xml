@@ -363,6 +363,18 @@
                 android:text="@string/cashier_system_search_order"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize_20" />
+            
+            <TextView
+                android:id="@+id/cashier_system_upload_tichet"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/pink_corner_bg"
+                android:gravity="center"
+                android:text="@string/cashier_system_upload_ticket"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_20" />
         </LinearLayout>
     </LinearLayout>
 

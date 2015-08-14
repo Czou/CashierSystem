@@ -69,6 +69,7 @@
     <string name="cashier_system_return_good">退货</string>
     <string name="cashier_system_order_pay">订单付款</string>
     <string name="cashier_system_search_order">查询订单</string>
+    <string name="cashier_system_upload_ticket">小票上传</string>
     <string name="cashier_system_setting">设置</string>
 
     <!-- 提示语 -->
