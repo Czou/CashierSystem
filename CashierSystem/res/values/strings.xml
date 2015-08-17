@@ -23,6 +23,7 @@
     <string name="cashier_system_btn_close">关闭</string>
     <string name="cashier_system_btn_pickup_ok">提货</string>
     <string name="cashier_system_btn_return_ok">确认退货</string>
+    <string name="cashier_system_btn_upload">确认上传</string>
     <string name="cashier_system_btn_search_order">查单</string>
     <string name="exit">退出</string>
     <string name="setting">设置</string>
@@ -70,6 +71,8 @@
     <string name="cashier_system_order_pay">订单付款</string>
     <string name="cashier_system_search_order">查询订单</string>
     <string name="cashier_system_upload_ticket">小票上传</string>
+    <string name="cashier_system_upload_ticket_number">小票号</string>
+    <string name="cashier_system_upload_ticket_money">小票金额</string>
     <string name="cashier_system_setting">设置</string>
 
     <!-- 提示语 -->
@@ -99,6 +102,8 @@
     <string name="cashier_system_hint_no_return_order_number">请输入需要退货的订单号</string>
     <string name="cashier_system_hint_no_pickup_card_no">请输入提货人卡号</string>
     <string name="cashier_system_hint_no_return_card_no">请输入退货人卡号</string>
+    <string name="cashier_system_hint_no_tiket_number">请输入小票号</string>
+    <string name="cashier_system_hint_no_tiket_money">请输入小票金额</string>
     <string name="cashier_system_hint_no_opcenter">请选择收货店地址(可选)</string>
     <string name="cashier_system_hint_no_card_no">请刷卡或输入卡号</string>
 

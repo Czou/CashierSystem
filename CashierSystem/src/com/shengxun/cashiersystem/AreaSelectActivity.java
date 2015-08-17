@@ -186,11 +186,17 @@ public class AreaSelectActivity extends MyTimeLockBaseActivity {
 	 * @auth shouwei
 	 */
 	private void getOpcenter() {
+		if(!BaseUtils.isNetworkAvailable(mActivity)){
+			C.showDialogAlert("当前网络不可用", mActivity);
+			return;
+		}
+		C.openProgressDialog(mActivity, null, "正在加载...");
 		ConnectManager.getInstance().getOpcenterResult("", "", type, province,
 				city, town, "", "", new AjaxCallBack<String>() {
 					@SuppressWarnings("unchecked")
 					public void onSuccess(String t) {
 						super.onSuccess(t);
+						C.closeProgressDialog();
 						LG.i(getClass(), "opcenter =---->" + t);
 						opcenterList.clear();
 						if (JSONParser.getStringFromJsonString("status", t)
@@ -208,10 +214,16 @@ public class AreaSelectActivity extends MyTimeLockBaseActivity {
 							}
 							opcenterList = (ArrayList<OpcenterInfo>) JSONParser
 									.JSON2Array(opcenter, OpcenterInfo.class);
-						} else {
-							C.showDialogAlert(JSONParser
-									.getStringFromJsonString("error_desc", t),
-									mActivity);
+						} else if(JSONParser.getStringFromJsonString("status",t).equals("0")){
+							String msg = JSONParser.getStringFromJsonString("error_desc", t);
+							if(BaseUtils.IsNotEmpty(msg)){
+								C.showDialogAlert(msg, mActivity);
+							}else{
+								C.showDialogAlert("获取运营中失败", mActivity);
+							}
+							
+						}else {
+							C.showDialogAlert("获取运营返回信息错误", mActivity);
 						}
 						refreshAreaData(opcenterList, 4);
 					};
@@ -220,6 +232,7 @@ public class AreaSelectActivity extends MyTimeLockBaseActivity {
 					public void onFailure(Throwable t, int errorNo,
 							String strMsg) {
 						super.onFailure(t, errorNo, strMsg);
+						C.closeProgressDialog();
 						C.showDialogAlert("获取运营中失败", mActivity);
 						opcenterList.clear();
 						refreshAreaData(opcenterList, 4);

@@ -166,9 +166,8 @@ public class ConnectManager {
 	 */
 	public void getCreateOrderFormResult(String consume_card_no,
 			String cashier_card_no, ArrayList<ProductInfo> products,
-			String delivery_rs_code,
-			String delivery_rs_code_id, String pay_way, String pay_money,
-			AjaxCallBack<String> ajaxCallback) {
+			String delivery_rs_code, String delivery_rs_code_id,
+			String pay_way, String pay_money, AjaxCallBack<String> ajaxCallback) {
 		AjaxParams params = new AjaxParams();
 		// 每次请求必须得验证码
 		params.put("sob_code", C.SOB_CODE);
@@ -191,8 +190,9 @@ public class ConnectManager {
 				if (!products.get(i).isProductInSystem) {
 					params.put("seller_product[" + products.get(i).op_bar_code
 							+ "]", products.get(i).buy_number + "");
-					params.put("seller_product_price[" + products.get(i).op_bar_code
-							+ "]", products.get(i).op_market_price+"");
+					params.put("seller_product_price["
+							+ products.get(i).op_bar_code + "]",
+							products.get(i).op_market_price + "");
 				} else {
 					params.put("product_info[" + products.get(i).op_id + "]",
 							products.get(i).buy_number + "");
@@ -669,5 +669,26 @@ public class ConnectManager {
 		finalHttp.configCharset("UTF-8");
 		finalHttp.get(U.CASH_STRING_PRODUCT_SYN, params, ajaxCallBack);
 	}
+
 	/***************** 产品同步回调接口 LILIN End ********************/
+
+	public void uploadTicketCallback(String card_num, String cashier_num,
+			String ticket_num, String ticket_money, String pay_way,
+			AjaxCallBack<String> callback) {
+		AjaxParams params = new AjaxParams();
+		// 每次请求必须得验证码
+		params.put("sob_code", C.SOB_CODE);
+		params.put("sob_password", C.SOB_PASSWORD);
+		params.put("machine_code", C.MACHINE_CODE);
+		params.put("verify_code", C.VERIFY_CODE);
+
+		params.put("consume_card_no", card_num);
+		params.put("cashier_card_no", cashier_num);
+		params.put("small_ticket", ticket_num);
+		params.put("money", ticket_money);
+		params.put("pay_way", pay_way);
+		finalHttp.configCharset("UTF-8");
+		finalHttp.post(U.CASHIER_STRING_UPLOAD_TICKET, params, callback);
+
+	}
 }

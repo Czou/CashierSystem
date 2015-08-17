@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/gathering_top"
+        android:id="@+id/upload_ticket_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -17,12 +17,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/cashier_system_search_order"
+            android:text="@string/cashier_system_upload_ticket"
             android:textColor="@color/white"
             android:textSize="@dimen/fontSize_36" />
 
         <Button
-            android:id="@+id/cashier_search_order_btnback"
+            android:id="@+id/cashier_upload_ticket_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -34,32 +34,130 @@
             android:textSize="@dimen/fontSize_28" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_weight="5" >
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ecf0f1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cashier_system_column_card_number"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize_28" />
+
+                <EditText
+                    android:id="@+id/cashier_upload_ticket_card_num"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:digits="T0123456789"
+                    android:hint="@string/cashier_system_hint_no_return_card_no"
+                    android:textSize="@dimen/fontSize_28" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ecf0f1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cashier_system_upload_ticket_number"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize_28" />
+
+                <EditText
+                    android:id="@+id/cashier_upload_ticket_num"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="@string/cashier_system_hint_no_tiket_number"
+                    android:textSize="@dimen/fontSize_28" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ecf0f1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cashier_system_upload_ticket_money"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize_28" />
+
+                <EditText
+                    android:id="@+id/cashier_upload_ticket_money"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="@string/cashier_system_hint_no_tiket_money"
+                    android:textSize="@dimen/fontSize_28" />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6" >
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:padding="15dp" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/cashier_upload_ticket_ok"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="小票号:"
-                />
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/red_button_corner_bg"
+            android:enabled="true"
+            android:padding="15dp"
+            android:text="@string/cashier_system_btn_upload"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontSize_28" />
     </RelativeLayout>
 
 </LinearLayout>

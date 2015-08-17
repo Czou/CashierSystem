@@ -280,6 +280,7 @@ public class LoginActivity extends BaseActivity {
 			}else if(JSONParser.getStringFromJsonString("status", t).equals("0")){
 				String msg = JSONParser.getStringFromJsonString("error_desc", t);
 				if(BaseUtils.IsNotEmpty(msg)){
+					C.closeProgressDialog();
 					C.showDialogAlert(msg, mActivity);
 				}else{
 					handler.sendEmptyMessage(0);
@@ -477,6 +478,16 @@ public class LoginActivity extends BaseActivity {
 				} else {
 					handler.sendEmptyMessage(0);
 				}
+			}else if(JSONParser.getStringFromJsonString("status", t).equals("0")){
+				String msg = JSONParser.getStringFromJsonString("error_desc", t);
+				if(BaseUtils.IsNotEmpty(msg)){
+					C.closeProgressDialog();
+					C.showDialogAlert(msg, mActivity);
+				}else{
+					handler.sendEmptyMessage(0);
+				}
+			}else {
+				handler.sendEmptyMessage(0);
 			}
 		}
 

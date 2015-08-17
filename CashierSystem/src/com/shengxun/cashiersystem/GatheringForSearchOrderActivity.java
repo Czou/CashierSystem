@@ -364,18 +364,18 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 						+ "*"
 						+ entity.cop_number
 						+ "     " + entity.cop_number * entity.cop_price + "";
-				// 如果是促销产品那么就打印促销价(暂无)
-				// if (entity.op_is_promote == 1) {
-				// name_suffix = entity.qp_name.substring(7,
-				// entity.qp_name.length())
-				// + "     "
-				// + entity.op_promote_market_price
-				// + "*"
-				// + entity.buy_number
-				// + "     "
-				// + entity.buy_number
-				// * entity.op_promote_market_price + "";
-				// }
+				// 如果是促销产品那么就打印促销价()
+//				if (entity.op_is_promote == 1) {
+//					name_suffix = entity.qp_name.substring(7,
+//							entity.qp_name.length())
+//							+ "     "
+//							+ entity.op_promote_market_price
+//							+ "*"
+//							+ entity.buy_number
+//							+ "     "
+//							+ entity.buy_number
+//							* entity.op_promote_market_price + "";
+//				}
 				PrintTools_58mm.print_gbk("" + name_prefix);
 				PrintTools_58mm.print(PrintTools_58mm.LF);
 				PrintTools_58mm.print_gbk("" + name_suffix);
@@ -418,6 +418,8 @@ public class GatheringForSearchOrderActivity extends MyTimeLockBaseActivity {
 		PrintTools_58mm.print_gbk("请当面清点所购商品和找零");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("保留收银小票以作退换货凭证");
+		PrintTools_58mm.print(PrintTools_58mm.LF);
+		PrintTools_58mm.print_gbk("带#为非本系统商品，不支持退换货");
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("更多服务请登陆tc.051jk.com查询");
 		PrintTools_58mm.writeEnterLine(2);

@@ -75,6 +75,11 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
+            android:name="com.shengxun.cashiersystem.UploadTichetActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name="com.shengxun.cashiersystem.TestActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" >

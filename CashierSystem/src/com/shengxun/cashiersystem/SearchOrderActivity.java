@@ -288,7 +288,10 @@ public class SearchOrderActivity extends MyTimeLockBaseActivity {
 				if (BaseUtils.IsNotEmpty(msg)) {
 					C.showDialogAlert(msg, mActivity);
 				} else {
-					C.showDialogAlert("取消订单失败", mActivity);
+					C.showDialogAlert(
+							resources
+									.getString(R.string.cashier_system_alert_gathering_order_cancel_fail),
+							mActivity);
 				}
 			}
 

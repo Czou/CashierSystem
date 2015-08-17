@@ -121,6 +121,9 @@ public class U
 	 * 23.产品同步回调接口
 	 */
 	public static final String CASH_STRING_PRODUCT_SYN=CASHIER_SYSTEM_URL+"sy_product/product_syn_callback";
-	
+	/**
+	 * 24.根据小票号和小票金额直接消费返利接口
+	 */
+	public static final String CASHIER_STRING_UPLOAD_TICKET = CASHIER_SYSTEM_URL+"sy_consume/create";
 	
 }

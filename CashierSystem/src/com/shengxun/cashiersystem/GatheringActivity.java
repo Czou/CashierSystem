@@ -583,38 +583,6 @@ public class GatheringActivity extends MyTimeLockBaseActivity {
 			}
 			count += entity.buy_number;
 		}
-		//
-		// if (seller_productinfo != null && seller_productinfo.size() > 0) {
-		// for (int i = 0; i < seller_productinfo.size(); i++) {
-		// PrintTools_58mm.print(PrintTools_58mm.LF);
-		// ProductInfo entity = seller_productinfo.get(i);
-		// // 如果是促销产品那么就打印促销产品前缀
-		// entity.qp_name = "#"+entity.qp_name;
-		// if (BaseUtils.IsNotEmpty(entity.qp_name)
-		// && entity.qp_name.length() > 7) {
-		// String name_prefix = entity.qp_name.substring(0, 7);
-		// String name_suffix = entity.qp_name.substring(7,
-		// entity.qp_name.length())
-		// + "     "
-		// + entity.op_market_price
-		// + "*"
-		// + entity.buy_number
-		// + "     "
-		// + entity.buy_number
-		// * entity.op_market_price + "";
-		// PrintTools_58mm.print_gbk("" + name_prefix);
-		// PrintTools_58mm.print(PrintTools_58mm.LF);
-		// PrintTools_58mm.print_gbk("" + name_suffix);
-		// } else {
-		// String s = entity.qp_name + "  " + entity.op_market_price
-		// + "*" + entity.buy_number + "  "
-		// + entity.buy_number * entity.op_market_price + "";
-		// PrintTools_58mm.print_gbk("" + s);
-		//
-		// }
-		// count += entity.buy_number;
-		// }
-		// }
 		PrintTools_58mm.print(PrintTools_58mm.LF);
 		PrintTools_58mm.print_gbk("件数:" + count);
 		PrintTools_58mm.print(PrintTools_58mm.LF);
